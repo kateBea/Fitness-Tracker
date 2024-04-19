@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AppFitnessTrackerAI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d226f22b8a9383b63ec9390e9f6e5f4f192f60ec")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4616109ffc9ccdd39dbded97f6e162b0d7ae187d")]
 [assembly: System.Reflection.AssemblyProductAttribute("AppFitnessTrackerAI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AppFitnessTrackerAI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
