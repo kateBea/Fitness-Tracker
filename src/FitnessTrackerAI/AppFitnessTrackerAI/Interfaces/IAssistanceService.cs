@@ -1,7 +1,7 @@
 ﻿using AppFitnessTrackerAI.Classes;
 using AppFitnessTrackerAI.ViewModels;
 
-namespace AppFitnessTrackerAI.Services.Interface
+namespace AppFitnessTrackerAI.Interfaces
 {
     public interface IAssistanceService
     {

@@ -1,5 +1,5 @@
 ﻿using AppFitnessTrackerAI.Classes;
-using AppFitnessTrackerAI.Services.Interface;
+using AppFitnessTrackerAI.Interfaces;
 using AppFitnessTrackerAI.ViewModels;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;

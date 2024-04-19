@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AppFitnessTrackerAI.Classes;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackerAI.Utilities
 {
@@ -12,6 +13,9 @@ namespace FitnessTrackerAI.Utilities
                 webApplication.UseSwagger();
                 webApplication.UseSwaggerUI();
             }
+
+            // Init OpenAI API Context
+            Context.Init();
 
             return webApplication;
         }

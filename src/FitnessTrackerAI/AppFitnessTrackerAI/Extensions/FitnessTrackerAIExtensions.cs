@@ -1,6 +1,6 @@
 ﻿using AppFitnessTrackerAI.Classes;
-using AppFitnessTrackerAI.Services.Implementation;
-using AppFitnessTrackerAI.Services.Interface;
+using AppFitnessTrackerAI.Interfaces;
+using AppFitnessTrackerAI.Services;
 using AppFitnessTrackerAI.Validator;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
