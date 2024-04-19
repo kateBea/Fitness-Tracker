@@ -3,16 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8176E12E-A3CB-4A5F-B451-85BE31E7CE55}|FitnessTrackerAI\\FitnessTrackerAI.csproj|c:\\users\\zanet\\desktop\\fitness-tracker\\src\\fitnesstrackerai\\fitnesstrackerai\\controllers\\v1\\assistancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8176E12E-A3CB-4A5F-B451-85BE31E7CE55}|FitnessTrackerAI\\FitnessTrackerAI.csproj|solutionrelative:fitnesstrackerai\\controllers\\v1\\assistancecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{8176E12E-A3CB-4A5F-B451-85BE31E7CE55}|FitnessTrackerAI\\FitnessTrackerAI.csproj|c:\\users\\zanet\\desktop\\fitness-tracker\\src\\fitnesstrackerai\\fitnesstrackerai\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8176E12E-A3CB-4A5F-B451-85BE31E7CE55}|FitnessTrackerAI\\FitnessTrackerAI.csproj|solutionrelative:fitnesstrackerai\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{014EAD11-2F70-4B1F-BD6A-5D30F3F235BF}|AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj|c:\\users\\zanet\\desktop\\fitness-tracker\\src\\fitnesstrackerai\\appfitnesstrackerai\\extensions\\fitnesstrackeraiextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{014EAD11-2F70-4B1F-BD6A-5D30F3F235BF}|AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj|solutionrelative:appfitnesstrackerai\\extensions\\fitnesstrackeraiextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,39 +22,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FitnessTrackerAIExtensions.cs",
-              "DocumentMoniker": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\Extensions\\FitnessTrackerAIExtensions.cs",
-              "RelativeDocumentMoniker": "AppFitnessTrackerAI\\Extensions\\FitnessTrackerAIExtensions.cs",
-              "ToolTip": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\Extensions\\FitnessTrackerAIExtensions.cs",
-              "RelativeToolTip": "AppFitnessTrackerAI\\Extensions\\FitnessTrackerAIExtensions.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAABoAAABbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-17T20:47:36.037Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\FitnessTrackerAI\\Program.cs",
               "RelativeDocumentMoniker": "FitnessTrackerAI\\Program.cs",
               "ToolTip": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\FitnessTrackerAI\\Program.cs",
               "RelativeToolTip": "FitnessTrackerAI\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAADwvwwAAAAZAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-17T20:47:33.981Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AssistanceController.cs",
-              "DocumentMoniker": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\FitnessTrackerAI\\Controllers\\v1\\AssistanceController.cs",
-              "RelativeDocumentMoniker": "FitnessTrackerAI\\Controllers\\v1\\AssistanceController.cs",
-              "ToolTip": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\FitnessTrackerAI\\Controllers\\v1\\AssistanceController.cs",
-              "RelativeToolTip": "FitnessTrackerAI\\Controllers\\v1\\AssistanceController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAfAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-17T20:31:23.038Z",
+              "WhenOpened": "2024-04-19T09:22:20.412Z",
               "EditorCaption": ""
             }
           ]
