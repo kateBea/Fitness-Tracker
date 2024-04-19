@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lTmwoz5ylfoSNE0gG7MVEBcsawZHhmhQgCQbP0EiB7TcyJ4vl7PPujkHfTVrJVTUQowDrI7IvhVi+/4cQnbfSQ==",
+  "dgSpecHash": "7QL1WdubI3p6+obLFccsV7su3vTvDg305heCpQGfQmlB4F4QgL3x2rWkjIhQWevUD/eF1Y/eKo39qiv8ou2Yvw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\FitnessTrackerAI\\FitnessTrackerAI.csproj",
+  "projectFilePath": "c:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\FitnessTrackerAI\\FitnessTrackerAI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zanet\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\zanet\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",

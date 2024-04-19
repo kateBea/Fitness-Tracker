@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj": {}
+    "c:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj": {
+    "c:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj",
+        "projectUniqueName": "c:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj",
         "projectName": "AppFitnessTrackerAI",
-        "projectPath": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj",
+        "projectPath": "c:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj",
         "packagesPath": "C:\\Users\\zanet\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\obj\\",
+        "outputPath": "c:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
