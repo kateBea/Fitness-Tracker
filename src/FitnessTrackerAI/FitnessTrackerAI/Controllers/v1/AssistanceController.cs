@@ -37,7 +37,7 @@ namespace FitnessTrackerAI.Controllers.v1
             }
 
             // manage exceptions and other stuff
-            var res = await _assistanceService.Get(1);
+            var res = await _assistanceService.Get(model.Message);
 
             // return result
             return Ok(res);

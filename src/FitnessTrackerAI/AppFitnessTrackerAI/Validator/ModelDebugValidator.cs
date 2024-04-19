@@ -12,7 +12,7 @@ namespace AppFitnessTrackerAI.Validator
     {
         public ModelDebugValidator()
         {
-            RuleFor(obj =>  obj.Name).NotEmpty().WithMessage("The field name is required.");
+            RuleFor(obj =>  obj.Message).NotEmpty().WithMessage("The field name is required.");
         }
     }
 }

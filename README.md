@@ -32,7 +32,7 @@ Esta API REST proporciona una interfaz para integrar la funcionalidad de generac
 
 - Documentación y Ejemplos:
 
-Para obtener más información sobre cómo utilizar esta API y acceder a ejemplos de código, consulta la documentación detallada disponible [aquí](/docs/Documentación%20API%20IA.pdf).
+Para obtener más información sobre cómo utilizar esta API y acceder a ejemplos de código, consulta la documentación detallada disponible [aquí](/info/docs/Documentación%20API%20IA.pdf).
 
 - Ejecución:
 

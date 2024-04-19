@@ -10,6 +10,6 @@ namespace AppFitnessTrackerAI.Services.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<ModelDebugVM> Get(int id);
+        Task<ModelDebugVM> Get(string message);
     }
 }

@@ -1,0 +1,13 @@
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\bin\Debug\net8.0\AppFitnessTrackerAI.deps.json
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\bin\Debug\net8.0\AppFitnessTrackerAI.dll
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\bin\Debug\net8.0\AppFitnessTrackerAI.pdb
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.csproj.AssemblyReference.cache
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.AssemblyInfoInputs.cache
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.AssemblyInfo.cs
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.csproj.CoreCompileInputs.cache
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.sourcelink.json
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.dll
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\refint\AppFitnessTrackerAI.dll
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\AppFitnessTrackerAI.pdb
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\AppFitnessTrackerAI\obj\Debug\net8.0\ref\AppFitnessTrackerAI.dll
