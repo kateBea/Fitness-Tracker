@@ -1,4 +1,5 @@
 ﻿using AppFitnessTrackerAI.Classes;
+using AppFitnessTrackerAI.ViewModels;
 
 namespace AppFitnessTrackerAI.Services.Interface
 {
@@ -9,6 +10,6 @@ namespace AppFitnessTrackerAI.Services.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        ModelDebug Get(int id);
+        Task<ModelDebugVM> Get(int id);
     }
 }

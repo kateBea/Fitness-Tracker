@@ -36,3 +36,4 @@ C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\FitnessTrackerAI\bin
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\FitnessTrackerAI\bin\Debug\net8.0\OpenAI_API.dll
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\FitnessTrackerAI\bin\Debug\net8.0\AppFitnessTrackerAI.dll
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\FitnessTrackerAI\bin\Debug\net8.0\AppFitnessTrackerAI.pdb
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerAI\FitnessTrackerAI\bin\Debug\net8.0\FluentValidation.dll

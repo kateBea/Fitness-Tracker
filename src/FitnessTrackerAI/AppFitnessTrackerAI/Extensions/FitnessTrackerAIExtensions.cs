@@ -1,5 +1,8 @@
-﻿using AppFitnessTrackerAI.Services.Implementation;
+﻿using AppFitnessTrackerAI.Classes;
+using AppFitnessTrackerAI.Services.Implementation;
 using AppFitnessTrackerAI.Services.Interface;
+using AppFitnessTrackerAI.Validator;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -21,7 +24,7 @@ namespace AppFitnessTrackerAI.Extensions
 
         public static IServiceCollection AddFitnessTrackerModelValidators(this IServiceCollection services)
         {
-
+            var result = services.AddScoped<IValidator<ModelDebug>, ModelDebugValidator>();
 
             return services;
         }

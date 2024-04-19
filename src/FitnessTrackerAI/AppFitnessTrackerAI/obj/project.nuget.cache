@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "7aQKUtORKG2fHn1RtNupdkrsIXU5gPo6xLmYyHU6hrEPufFrTRY1E+3pIkwxPzwKq9Diz8oIXeec8WXAYZ3phA==",
+  "dgSpecHash": "ikGHWafCOMZS23YF9jCQ0ry9/T78GPeZf7llc4uBtnlEqB9i3izbGnZyHpfeaf3OE0+BO6/L5SoP1XUfYBjhFw==",
   "success": true,
   "projectFilePath": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\AppFitnessTrackerAI\\AppFitnessTrackerAI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\zanet\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\zanet\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\zanet\\.nuget\\packages\\microsoft.extensions.configuration\\2.1.0\\microsoft.extensions.configuration.2.1.0.nupkg.sha512",
     "C:\\Users\\zanet\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\2.1.0\\microsoft.extensions.configuration.abstractions.2.1.0.nupkg.sha512",

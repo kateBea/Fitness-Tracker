@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "v4iD03N53Nx9gDxRe6P2JBuU547Dy9JZt6JIsdBdiV3apg8Bv+C0SXP0C9/4ea0Pk//vokVQFb1w0WlR4WhwHQ==",
+  "dgSpecHash": "lTmwoz5ylfoSNE0gG7MVEBcsawZHhmhQgCQbP0EiB7TcyJ4vl7PPujkHfTVrJVTUQowDrI7IvhVi+/4cQnbfSQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\zanet\\Desktop\\Fitness-Tracker\\src\\FitnessTrackerAI\\FitnessTrackerAI\\FitnessTrackerAI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\zanet\\.nuget\\packages\\fluentvalidation\\11.9.0\\fluentvalidation.11.9.0.nupkg.sha512",
     "C:\\Users\\zanet\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\zanet\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\zanet\\.nuget\\packages\\microsoft.extensions.configuration\\2.1.0\\microsoft.extensions.configuration.2.1.0.nupkg.sha512",
