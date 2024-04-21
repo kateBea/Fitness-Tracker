@@ -16,6 +16,11 @@ namespace FitnessTrackerAI.Controllers.v1
         private readonly IValidator<ModelDebug> _validatorModelDebug;
         #endregion
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        /// <param name="assistanceService"></param>
+        /// <param name="validatorModelDebug"></param>
         public AssistanceController(IAssistanceService assistanceService, IValidator<ModelDebug> validatorModelDebug)
         {
             _assistanceService = assistanceService;
@@ -54,7 +59,7 @@ namespace FitnessTrackerAI.Controllers.v1
         /// Is a basic completion that uses 100 tokens at most.
         /// </summary>
         /// <param name="model">The message to be sent.</param>
-        /// <returns>View model response. See: <see cref="ModelDebugVM"/></returns>
+        /// <returns>View model response. See: <see cref="ModelDebugVM"/>.</returns>
         [HttpPost("BasicCompletion")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ModelDebugVM))]

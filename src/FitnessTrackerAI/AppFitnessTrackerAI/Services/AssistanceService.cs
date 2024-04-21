@@ -35,7 +35,7 @@ namespace AppFitnessTrackerAI.Services
 
             var model = Model.GPT4_Vision;  // model type
             var temperature = 0.1;          // model risks
-            var tokensLimit = 300;          // words limit
+            var tokensLimit = 20;          // words limit
 
             // Query
             var results = await api.Chat.CreateChatCompletionAsync(new ChatRequest()
