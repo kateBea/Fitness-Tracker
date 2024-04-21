@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace AppFitnessTrackerAI.Classes
 {
+    /// <summary>
+    /// This model is only used for debug purposes.
+    /// </summary>
     public class ModelDebug
     {
+        /// <summary>
+        /// Message to send.
+        /// </summary>
         public string Message { get; set; } = string.Empty;
     }
 }

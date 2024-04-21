@@ -13,12 +13,39 @@ El proyecto consta de varias aplicaciones. Una aplicación cliente Android, una 
 
 ## Cliente Android
 
+- Funcionalidades Principales:
+
+1. Func1
+2. Func2, etc...
+
+- Ejecución:
+
+1. Paso1
+2. Paso2, etc...
 
 ## Cliente Web
 
+- Funcionalidades Principales:
+
+1. Func1
+2. Func2, etc...
+
+- Ejecución:
+
+1. Paso1
+2. Paso2, etc...
 
 ## REST Base
 
+- Funcionalidades Principales:
+
+1. Func1
+2. Func2, etc...
+
+- Ejecución:
+
+1. Paso1
+2. Paso2, etc...
 
 ## REST AI
 

@@ -5,6 +5,10 @@ namespace AppFitnessTrackerAI.Classes
 {
     public static class Context
     {
+        /// <summary>
+        /// Initializes the OpenAI-API-dotnet library, setting up the API KEY and
+        /// the default language model.
+        /// </summary>
         public static void Init()
         {
             OpenAI_API.APIAuthentication.Default = 
