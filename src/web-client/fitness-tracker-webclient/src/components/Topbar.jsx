@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { createTheme } from '@mui/material/styles';
 import { 
     Box,
     AppBar,
@@ -10,20 +10,38 @@ import {
 
 import LogoFitness from '../img/logo-fitness-tracker.png';
 
-export const TopBar = () => {
+const theme = createTheme({
+    components: {
+        // Name of the component
+        Container: {
+            styleOverrides: {
+            // Name of the slot
+                root: {
+                    // Some CSS
+                    maxWidth:'100%'
+                },
+            },
+        },
+    },
+});
 
+export const TopBar = () => {
     return (
         <AppBar 
             position="static"  
             sx={{
                 background: '#436489',
+                height:'70px'
             }}
         >
             <Container
+                maxWidth='false'
                 sx={{
                     display:'flex',
                     alignContent:'space-between',
-                    width:'100%'
+                    width:'100%',
+                    maxWidth:'100%',
+                    height:'70px'
                 }}
             >
                 <Box
@@ -32,18 +50,19 @@ export const TopBar = () => {
                         alignItems:'center',
                         width:'50%'
                     }}
+                    
                 >
                     <img src={LogoFitness} 
                         title="Logo Fitness-Tracker" 
                         alt="Logo Fitness-Tracker App" 
                         style={{
-                            width:'60px',
-                            height:'60px',
+                            width:'55px',
+                            height:'55px',
                             position: 'block',
                         }}
                     />
                     <Typography 
-                        variant="h2"
+                        variant="h3"
                         component="h1"
                         href="/"
                         sx={{
@@ -56,19 +75,18 @@ export const TopBar = () => {
                     </Typography>
                 </Box>
                 <Box 
-                    sx={{ 
+                    sx={{
                         display:'flex',
+                        justifyContent: 'flex-end',
                         alignContent:'right',
                         alignItems:'center',
-                        width:'50%'
-                        
+                        width:'50%',
                     }}
-                    >
-                    <MenuItem sx={{textAlign:'center'}}>Home</MenuItem>
-                    <MenuItem sx={{textAlign:'center'}}>App</MenuItem>
-                    <MenuItem sx={{textAlign:'center'}}>Nuestros Clientes</MenuItem>
-                    <MenuItem sx={{textAlign:'center'}}>Sobre Nosotros</MenuItem>
-                
+                >
+                    <MenuItem >Home</MenuItem>
+                    <MenuItem >App</MenuItem>
+                    <MenuItem >Sobre Nosotros</MenuItem>
+                    <MenuItem >Nuestros Clientes</MenuItem>
                 </Box>
             </Container>
         </AppBar>
