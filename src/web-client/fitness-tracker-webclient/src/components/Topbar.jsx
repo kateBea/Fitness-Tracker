@@ -31,7 +31,7 @@ export const TopBar = () => {
             position="static"  
             sx={{
                 background: '#436489',
-                height:'70px'
+                
             }}
         >
             <Container
