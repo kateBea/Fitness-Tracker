@@ -10,20 +10,6 @@ import {
 
 import LogoFitness from '../img/logo-fitness-tracker.png';
 
-const theme = createTheme({
-    components: {
-        // Name of the component
-        Container: {
-            styleOverrides: {
-            // Name of the slot
-                root: {
-                    // Some CSS
-                    maxWidth:'100%'
-                },
-            },
-        },
-    },
-});
 
 export const TopBar = () => {
     return (
