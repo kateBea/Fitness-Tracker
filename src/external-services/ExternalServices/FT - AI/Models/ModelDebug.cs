@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FTAI.Classes
+namespace FTAI.Models
 {
     /// <summary>
     /// This model is only used for debug purposes.

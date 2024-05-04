@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FTAI.Classes
+namespace Shared.ExternalServices
 {
-    public class BaseRequest
+    public static class Utilities
     {
-
+        
     }
 }

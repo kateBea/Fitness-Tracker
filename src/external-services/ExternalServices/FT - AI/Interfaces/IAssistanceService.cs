@@ -1,4 +1,4 @@
-﻿using FTAI.Classes;
+﻿using FTAI.Models;
 using FTAI.ViewModels;
 
 namespace FTAI.Interfaces
@@ -20,5 +20,12 @@ namespace FTAI.Interfaces
         /// <param name="message">The user message.</param>
         /// <returns>View model response. See: <see cref="ModelDebugVM"/></returns>
         Task<ModelDebugVM> BasicCompletion(string message);
+
+        /// <summary>
+        /// Request dieta.
+        /// </summary>
+        /// <param name="dieta">The user message.</param>
+        /// <returns>View model response. See: <see cref="RequestDietaVM"/></returns>
+        Task<RequestDietaVM> RequestDieta(RequestDietaIn dieta);
     }
 }

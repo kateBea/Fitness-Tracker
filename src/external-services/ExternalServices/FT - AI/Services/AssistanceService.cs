@@ -1,4 +1,4 @@
-﻿using FTAI.Classes;
+﻿using FTAI.Models;
 using FTAI.Interfaces;
 using FTAI.ViewModels;
 using FTAI.Logging;
@@ -75,6 +75,24 @@ namespace FTAI.Services
             // Results
             _logger.LogDebug($"Got response {result}");
             return new ModelDebugVM() { Result = result.ToString() };
+        }
+
+        public async Task<RequestDietaVM> RequestDieta(RequestDietaIn dieta)
+        {
+            // Setup
+            var message = string.Empty;
+            var dietaOut = new RequestDietaVM();
+            var api = new OpenAI_API.OpenAIAPI();
+
+            // Chat coompletion
+            var result = await api.Chat.CreateChatCompletionAsync(message);
+
+            // File Log
+            FileLogging.LogToFile(result.ToString());
+
+            // Results
+            _logger.LogDebug($"Got response {result}");
+            return new RequestDietaVM() {  };
         }
     }
 }

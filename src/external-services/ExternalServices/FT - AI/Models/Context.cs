@@ -1,7 +1,7 @@
 ﻿using FTAI.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace FTAI.Classes
+namespace FTAI.Models
 {
     public static class Context
     {

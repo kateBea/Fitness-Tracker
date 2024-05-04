@@ -1,4 +1,4 @@
-﻿using FTAI.Classes;
+﻿using FTAI.Models;
 using FTAI.Interfaces;
 using FTAI.Services;
 using FTAI.Validator;
@@ -24,7 +24,8 @@ namespace FTAI.Extensions
 
         public static IServiceCollection AddFitnessTrackerModelValidators(this IServiceCollection services)
         {
-            var result = services.AddScoped<IValidator<ModelDebug>, ModelDebugValidator>();
+            services.AddScoped<IValidator<ModelDebug>, ModelDebugValidator>();
+            services.AddScoped<IValidator<RequestDietaIn>, RequestDietaValidator>();
 
             return services;
         }

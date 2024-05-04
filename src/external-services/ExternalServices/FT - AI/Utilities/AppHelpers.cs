@@ -1,4 +1,4 @@
-﻿using FTAI.Classes;
+﻿using FTAI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FTAI.Utilities

@@ -1,4 +1,4 @@
-﻿using FTAI.Classes;
+﻿using FTAI.Models;
 using FTAI.Interfaces;
 using FTAI.ViewModels;
 using FluentValidation;
@@ -14,6 +14,7 @@ namespace FTAI.Controllers.v1
         #region Properties
         private readonly IAssistanceService _assistanceService;
         private readonly IValidator<ModelDebug> _validatorModelDebug;
+        private readonly IValidator<RequestDietaIn> _validatorRequestDieta;
         #endregion
 
         /// <summary>
@@ -21,10 +22,13 @@ namespace FTAI.Controllers.v1
         /// </summary>
         /// <param name="assistanceService"></param>
         /// <param name="validatorModelDebug"></param>
-        public AssistanceController(IAssistanceService assistanceService, IValidator<ModelDebug> validatorModelDebug)
+        public AssistanceController(IAssistanceService assistanceService, 
+            IValidator<ModelDebug> validatorModelDebug,
+            IValidator<RequestDietaIn> validatorRequestDieta)
         {
             _assistanceService = assistanceService;
             _validatorModelDebug = validatorModelDebug;
+            _validatorRequestDieta = validatorRequestDieta;
         }
 
         /// <summary>
@@ -76,6 +80,32 @@ namespace FTAI.Controllers.v1
 
             // manage exceptions and other stuff
             var res = await _assistanceService.BasicCompletion(model.Message);
+
+            // return result
+            return Ok(res);
+        }
+
+        /// <summary>
+        /// Petición para elaborar una dieta acorde a los requisitos del usuario.
+        /// </summary>
+        /// <param name="model">The message to be sent.</param>
+        /// <returns>View model response. See: <see cref="RequestDietaVM"/>.</returns>
+        [HttpPost("RequestDieta")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RequestDietaVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<RequestDietaVM>> RequestDieta([FromBody] RequestDietaIn model)
+        {
+            // Validate entry model
+            var result = _validatorRequestDieta.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            // manage exceptions and other stuff
+            var res = await _assistanceService.RequestDieta(model);
 
             // return result
             return Ok(res);

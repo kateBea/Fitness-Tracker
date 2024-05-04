@@ -1,4 +1,4 @@
-﻿using FTAI.Classes;
+﻿using FTAI.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿using FTAI.Classes;
+﻿using FTAI.Models;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
