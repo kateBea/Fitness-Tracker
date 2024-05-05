@@ -1,5 +1,17 @@
 # Fitness Tracker
+
 Trabajo de fin de grado de aplicación para gestionar el entrenamiento físico.
+
+## Cliente web
+
+![img1](capturas/web-img1.png)
+
+## Cliente Android
+
+<p>
+    <img src="/capturas/android-img1.png" alt="Pantalla 1" width="250"/>
+    <img src="/capturas/android-img2.png" alt="Pantalla 2" width="250"/>
+</p>
 
 ## Breve introducción
 
@@ -35,20 +47,32 @@ VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 
 - Funcionalidades Principales:
 
-1. Func1
-2. Func2, etc...
+1. Iniciar sesión.
+2. Consultar dietas e información nutricional.
+3. Acceso a asitenta por inteligencia artificial.
+4. Generación de dietas a medida.
 
 - Ejecución:
 
-1. Paso1
-2. Paso2, etc...
+1. Acceder a la carpeta web-client y ejecutamos los comandos:
+
+```shell
+npm i
+npm install react-bootstrap bootstrap
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+
+npm run dev
+```
+
+Para acceder a las rutas vamos contra ``localhost:5173/`` que es donde está ejecuntándose la aplicación.
 
 ## REST Base
 
 - Funcionalidades Principales:
 
-1. Iniciar sesión
-2. Consultar dietas
+1. Iniciar sesión.
+2. Consultar dietas e información nutricional.
 
 - Ejecución:
 
