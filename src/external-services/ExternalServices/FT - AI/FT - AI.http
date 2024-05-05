@@ -1,0 +1,6 @@
+@FT___AI_HostAddress = http://localhost:5149
+
+GET {{FT___AI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
