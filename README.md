@@ -47,8 +47,8 @@ VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 
 - Funcionalidades Principales:
 
-1. Func1
-2. Func2, etc...
+1. Iniciar sesión
+2. Consultar dietas
 
 - Ejecución:
 
