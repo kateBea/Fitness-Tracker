@@ -15,13 +15,21 @@ El proyecto consta de varias aplicaciones. Una aplicación cliente Android, una 
 
 - Funcionalidades Principales:
 
-1. Func1
-2. Func2, etc...
+1.
 
 - Ejecución:
 
-1. Paso1
-2. Paso2, etc...
+1. Seleccionamos y abrimos la carpeta de android-client medienta el editor Android Studio.
+2. El editor debería ser capaza de actualizar los paquetes de Gradle si es necesario, si no probar con el proyecto en la rama master.
+3. Hacer clic sobre Debug para ejecutar la aplicación.
+
+- Detalles editor Android Studio usado:
+
+Android Studio Hedgehog | 2023.1.1
+Build #AI-231.9392.1.2311.11076708, built on November 9, 2023
+
+Runtime version: 17.0.7+0-b2043.56-10550314 amd6
+VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 
 ## Cliente Web
 
@@ -63,5 +71,5 @@ Para obtener más información sobre cómo utilizar esta API y acceder a ejemplo
 
 - Ejecución:
 
-1. Abrir el proyecto con Visual Studio (Para el desarollo se utilizó VS 2022 en su versión 17.9.5) 
+1. Abrir el proyecto con Visual Studio (Para el desarollo se utilizó VS 2022 en su versión 17.9.5).
 2. Vamos a Debug, y Start Debugging.
