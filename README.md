@@ -40,8 +40,18 @@ VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 
 - Ejecución:
 
-1. Paso1
-2. Paso2, etc...
+1. Acceder a la carpeta web-client y ejecutamos los comandos:
+
+```shell
+npm i
+npm install react-bootstrap bootstrap
+npm install @mui/material @emotion/react @emotion/styled
+npm install @mui/icons-material @mui/material @emotion/styled @emotion/react
+
+npm run dev
+```
+
+Para acceder a las rutas vamos contra "http://localhost:5173/" que es donde está ejecuntándose la aplicación.
 
 ## REST Base
 
