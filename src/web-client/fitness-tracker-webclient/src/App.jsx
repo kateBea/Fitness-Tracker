@@ -3,7 +3,8 @@ import React from 'react'
 import LoginPage from '../public/pages/LoginPage.jsx'
 import RegisterPage from '../public/pages/RegisterPage.jsx'
 import MainPage from '../private/pages/MainPage.jsx'
-import AIAssistancePage from '../private/pages/AIAssistancePage.jsx'
+import DietGeneratorPage from '../private/pages/DietGeneratorPage.jsx'
+import ChatAssistancePage from '../private/pages/ChatAssistancePage.jsx'
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
@@ -17,7 +18,8 @@ export default function App() {
         <Route path="/register" element={<RegisterPage/>}></Route>
 
         
-        <Route path="/aiassistance" element={<AIAssistancePage/>}></Route>
+        <Route path="/dietgenerator" element={<DietGeneratorPage/>}></Route>
+        <Route path="/aiassistance" element={<ChatAssistancePage/>}></Route>
         <Route path="/mainpage" element={<MainPage/>}></Route>
       </Routes>
     </BrowserRouter>
