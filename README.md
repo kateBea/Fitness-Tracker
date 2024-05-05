@@ -2,15 +2,16 @@
 
 Trabajo de fin de grado de aplicación para gestionar el entrenamiento físico.
 
-- Cliente web:
+## Cliente web
+
 ![img1](capturas/web-img1.png)
 
-- Cliente android:
+## Cliente Android
+
 <p>
     <img src="/capturas/android-img1.png" alt="Pantalla 1" width="250"/>
-    <img src="/capturas/android-img2.png" alt="Pantalla 1" width="250"/>
+    <img src="/capturas/android-img2.png" alt="Pantalla 2" width="250"/>
 </p>
-
 
 ## Breve introducción
 
