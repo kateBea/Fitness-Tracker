@@ -85,7 +85,7 @@ function PerfilPage() {
                 sx={{
                     background:'#FFF',
                     width:'30%',
-                    height:'500px',
+                    height:'580px',
                     marginTop:'40px',
                     marginLeft:'40px',
                     borderRadius:'40px'
