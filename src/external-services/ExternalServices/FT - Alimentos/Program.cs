@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 
 // Add services
 builder.Services.AddScoped<IAlimentosService, AlimentosService>();
+builder.Services.AddScoped<IRecetasService, RecetasService>();
 
 
 var app = builder.Build();
