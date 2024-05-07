@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FTAlimentos.ModelsSvc.SearchByCriteria;
+using Newtonsoft.Json;
 
 namespace FTAlimentos.ModelsSvc
 {
@@ -111,8 +112,11 @@ namespace FTAlimentos.ModelsSvc
 
         public class Links
         {
+            [JsonProperty("self")]
+            public Self Self { get; set; }
+
             [JsonProperty("next")]
-            public NextLink Next { get; set; }
+            public Next Next { get; set; }
         }
 
         public class NextLink
@@ -187,6 +191,12 @@ namespace FTAlimentos.ModelsSvc
 
         public class ParsedIngredient
         {
+            [JsonProperty("text")]
+            public string Text { get; set; }
+
+            [JsonProperty("measure")]
+            public string Measure { get; set; }
+
             [JsonProperty("quantity")]
             public double Quantity { get; set; }
 
