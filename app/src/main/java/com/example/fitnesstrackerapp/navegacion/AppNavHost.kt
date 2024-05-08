@@ -45,6 +45,7 @@ import com.example.fitnesstrackerapp.pantallas.VentanaRegister
 import com.example.fitnesstrackerapp.pantallas.pantallaInformacion
 import com.example.fitnesstrackerapp.pantallas.pantallaPrincipal
 import com.example.fitnesstrackerapp.ui.theme.azul1
+import com.example.fitnesstrackerapp.uiViewModel.ViewModelFitness
 
 sealed class Pantallas(var route:String){
     data object Login : Pantallas("login")
@@ -57,16 +58,14 @@ sealed class Pantallas(var route:String){
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun navegacion(navController: NavHostController) {
+fun navegacion(navController: NavHostController, ViewModel: ViewModelFitness) {
     val showToolbar = remember {mutableStateOf(false)}
     hideOrShowToolbar(navController = navController, showToolbar = showToolbar)
 
-    scaffoldPantallas(navHostController = navController)
-
     if(showToolbar.value){
-        scaffoldPantallas(navHostController = navController)
+        scaffoldPantallas(navHostController = navController, ViewModel)
     }else{
-        navegacionPantallas(navController = navController)
+        navegacionPantallas(navController = navController,ViewModel)
     }
 
 
@@ -96,10 +95,10 @@ fun hideOrShowToolbar(
 }
 
 @Composable
-fun navegacionPantallas(navController: NavHostController){
+fun navegacionPantallas(navController: NavHostController, ViewModel: ViewModelFitness){
     NavHost(navController = navController, startDestination = Pantallas.Login.route){
         composable(Pantallas.Login.route){
-            PantallaLogin(navController)
+            PantallaLogin(navController,ViewModel)
         }
         composable(Pantallas.Register.route){
             VentanaRegister(navController)
@@ -119,7 +118,7 @@ fun navegacionPantallas(navController: NavHostController){
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun scaffoldPantallas(navHostController: NavHostController){
+fun scaffoldPantallas(navHostController: NavHostController, ViewModel: ViewModelFitness){
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(
@@ -195,7 +194,7 @@ fun scaffoldPantallas(navHostController: NavHostController){
                     Icon(Icons.Rounded.DateRange, contentDescription = "", tint = Color.White)
                 }
             }
-            navegacionPantallas(navController = navHostController)
+            navegacionPantallas(navController = navHostController, ViewModel = ViewModel)
         }
     }
 }

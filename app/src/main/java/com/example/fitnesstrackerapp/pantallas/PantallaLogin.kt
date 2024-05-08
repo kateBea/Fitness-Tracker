@@ -33,7 +33,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -41,11 +42,12 @@ import com.example.fitnesstrackerapp.R
 import com.example.fitnesstrackerapp.ui.theme.azul1
 import com.example.fitnesstrackerapp.ui.theme.azul2
 import com.example.fitnesstrackerapp.ui.theme.colorBoton
+import com.example.fitnesstrackerapp.uiViewModel.ViewModelFitness
 import com.example.fitnesstrackerapp.utilidades.BotonLogin
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PantallaLogin(navController: NavHostController) {
+fun PantallaLogin(navController: NavHostController, ViewModel: ViewModelFitness) {
     val brush = Brush.linearGradient(listOf(azul2, azul1))
     val image: Painter = painterResource(id = R.drawable.grupo)
     val fuente = FontFamily(Font(R.font.extralight))
@@ -91,6 +93,8 @@ fun PantallaLogin(navController: NavHostController) {
                 firstTimeButton = firstTimeButon,
                 labelTexto = "Contraseña",
                 textoError = "Escriba la contraseña",
+                PasswordVisualTransformation(),
+                KeyboardType.Password,
                 accountCircle = Icons.Rounded.Lock,
                 focusRequester = focusRequester
             )
@@ -102,7 +106,7 @@ fun PantallaLogin(navController: NavHostController) {
                 ElevatedButton(
                     onClick = {
                         firstTimeButon = true
-                        navController.navigate("menu")
+                        //navController.navigate("menu")
                     }, modifier = Modifier
                         .height(60.dp)
                         .fillMaxWidth(0.8f)
