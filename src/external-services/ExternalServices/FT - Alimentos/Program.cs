@@ -1,4 +1,5 @@
 using FTAlimentos.Interfaces;
+using FTAlimentos.Mappeing;
 using FTAlimentos.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,9 @@ builder.Services.AddSwaggerGen();
 // Add services
 builder.Services.AddScoped<IAlimentosService, AlimentosService>();
 builder.Services.AddScoped<IRecetasService, RecetasService>();
+
+builder.Services.AddAutoMapper(typeof(AlimentosMapperProfiles));
+builder.Services.AddAutoMapper(typeof(RecetasMapperProfiles));
 
 
 var app = builder.Build();
