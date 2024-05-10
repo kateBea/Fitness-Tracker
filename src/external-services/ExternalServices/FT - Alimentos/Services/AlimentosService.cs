@@ -1,4 +1,5 @@
-﻿using FTAlimentos.Interfaces;
+﻿using AutoMapper;
+using FTAlimentos.Interfaces;
 using FTAlimentos.ModelsSvc.Autocomplete;
 using FTAlimentos.ModelsSvc.Nutrients;
 using FTAlimentos.ModelsSvc.Parse;
@@ -22,13 +23,16 @@ namespace FTAlimentos.Services
         private KeyValuePair<string, string>? _foodRequestAutocomplete;
 
         private readonly IConfiguration _configuration;
-        private readonly HttpClient _httpClient; 
+        private readonly HttpClient _httpClient;
+        private readonly IMapper _mapper;
         #endregion
 
-        public AlimentosService(IConfiguration configuration)
+        public AlimentosService(IConfiguration configuration, IMapper mapper)
         {
 
             _configuration = configuration;
+
+            _mapper = mapper;
 
             _applicationId = _configuration.GetSection("ApplicationFoodId").Value;
             _applicationKey = _configuration.GetSection("ApplicationFoodKey").Value;
