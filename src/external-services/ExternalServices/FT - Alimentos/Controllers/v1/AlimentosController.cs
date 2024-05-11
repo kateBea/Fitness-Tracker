@@ -9,7 +9,7 @@ namespace FTAlimentos.Controllers.v1
 {
     [ApiController]
     [Route("[controller]")]
-    public class AlimentosController : Controller
+    public class AlimentosController : ControllerBase
     {
         private readonly IAlimentosService _alimentosService;
 

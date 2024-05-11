@@ -7,7 +7,7 @@ namespace FTAlimentos.Controllers.v1
 {
     [ApiController]
     [Route("[controller]")]
-    public class RecetasController : Controller
+    public class RecetasController : ControllerBase
     {
         #region Properties
 

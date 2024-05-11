@@ -1,0 +1,6 @@
+@FT___Base_HostAddress = http://localhost:5078
+
+GET {{FT___Base_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
