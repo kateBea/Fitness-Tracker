@@ -1,4 +1,5 @@
-import React from "react";
+import React from "react"
+import axios from "axios"
 
 import { TopBar } from '../../components/Topbar'
 import {
@@ -7,7 +8,18 @@ import {
     MenuItem,
 } from '@mui/material'
 
+// Routes
+import { DebugBaseUrl } from "../../ApiRoutes.jsx"
+
 function ChatAssistancePage() {
+
+    // Axios test
+    axios
+        .post(DebugBaseUrl)
+        .then((response) => {
+            console.log(response.data)
+        });
+
   return (
     <Box
         sx={{

@@ -94,7 +94,7 @@
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "FT - Alimentos",
+          "Name": "FT - Recetas",
           "Version": "v1",
           "Url": "http://localhost:5041/swagger/v1/swagger.json"
         }
