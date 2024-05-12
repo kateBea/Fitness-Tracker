@@ -35,6 +35,20 @@ namespace FTAI.Controllers.v1
         }
 
         /// <summary>
+        /// For debug purposes.
+        /// </summary>
+        /// <returns><see cref="string"/></returns>
+        [HttpPost("DebugGreeting")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ModelDebugVM>> DebugEndpoint()
+        {
+            return Ok("Hello there :)");
+        }
+
+        /// <summary>
         /// Request a text message response to the GPT 4 Vision model.
         /// Has no token limit, use carfully if you do not want a large response.
         /// </summary>
