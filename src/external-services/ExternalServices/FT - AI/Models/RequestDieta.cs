@@ -1,27 +1,35 @@
-﻿using FTAI.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace FTAI.ViewModels
+namespace FTAI.Models
 {
-    public class RequestDietaVM : BaseResponse
+    public class RequestDietaIn : BaseRequest
     {
-        [JsonProperty("gasto_calorias")]
-        public float GastoCalorias { get; set; } = 0.0f;
-
+        /// <summary>
+        /// Fecha de inicio de la dieta.
+        /// </summary>
         [JsonProperty("fecha_inicio")]
         public DateTime FechaInicio { get; set; } = DateTime.Now;
 
+        /// <summary>
+        /// Fecha de finalización de la dieta.
+        /// </summary>
         [JsonProperty("fecha_fin")]
-        public DateTime FechaFin { get; set; } = DateTime.Now.AddDays(1);
+        public DateTime FechaFin { get; set; } = DateTime.Now;
 
+        /// <summary>
+        /// Consuma de agua diario en litros.
+        /// </summary>
         [JsonProperty("consumo_agua")]
-        public float ConsumoAgua { get; set; } = 0.0f;
+        public float ConsumoAgua = 0.0f;
 
+        /// <summary>
+        /// Comidas preferidas para esta dieta.
+        /// </summary>
         [JsonProperty("comidas")]
-        public List<ComidaVM> Comidas { get; set; } = [];
+        public List<ComidaIn> ComidasSugeridas { get; set; } = [];
     }
 
-    public class ComidaVM
+    public class ComidaIn
     {
         [JsonProperty("nombre")]
         public string? Nombre { get; set; } = string.Empty;

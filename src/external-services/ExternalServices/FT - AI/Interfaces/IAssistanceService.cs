@@ -27,5 +27,13 @@ namespace FTAI.Interfaces
         /// <param name="dieta">The user message.</param>
         /// <returns>View model response. See: <see cref="RequestDietaVM"/></returns>
         Task<RequestDietaVM> RequestDieta(RequestDietaIn dieta);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dieta"></param>
+        /// <returns></returns>
+        Task<AssistantChatVM> RequestChatAssistance(RequestChatAssistantIn dieta);
+
     }
 }

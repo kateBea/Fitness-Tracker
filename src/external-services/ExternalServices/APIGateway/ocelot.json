@@ -1,0 +1,120 @@
+﻿{
+  "Routes": [
+
+    // Assistance ========================================
+    {
+      "UpstreamPathTemplate": "/api/assistance/{everything}",
+      "DownstreamPathTemplate": "/Assistance/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7031
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "assistance"
+    },
+
+    // Alimentos ========================================
+    {
+      "UpstreamPathTemplate": "/api/alimentos/{everything}",
+      "DownstreamPathTemplate": "/Alimentos/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7181
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "alimentos"
+    },
+
+    // Recetas ========================================
+    {
+      "UpstreamPathTemplate": "/api/recetas/{everything}",
+      "DownstreamPathTemplate": "/Recetas/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7181
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "recetas"
+    },
+
+    // Base ========================================
+    {
+      "UpstreamPathTemplate": "/api/client/{everything}",
+      "DownstreamPathTemplate": "/Base/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7070
+        }
+      ],
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "SwaggerKey": "base"
+    }
+  ],
+  "SwaggerEndPoints": [
+    // Assistance ========================================
+    {
+      "Key": "assistance",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "FT - AI",
+          "Version": "v1",
+          "Url": "http://localhost:5149/swagger/v1/swagger.json"
+        }
+      ]
+    },
+
+    // Alimentos ========================================
+    {
+      "Key": "alimentos",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "FT - Alimentos",
+          "Version": "v1",
+          "Url": "http://localhost:5041/swagger/v1/swagger.json"
+        }
+      ]
+    },
+
+    // Recetas ========================================
+    {
+      "Key": "recetas",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "FT - Alimentos",
+          "Version": "v1",
+          "Url": "http://localhost:5041/swagger/v1/swagger.json"
+        }
+      ]
+    },
+
+    // Base ========================================
+    {
+      "Key": "base",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "FT - Base",
+          "Version": "v1",
+          "Url": "http://localhost:5078/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:7298"
+  }
+}

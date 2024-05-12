@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FTAI.Mappings;
 
 namespace FTAI.Extensions
 {
@@ -17,7 +18,8 @@ namespace FTAI.Extensions
         public static IServiceCollection AddFitnessTrackerDependencies(this IServiceCollection services)
         {
 
-            var result = services.AddScoped<IAssistanceService, AssistanceService>();
+           services.AddScoped<IAssistanceService, AssistanceService>();
+           services.AddAutoMapper(typeof(MapperProfiles));
 
             return services;
         }
@@ -26,6 +28,7 @@ namespace FTAI.Extensions
         {
             services.AddScoped<IValidator<ModelDebug>, ModelDebugValidator>();
             services.AddScoped<IValidator<RequestDietaIn>, RequestDietaValidator>();
+            services.AddScoped<IValidator<RequestChatAssistantIn>, RequestChatAssistantInValidator>();
 
             return services;
         }
