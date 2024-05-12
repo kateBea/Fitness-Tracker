@@ -14,9 +14,6 @@ namespace FTAI.Utilities
                 webApplication.UseSwaggerUI();
             }
 
-            // Init OpenAI API Context
-            Context.Init();
-
             return webApplication;
         }
     }

@@ -15,6 +15,7 @@ namespace FTAI.Controllers.v1
         private readonly IAssistanceService _assistanceService;
         private readonly IValidator<ModelDebug> _validatorModelDebug;
         private readonly IValidator<RequestDietaIn> _validatorRequestDieta;
+        private readonly IValidator<RequestChatAssistantIn> _validatorRequestAssistantIn;
         #endregion
 
         /// <summary>
@@ -24,11 +25,13 @@ namespace FTAI.Controllers.v1
         /// <param name="validatorModelDebug"></param>
         public AssistanceController(IAssistanceService assistanceService, 
             IValidator<ModelDebug> validatorModelDebug,
-            IValidator<RequestDietaIn> validatorRequestDieta)
+            IValidator<RequestDietaIn> validatorRequestDieta,
+            IValidator<RequestChatAssistantIn> validatorRequestAssistantIn)
         {
             _assistanceService = assistanceService;
             _validatorModelDebug = validatorModelDebug;
             _validatorRequestDieta = validatorRequestDieta;
+            _validatorRequestAssistantIn = validatorRequestAssistantIn;
         }
 
         /// <summary>
@@ -106,6 +109,32 @@ namespace FTAI.Controllers.v1
 
             // manage exceptions and other stuff
             var res = await _assistanceService.RequestDieta(model);
+
+            // return result
+            return Ok(res);
+        }
+
+        /// <summary>
+        /// Petición para elaborar una dieta acorde a los requisitos del usuario.
+        /// </summary>
+        /// <param name="model">The message to be sent.</param>
+        /// <returns>View model response. See: <see cref="RequestDietaVM"/>.</returns>
+        [HttpPost("ChatAssistant")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AssistantChatVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<AssistantChatVM>> ChatAssistant([FromBody] RequestChatAssistantIn model)
+        {
+            // Validate entry model
+            var result = _validatorRequestAssistantIn.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            // manage exceptions and other stuff
+            var res = await _assistanceService.RequestChatAssistance(model);
 
             // return result
             return Ok(res);
