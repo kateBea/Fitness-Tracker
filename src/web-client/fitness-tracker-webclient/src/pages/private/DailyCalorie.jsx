@@ -113,7 +113,7 @@ function PerfilPage() {
                         
                     }}
                 >
-                    Datos Personales
+                    Dietas y ejercicios
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
@@ -132,7 +132,7 @@ function PerfilPage() {
                             width:'100%',
                         }}
                     >
-                        <ListItemText>Nick</ListItemText>
+                        <ListItemText>Dato1</ListItemText>
                         <ListItemText
                             sx={{
                                 display:'flex',
@@ -140,7 +140,7 @@ function PerfilPage() {
                                 alignContent:'right',
                                 alignItems:'center',
                             }}
-                        >FastMarisa33</ListItemText>
+                        >Valor1</ListItemText>
                     </ListItem>
                     <ListItem
                         dense='true'
@@ -150,7 +150,7 @@ function PerfilPage() {
                             width:'100%',
                         }}
                     >
-                        <ListItemText>Nombre</ListItemText>
+                        <ListItemText>Dato2</ListItemText>
                         <ListItemText
                             sx={{
                                 display:'flex',
@@ -158,7 +158,7 @@ function PerfilPage() {
                                 alignContent:'right',
                                 alignItems:'center',
                             }}
-                        >Marisa Lopez Sánchez</ListItemText>
+                        >Valor_2</ListItemText>
                     </ListItem>
                     <ListItem
                         dense='true'
@@ -168,7 +168,7 @@ function PerfilPage() {
                             width:'100%',
                         }}
                     >
-                        <ListItemText>Edad</ListItemText>
+                        <ListItemText>Dato3</ListItemText>
                         <ListItemText
                             sx={{
                                 display:'flex',
@@ -176,7 +176,7 @@ function PerfilPage() {
                                 alignContent:'right',
                                 alignItems:'center',
                             }}
-                        >25</ListItemText>
+                        >Valor_3</ListItemText>
                     </ListItem>
                 </List>
                 <Typography
@@ -188,7 +188,7 @@ function PerfilPage() {
                         
                     }}
                 >
-                    Resultados
+                    Mis comidas
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
@@ -263,7 +263,7 @@ function PerfilPage() {
                         
                     }}
                 >
-                    Objetivos
+                    Dietas sugeridas
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
