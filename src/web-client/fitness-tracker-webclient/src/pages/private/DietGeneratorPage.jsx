@@ -1,6 +1,7 @@
 import React from "react";
 
 import { TopBar } from "../../components/Topbar";
+import { PrivateBar } from '../../components/Privatebar';
 import { Container, Box, MenuItem, TextField, Select, InputLabel, Grid } from "@mui/material";
 
 import { useState } from "react";
@@ -43,20 +44,7 @@ function DietGeneratorPage() {
           background: "#869CB5",
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignContent: "right",
-            alignItems: "center",
-            color: "#FFF",
-          }}
-        >
-          <MenuItem>Inicio</MenuItem>
-          <MenuItem>Perfil</MenuItem>
-          <MenuItem>Hoy</MenuItem>
-          <MenuItem>Calorias diaras</MenuItem>
-        </Box>
+        <PrivateBar/>
       </Container>
 
       <Container sx={{ paddingTop: 2 }}>
