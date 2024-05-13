@@ -68,9 +68,9 @@ function PerfilPage() {
                 }}
             >
                 <MenuItem>Inicio</MenuItem>
-                <MenuItem>Perfil</MenuItem>
+                <MenuItem component='a' href='/perfil'>Perfil</MenuItem>
                 <MenuItem>Hoy</MenuItem>
-                <MenuItem>Calorias diaras</MenuItem>
+                <MenuItem component='a' href='/DailyCalorie'>Calorias diaras</MenuItem>
             </Box>
         </Container>
         <Container
