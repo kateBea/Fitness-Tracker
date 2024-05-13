@@ -1,5 +1,6 @@
 import React from 'react';
 import { TopBar } from '../../components/Topbar'
+import { PrivateBar } from '../../components/Privatebar'
 import {
     Container,
     Box,
@@ -58,7 +59,7 @@ function PerfilPage() {
                 background:'#869CB5'
             }}
         >
-            <Box 
+            {/* <Box 
                 sx={{
                     display:'flex',
                     justifyContent: 'flex-end',
@@ -69,9 +70,10 @@ function PerfilPage() {
             >
                 <MenuItem>Inicio</MenuItem>
                 <MenuItem>Perfil</MenuItem>
-                <MenuItem>Hoy</MenuItem>
-                <MenuItem>Calorias diaras</MenuItem>
-            </Box>
+                <MenuItem component='a' href='/today'>Hoy</MenuItem>
+                <MenuItem component='a' href='/DailyCalorie'>Calorias diaras</MenuItem>
+            </Box> */}
+            <PrivateBar/>
         </Container>
         <Container
             maxWidth='none'
