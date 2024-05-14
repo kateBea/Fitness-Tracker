@@ -4,8 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FT - AI", "FT - AI\FT - AI.csproj", "{892ACE82-E5E4-4DD3-9837-3648097E9AD4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D08D23D-2498-43B4-ADD0-243DA2AF4A1A} = {6D08D23D-2498-43B4-ADD0-243DA2AF4A1A}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FT - Alimentos", "FT - Alimentos\FT - Alimentos.csproj", "{43B434A0-93D0-419A-8DBD-BA87C8FDCCA4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D08D23D-2498-43B4-ADD0-243DA2AF4A1A} = {6D08D23D-2498-43B4-ADD0-243DA2AF4A1A}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AI", "AI", "{D41F502B-C684-4173-9E1E-47BB166E6785}"
 EndProject
@@ -22,12 +28,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Base", "Base", "{EB6B801D-82AC-4036-941F-CF97EAC41832}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FT - Base", "FT - Base\FT - Base.csproj", "{C6846612-529C-4BD6-A03E-3E3C95C3486F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D08D23D-2498-43B4-ADD0-243DA2AF4A1A} = {6D08D23D-2498-43B4-ADD0-243DA2AF4A1A}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestBase", "TestBase\TestBase.csproj", "{A0E195E3-513F-402C-8634-45A359084511}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateway", "ApiGateway", "{04DF2C73-B7A7-4B99-8C8C-4CA758DAA4A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APIGateway", "APIGateway\APIGateway.csproj", "{13D27F4B-3EBA-407F-86AC-27FC2EA8C44F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIGateway", "APIGateway\APIGateway.csproj", "{13D27F4B-3EBA-407F-86AC-27FC2EA8C44F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6D08D23D-2498-43B4-ADD0-243DA2AF4A1A} = {6D08D23D-2498-43B4-ADD0-243DA2AF4A1A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

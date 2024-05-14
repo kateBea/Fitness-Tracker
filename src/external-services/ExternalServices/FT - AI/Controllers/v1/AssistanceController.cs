@@ -12,6 +12,8 @@ namespace FTAI.Controllers.v1
     /// </summary>
     /// <param name="assistanceService"></param>
     /// <param name="validatorModelDebug"></param>
+    /// <param name="validatorRequestDieta"></param>
+    /// <param name="validatorRequestAssistantIn"></param>
     [ApiController]
     [Route("[controller]")]
     public class AssistanceController(IAssistanceService assistanceService,

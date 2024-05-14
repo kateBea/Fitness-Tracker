@@ -1,4 +1,5 @@
 ﻿using FTAI.Models;
+using Shared.Utilities;
 
 namespace FTAI.ViewModels
 {
