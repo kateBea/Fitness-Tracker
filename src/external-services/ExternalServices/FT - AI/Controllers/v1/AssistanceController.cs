@@ -7,38 +7,31 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FTAI.Controllers.v1
 {
+    /// <summary>
+    /// Default constructor.
+    /// </summary>
+    /// <param name="assistanceService"></param>
+    /// <param name="validatorModelDebug"></param>
     [ApiController]
     [Route("[controller]")]
-    public class AssistanceController : ControllerBase
+    public class AssistanceController(IAssistanceService assistanceService,
+        IValidator<ModelDebug> validatorModelDebug,
+        IValidator<RequestDietaIn> validatorRequestDieta,
+        IValidator<RequestChatAssistantIn> validatorRequestAssistantIn) : ControllerBase
     {
         #region Properties
-        private readonly IAssistanceService _assistanceService;
-        private readonly IValidator<ModelDebug> _validatorModelDebug;
-        private readonly IValidator<RequestDietaIn> _validatorRequestDieta;
-        private readonly IValidator<RequestChatAssistantIn> _validatorRequestAssistantIn;
-        #endregion
+        private readonly IAssistanceService _assistanceService = assistanceService;
+        private readonly IValidator<ModelDebug> _validatorModelDebug = validatorModelDebug;
+        private readonly IValidator<RequestDietaIn> _validatorRequestDieta = validatorRequestDieta;
+        private readonly IValidator<RequestChatAssistantIn> _validatorRequestAssistantIn = validatorRequestAssistantIn;
 
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        /// <param name="assistanceService"></param>
-        /// <param name="validatorModelDebug"></param>
-        public AssistanceController(IAssistanceService assistanceService, 
-            IValidator<ModelDebug> validatorModelDebug,
-            IValidator<RequestDietaIn> validatorRequestDieta,
-            IValidator<RequestChatAssistantIn> validatorRequestAssistantIn)
-        {
-            _assistanceService = assistanceService;
-            _validatorModelDebug = validatorModelDebug;
-            _validatorRequestDieta = validatorRequestDieta;
-            _validatorRequestAssistantIn = validatorRequestAssistantIn;
-        }
+        #endregion
 
         /// <summary>
         /// For debug purposes.
         /// </summary>
         /// <returns><see cref="string"/></returns>
-        [HttpPost("DebugGreeting")]
+        [HttpGet("Greeting")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -52,24 +45,17 @@ namespace FTAI.Controllers.v1
         /// Request a text message response to the GPT 4 Vision model.
         /// Has no token limit, use carfully if you do not want a large response.
         /// </summary>
-        /// <param name="model">The message to be sent.</param>
+        /// <param name="message">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="ModelDebugVM"/></returns>
-        [HttpPost("DebugEndpoint")]
+        [HttpGet("RequestAnswer")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ModelDebugVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ModelDebugVM>> DebugEndpoint([FromBody] ModelDebug model)
+        public async Task<ActionResult<ModelDebugVM>> RequestAnswer([FromQuery] string message)
         {
-            // Validate entry model
-            var result = _validatorModelDebug.Validate(model);
-            if (result == null || !result.IsValid) 
-            {
-                return BadRequest(result?.Errors);
-            }
-
             // manage exceptions and other stuff
-            var res = await _assistanceService.Get(model.Message);
+            var res = await _assistanceService.Get(message);
 
             // return result
             return Ok(res);
@@ -81,7 +67,7 @@ namespace FTAI.Controllers.v1
         /// </summary>
         /// <param name="model">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="ModelDebugVM"/>.</returns>
-        [HttpPost("BasicCompletion")]
+        [HttpGet("BasicCompletion")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ModelDebugVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -96,7 +82,7 @@ namespace FTAI.Controllers.v1
             }
 
             // manage exceptions and other stuff
-            var res = await _assistanceService.BasicCompletion(model.Message);
+            var res = await _assistanceService.BasicCompletion(model);
 
             // return result
             return Ok(res);
@@ -129,16 +115,16 @@ namespace FTAI.Controllers.v1
         }
 
         /// <summary>
-        /// Petición para elaborar una dieta acorde a los requisitos del usuario.
+        /// Petición para iniciar una nueva conversación con el assietnte virtual.
         /// </summary>
         /// <param name="model">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="RequestDietaVM"/>.</returns>
-        [HttpPost("ChatAssistant")]
+        [HttpPost("StartNewChatAssistance")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AssistantChatVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<AssistantChatVM>> ChatAssistant([FromBody] RequestChatAssistantIn model)
+        public async Task<ActionResult<AssistantChatVM>> StartNewChatAssistance([FromBody] RequestChatAssistantIn model)
         {
             // Validate entry model
             var result = _validatorRequestAssistantIn.Validate(model);
@@ -148,7 +134,33 @@ namespace FTAI.Controllers.v1
             }
 
             // manage exceptions and other stuff
-            var res = await _assistanceService.RequestChatAssistance(model);
+            var res = await _assistanceService.StartNewChat(model);
+
+            // return result
+            return Ok(res);
+        }
+
+        /// <summary>
+        /// Petición para iniciar una nueva conversación con el assietnte virtual.
+        /// </summary>
+        /// <param name="model">The message to be sent.</param>
+        /// <returns>View model response. See: <see cref="AssistantChatVM"/>.</returns>
+        [HttpPut("ContinueOngoingChatAssitance")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AssistantChatVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<AssistantChatVM>> ContinueOngoingChatAssitance([FromBody] RequestChatAssistantIn model)
+        {
+            // Validate entry model
+            var result = _validatorRequestAssistantIn.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            // manage exceptions and other stuff
+            var res = await _assistanceService.ContinueOngoingConversation(model);
 
             // return result
             return Ok(res);

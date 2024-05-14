@@ -8,6 +8,8 @@ import MainPage from './pages/private/MainPage.jsx'
 import PerfilPage from './pages/private/PerfilPage.jsx'
 import DailyPage from './pages/private/DailyPage.jsx'
 import DailyCalorie from './pages/private/DailyCalorie.jsx'
+import EditarDieta from './pages/private/EditDietaPage.jsx'
+import ListadoDietas from './pages/private/ListadoDietasPage.jsx'
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
@@ -18,19 +20,19 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         {/* Public */}
-        <Route path='/' element={<Navigate replace to="/login"/>}/>
-        <Route path="/login" element={<LoginPage/>}></Route>
-        <Route path="/register" element={<RegisterPage/>}></Route>
-
-        
-        <Route path="/dietgenerator" element={<DietGeneratorPage/>}></Route>
-        <Route path="/aiassistance" element={<ChatAssistancePage/>}></Route>
-        <Route path="/mainpage" element={<MainPage/>}></Route>
+        <Route path='/' element={<Navigate replace to="/Login"/>}/>
+        <Route path="/Login" element={<LoginPage/>}></Route>
+        <Route path="/Register" element={<RegisterPage/>}></Route>
         
         {/* Private */}
-        <Route path="/perfil" element={<PerfilPage/>}></Route>
-        <Route path="/today" element={<DailyPage/>}></Route>
+        <Route path="/ChatAssistance" element={<ChatAssistancePage/>}></Route>
         <Route path="/DailyCalorie" element={<DailyCalorie/>}></Route>
+        <Route path="/Today" element={<DailyPage/>}></Route>
+        <Route path="/GenerarDieta" element={<DietGeneratorPage/>}></Route>
+        <Route path="/EditarDieta" element={<EditarDieta/>}></Route>
+        <Route path="/ListadoDietas" element={<ListadoDietas/>}></Route>
+        <Route path="/MainPage" element={<MainPage/>}></Route>
+        <Route path="/Perfil" element={<PerfilPage/>}></Route>
       </Routes>
     </BrowserRouter>
   )

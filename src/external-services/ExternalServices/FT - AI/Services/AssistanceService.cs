@@ -2,13 +2,18 @@
 using FTAI.Interfaces;
 using FTAI.ViewModels;
 using FTAI.Logging;
-using Microsoft.Extensions.Logging;
 using OpenAI_API.Chat;
 using OpenAI_API.Models;
 using OpenAI_API.Moderation;
 
 namespace FTAI.Services
 {
+    public class UserConversation
+    {
+        public string UserName { get; set; } = string.Empty;
+        public Conversation? Conversation { get; set; }
+    }
+
     public class AssistanceService : IAssistanceService
     {
         #region Properties
@@ -17,7 +22,15 @@ namespace FTAI.Services
         /// </summary>
         private readonly ILogger _logger;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly string? _authKey = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private static List<UserConversation> _activeConversation = [];
 
         #endregion
 
@@ -36,31 +49,30 @@ namespace FTAI.Services
         }
 
 
-        public async Task<ModelDebugVM> BasicCompletion(string message)
+        public async Task<ModelDebugVM> BasicCompletion(ModelDebug data)
         {
             // Setup
             var api = new OpenAI_API.OpenAIAPI();
 
             var model = Model.GPT4_Vision;  // model type
             var temperature = 0.1;          // model risks
-            var tokensLimit = 20;          // words limit
 
             // Query
             var results = await api.Chat.CreateChatCompletionAsync(new ChatRequest()
             {
                 Model = model,
                 Temperature = temperature,
-                MaxTokens = tokensLimit,
+                MaxTokens = data.MaxTokens,
                 Messages = new List<ChatMessage> {
-                    new ChatMessage(ChatMessageRole.User, message)
+                    new ChatMessage(ChatMessageRole.User, data.Message)
                 }
             });
 
             // Results debug
             _logger.LogDebug($"Got response: {results}");
-            _logger.LogDebug($"For message: {message}");
+            _logger.LogDebug($"For message: {data.Message}");
             _logger.LogDebug($"From model: {results.Model}");
-            _logger.LogDebug($"With max tokens: {tokensLimit}");
+            _logger.LogDebug($"With max tokens: {data.MaxTokens}");
 
             // File Log
             FileLogging.LogToFile(results.ToString());
@@ -87,12 +99,40 @@ namespace FTAI.Services
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="dieta"></param>
+        /// <param name="chatInfo"></param>
         /// <returns></returns>
-        public async Task<AssistantChatVM> RequestChatAssistance(RequestChatAssistantIn dieta)
+        public async Task<AssistantChatVM> StartNewChat(RequestChatAssistantIn chatInfo)
         {
             var result = new AssistantChatVM();
+            var api = new OpenAI_API.OpenAIAPI();
 
+            var conversation = api.Chat.CreateConversation();
+
+            conversation.AppendUserInput(chatInfo.Mensaje);
+            var respuesta = await conversation.GetResponseFromChatbotAsync();
+
+            var messages = conversation.Messages.ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="chatInfo"></param>
+        /// <returns></returns>
+        public async Task<AssistantChatVM> ContinueOngoingConversation(RequestChatAssistantIn chatInfo)
+        {
+            var result = new AssistantChatVM();
+            var api = new OpenAI_API.OpenAIAPI();
+
+            // Comprobar primero si ya existe un chat con el usuario
+            var conversation = api.Chat.CreateConversation();
+
+            conversation.AppendUserInput(chatInfo.Mensaje);
+            var respuesta = await conversation.GetResponseFromChatbotAsync();
+
+            var messages = conversation.Messages.ToList();
 
             return result;
         }
