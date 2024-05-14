@@ -1,5 +1,6 @@
 ﻿using FTAI.Models;
 using Newtonsoft.Json;
+using Shared.Utilities;
 
 namespace FTAI.ViewModels
 {
