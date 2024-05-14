@@ -9,7 +9,7 @@ namespace FTAI.Interfaces
         /// For debug purposes only. Uses default settings to 
         /// request respponses to the OpenAI endpoints.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="message"></param>
         /// <returns></returns>
         Task<ModelDebugVM> Get(string message);
 
@@ -17,9 +17,9 @@ namespace FTAI.Interfaces
         /// Basic chat completion, for debug purposes. Uses 100 tokens at most,
         /// so the answer might get cut if its longer. Model used is GPT 4 Turbo Vision.
         /// </summary>
-        /// <param name="message">The user message.</param>
+        /// <param name="model">The user message.</param>
         /// <returns>View model response. See: <see cref="ModelDebugVM"/></returns>
-        Task<ModelDebugVM> BasicCompletion(string message);
+        Task<ModelDebugVM> BasicCompletion(ModelDebug model);
 
         /// <summary>
         /// Request dieta.
@@ -31,9 +31,16 @@ namespace FTAI.Interfaces
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="dieta"></param>
+        /// <param name="chatInfo"></param>
         /// <returns></returns>
-        Task<AssistantChatVM> RequestChatAssistance(RequestChatAssistantIn dieta);
+        Task<AssistantChatVM> StartNewChat(RequestChatAssistantIn chatInfo);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="chatInfo"></param>
+        /// <returns></returns>
+        Task<AssistantChatVM> ContinueOngoingConversation(RequestChatAssistantIn chatInfo);
 
     }
 }

@@ -12,7 +12,6 @@ import {
 import { DebugBaseUrl } from "../../ApiRoutes.jsx"
 
 function ChatAssistancePage() {
-
     // Axios test
     axios
         .post(DebugBaseUrl)
@@ -58,7 +57,7 @@ function ChatAssistancePage() {
                 <MenuItem>Calorias diaras</MenuItem>
             </Box>
         </Container>
-        
+     
     </Box>
   );
 }
