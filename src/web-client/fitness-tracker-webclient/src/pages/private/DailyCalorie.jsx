@@ -68,8 +68,8 @@ function PerfilPage() {
                 }}
             >
                 <MenuItem>Inicio</MenuItem>
-                <MenuItem>Perfil</MenuItem>
-                <MenuItem>Hoy</MenuItem>
+                <MenuItem component='a' href='/perfil'>Perfil</MenuItem>
+                <MenuItem component='a' href='/today'>Hoy</MenuItem>
                 <MenuItem>Calorias diaras</MenuItem>
             </Box>
         </Container>
