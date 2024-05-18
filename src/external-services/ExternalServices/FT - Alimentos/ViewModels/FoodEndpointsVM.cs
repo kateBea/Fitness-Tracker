@@ -2,24 +2,45 @@
 using FTAlimentos.ModelsSvc.Nutrients;
 using FTAlimentos.ModelsSvc.Parse;
 using Newtonsoft.Json;
+using Shared.Utilities;
 
 namespace FTAlimentos.ViewModels
 {
-    public class FoodParseVM
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ResponseFoodParseVM : BaseResponse
     {
-        [JsonProperty("Result")]
         public ResponseFoodParser? Result { get; set; }
     }
 
-    public class NutrientsVM
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ResponseNutrientsVM : BaseResponse
     {
-        [JsonProperty("Result")]
         public ResponseNutrients? Result { get; set; }
     }
 
-    public class AutocompleteVM
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ResponseAutocompleteVM : BaseResponse
     {
-        [JsonProperty("Result")]
+        /// <summary>
+        /// 
+        /// </summary>
         public ResponseAutocomplete? Result { get; set; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ResponseAutocomplete
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> Coincidencias { get; set; } = [];
     }
 }

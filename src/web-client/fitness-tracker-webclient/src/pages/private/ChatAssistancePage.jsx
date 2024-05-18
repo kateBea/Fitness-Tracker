@@ -1,47 +1,140 @@
-import React from "react";
+import React from "react"
+import axios from "axios"
+
+import { TopBar } from '../../components/Topbar'
+import {
+    Container,
+    Box,
+    MenuItem,
+} from '@mui/material'
+
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
+
+// Routes
+import { API_ROUTES } from "../../ApiRoutes.jsx"
 
 function ChatAssistancePage() {
+    // Axios test
+    axios
+        .get(API_ROUTES.DebugBaseUrl)
+        .then((response) => {
+            console.log(response.data)
+        });
+
   return (
-    <div>
-      <h1>Fitness Tracker AI Assistant</h1>
-
-      <form className="container mt-3">
-        <div className="row mb-11">
-          <div className="col-sm-1">
-            <label for="nombre" className="col-sm-2 col-form-label">
-              User
-            </label>
-          </div>
-          <div className="col-sm">
-            <input
-              type="text"
-              id="user-input"
-              className="form-control"
-              placeholder="Un input del usuario"
-              aria-label="user-input"
-            ></input>
-          </div>
-        </div>
-
-        <div className="row mb-12 mt-3">
-          <div className="col-sm-1">
-            <label for="correo-electronico" className="col-sm-2 col-form-label">
-              FT Assistant
-            </label>
-          </div>
-          <div className="col-sm">
-            <input
-              type="email"
-              className="form-control"
-              id="assistant-answer"
-              placeholder="Una respuesta elaborada"
-              aria-label="assistant-answer"
-            ></input>
-          </div>
-        </div>
-
-      </form>
-    </div>
+    <Box
+        sx={{
+            display:'flex',
+            flexDirection:'column',
+            background: '#293B50',
+            minHeight: '1000px',
+            justifyContent:'start',
+            alignItems:'center'
+        }}
+    >
+        <TopBar/>
+        <Container
+            maxWidth='false'
+            sx={{
+                display:'flex',
+                justifyContent: 'center',
+                alignContent:'center',
+                alignItems:'center',
+                height:'40px',
+                background:'#869CB5'
+            }}
+        >
+            <Box 
+                sx={{
+                    display:'flex',
+                    justifyContent: 'flex-end',
+                    alignContent:'right',
+                    alignItems:'center',
+                    color:'#FFF'
+                }}
+            >
+                <MenuItem>Inicio</MenuItem>
+                <MenuItem>Perfil</MenuItem>
+                <MenuItem>Hoy</MenuItem>
+                <MenuItem>Calorias diaras</MenuItem>
+            </Box>
+        </Container>
+        <Container>
+        <List sx={{ width: '100%', maxWidth: 1200, marginTop: 5}}>
+      <ListItem alignItems="flex-start" sx={{ marginTop: 5,  bgcolor: 'background.paper', borderRadius: 2}}>
+        <ListItemAvatar>
+          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        </ListItemAvatar>
+        <ListItemText
+          primary="Username"
+          secondary={
+            <React.Fragment>
+              <Typography
+                sx={{ display: 'inline' }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                Assistant
+              </Typography>
+              {" — I'll be in your neighborhood doing errands this…"}
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem alignItems="flex-start" sx={{ marginTop: 5,  bgcolor: 'background.paper', borderRadius: 2}}>
+        <ListItemAvatar>
+          <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+        </ListItemAvatar>
+        <ListItemText
+          primary="Assistant"
+          secondary={
+            <React.Fragment>
+              <Typography
+                sx={{ display: 'inline' }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                {"22 de abril"}
+              </Typography>
+              {" — Wish I could come, but I'm out of town this…"}
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+      <Divider variant="inset" component="li" />
+      <ListItem alignItems="flex-start" sx={{ marginTop: 5,  bgcolor: 'background.paper', borderRadius: 2}}>
+        <ListItemAvatar>
+          <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+        </ListItemAvatar>
+        <ListItemText
+          primary="Username"
+          secondary={
+            <React.Fragment>
+              <Typography
+                sx={{ display: 'inline' }}
+                component="span"
+                variant="body2"
+                color="text.primary"
+              >
+                Sandra Adams
+              </Typography>
+              {' — Do you have Paris recommendations? Have you ever…'}
+            </React.Fragment>
+          }
+        />
+      </ListItem>
+    </List>
+        </Container>
+    </Box>
   );
 }
 

@@ -42,7 +42,7 @@ Preferencias de Distribución de Macronutrientes:
 Calorías Diarias Deseadas: [Campo de texto para especificar la cantidad de calorías deseadas por día]
 
 
-*Estilo de Vida y Rutina Diaria =================================================
+* Estilo de Vida y Rutina Diaria =================================================
 
 Horario de Comidas Preferido: [Campo de texto o casillas de verificación para especificar los horarios preferidos para cada comida]
 Tiempo Disponible para Cocinar: [Menú desplegable: Menos de 30 minutos / 30-60 minutos / Más de 60 minutos]

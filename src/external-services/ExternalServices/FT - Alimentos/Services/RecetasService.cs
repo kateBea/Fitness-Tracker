@@ -8,6 +8,7 @@ using System.Web;
 using Newtonsoft.Json;
 using FTAlimentos.ModelsSvc.SearchByCriteria;
 using FTAlimentos.ModelsSvc.SearchRecipe;
+using AutoMapper;
 
 namespace FTAlimentos.Services
 {
@@ -23,11 +24,14 @@ namespace FTAlimentos.Services
 
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
+        private readonly IMapper _mapper;
         #endregion
 
-        public RecetasService(IConfiguration configuration)
+        public RecetasService(IConfiguration configuration, IMapper mapper)
         {
             _configuration = configuration;
+
+            _mapper = mapper;
 
             _applicationId = _configuration.GetSection("ApplicationRecipeId").Value;
             _applicationKey = _configuration.GetSection("ApplicationRecipeKey").Value;
