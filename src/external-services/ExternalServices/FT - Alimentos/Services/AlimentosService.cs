@@ -12,21 +12,29 @@ using System.Web;
 
 namespace FTAlimentos.Services
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class AlimentosService : IAlimentosService
     {
         #region Properties
         private string? _applicationId = string.Empty;
         private string? _applicationKey = string.Empty;
 
-        private KeyValuePair<string, string>? _foodRequestParse;
-        private KeyValuePair<string, string>? _foodRequestNutrients;
-        private KeyValuePair<string, string>? _foodRequestAutocomplete;
+        private KeyValuePair<string?, string> _foodRequestParse = new();
+        private KeyValuePair<string?, string> _foodRequestNutrients = new();
+        private KeyValuePair<string?, string> _foodRequestAutocomplete = new();
 
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
         #endregion
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="mapper"></param>
         public AlimentosService(IConfiguration configuration, IMapper mapper)
         {
 
@@ -46,9 +54,14 @@ namespace FTAlimentos.Services
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public async Task<FoodParseVM> Parse(string? prompt)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="prompt"></param>
+        /// <returns></returns>
+        public async Task<ResponseFoodParseVM> Parse(string? prompt)
         {
-            var uriBuilder = _SetBaseParams(_foodRequestParse.GetValueOrDefault().Key);
+            var uriBuilder = _SetBaseParams(_foodRequestParse.Key ?? string.Empty);
 
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
@@ -65,18 +78,23 @@ namespace FTAlimentos.Services
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseFoodParser>(json);
-                return new FoodParseVM() { Result = parsed };
+                return new ResponseFoodParseVM() { Result = parsed };
             }
 
-            return new FoodParseVM();
+            return new ResponseFoodParseVM();
         }
-       
-        public async Task<NutrientsVM> Nutrients(string? prompt)
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="foodId"></param>
+        /// <returns></returns>
+        public async Task<ResponseNutrientsVM> GetNutrients(string? foodId)
         {
-            string finalUrl = _SetBaseParams(_foodRequestNutrients.GetValueOrDefault().Key).ToString();
+            string finalUrl = _SetBaseParams(_foodRequestNutrients.Key ?? string.Empty).ToString();
 
             var obj = new RequestNutrients();
-            obj.Ingredients.Add(new IngredientInfo() { FoodId = "food_a6k79rrahp8fe2b26zussa3wtkqh" });
+            obj.Ingredients.Add(new IngredientInfo() { FoodId = foodId });
 
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -86,15 +104,15 @@ namespace FTAlimentos.Services
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseNutrients>(json);
-                return new NutrientsVM() { Result = parsed };
+                return new ResponseNutrientsVM() { Result = parsed };
             }
 
-            return new NutrientsVM();
+            return new ResponseNutrientsVM();
         }
 
-        public async Task<AutocompleteVM> Autocomplete(string? prompt)
+        public async Task<ResponseAutocompleteVM> Autocomplete(string? prompt)
         {
-            var uriBuilder = _SetBaseParams(_foodRequestAutocomplete.GetValueOrDefault().Key);
+            var uriBuilder = _SetBaseParams(_foodRequestAutocomplete.Key ?? string.Empty);
 
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
 
@@ -108,11 +126,11 @@ namespace FTAlimentos.Services
             if (result.IsSuccessStatusCode)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<List<string>>(json);
-                return new AutocompleteVM() { Result = new ResponseAutocomplete() { Results = parsed } };
+                var parsed = JsonConvert.DeserializeObject<List<string>>(json) ?? [];
+                return new ResponseAutocompleteVM() { Result = new ResponseAutocomplete() { Coincidencias = parsed } };
             }
 
-            return new AutocompleteVM();
+            return new ResponseAutocompleteVM();
         }
 
         #region Private Methods

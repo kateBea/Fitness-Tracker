@@ -3,48 +3,75 @@ using Shared.Utilities;
 
 namespace FTAI.Models
 {
-    public class RequestDietaIn : BaseRequest
+    /// <summary>
+    /// 
+    /// </summary>
+    public class RequestGenerarDieta : BaseRequest
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime FechaNacimiento { get; set; } = DateTime.Now;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Sexo { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Altura en centímetros.
+        /// </summary>
+        public int Altura { get; set; }
+
+        /// <summary>
+        /// Nivel de actividad física.
+        /// </summary>
+        public string NivelActividadFisica { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? ObjetivoPrincipal { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public double TargetCalories { get; set; } = 0.0f;
+
+        /// <summary>
+        /// Probablemente se cambiará a una lista de strings, conteniendo las restricciones alimenticias:
+        /// Vegetariano / Vegano / Sin Gluten / Sin Lácteos / Sin Frutos Secos
+        /// </summary>
+        public string? RestricionesAlimenticias { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? HabilidadCulinaria { get; set; } = string.Empty;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string? ComentariosAdicionales { get; set; } = string.Empty;
+
         /// <summary>
         /// Fecha de inicio de la dieta.
         /// </summary>
-        [JsonProperty("fecha_inicio")]
         public DateTime FechaInicio { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Fecha de finalización de la dieta.
         /// </summary>
-        [JsonProperty("fecha_fin")]
         public DateTime FechaFin { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Consuma de agua diario en litros.
         /// </summary>
-        [JsonProperty("consumo_agua")]
-        public float ConsumoAgua = 0.0f;
+        public double ConsumoAgua = 0.0f;
 
         /// <summary>
         /// Comidas preferidas para esta dieta.
         /// </summary>
-        [JsonProperty("comidas")]
-        public List<ComidaIn> ComidasSugeridas { get; set; } = [];
-    }
-
-    public class ComidaIn
-    {
-        [JsonProperty("nombre")]
-        public string? Nombre { get; set; } = string.Empty;
-
-        [JsonProperty("descripcion")]
-        public string? Descripcion { get; set; } = string.Empty;
-
-        [JsonProperty("unidades")]
-        public int Unidades { get; set; } = 0;
-
-        [JsonProperty("calorias_generadas")]
-        public float CaloiasGeneradas { get; set; } = 0.0f;
-
-        [JsonProperty("vitaminas")]
-        public List<string> Vitaminas { get; set; } = [];
+        public List<ComidaDieta> PreferenciasAlimenticias { get; set; } = [];
     }
 }

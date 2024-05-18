@@ -1,3 +1,8 @@
+using FluentValidation;
+using FT___Base.Interfaces;
+using FT___Base.Models;
+using FT___Base.Services;
+using FT___Base.Validators;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +19,26 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
+
+// Add services
+builder.Services.AddScoped<IBaseServices, BaseServices>();
+
+// Add validators
+builder.Services.AddScoped<IValidator<RequestRegistrarUsuario>, RegisterUsuarioValidator>();
+builder.Services.AddScoped<IValidator<RequestCambiarPassword>, CambiarPasswordValidator>();
+
+builder.Services.AddScoped<IValidator<RequestRegistrarDieta>, RequestRegistrarDietaValidator>();
+builder.Services.AddScoped<IValidator<RequestModificarDieta>, RequestModificarDietaValidator>();
+builder.Services.AddScoped<IValidator<RequestGetDatosUsuario>, RequestGetDatosUsuarioValidator>();
+builder.Services.AddScoped<IValidator<RequestModificarDatosUsuario>, RequestModificarDatosUsuarioValidator>();
+builder.Services.AddScoped<IValidator<RequestGetListDietasDeUsuario>, RequestGetListDietasDeUsuarioValidator>();
+builder.Services.AddScoped<IValidator<RequestGetDietaDeUsuario>, RequestGetDietaDeUsuarioValidator>();
+builder.Services.AddScoped<IValidator<RequestGetRutinaPorId>, RequestGetRutinaPorIdValidator>();
+builder.Services.AddScoped<IValidator<RequestModificarRutina>, RequestModificarRutinaValidator>();
+builder.Services.AddScoped<IValidator<RequestGetListRutinasUsuario>, RequestGetListRutinasUsuarioValidator>();
+
+// Mappings
+builder.Services.AddAutoMapper(typeof(BaseServices));   
 
 var app = builder.Build();
 

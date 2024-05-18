@@ -10,9 +10,9 @@ namespace FTAlimentos.Mappeing
     {
         public AlimentosMapperProfiles()
         {
-            CreateMap<ResponseNutrients, NutrientsVM >();
-            CreateMap<ResponseFoodParser, FoodParseVM >();
-            CreateMap<ResponseAutocomplete, AutocompleteVM>();
+            CreateMap<ResponseNutrients, ResponseNutrientsVM >();
+            CreateMap<ResponseFoodParser, ResponseFoodParseVM >();
+            CreateMap<ResponseAutocomplete, ResponseAutocompleteVM>();
         }
     }
 }

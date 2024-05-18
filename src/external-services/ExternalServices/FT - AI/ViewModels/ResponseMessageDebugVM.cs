@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FTAI.ViewModels
 {
-    public class ModelDebugVM : BaseResponse
+    public class ResponseMessageDebugVM : BaseResponse
     {
         [JsonProperty("result")]
         public string? Result { get; set; } = string.Empty;

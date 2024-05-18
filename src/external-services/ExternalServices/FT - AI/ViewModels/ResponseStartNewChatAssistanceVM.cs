@@ -3,7 +3,7 @@ using Shared.Utilities;
 
 namespace FTAI.ViewModels
 {
-    public class AssistantChatVM : BaseResponse
+    public class ResponseStartNewChatAssistanceVM : BaseResponse
     {
         public string RespuestaActual { get; set; } = string.Empty;
         public List<Message> Mensajes { get; set; } = [];

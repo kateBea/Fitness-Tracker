@@ -1,6 +1,8 @@
-﻿namespace FT___Base.ViewModels
+﻿using Shared.Utilities;
+
+namespace FT___Base.ViewModels
 {
-    public class ResponseGetRutinaPorIdVM
+    public class ResponseGetRutinaPorIdVM : BaseResponse
     {
     }
 }

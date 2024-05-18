@@ -20,14 +20,12 @@ namespace FTAlimentos.Controllers.v1
             _recetasService = recetasService;
         }
 
-        #region Edadam Responses
-
         /// <summary>
         /// Request a text message response to the GPT 4 Vision model.
         /// Has no token limit, use carfully if you do not want a large response.
         /// </summary>
         /// <param name="criteria">The message to be sent.</param>
-        /// <returns>View model response. See: <see cref="SearchRecipeVM"/></returns>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="SearchRecipeVM"/></returns>
         [HttpGet("GetRecipeByCriteria")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SearchRecipeVM))]
@@ -72,7 +70,5 @@ namespace FTAlimentos.Controllers.v1
             var result = await _recetasService.GetRecipeByUri(uri);
             return Ok(result);
         }
-
-        #endregion
     }
 }
