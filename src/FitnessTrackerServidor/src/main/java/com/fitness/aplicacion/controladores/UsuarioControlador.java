@@ -2,6 +2,7 @@ package com.fitness.aplicacion.controladores;
 
 import java.util.Optional;
 
+import com.fitness.aplicacion.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fitness.aplicacion.dto.UsuarioInfo;
-import com.fitness.aplicacion.dto.UsuarioInsertar;
-import com.fitness.aplicacion.dto.UsuarioVerificar;
 import com.fitness.aplicacion.servicio.UsuarioServicioImpl;
 
 @RestController
@@ -43,15 +41,15 @@ public class UsuarioControlador {
 	
 	// Peticion para verificar las credenciales de inicio de sesión
 	@PostMapping("verificar")
-	public ResponseEntity<Boolean> verificar(@RequestBody UsuarioVerificar user){
+	public ResponseEntity<UsuarioInfo> verificar(@RequestBody UsuarioVerificar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<UsuarioInfo>(HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para verificar las credenciales del usuario
-		Boolean resultado = DAOS.verificarUsuario(user);
+		Optional<UsuarioInfo> resultado = DAOS.verificarUsuario(user);
 		
 		// Si la verificación fue exitosa, cambia la respuesta a OK
-		if(resultado)
-			respuesta = ResponseEntity.ok(true);
+		if(resultado.isPresent())
+			respuesta = ResponseEntity.ok(resultado.get());
 
 		return respuesta;
 	}
@@ -98,6 +96,95 @@ public class UsuarioControlador {
 
 		return respuesta;
 	}
-	
+
+	@PutMapping("cambiarpassword")
+	ResponseEntity<ResponseCambiarPassword> cambiarPassword(@RequestBody RequestCambiarPassword model) {
+		ResponseCambiarPassword data = null;
+		ResponseEntity<ResponseCambiarPassword> response = null;
+
+		var result = DAOS.cambiarPassword(model);
+		data = ResponseCambiarPassword
+				.builder()
+				.success(result)
+				.build();
+
+		response = new ResponseEntity<>(data, HttpStatus.OK);
+
+		return response;
+	}
+
+	@PostMapping("registrardieta")
+	ResponseEntity<ResponseRegistrarDieta> registrarDieta(@RequestBody RequestRegistrarDieta model) {
+		ResponseEntity<ResponseRegistrarDieta> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+
+		return response;
+	}
+
+	@PutMapping("modificardieta")
+	ResponseEntity<ResponseModificarDieta> modificarDieta(@RequestBody RequestModificarDieta model) {
+		ResponseEntity<ResponseModificarDieta> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+
+		return response;
+	}
+
+	@PostMapping("getdatosusuario")
+	ResponseEntity<ResponseGetDatosUsuario> getDatos(@RequestBody RequestGetDatosUsuario model) {
+		ResponseEntity<ResponseGetDatosUsuario> response = new ResponseEntity<>(HttpStatus.OK);
+
+		return response;
+	}
+
+	@PutMapping("modificardatosusuario")
+	ResponseEntity<ResponseModificarDatosUsuario> borrar(@RequestBody RequestModificarDatosUsuario model) {
+		ResponseEntity<ResponseModificarDatosUsuario> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+		return response;
+	}
+
+	@PostMapping("getdietausuario")
+	ResponseEntity<ResponseGetDietaUsuario> getDieta(@RequestBody RequestGetDietaUsuario model) {
+		ResponseEntity<ResponseGetDietaUsuario> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+		return response;
+	}
+
+	@PutMapping("modificarrutina")
+	ResponseEntity<ResponseModificarRutina> modificarRutina(@RequestBody RequestModificarRutina model) {
+		ResponseEntity<ResponseModificarRutina> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+
+		return response;
+	}
+
+	@PostMapping("getlistdietasusuario")
+	ResponseEntity<ResponseGetListDietas> getListDietas(@RequestBody RequestGetListDietas model) {
+		ResponseEntity<ResponseGetListDietas> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+		return response;
+	}
+
+	@PostMapping("getrutina")
+	ResponseEntity<ResponseGetRutina> getRutina(@RequestBody RequestGetRutina model) {
+		ResponseEntity<ResponseGetRutina> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+		return response;
+	}
+
+	@PostMapping("getlistrutinas")
+	ResponseEntity<ResponseGetListRutinas> getListRutinas(@RequestBody RequestGetListRutinas model) {
+		ResponseEntity<ResponseGetListRutinas> response = new ResponseEntity<>(HttpStatus.OK);
+
+
+		return response;
+	}
 	
 }

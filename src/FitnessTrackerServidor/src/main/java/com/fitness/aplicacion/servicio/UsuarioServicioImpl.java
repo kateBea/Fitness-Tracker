@@ -2,6 +2,7 @@ package com.fitness.aplicacion.servicio;
 
 import java.util.Optional;
 
+import com.fitness.aplicacion.dto.RequestCambiarPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     // Método para verificar las credenciales de un usuario durante el inicio de sesión
     @Override
-    public Boolean verificarUsuario(UsuarioVerificar user) {
+    public Optional<UsuarioInfo> verificarUsuario(UsuarioVerificar user) {
         // Buscar el usuario en la base de datos por su correo electrónico
         Optional<Usuario> userDB = DAOS.findById(user.getEmail());
         boolean verificado = false;
@@ -58,9 +59,17 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         if(userDB.isPresent()) {
             // Verificar si la contraseña proporcionada coincide con la contraseña cifrada almacenada
             verificado = cifrar.matches(user.getContrasena(), userDB.get().getContrasena());
+            
+            if(!verificado) {
+            	userDB = Optional.empty();
+            }
+        }else {
+        	userDB = Optional.empty();
         }
         
-        return verificado;
+        Optional<UsuarioInfo> userAct = Optional.of(ObjectMapperUtils.map(userDB, UsuarioInfo.class));
+        
+        return userAct;
     }
 
     // Método para obtener la información de un usuario por su correo electrónico
@@ -121,5 +130,10 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
         
         return exito;
+    }
+
+    @Override
+    public boolean cambiarPassword(RequestCambiarPassword model) {
+        return false;
     }
 }
