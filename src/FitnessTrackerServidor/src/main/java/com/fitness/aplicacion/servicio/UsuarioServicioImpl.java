@@ -14,6 +14,8 @@ import com.fitness.aplicacion.dto.UsuarioVerificar;
 import com.fitness.aplicacion.mapeo.ObjectMapperUtils;
 import com.fitness.aplicacion.repositorio.IUsuarioRepositorio;
 
+import javax.swing.text.html.Option;
+
 @Service
 public class UsuarioServicioImpl implements IUsuarioServicio {
 
@@ -46,6 +48,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
         
         return introducido;
+    }
+
+    @Override
+    public Optional<Usuario> insertarDebug(Usuario user) {
+        return Optional.of(DAOS.insert(user));
     }
 
     // Método para verificar las credenciales de un usuario durante el inicio de sesión

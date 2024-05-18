@@ -3,7 +3,9 @@ package com.fitness.aplicacion.controladores;
 import java.util.Optional;
 
 import com.fitness.aplicacion.dto.*;
+import com.fitness.aplicacion.servicio.IUsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,14 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fitness.aplicacion.servicio.UsuarioServicioImpl;
-
 @RestController
 @RequestMapping("api/fitnesstracker")
 public class UsuarioControlador {
-	
+
 	@Autowired // Inyección de dependencia del servicio de usuario
-	UsuarioServicioImpl DAOS;
+	@Qualifier("usuarioServicioImpl")
+	IUsuarioServicio usuarioServicio;
 	
 	// Peticion para insertar un nuevo usuario
 	@PostMapping("insertar")
@@ -30,7 +31,7 @@ public class UsuarioControlador {
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para insertar un usuario
-		Boolean resultado = DAOS.insertarUsuario(user);
+		Boolean resultado = usuarioServicio.insertarUsuario(user);
 
 		// Si la inserción fue exitosa, cambia la respuesta a OK
 		if(resultado)
@@ -45,7 +46,7 @@ public class UsuarioControlador {
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<UsuarioInfo>(HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para verificar las credenciales del usuario
-		Optional<UsuarioInfo> resultado = DAOS.verificarUsuario(user);
+		Optional<UsuarioInfo> resultado = usuarioServicio.verificarUsuario(user);
 		
 		// Si la verificación fue exitosa, cambia la respuesta a OK
 		if(resultado.isPresent())
@@ -60,7 +61,7 @@ public class UsuarioControlador {
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<UsuarioInfo>(HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para obtener información del usuario
-		Optional<UsuarioInfo> resultado = DAOS.informacionUsuario(email);
+		Optional<UsuarioInfo> resultado = usuarioServicio.informacionUsuario(email);
 
 		// Si se encuentra la información del usuario, cambia la respuesta a Accepted
 		if(resultado.isPresent())
@@ -74,7 +75,7 @@ public class UsuarioControlador {
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para actualizar el usuario
-		Boolean resultado = DAOS.actualizarUsuario(user);
+		Boolean resultado = usuarioServicio.actualizarUsuario(user);
 		
 		// Si la verificación fue exitosa, cambia la respuesta a OK
 		if(resultado)
@@ -88,7 +89,7 @@ public class UsuarioControlador {
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para borrar el usuario
-		Boolean resultado = DAOS.borrarUsuario(user);
+		Boolean resultado = usuarioServicio.borrarUsuario(user);
 		
 		// Si la verificación fue exitosa, cambia la respuesta a OK
 		if(resultado)
@@ -102,7 +103,7 @@ public class UsuarioControlador {
 		ResponseCambiarPassword data = null;
 		ResponseEntity<ResponseCambiarPassword> response = null;
 
-		var result = DAOS.cambiarPassword(model);
+		var result = usuarioServicio.cambiarPassword(model);
 		data = ResponseCambiarPassword
 				.builder()
 				.success(result)

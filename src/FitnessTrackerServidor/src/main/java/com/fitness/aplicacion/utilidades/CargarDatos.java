@@ -256,10 +256,10 @@ public class CargarDatos implements CommandLineRunner {
                 ))
                 .build();
 
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente1, UsuarioInsertar.class));
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente2, UsuarioInsertar.class));
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente3, UsuarioInsertar.class));
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente4, UsuarioInsertar.class));
+        usuarioServicio.insertarDebug(cliente1);
+        usuarioServicio.insertarDebug(cliente2);
+        usuarioServicio.insertarDebug(cliente3);
+        usuarioServicio.insertarDebug(cliente4);
 
         System.out.println("Insertado cliente nuevo");
     }
