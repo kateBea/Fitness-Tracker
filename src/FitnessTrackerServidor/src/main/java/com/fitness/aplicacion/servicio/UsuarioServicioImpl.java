@@ -2,6 +2,7 @@ package com.fitness.aplicacion.servicio;
 
 import java.util.Optional;
 
+import com.fitness.aplicacion.dto.RequestCambiarPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -129,5 +130,10 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
         
         return exito;
+    }
+
+    @Override
+    public boolean cambiarPassword(RequestCambiarPassword model) {
+        return false;
     }
 }
