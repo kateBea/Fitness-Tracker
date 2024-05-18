@@ -8,12 +8,13 @@ import MainPage from './pages/private/MainPage.jsx'
 import PerfilPage from './pages/private/PerfilPage.jsx'
 import DailyPage from './pages/private/DailyPage.jsx'
 import DailyCalorie from './pages/private/DailyCalorie.jsx'
-import EditarDieta from './pages/private/EditDietaPage.jsx'
+import EditarDieta from './pages/private/VisualizarDietaPage.jsx'
 import ListadoDietas from './pages/private/ListadoDietasPage.jsx'
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ListadoRutinasPage from './pages/private/ListadoRutinasPage.jsx'
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
         <Route path="/GenerarDieta" element={<DietGeneratorPage/>}></Route>
         <Route path="/EditarDieta" element={<EditarDieta/>}></Route>
         <Route path="/ListadoDietas" element={<ListadoDietas/>}></Route>
+        <Route path="/ListadoRutinas" element={<ListadoRutinasPage/>}></Route>
         <Route path="/MainPage" element={<MainPage/>}></Route>
         <Route path="/Perfil" element={<PerfilPage/>}></Route>
       </Routes>

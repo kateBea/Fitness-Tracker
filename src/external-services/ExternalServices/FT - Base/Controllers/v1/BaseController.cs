@@ -1,4 +1,5 @@
-﻿using FT___Base.Interfaces;
+﻿using FluentValidation;
+using FT___Base.Interfaces;
 using FT___Base.Models;
 using FT___Base.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -6,20 +7,45 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FT___Base.Controllers.v1
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="baseServices"></param>
+    /// <param name="validatorRegistrarUsuario"></param>
     [ApiController]
     [Route("[controller]")]
-    public class BaseController : ControllerBase
+    public class BaseController(IBaseServices baseServices,
+        IValidator<RequestRegistrarUsuario> validatorRegistrarUsuario,
+        IValidator<RequestCambiarPassword> validatorCambiarPassword,
+        IValidator<RequestRegistrarDieta> validatorRegistrarDieta,
+        IValidator<RequestModificarDieta> validatorModificarDieta,
+        IValidator<RequestGetDatosUsuario> validatorGetDatosUsuario,
+        IValidator<RequestModificarDatosUsuario> validatorModificarDatosUsuario,
+        IValidator<RequestGetListDietasDeUsuario> validatorGetListDietasDeUsuario,
+        IValidator<RequestGetDietaDeUsuario> validatorGetDietaDeUsuario,
+        IValidator<RequestGetRutinaPorId> validatorGetRutinaPorId,
+        IValidator<RequestModificarRutina> validatorModificarRutina,
+        IValidator<RequestGetListRutinasUsuario> validatorGetListRutinasUsuario) : ControllerBase
     {
         #region Properties
+        private readonly IValidator<RequestRegistrarUsuario> _validatorRegistrarUsuario = validatorRegistrarUsuario;
+        private readonly IValidator<RequestCambiarPassword> _validatorCambiarPassword = validatorCambiarPassword;
 
-        private readonly IBaseServices _baseServices;
+        private readonly IValidator<RequestRegistrarDieta> _validatorRegistrarDieta = validatorRegistrarDieta;
+        private readonly IValidator<RequestModificarDieta> _validatorModificarDieta = validatorModificarDieta;
+        private readonly IValidator<RequestGetDatosUsuario> _validatorGetDatosUsuario = validatorGetDatosUsuario;
+        private readonly IValidator<RequestModificarDatosUsuario> _validatorModificarDatosUsuario = validatorModificarDatosUsuario;
+        private readonly IValidator<RequestGetListDietasDeUsuario> _validatorGetListDietasDeUsuario = validatorGetListDietasDeUsuario;
+        private readonly IValidator<RequestGetDietaDeUsuario> _validatorGetDietaDeUsuario = validatorGetDietaDeUsuario;
+        private readonly IValidator<RequestGetRutinaPorId> _validatorGetRutinaPorId = validatorGetRutinaPorId;
+        private readonly IValidator<RequestModificarRutina> _validatorModificarRutina = validatorModificarRutina;
+        private readonly IValidator<RequestGetListRutinasUsuario> _validatorGetListRutinasUsuario = validatorGetListRutinasUsuario;
+
+
+
+        private readonly IBaseServices _baseServices = baseServices;
 
         #endregion
-
-        public BaseController(IBaseServices baseServices)
-        {
-            _baseServices = baseServices;
-        }
 
         /// <summary>
         /// Endpoint para solicitar iniciar sesión.
@@ -47,26 +73,38 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseRegisterVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseRegisterVM>> Register([FromBody] RequestRegister model)
+        public async Task<ActionResult<ResponseRegisterVM>> Register([FromBody] RequestRegistrarUsuario model)
         {
-            var result = await _baseServices.Register(model);
-            return Ok(result);
+            var result = _validatorRegistrarUsuario.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.Register(model);
+            return Ok(response);
         }
 
         /// <summary>
-        /// Endpoint para cambiar la contraseña de un usuario.
+        /// Cambiar la contraseña de un usuario.
         /// </summary>
         /// <param name="model">Información para cambiar la contraseña solicitada</param>
-        /// <returns>Respuesta del modelo de vista de cambio de contraseña. Ver: <see cref="ResponseCambiasPasswordVM"/></returns>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseCambiarPasswordVM"/></returns>
         [HttpPut("CambiarPassword")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseCambiasPasswordVM))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseCambiarPasswordVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseCambiasPasswordVM>> CambiarPassword([FromBody] RequestCambiasPassword model)
+        public async Task<ActionResult<ResponseCambiarPasswordVM>> CambiarPassword([FromBody] RequestCambiarPassword model)
         {
-            var result = await _baseServices.CambiarPassword(model);
-            return Ok(result);
+            var result = _validatorCambiarPassword.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.CambiarPassword(model);
+            return Ok(response);
         }
 
         /// <summary>
@@ -79,26 +117,82 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseRegistrarDietaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseRegistrarDietaVM>> RegistrarDieta([FromBody] RquestRegistrarDieta model)
+        public async Task<ActionResult<ResponseRegistrarDietaVM>> RegistrarDieta([FromBody] RequestRegistrarDieta model)
         {
-            var result = await _baseServices.RegistrarDieta(model);
-            return Ok(result);
+            var result = _validatorRegistrarDieta.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.RegistrarDieta(model);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Modifica una nueva dieta.
+        /// </summary>
+        /// <param name="model">Los detalles de la dieta a modificar.</param>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModifcarDietaVM"/></returns>
+        [HttpPut("ModificarDieta")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModifcarDietaVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ResponseModifcarDietaVM>> ModificarDieta([FromBody] RequestModificarDieta model)
+        {
+            var result = _validatorModificarDieta.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.ModificarDieta(model);
+            return Ok(response);
         }
 
         /// <summary>
         /// Obtiene los datos del usuario.
         /// </summary>
         /// <param name="model">La solicitud para obtener los datos del usuario.</param>
-        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetDatosUsuario"/></returns>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetDatosUsuarioVM"/></returns>
         [HttpGet("GetDatosUsuario")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetDatosUsuario))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetDatosUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseGetDatosUsuario>> GetDatosUsuario([FromBody] RequestGetDatosUsuario model)
+        public async Task<ActionResult<ResponseGetDatosUsuarioVM>> GetDatosUsuario([FromBody] RequestGetDatosUsuario model)
         {
-            var result = await _baseServices.GetDatosUsuario(model);
-            return Ok(result);
+            var result = _validatorGetDatosUsuario.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.GetDatosUsuario(model);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Modifica los datos del usuario.
+        /// </summary>
+        /// <param name="model">La solicitud para modificar los datos del usuario.</param>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModificarDatosUsuarioVM"/></returns>
+        [HttpPut("ModificarDatosUsuario")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModificarDatosUsuarioVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ResponseModificarDatosUsuarioVM>> ModificarDatosUsuario([FromBody] RequestModificarDatosUsuario model)
+        {
+            var result = _validatorModificarDatosUsuario.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.ModificarDatosUsuario(model);
+            return Ok(response);
         }
 
         /// <summary>
@@ -113,8 +207,14 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ResponseRequestGetListDietasDeUsuarioVM>> GetListDietasDeUsuario([FromBody] RequestGetListDietasDeUsuario model)
         {
-            var result = await _baseServices.GetListDietasDeUsuario(model);
-            return Ok(result);
+            var result = _validatorGetListDietasDeUsuario.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.GetListDietasDeUsuario(model);
+            return Ok(response);
         }
 
         /// <summary>
@@ -129,24 +229,58 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ResponseGetDietaDeUsuarioVM>> GetDietaDeUsuario([FromQuery] RequestGetDietaDeUsuario model)
         {
-            var result = await _baseServices.GetDietaDeUsuario(model);
-            return Ok(result);
+            var result = _validatorGetDietaDeUsuario.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.GetDietaUsuario(model);
+            return Ok(response);
         }
 
         /// <summary>
         /// Obtiene los datos de la rutina de actividad física y alimentación del usuario identificada por su ID.
         /// </summary>
-        /// <param name="model">Datos de solicitud para obtener la rutina por su ID.</param>
-        /// <returns>Respuesta del modelo de vista que contiene los detalles de la rutina. Ver: <see cref="ResponseGetRutinaPorIdVM"/></returns>
+        /// <param name="model">Datos de solicitud para obtener la rutina.</param>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetRutinaPorIdVM"/></returns>
         [HttpGet("GetRutinaPorId")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetRutinaPorIdVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ResponseGetRutinaPorIdVM>> GetRutinaPorId([FromBody] RequestGetRutinaPorId model)
         {
-            var result = await _baseServices.GetRutinaPorId(model);
-            return Ok(result);
+            var result = _validatorGetRutinaPorId.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.GetRutinaPorId(model);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Actualiza los datos de la rutina de actividad física y alimentación del usuario identificada por su ID.
+        /// </summary>
+        /// <param name="model">Datos de solicitud para modificar la rutina.</param>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModificarRutinaVM"/></returns>
+        [HttpGet("ModificarRutina")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModificarRutinaVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ResponseModificarRutinaVM>> ModificarRutina([FromBody] RequestModificarRutina model)
+        {
+            var result = _validatorModificarRutina.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.ModificarRutina(model);
+            return Ok(response);
         }
 
         /// <summary>
@@ -157,7 +291,7 @@ namespace FT___Base.Controllers.v1
         /// es retornar todas las rutinas. Si se decide en un rango de fechas por defecto se recogen las de los últimos cinco días.
         /// </remarks>
         /// <param name="model">Datos de solicitud para obtener las rutinas del usuario.</param>
-        /// <returns>Respuesta del modelo de vista que contiene las rutinas del usuario. Ver: <see cref="ResponseGetListRutinasUsuarioVM"/></returns>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetListRutinasUsuarioVM"/></returns>
         [HttpGet("GetListRutinasUsuario")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetListRutinasUsuarioVM))]
@@ -165,10 +299,14 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ResponseGetListRutinasUsuarioVM>> GetListRutinasUsuario([FromBody] RequestGetListRutinasUsuario model)
         {
+            var result = _validatorGetListRutinasUsuario.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
 
-            var result = await _baseServices.GetListRutinasUsuario(model);
-            
-            return Ok(result);
+            var response = await _baseServices.GetListRutinasUsuario(model);
+            return Ok(response);
         }
     }
 }

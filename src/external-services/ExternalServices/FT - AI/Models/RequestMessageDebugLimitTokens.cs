@@ -3,7 +3,7 @@
     /// <summary>
     /// This model is only used for debug purposes.
     /// </summary>
-    public class ModelDebug
+    public class RequestMessageDebugLimitTokens
     {
         /// <summary>
         /// Message to send.

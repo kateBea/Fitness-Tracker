@@ -7,30 +7,32 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FTAlimentos.Controllers.v1
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="alimentosService"></param>
     [ApiController]
     [Route("[controller]")]
-    public class AlimentosController : ControllerBase
+    public class AlimentosController(IAlimentosService alimentosService) : ControllerBase
     {
-        private readonly IAlimentosService _alimentosService;
+        #region Properties
 
-        public AlimentosController(IAlimentosService alimentosService)
-        {
-            _alimentosService = alimentosService;
-        }
+        private readonly IAlimentosService _alimentosService = alimentosService;
 
-        #region Edadam Responses
+        #endregion
+
         /// <summary>
         /// Request a text message response to the GPT 4 Vision model.
         /// Has no token limit, use carfully if you do not want a large response.
         /// </summary>
         /// <param name="prompt">The message to be sent.</param>
-        /// <returns>View model response. See: <see cref="FoodParseVM"/></returns>
-        [HttpGet("ParseSearch")]
+        /// <returns>View model response. See: <see cref="ResponseFoodParseVM"/></returns>
+        [HttpGet("BuscarPorDescripcion")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FoodParseVM))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseFoodParseVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<FoodParseVM>> ParseSearch([FromQuery] string prompt)
+        public async Task<ActionResult<ResponseFoodParseVM>> BuscarPorDescripcion([FromQuery] string prompt)
         {
             var parseResult = await _alimentosService.Parse(prompt);
 
@@ -41,37 +43,41 @@ namespace FTAlimentos.Controllers.v1
         /// Request a text message response to the GPT 4 Vision model.
         /// Has no token limit, use carfully if you do not want a large response.
         /// </summary>
-        /// <param name="ingredient">The message to be sent.</param>
-        /// <returns>View model response. See: <see cref="NutrientsVM"/></returns>
-        [HttpPost("Nutrients")]
+        /// <param name="foodId">The message to be sent.</param>
+        /// <returns>View model response. See: <see cref="ResponseNutrientsVM"/></returns>
+        [HttpGet("GetNutrients")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NutrientsVM))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseNutrientsVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<NutrientsVM>> Nutrients([FromQuery] string foodId)
+        public async Task<ActionResult<ResponseNutrientsVM>> GetNutrients([FromQuery] string foodId)
         {
-            var parseResult = await _alimentosService.Nutrients(null);
+            var parseResult = await _alimentosService.GetNutrients(foodId);
 
             return Ok(parseResult);
         }
 
         /// <summary>
-        /// Request a text message response to the GPT 4 Vision model.
-        /// Has no token limit, use carfully if you do not want a large response.
+        ///Funcionalidad de autocompletado que se puede utilizar en conjunto con la
+        ///búsqueda por descripción para localizar alimentos.
         /// </summary>
         /// <param name="prompt">The message to be sent.</param>
-        /// <returns>View model response. See: <see cref="AutocompleteVM"/></returns>
+        /// <returns>View model response. See: <see cref="ResponseAutocompleteVM"/></returns>
         [HttpGet("Autocomplete")]
         [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(AutocompleteVM))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseAutocompleteVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<AutocompleteVM>> Autocomplete([FromQuery] string prompt)
+        public async Task<ActionResult<ResponseAutocompleteVM>> Autocomplete([FromQuery] string prompt)
         {
+            if (string.IsNullOrEmpty(prompt))
+            {
+                return BadRequest("Este campo es obligatorio.");
+            }
+
             var parseResult = await _alimentosService.Autocomplete(prompt);
 
             return Ok(parseResult);
         }
-        #endregion
     }
 }

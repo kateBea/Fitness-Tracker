@@ -1,6 +1,10 @@
 // Inclusions
-using FTAI.Extensions;
-using FTAI.Utilities;
+using FluentValidation;
+using FTAI.Interfaces;
+using FTAI.Mappings;
+using FTAI.Models;
+using FTAI.Services;
+using FTAI.Validator;
 using System.Reflection;
 
 // Create builder
@@ -16,15 +20,25 @@ builder.Services.AddSwaggerGen(c =>
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
 });
-builder.Services.AddFitnessTrackerDependencies();
-builder.Services.AddFitnessTrackerModelValidators();
+
+builder.Services.AddScoped<IAssistanceService, AssistanceService>();
+builder.Services.AddAutoMapper(typeof(MapperProfiles));
+
+builder.Services.AddScoped<IValidator<RequestMessageDebugLimitTokens>, RequestMessageDebugLimitTokensValidator>();
+builder.Services.AddScoped<IValidator<RequestGenerarDieta>, RequestGenerarDietaValidator>();
+builder.Services.AddScoped<IValidator<RequestStartNewChatAssistance>, RequestChatAssistantInValidator>();
 
 
 // Build app
 var app = builder.Build();
 
-// Setup add
-app.SetupEnvironment();
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

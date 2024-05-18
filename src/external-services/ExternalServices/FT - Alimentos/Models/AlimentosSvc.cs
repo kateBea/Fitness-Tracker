@@ -219,11 +219,7 @@ namespace FTAlimentos.ModelsSvc
 
     namespace Autocomplete
     {
-        public class ResponseAutocomplete
-        {
-            [JsonProperty]
-            public List<string> Results { get; set; } = new List<string>();
-        }
+        
     }
 
     namespace Errors

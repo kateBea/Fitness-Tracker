@@ -2,5 +2,6 @@
 {
     public class RequestGetDatosUsuario
     {
+        public string Id { get; set; } = string.Empty;
     }
 }

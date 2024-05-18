@@ -1,6 +1,8 @@
-﻿namespace FT___Base.ViewModels
+﻿using Shared.Utilities;
+
+namespace FT___Base.ViewModels
 {
-    public class ResponseRequestGetListDietasDeUsuarioVM
+    public class ResponseRequestGetListDietasDeUsuarioVM : BaseResponse
     {
     }
 }

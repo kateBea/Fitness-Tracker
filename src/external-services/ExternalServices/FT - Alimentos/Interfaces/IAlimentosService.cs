@@ -4,8 +4,8 @@ namespace FTAlimentos.Interfaces
 {
     public interface IAlimentosService
     {
-        Task<FoodParseVM> Parse(string? prompt);
-        Task<NutrientsVM> Nutrients(string? prompt);
-        Task<AutocompleteVM> Autocomplete(string? prompt);
+        Task<ResponseFoodParseVM> Parse(string? prompt);
+        Task<ResponseNutrientsVM> GetNutrients(string? foodId);
+        Task<ResponseAutocompleteVM> Autocomplete(string? prompt);
     }
 }

@@ -17,12 +17,12 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
 // Routes
-import { DebugBaseUrl } from "../../ApiRoutes.jsx"
+import { API_ROUTES } from "../../ApiRoutes.jsx"
 
 function ChatAssistancePage() {
     // Axios test
     axios
-        .get(DebugBaseUrl)
+        .get(API_ROUTES.DebugBaseUrl)
         .then((response) => {
             console.log(response.data)
         });
