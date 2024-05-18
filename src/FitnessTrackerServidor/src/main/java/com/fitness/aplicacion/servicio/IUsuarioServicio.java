@@ -8,7 +8,7 @@ import com.fitness.aplicacion.dto.UsuarioVerificar;
 
 public interface IUsuarioServicio {
 	Boolean insertarUsuario(UsuarioInsertar user);
-	Boolean verificarUsuario(UsuarioVerificar user);
+	Optional<UsuarioInfo> verificarUsuario(UsuarioVerificar user);
 	Optional<UsuarioInfo> informacionUsuario(String email);
 	Boolean actualizarUsuario(UsuarioInsertar user);
 	Boolean borrarUsuario(UsuarioVerificar user);

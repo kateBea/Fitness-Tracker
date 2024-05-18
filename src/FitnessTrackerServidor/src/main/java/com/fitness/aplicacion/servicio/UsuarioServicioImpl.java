@@ -49,7 +49,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     // Método para verificar las credenciales de un usuario durante el inicio de sesión
     @Override
-    public Boolean verificarUsuario(UsuarioVerificar user) {
+    public Optional<UsuarioInfo> verificarUsuario(UsuarioVerificar user) {
         // Buscar el usuario en la base de datos por su correo electrónico
         Optional<Usuario> userDB = DAOS.findById(user.getEmail());
         boolean verificado = false;
@@ -58,9 +58,17 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         if(userDB.isPresent()) {
             // Verificar si la contraseña proporcionada coincide con la contraseña cifrada almacenada
             verificado = cifrar.matches(user.getContrasena(), userDB.get().getContrasena());
+            
+            if(!verificado) {
+            	userDB = Optional.empty();
+            }
+        }else {
+        	userDB = Optional.empty();
         }
         
-        return verificado;
+        Optional<UsuarioInfo> userAct = Optional.of(ObjectMapperUtils.map(userDB, UsuarioInfo.class));
+        
+        return userAct;
     }
 
     // Método para obtener la información de un usuario por su correo electrónico

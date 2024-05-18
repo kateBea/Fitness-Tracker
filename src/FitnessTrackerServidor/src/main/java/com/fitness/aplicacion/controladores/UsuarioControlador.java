@@ -43,15 +43,15 @@ public class UsuarioControlador {
 	
 	// Peticion para verificar las credenciales de inicio de sesión
 	@PostMapping("verificar")
-	public ResponseEntity<Boolean> verificar(@RequestBody UsuarioVerificar user){
+	public ResponseEntity<UsuarioInfo> verificar(@RequestBody UsuarioVerificar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<UsuarioInfo>(HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para verificar las credenciales del usuario
-		Boolean resultado = DAOS.verificarUsuario(user);
+		Optional<UsuarioInfo> resultado = DAOS.verificarUsuario(user);
 		
 		// Si la verificación fue exitosa, cambia la respuesta a OK
-		if(resultado)
-			respuesta = ResponseEntity.ok(true);
+		if(resultado.isPresent())
+			respuesta = ResponseEntity.ok(resultado.get());
 
 		return respuesta;
 	}
