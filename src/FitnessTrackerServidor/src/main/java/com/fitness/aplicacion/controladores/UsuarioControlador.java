@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fitness.aplicacion.servicio.UsuarioServicioImpl;
 
 @RestController
-@RequestMapping("Usuarios")
+@RequestMapping("api/fitnesstracker")
 public class UsuarioControlador {
 	
 	@Autowired // Inyección de dependencia del servicio de usuario
