@@ -1,14 +1,13 @@
 import React from "react";
-import axios from "axios";
+
 import { TopBar } from "../../components/Topbar";
-import { Container, Box, MenuItem, Grid, Card, CardContent, Typography, CardActionArea, IconButton } from "@mui/material";
-import { API_ROUTES } from "../../ApiRoutes.jsx";
-import Logo from "../../img/logo-fitness-tracker.png";
+import { Container, Box,  Grid, Typography, } from "@mui/material";
+
 import RutinaCard from "../../components/RutinaCard.jsx";  // Adjust the import path as necessary
 import { useState } from "react";
 import { useEffect } from "react";
-import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from "../../components/Sidebar.jsx";
+
+import { PrivateBar } from "../../components/Privatebar.jsx";
 
 
 const ListadoRutinasPage = () => {
@@ -192,44 +191,7 @@ const ListadoRutinasPage = () => {
       }}
     >
       <TopBar />
-      <Container
-        maxWidth={false}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "40px",
-          background: "#869CB5",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            color: "#FFF",
-          }}
-        >
-          <MenuItem disableTouchRipple style={{ position: "sticky", backgroundColor: 'transparent', left: 200 }}>
-      {/* Toggle sidebar button */}
-      <IconButton
-        sx={{ color: "#FFF" }}
-        onClick={toggleSidebar}
-      >
-        <MenuIcon />
-      </IconButton>
-      {/* Sidebar component */}
-      <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
-          
-          </MenuItem>
-          <MenuItem>Inicio</MenuItem>
-          <MenuItem>Perfil</MenuItem>
-          <MenuItem>Hoy</MenuItem>
-          <MenuItem>Calorías diarias</MenuItem>
-        </Box>
-      </Container>
-
-
+      <PrivateBar/>
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Typography variant="h4" component="div" color="#FFF" sx={{ mb: 4 }}>
           Listado de Rutinas
@@ -245,6 +207,5 @@ const ListadoRutinasPage = () => {
     </Box>
   );
 };
-
 
 export default ListadoRutinasPage;

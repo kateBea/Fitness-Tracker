@@ -33,19 +33,7 @@ function DietGeneratorPage() {
       }}
     >
       <TopBar />
-      <Container
-        maxWidth="false"
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignContent: "center",
-          alignItems: "center",
-          height: "40px",
-          background: "#869CB5",
-        }}
-      >
-        <PrivateBar/>
-      </Container>
+      <PrivateBar/>
 
       <Container sx={{ paddingTop: 2 }}>
         <React.Fragment>

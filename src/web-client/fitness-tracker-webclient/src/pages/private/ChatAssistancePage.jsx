@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
+import { PrivateBar } from "../../components/Privatebar";
 
 // Routes
 import { API_ROUTES } from "../../ApiRoutes.jsx"
@@ -39,32 +40,7 @@ function ChatAssistancePage() {
         }}
     >
         <TopBar/>
-        <Container
-            maxWidth='false'
-            sx={{
-                display:'flex',
-                justifyContent: 'center',
-                alignContent:'center',
-                alignItems:'center',
-                height:'40px',
-                background:'#869CB5'
-            }}
-        >
-            <Box 
-                sx={{
-                    display:'flex',
-                    justifyContent: 'flex-end',
-                    alignContent:'right',
-                    alignItems:'center',
-                    color:'#FFF'
-                }}
-            >
-                <MenuItem>Inicio</MenuItem>
-                <MenuItem>Perfil</MenuItem>
-                <MenuItem>Hoy</MenuItem>
-                <MenuItem>Calorias diaras</MenuItem>
-            </Box>
-        </Container>
+        <PrivateBar/>
         <Container>
         <List sx={{ width: '100%', maxWidth: 1200, marginTop: 5}}>
       <ListItem alignItems="flex-start" sx={{ marginTop: 5,  bgcolor: 'background.paper', borderRadius: 2}}>
