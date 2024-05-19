@@ -1,4 +1,34 @@
 package com.fitness.aplicacion.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestModificarDieta {
+    @JsonProperty(value = "email")
+    private String email;
+
+    @JsonProperty(value = "calorias_target")
+    private float caloriasTarget;
+
+    @JsonProperty(value = "fecha_inicio")
+    private LocalDateTime fechaInicio;
+
+    @JsonProperty(value = "fecha_fin")
+    private LocalDateTime fechaFin;
+
+    @JsonProperty(value = "id_comidas_sugeridas")
+    private List<String> comidasSugeridas;
+
+    @JsonProperty(value = "consumo_agua")
+    private float consumoDeAgua;
 }

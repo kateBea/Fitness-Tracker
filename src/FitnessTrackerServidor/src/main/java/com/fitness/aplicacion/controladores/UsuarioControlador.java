@@ -1,5 +1,7 @@
 package com.fitness.aplicacion.controladores;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import com.fitness.aplicacion.dto.*;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
 
 @RestController
 @RequestMapping("api/fitnesstracker")
@@ -107,85 +110,287 @@ public class UsuarioControlador {
 		data = ResponseCambiarPassword
 				.builder()
 				.success(result)
+				.responseDescription(result ? "Contraseña cambiada con éxito" : "Contraseña o usuario inválidos")
 				.build();
 
-		response = new ResponseEntity<>(data, HttpStatus.OK);
-
-		return response;
-	}
-
-	@PostMapping("registrardieta")
-	ResponseEntity<ResponseRegistrarDieta> registrarDieta(@RequestBody RequestRegistrarDieta model) {
-		ResponseEntity<ResponseRegistrarDieta> response = new ResponseEntity<>(HttpStatus.OK);
-
-
-
-		return response;
-	}
-
-	@PutMapping("modificardieta")
-	ResponseEntity<ResponseModificarDieta> modificarDieta(@RequestBody RequestModificarDieta model) {
-		ResponseEntity<ResponseModificarDieta> response = new ResponseEntity<>(HttpStatus.OK);
-
-
+		response = new ResponseEntity<>(data, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 
 		return response;
 	}
 
 	@PostMapping("getdatosusuario")
 	ResponseEntity<ResponseGetDatosUsuario> getDatos(@RequestBody RequestGetDatosUsuario model) {
-		ResponseEntity<ResponseGetDatosUsuario> response = new ResponseEntity<>(HttpStatus.OK);
+		ResponseGetDatosUsuario responseData = ResponseGetDatosUsuario.builder().data(null).build();
+		ResponseEntity<ResponseGetDatosUsuario> response = null;
+
+		try {
+			Optional<ResponseGetDatosUsuarioData> result = usuarioServicio.consultar(model);
+			responseData.setSuccess(true);
+
+			if (result.isPresent()) {
+				responseData.setData(result.get());
+				responseData.setResponseDescription("Usuario localizado");
+
+				response = new ResponseEntity<>(responseData, HttpStatus.FOUND);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("El usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return response;
 	}
 
 	@PutMapping("modificardatosusuario")
 	ResponseEntity<ResponseModificarDatosUsuario> borrar(@RequestBody RequestModificarDatosUsuario model) {
-		ResponseEntity<ResponseModificarDatosUsuario> response = new ResponseEntity<>(HttpStatus.OK);
+		ResponseModificarDatosUsuario responseData = ResponseModificarDatosUsuario.builder().build();
+		ResponseEntity<ResponseModificarDatosUsuario> response = null;
 
+		try {
+			Boolean result = usuarioServicio.modificar(model);
+			responseData.setSuccess(true);
+
+			if (result) {
+				responseData.setModifiedAt(LocalDateTime.now());
+				responseData.setResponseDescription("Usuario modificado con éxito");
+
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("El usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+
+		return response;
+	}
+
+	@PostMapping("registrardieta")
+	ResponseEntity<ResponseRegistrarDieta> registrarDieta(@RequestBody RequestRegistrarDieta model) {
+		ResponseRegistrarDieta responseData = ResponseRegistrarDieta.builder().build();
+		ResponseEntity<ResponseRegistrarDieta> response = null;
+
+		try {
+			Boolean result = usuarioServicio.registrarDieta(model);
+			responseData.setSuccess(true);
+
+			if (result) {
+				responseData.setCreatedAt(LocalDateTime.now());
+				responseData.setResponseDescription("Dieta registrada con éxito");
+
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+
+	@PutMapping("modificardieta")
+	ResponseEntity<ResponseModificarDieta> modificarDieta(@RequestBody RequestModificarDieta model) {
+		ResponseModificarDieta responseData = ResponseModificarDieta.builder().build();
+		ResponseEntity<ResponseModificarDieta> response = null;
+
+		try {
+			Boolean result = usuarioServicio.modificar(model);
+			responseData.setSuccess(true);
+
+			if (result) {
+				responseData.setModifiedAt(LocalDateTime.now());
+				responseData.setResponseDescription("Dieta modificada con éxito");
+
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return response;
 	}
 
 	@PostMapping("getdietausuario")
 	ResponseEntity<ResponseGetDietaUsuario> getDieta(@RequestBody RequestGetDietaUsuario model) {
-		ResponseEntity<ResponseGetDietaUsuario> response = new ResponseEntity<>(HttpStatus.OK);
+		ResponseGetDietaUsuario responseData = ResponseGetDietaUsuario.builder().data(null).build();
+		ResponseEntity<ResponseGetDietaUsuario> response = null;
 
+		try {
+			Optional<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = usuarioServicio.getDieta(model);
+			responseData.setSuccess(true);
 
-		return response;
-	}
+			if (result.isPresent()) {
+				responseData.setData(result.get());
+				responseData.setResponseDescription("Dieta localizada con éxito");
 
-	@PutMapping("modificarrutina")
-	ResponseEntity<ResponseModificarRutina> modificarRutina(@RequestBody RequestModificarRutina model) {
-		ResponseEntity<ResponseModificarRutina> response = new ResponseEntity<>(HttpStatus.OK);
-
-
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("No se pudo localizar la dieta o el usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return response;
 	}
 
 	@PostMapping("getlistdietasusuario")
 	ResponseEntity<ResponseGetListDietas> getListDietas(@RequestBody RequestGetListDietas model) {
-		ResponseEntity<ResponseGetListDietas> response = new ResponseEntity<>(HttpStatus.OK);
+		ResponseGetListDietas responseData = ResponseGetListDietas.builder().dietas(null).build();
+		ResponseEntity<ResponseGetListDietas> response = null;
 
+		try {
+			List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = usuarioServicio.getListDietas(model);
+			responseData.setSuccess(true);
+
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			responseData.setResponseDescription("Dietas localizadas con éxito");
+
+		} catch (RuntimeException usuarioNotFound) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(usuarioNotFound.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+
+	@PostMapping("registrarrutina")
+	ResponseEntity<ResponseRegistrarRutina> modificarDieta(@RequestBody RequestRegistrarRutina model) {
+		ResponseRegistrarRutina responseData = ResponseRegistrarRutina.builder().build();
+		ResponseEntity<ResponseRegistrarRutina> response = null;
+
+		try {
+			Boolean result = usuarioServicio.registrarRutina(model);
+			responseData.setSuccess(true);
+
+			if (result) {
+				responseData.setCreatedAt(LocalDateTime.now());
+				responseData.setResponseDescription("Rutina registrada con éxito");
+
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("No se pudo registrar la rutina. Esta es inválida o el usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+
+	@PutMapping("modificarrutina")
+	ResponseEntity<ResponseModificarRutina> modificarRutina(@RequestBody RequestModificarRutina model) {
+		ResponseModificarRutina responseData = ResponseModificarRutina.builder().build();
+		ResponseEntity<ResponseModificarRutina> response = null;
+
+		try {
+			Boolean result = usuarioServicio.modificarRutina(model);
+			responseData.setSuccess(true);
+
+			if (result) {
+				responseData.setModifiedAt(LocalDateTime.now());
+				responseData.setResponseDescription("Rutina modificada con éxito");
+
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("No se pudo modificar la rutina. Esta es inválida o el usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return response;
 	}
 
 	@PostMapping("getrutina")
 	ResponseEntity<ResponseGetRutina> getRutina(@RequestBody RequestGetRutina model) {
-		ResponseEntity<ResponseGetRutina> response = new ResponseEntity<>(HttpStatus.OK);
+		ResponseGetRutina responseData = ResponseGetRutina.builder().data(null).build();
+		ResponseEntity<ResponseGetRutina> response;
 
+		try {
+			Optional<ResponseGetRutina.ResponseGetRutinaData> result = usuarioServicio.getRutina(model);
+			responseData.setSuccess(true);
+
+			if (result.isPresent()) {
+				responseData.setData(result.get());
+				responseData.setResponseDescription("Rutina localizada con éxito");
+
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
+			} else {
+				responseData.setSuccess(false);
+				responseData.setResponseDescription("No se pudo localizar la rutina o el usuario no existe.");
+				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return response;
 	}
 
 	@PostMapping("getlistrutinas")
 	ResponseEntity<ResponseGetListRutinas> getListRutinas(@RequestBody RequestGetListRutinas model) {
-		ResponseEntity<ResponseGetListRutinas> response = new ResponseEntity<>(HttpStatus.OK);
+		ResponseGetListRutinas responseData = ResponseGetListRutinas.builder().data(null).build();
+		ResponseEntity<ResponseGetListRutinas> response = null;
 
+		try {
+			List<ResponseGetRutina.ResponseGetRutinaData> result = usuarioServicio.getListRutinas(model);
+			responseData.setSuccess(true);
+			responseData.setData(result);
+			responseData.setResponseDescription("Rutinas localizadas con éxito");
+
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
+		} catch (RuntimeException usuarioNotFound) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(usuarioNotFound.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return response;
 	}
-	
 }

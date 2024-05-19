@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -53,6 +54,10 @@ public class Rutina {
     @Field(value = "fecha_seguimiento")
     @JsonProperty(value = "fecha_seguimiento")
     private LocalDateTime fechaSeguimiento;
+
+    @Field(value = "ultima_modificacion")
+    @JsonProperty(value = "ultima_modificacion")
+    private LocalDateTime fechaUltimaModificacion;
 
     @Field(value = "comidas_consumidas")
     @JsonProperty(value = "comidas_consumidas")

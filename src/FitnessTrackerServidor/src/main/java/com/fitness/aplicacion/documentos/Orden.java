@@ -5,4 +5,12 @@ public enum Orden {
     SEGUNDO_PLATO,
     TERCER_PLATO,
     PLATO_UNICO,
+    ;
+
+    public static Orden fromStr(String orden) {
+        return switch (orden) {
+            case "PRIMER_PLATO" -> PRIMER_PLATO;
+            default -> PRIMER_PLATO;
+        };
+    }
 }

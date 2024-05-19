@@ -36,12 +36,22 @@ public class Dieta {
     @JsonProperty(value = "fecha_fin")
     private LocalDateTime fechaFin;
 
-    @Field(value = "comidas_sigeridas")
+    @Field(value = "comidas_sugeridas")
     @JsonProperty(value = "comidas_sugeridas")
-    private List<Comida> comidasSugferidas;
+    private List<Comida> comidasSugeridas;
 
     @Field(value = "consumo_agua")
     @JsonProperty(value = "consumo_agua")
     private float consumoDeAgua;
 
+    // Podemos tener registrada una dieta para un cliente,
+    // pero posiblemente él o ella quiera empezarla tarde a la fecha
+    // de registro
+    @Field(value = "fecha_registro")
+    @JsonProperty(value = "fecha_registro")
+    private LocalDateTime fechaRegistro;
+
+    @Field(value = "ultima_modificacion")
+    @JsonProperty(value = "ultima_modificacion")
+    private LocalDateTime fechaUltimaModificacion;
 }

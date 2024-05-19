@@ -6,6 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -50,4 +52,12 @@ public class Comida {
     @Field()
     @JsonProperty(value = "grasas")
     private float grasas;
+
+    @Field(value = "fecha_registro")
+    @JsonProperty(value = "fecha_registro")
+    private LocalDateTime fechaRegistro;
+
+    @Field(value = "ultima_modificacion")
+    @JsonProperty(value = "ultima_modificacion")
+    private LocalDateTime fechaUltimaModificacion;
 }
