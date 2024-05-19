@@ -161,7 +161,7 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetDatosUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseGetDatosUsuarioVM>> GetDatosUsuario([FromBody] RequestGetDatosUsuario model)
+        public async Task<ActionResult<ResponseGetDatosUsuarioVM>> GetDatosUsuario([FromQuery] RequestGetDatosUsuario model)
         {
             var result = _validatorGetDatosUsuario.Validate(model);
             if (result == null || !result.IsValid)
@@ -205,7 +205,7 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseRequestGetListDietasDeUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseRequestGetListDietasDeUsuarioVM>> GetListDietasDeUsuario([FromBody] RequestGetListDietasDeUsuario model)
+        public async Task<ActionResult<ResponseRequestGetListDietasDeUsuarioVM>> GetListDietasDeUsuario([FromQuery] RequestGetListDietasDeUsuario model)
         {
             var result = _validatorGetListDietasDeUsuario.Validate(model);
             if (result == null || !result.IsValid)
@@ -239,27 +239,6 @@ namespace FT___Base.Controllers.v1
             return Ok(response);
         }
 
-        /// <summary>
-        /// Obtiene los datos de la rutina de actividad física y alimentación del usuario identificada por su ID.
-        /// </summary>
-        /// <param name="model">Datos de solicitud para obtener la rutina.</param>
-        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetRutinaPorIdVM"/></returns>
-        [HttpGet("GetRutinaPorId")]
-        [AllowAnonymous]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetRutinaPorIdVM))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseGetRutinaPorIdVM>> GetRutinaPorId([FromBody] RequestGetRutinaPorId model)
-        {
-            var result = _validatorGetRutinaPorId.Validate(model);
-            if (result == null || !result.IsValid)
-            {
-                return BadRequest(result?.Errors);
-            }
-
-            var response = await _baseServices.GetRutinaPorId(model);
-            return Ok(response);
-        }
 
         /// <summary>
         /// Actualiza los datos de la rutina de actividad física y alimentación del usuario identificada por su ID.
@@ -271,7 +250,7 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModificarRutinaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseModificarRutinaVM>> ModificarRutina([FromBody] RequestModificarRutina model)
+        public async Task<ActionResult<ResponseModificarRutinaVM>> ModificarRutina([FromQuery] RequestModificarRutina model)
         {
             var result = _validatorModificarRutina.Validate(model);
             if (result == null || !result.IsValid)
@@ -280,6 +259,28 @@ namespace FT___Base.Controllers.v1
             }
 
             var response = await _baseServices.ModificarRutina(model);
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Obtiene los datos de la rutina de actividad física y alimentación del usuario identificada por su ID.
+        /// </summary>
+        /// <param name="model">Datos de solicitud para obtener la rutina.</param>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetRutinaPorIdVM"/></returns>
+        [HttpGet("GetRutinaPorId")]
+        [AllowAnonymous]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetRutinaPorIdVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ResponseGetRutinaPorIdVM>> GetRutinaPorId([FromQuery] RequestGetRutinaPorId model)
+        {
+            var result = _validatorGetRutinaPorId.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.GetRutinaPorId(model);
             return Ok(response);
         }
 
@@ -297,7 +298,7 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetListRutinasUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseGetListRutinasUsuarioVM>> GetListRutinasUsuario([FromBody] RequestGetListRutinasUsuario model)
+        public async Task<ActionResult<ResponseGetListRutinasUsuarioVM>> GetListRutinasUsuario([FromQuery] RequestGetListRutinasUsuario model)
         {
             var result = _validatorGetListRutinasUsuario.Validate(model);
             if (result == null || !result.IsValid)

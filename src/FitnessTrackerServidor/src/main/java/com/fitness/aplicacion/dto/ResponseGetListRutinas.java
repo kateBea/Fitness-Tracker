@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ResponseGetListRutinas extends BaseResponse {
 
-    @JsonProperty(value = "value")
+    @JsonProperty(value = "data")
     private List<ResponseGetRutina.ResponseGetRutinaData> data;
 
 }

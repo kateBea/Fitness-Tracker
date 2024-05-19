@@ -15,6 +15,6 @@ public class RequestGetDietaUsuario {
     @JsonProperty(value = "email")
     private String email;
 
-    @JsonProperty(value = "email")
+    @JsonProperty(value = "dieta_id")
     private String idDieta;
 }

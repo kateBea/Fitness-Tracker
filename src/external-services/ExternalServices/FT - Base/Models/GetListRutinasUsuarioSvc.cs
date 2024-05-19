@@ -1,105 +1,30 @@
 ﻿using Newtonsoft.Json;
 using Shared.Utilities;
+using static FT___Base.Models.ResponseGetRutinaPorIdSvcOut;
 
 namespace FT___Base.Models
 {
     public class RequestGetListRutinasUsuarioSvcIn
     {
-        /// <summary>
-        /// Si es cierto, se recogen todas las rutinas, si no, se recogen
-        /// las rutinas en el rango de fechas especificado.
-        /// </summary>
-        public bool RetrieveAll { get; set; } = true;
+        [JsonProperty("email")]
+        public string Email { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(-5);
+        // Si es cierto se recogen todas las rutinas del usuario,
+        // si no recogen entre las fechas [fechaInicio, fechaFin),
+        // estas por ello deben ser no nulas para este caso
+        [JsonProperty("fetch_all")]
+        public bool FetchAll { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        [JsonProperty("fecha_inicio")]
+        public DateTime? FechaInicio { get; set; }
+
+        [JsonProperty("fecha_fin")]
+        public DateTime? FechaFin { get; set; }
     }
 
     public class ResponseGetListRutinasUsuarioSvcOut : BaseResponseSvc
     {
-        [JsonProperty("rutinas")]
-        public List<Rutina> Rutinas { get; set; } = [];
-    }
-
-    public class Rutina
-    {
-        [JsonProperty("_id")]
-        public string Id { get; set; }
-
-        [JsonProperty("tiempo_suenio")]
-        public float TiempoSuenio { get; set; }
-
-        [JsonProperty("calorias_quemadas")]
-        public float CaloriasQuemadas { get; set; }
-
-        [JsonProperty("pasos_realizados")]
-        public int PasosRealizados { get; set; }
-
-        [JsonProperty("frecuencia_cardiaca")]
-        public float FrecuenciaCardiaca { get; set; }
-
-        [JsonProperty("nivel_oxigeno_sangre")]
-        public float NivelOxigenoSangre { get; set; }
-
-        [JsonProperty("presion_arterial")]
-        public float PresionArterial { get; set; }
-
-        [JsonProperty("fecha_seguimiento")]
-        public DateTime FechaSeguimiento { get; set; }
-
-        [JsonProperty("comidas_consumidas")]
-        public List<AlimentoConsumido> ComidasConsumidas { get; set; }
-    }
-
-    public class AlimentoConsumido
-    {
-        [JsonProperty("_id")]
-        public string Id { get; set; }
-
-        [JsonProperty("comida")]
-        public Comida Comida { get; set; }
-
-        [JsonProperty("tipo")]
-        public string Tipo { get; set; }
-
-        [JsonProperty("hora_consumo")]
-        public DateTime HoraConsumo { get; set; }
-
-        [JsonProperty("orden")]
-        public string Orden { get; set; }
-    }
-
-    public class Comida
-    {
-        [JsonProperty("_id")]
-        public string Id { get; set; }
-
-        [JsonProperty("nombre")]
-        public string Nombre { get; set; }
-
-        [JsonProperty("descripcion")]
-        public string Descripcion { get; set; }
-
-        [JsonProperty("unidades")]
-        public int Unidades { get; set; }
-
-        [JsonProperty("calorias")]
-        public float Calorias { get; set; }
-
-        [JsonProperty("carbohidratos")]
-        public float Carbohidratos { get; set; }
-
-        [JsonProperty("vitaminas")]
-        public List<string> Vitaminas { get; set; }
-
-        [JsonProperty("grasas")]
-        public float Grasas { get; set; }
+        [JsonProperty("data")]
+        public List<ResponseGetRutinaData>? Data { get; set; } = [];
     }
 }

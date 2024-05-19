@@ -111,6 +111,7 @@ public class UsuarioControlador {
 				.builder()
 				.success(result)
 				.responseDescription(result ? "Contraseña cambiada con éxito" : "Contraseña o usuario inválidos")
+				.changeDate(LocalDateTime.now())
 				.build();
 
 		response = new ResponseEntity<>(data, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
@@ -147,7 +148,7 @@ public class UsuarioControlador {
 	}
 
 	@PutMapping("modificardatosusuario")
-	ResponseEntity<ResponseModificarDatosUsuario> borrar(@RequestBody RequestModificarDatosUsuario model) {
+	ResponseEntity<ResponseModificarDatosUsuario> modificarUsuario(@RequestBody RequestModificarDatosUsuario model) {
 		ResponseModificarDatosUsuario responseData = ResponseModificarDatosUsuario.builder().build();
 		ResponseEntity<ResponseModificarDatosUsuario> response;
 
@@ -222,6 +223,10 @@ public class UsuarioControlador {
 				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
 				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
 			}
+		} catch (RuntimeException except) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(except.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());

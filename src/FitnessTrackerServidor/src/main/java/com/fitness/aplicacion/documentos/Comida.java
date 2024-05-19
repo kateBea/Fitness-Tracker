@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
-@Document
+@Document(value = "Comidas")
 public class Comida {
 
     @Id

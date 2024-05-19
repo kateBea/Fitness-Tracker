@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @SuperBuilder
@@ -26,7 +27,6 @@ public class ResponseGetDatosUsuario extends BaseResponse {
         @JsonProperty(value = "correo_electronico")
         private String email;
 
-        @Field(value = "nombre_usuario")
         @JsonProperty(value = "nombre_usuario")
         private String nombreUsuario;
 
@@ -43,7 +43,7 @@ public class ResponseGetDatosUsuario extends BaseResponse {
         private LocalDate fechaDeNacimiento;
 
         @JsonProperty(value = "fecha_alta")
-        private LocalDate fechaRegistro;
+        private LocalDateTime fechaRegistro;
 
         // En centímetros
         @JsonProperty(value = "altura")
@@ -54,6 +54,6 @@ public class ResponseGetDatosUsuario extends BaseResponse {
         private float peso;
 
         @JsonProperty(value = "sexo")
-        private Sexo sexo;
+        private String sexo;
     }
 }

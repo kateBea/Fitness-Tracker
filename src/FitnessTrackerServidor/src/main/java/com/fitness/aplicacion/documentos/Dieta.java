@@ -3,6 +3,7 @@ package com.fitness.aplicacion.documentos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -36,6 +37,11 @@ public class Dieta {
     @JsonProperty(value = "fecha_fin")
     private LocalDateTime fechaFin;
 
+    //@DBRef
+    // Hay que serializar en una colección diferente
+    // este es un conjunto de datos que nos suministra edamam y guardamoos en nuestra DB
+    // para fácil uso, pero es información que se comparte entre todas las dietas
+
     @Field(value = "comidas_sugeridas")
     @JsonProperty(value = "comidas_sugeridas")
     private List<Comida> comidasSugeridas;
@@ -43,6 +49,12 @@ public class Dieta {
     @Field(value = "consumo_agua")
     @JsonProperty(value = "consumo_agua")
     private float consumoDeAgua;
+
+    // Indica si esta dieta es la que se está siguiendo actualmente
+    // No podemos más de una dieta activa en un rango de fechas que se solapen
+    @Field(value = "activa")
+    @JsonProperty(value = "activa")
+    private boolean activa;
 
     // Podemos tener registrada una dieta para un cliente,
     // pero posiblemente él o ella quiera empezarla tarde a la fecha

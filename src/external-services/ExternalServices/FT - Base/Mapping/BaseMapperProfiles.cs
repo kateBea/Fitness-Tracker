@@ -20,9 +20,9 @@ namespace FT___Base.Mapping
             CreateMap<CambiarPasswordSvcOut, ResponseCambiarPasswordVM>();
 
             CreateMap<RequestGetDatosUsuario, RequestGetDatosUsuarioSvcIn>();
-            CreateMap<ResponseGetDietaUsuarioSvcOut, ResponseGetDatosUsuarioVM>();
+            CreateMap<ResponseGetDatosUsuarioSvcOut, ResponseGetDatosUsuarioVM>();
 
-            CreateMap<RequestGetDietaDeUsuario, RequestGetDatosUsuarioSvcIn>();
+            CreateMap<RequestGetDietaDeUsuario, RequestGetDietaUsuarioInSvc>();
             CreateMap<ResponseGetDietaUsuarioSvcOut, ResponseGetDietaDeUsuarioVM>();
 
             CreateMap<RequestGetListDietasDeUsuario, RequestGetListDietasDeUsuarioSvcIn>();
@@ -36,6 +36,7 @@ namespace FT___Base.Mapping
 
             CreateMap<RequestLogin, RequestLoginSvcIn>();
             CreateMap<RequestLoginSvcOut, ResponseLoginVM>();
+
 
             CreateMap<RequestModificarDieta, RequestModifcarDietaSvcIn>();
             CreateMap<ResponseModifcarDietaSvcOut, ResponseModifcarDietaVM>();

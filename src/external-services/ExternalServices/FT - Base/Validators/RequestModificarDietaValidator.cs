@@ -8,12 +8,12 @@ namespace FT___Base.Validators
     {
         public RequestModificarDietaValidator()
         {
-            RuleFor(x => x.Id).NotEmpty();
-            RuleFor(x => x.TargetCalories).GreaterThan(0);
+            RuleFor(x => x.Email).NotEmpty();
+            RuleFor(x => x.CaloriasTarget).GreaterThan(0);
             RuleFor(x => x.FechaInicio).NotEmpty().LessThanOrEqualTo(x => x.FechaFin);
             RuleFor(x => x.FechaFin).NotEmpty();
             RuleFor(x => x.ComidasSugeridas).NotEmpty();
-            RuleFor(x => x.ConsumoAgua).GreaterThan(0);
+            RuleFor(x => x.ConsumoDeAgua).GreaterThan(0);
         }
     }
 }

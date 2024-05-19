@@ -163,7 +163,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         Optional<Usuario> info = DAOS.findById(model.getEmail());
 
         if (info.isPresent()) {
-            boolean match = cifrar.matches(model.getOldPassword(), info.get().getContrasena());
+            boolean match =
+                    cifrar.matches(model.getOldPassword(), info.get().getContrasena());
 
             if (match) {
                 info.get().setContrasena(cifrar.encode(model.getNewPassword()));
@@ -171,6 +172,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             } else {
                 result = false;
             }
+        } else {
+            result = false;
         }
 
         return result;
@@ -193,14 +196,24 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Boolean modificar(RequestModificarDatosUsuario model) {
-        if (!DAOS.existsById(model.getEmail())) {
+        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+
+        if (usuario.isEmpty()) {
             return false;
         }
 
-        Usuario modificado = ObjectMapperUtils.map(model, Usuario.class);
-        modificado.setFechaUltimaModificacion(LocalDateTime.now());
+        usuario.get().setNombre(model.getNombre());
+        usuario.get().setNombreUsuario(model.getNombreUsuario());
+        usuario.get().setPrimerApellido(model.getPrimerApellido());
+        usuario.get().setSegundoApellido(model.getSegundoApellido());
+        usuario.get().setFechaDeNacimiento(model.getFechaDeNacimiento());
+        usuario.get().setAltura(model.getAltura());
+        usuario.get().setPeso(model.getPeso());
+        usuario.get().setSexo(Sexo.fromStr(model.getSexo()));
 
-        DAOS.save(modificado);
+        usuario.get().setFechaUltimaModificacion(LocalDateTime.now());
+
+        DAOS.save(usuario.get());
 
         return true;
     }
@@ -242,7 +255,23 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Boolean modificar(RequestModificarDieta model) {
+        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+
+        if (usuario.isEmpty()) {
+            return false;
+        }
+
+        boolean dietasActivasSolapan = usuario.get().getDietas().stream()
+                .anyMatch(dieta -> UtilidadesFechas
+                        .intervalsOverlap(model.getFechaInicio(), model.getFechaFin(), dieta.getFechaInicio(), dieta.getFechaFin()) &&
+                        dieta.isActiva());
+
+        if (dietasActivasSolapan) {
+            throw new RuntimeException("Ya existe una dieta activa en el intervalo de fechas indicado.");
+        }
+
         RequestRegistrarDieta data = ObjectMapperUtils.map(model, RequestRegistrarDieta.class);
+
         return registrarDieta(data);
     }
 
@@ -252,12 +281,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             return Optional.empty();
         }
 
-        Optional<Dieta> dieta = dietaRepositorio.findById(model.getIdDieta());
+        Optional<Dieta> dieta = DAOS.findById(model.getEmail())
+                .get().getDietas().stream().filter(d -> d.getId().equalsIgnoreCase(model.getIdDieta())).findFirst();
+
 
         ResponseGetDietaUsuario.ResponseGetDietaUsuarioData result = ObjectMapperUtils
-                .map(dieta, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
+                .map(dieta.orElse(null), ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
 
-        return Optional.of(result);
+        return Optional.ofNullable(result);
     }
 
     @Override
@@ -306,9 +337,16 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Transactional
     public Boolean modificarRutina(RequestModificarRutina model) {
         Optional<Usuario> usuario = DAOS.findById(model.getEmail());
-        Optional<Rutina> rutina = rutinaRepositorio.findById(model.getRutinaId());
 
-        if (usuario.isEmpty() || rutina.isEmpty()) {
+        if (usuario.isEmpty()) {
+            return false;
+        }
+
+        Optional<Rutina> rutina = usuario.get().getRutinas().stream()
+                .filter(rutina1 -> rutina1.getId().equalsIgnoreCase(model.getRutinaId()))
+                .findFirst();
+
+        if (rutina.isEmpty()) {
             return false;
         }
 
@@ -348,9 +386,16 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public Optional<ResponseGetRutina.ResponseGetRutinaData> getRutina(RequestGetRutina model) {
         Optional<Usuario> usuario = DAOS.findById(model.getEmail());
-        Optional<Rutina> rutina = rutinaRepositorio.findById(model.getRutinaId());
 
-        if (usuario.isEmpty() || rutina.isEmpty()) {
+        if (usuario.isEmpty()) {
+            return Optional.empty();
+        }
+
+        Optional<Rutina> rutina = usuario.get().getRutinas().stream()
+                .filter(rutina1 -> rutina1.getId().equalsIgnoreCase(model.getRutinaId()))
+                .findFirst();
+
+        if (rutina.isEmpty()) {
             return Optional.empty();
         }
 
@@ -376,11 +421,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         List<ResponseGetRutina.ResponseGetRutinaData> result;
 
-        if (model.isFetchAll() && (model.getFechaInicio() == null || model.getFechaFin() == null)) {
+        if (!model.isFetchAll() && (model.getFechaInicio() == null || model.getFechaFin() == null)) {
             throw new RuntimeException("Si se piden rutinas en un rango de fechas, ambos extremos son obligatorios.");
         }
 
-        if (model.isFetchAll()) {
+        if (!model.isFetchAll()) {
             result = usuario.get().getRutinas().stream()
                     .filter(rutina -> UtilidadesFechas
                         .isBetween(rutina.getFechaSeguimiento(), model.getFechaInicio(), model.getFechaFin()))

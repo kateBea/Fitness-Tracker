@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,4 +32,7 @@ public class RequestModificarDieta {
 
     @JsonProperty(value = "consumo_agua")
     private float consumoDeAgua;
+
+    @JsonProperty(value = "activa")
+    private boolean activa;
 }

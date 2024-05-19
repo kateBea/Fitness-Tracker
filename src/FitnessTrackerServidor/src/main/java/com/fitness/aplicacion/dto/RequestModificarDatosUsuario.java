@@ -43,5 +43,5 @@ public class RequestModificarDatosUsuario {
     private float peso;
 
     @JsonProperty(value = "sexo")
-    private Sexo sexo;
+    private String sexo;
 }

@@ -4,11 +4,17 @@ using FTAI.Validator;
 
 namespace FT___Base.Validators
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class RequestGetDatosUsuarioValidator : BaseValidator<RequestGetDatosUsuario>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public RequestGetDatosUsuarioValidator()
         {
-            RuleFor(x => x.Id).NotEmpty();
+            RuleFor(x => x.Email).NotEmpty();
         }
     }
 }

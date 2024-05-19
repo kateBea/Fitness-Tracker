@@ -40,7 +40,7 @@ public class ResponseGetDietaUsuario extends BaseResponse {
         private LocalDateTime fechaFin;
 
         @JsonProperty(value = "comidas_sugeridas")
-        private List<Comida> comidasSugeridas;
+        private List<ResponseGetDietaUsuarioDataComida> comidasSugeridas;
 
         @JsonProperty(value = "consumo_agua")
         private float consumoDeAgua;
