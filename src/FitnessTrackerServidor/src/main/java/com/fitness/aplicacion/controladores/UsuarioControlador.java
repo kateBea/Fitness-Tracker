@@ -32,7 +32,7 @@ public class UsuarioControlador {
 	@PostMapping("insertar")
 	public ResponseEntity<Boolean> insertar(@RequestBody UsuarioInsertar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para insertar un usuario
 		Boolean resultado = usuarioServicio.insertarUsuario(user);
 
@@ -47,7 +47,7 @@ public class UsuarioControlador {
 	@PostMapping("verificar")
 	public ResponseEntity<UsuarioInfo> verificar(@RequestBody UsuarioVerificar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<UsuarioInfo>(HttpStatus.BAD_REQUEST);
+		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para verificar las credenciales del usuario
 		Optional<UsuarioInfo> resultado = usuarioServicio.verificarUsuario(user);
 		
@@ -62,13 +62,13 @@ public class UsuarioControlador {
 	@GetMapping("info/{email}")
 	public ResponseEntity<UsuarioInfo> info(@PathVariable String email){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<UsuarioInfo>(HttpStatus.BAD_REQUEST);
+		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para obtener información del usuario
 		Optional<UsuarioInfo> resultado = usuarioServicio.informacionUsuario(email);
 
 		// Si se encuentra la información del usuario, cambia la respuesta a Accepted
 		if(resultado.isPresent())
-			respuesta = new ResponseEntity<UsuarioInfo>(resultado.get(),HttpStatus.ACCEPTED);
+			respuesta = new ResponseEntity<>(resultado.get(), HttpStatus.ACCEPTED);
 		
 		return respuesta;
 	}
@@ -76,7 +76,7 @@ public class UsuarioControlador {
 	@PutMapping("actualizar")
 	public ResponseEntity<Boolean> actualizar(@RequestBody UsuarioInsertar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para actualizar el usuario
 		Boolean resultado = usuarioServicio.actualizarUsuario(user);
 		
@@ -90,7 +90,7 @@ public class UsuarioControlador {
 	@DeleteMapping("borrar")
 	public ResponseEntity<Boolean> borrar(@RequestBody UsuarioVerificar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta = new ResponseEntity<Boolean>(false,HttpStatus.BAD_REQUEST);
+		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para borrar el usuario
 		Boolean resultado = usuarioServicio.borrarUsuario(user);
 		
@@ -103,8 +103,8 @@ public class UsuarioControlador {
 
 	@PutMapping("cambiarpassword")
 	ResponseEntity<ResponseCambiarPassword> cambiarPassword(@RequestBody RequestCambiarPassword model) {
-		ResponseCambiarPassword data = null;
-		ResponseEntity<ResponseCambiarPassword> response = null;
+		ResponseCambiarPassword data;
+		ResponseEntity<ResponseCambiarPassword> response;
 
 		var result = usuarioServicio.cambiarPassword(model);
 		data = ResponseCambiarPassword
@@ -121,7 +121,7 @@ public class UsuarioControlador {
 	@PostMapping("getdatosusuario")
 	ResponseEntity<ResponseGetDatosUsuario> getDatos(@RequestBody RequestGetDatosUsuario model) {
 		ResponseGetDatosUsuario responseData = ResponseGetDatosUsuario.builder().data(null).build();
-		ResponseEntity<ResponseGetDatosUsuario> response = null;
+		ResponseEntity<ResponseGetDatosUsuario> response;
 
 		try {
 			Optional<ResponseGetDatosUsuarioData> result = usuarioServicio.consultar(model);
@@ -149,7 +149,7 @@ public class UsuarioControlador {
 	@PutMapping("modificardatosusuario")
 	ResponseEntity<ResponseModificarDatosUsuario> borrar(@RequestBody RequestModificarDatosUsuario model) {
 		ResponseModificarDatosUsuario responseData = ResponseModificarDatosUsuario.builder().build();
-		ResponseEntity<ResponseModificarDatosUsuario> response = null;
+		ResponseEntity<ResponseModificarDatosUsuario> response;
 
 		try {
 			Boolean result = usuarioServicio.modificar(model);
@@ -178,7 +178,7 @@ public class UsuarioControlador {
 	@PostMapping("registrardieta")
 	ResponseEntity<ResponseRegistrarDieta> registrarDieta(@RequestBody RequestRegistrarDieta model) {
 		ResponseRegistrarDieta responseData = ResponseRegistrarDieta.builder().build();
-		ResponseEntity<ResponseRegistrarDieta> response = null;
+		ResponseEntity<ResponseRegistrarDieta> response;
 
 		try {
 			Boolean result = usuarioServicio.registrarDieta(model);
@@ -206,7 +206,7 @@ public class UsuarioControlador {
 	@PutMapping("modificardieta")
 	ResponseEntity<ResponseModificarDieta> modificarDieta(@RequestBody RequestModificarDieta model) {
 		ResponseModificarDieta responseData = ResponseModificarDieta.builder().build();
-		ResponseEntity<ResponseModificarDieta> response = null;
+		ResponseEntity<ResponseModificarDieta> response;
 
 		try {
 			Boolean result = usuarioServicio.modificar(model);
@@ -234,7 +234,7 @@ public class UsuarioControlador {
 	@PostMapping("getdietausuario")
 	ResponseEntity<ResponseGetDietaUsuario> getDieta(@RequestBody RequestGetDietaUsuario model) {
 		ResponseGetDietaUsuario responseData = ResponseGetDietaUsuario.builder().data(null).build();
-		ResponseEntity<ResponseGetDietaUsuario> response = null;
+		ResponseEntity<ResponseGetDietaUsuario> response;
 
 		try {
 			Optional<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = usuarioServicio.getDieta(model);
@@ -262,11 +262,12 @@ public class UsuarioControlador {
 	@PostMapping("getlistdietasusuario")
 	ResponseEntity<ResponseGetListDietas> getListDietas(@RequestBody RequestGetListDietas model) {
 		ResponseGetListDietas responseData = ResponseGetListDietas.builder().dietas(null).build();
-		ResponseEntity<ResponseGetListDietas> response = null;
+		ResponseEntity<ResponseGetListDietas> response;
 
 		try {
 			List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = usuarioServicio.getListDietas(model);
 			responseData.setSuccess(true);
+			responseData.setDietas(result);
 
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			responseData.setResponseDescription("Dietas localizadas con éxito");
@@ -287,7 +288,7 @@ public class UsuarioControlador {
 	@PostMapping("registrarrutina")
 	ResponseEntity<ResponseRegistrarRutina> modificarDieta(@RequestBody RequestRegistrarRutina model) {
 		ResponseRegistrarRutina responseData = ResponseRegistrarRutina.builder().build();
-		ResponseEntity<ResponseRegistrarRutina> response = null;
+		ResponseEntity<ResponseRegistrarRutina> response;
 
 		try {
 			Boolean result = usuarioServicio.registrarRutina(model);
@@ -315,7 +316,7 @@ public class UsuarioControlador {
 	@PutMapping("modificarrutina")
 	ResponseEntity<ResponseModificarRutina> modificarRutina(@RequestBody RequestModificarRutina model) {
 		ResponseModificarRutina responseData = ResponseModificarRutina.builder().build();
-		ResponseEntity<ResponseModificarRutina> response = null;
+		ResponseEntity<ResponseModificarRutina> response;
 
 		try {
 			Boolean result = usuarioServicio.modificarRutina(model);
@@ -371,7 +372,7 @@ public class UsuarioControlador {
 	@PostMapping("getlistrutinas")
 	ResponseEntity<ResponseGetListRutinas> getListRutinas(@RequestBody RequestGetListRutinas model) {
 		ResponseGetListRutinas responseData = ResponseGetListRutinas.builder().data(null).build();
-		ResponseEntity<ResponseGetListRutinas> response = null;
+		ResponseEntity<ResponseGetListRutinas> response;
 
 		try {
 			List<ResponseGetRutina.ResponseGetRutinaData> result = usuarioServicio.getListRutinas(model);
