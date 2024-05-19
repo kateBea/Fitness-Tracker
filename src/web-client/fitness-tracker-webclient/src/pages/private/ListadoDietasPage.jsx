@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { TopBar } from "../../components/Topbar";
-import { Container, Box, MenuItem, Grid, Card, CardContent, Typography, CardActionArea, IconButton } from "@mui/material";
+import { Container, Box, Grid, Card, CardContent, Typography, CardActionArea } from "@mui/material";
 import { API_ROUTES } from "../../ApiRoutes.jsx";
-import Logo from "../../img/logo-fitness-tracker.png";
 import ImageCard from "../../components/ImageCard.jsx";
 
-
-import MenuIcon from '@mui/icons-material/Menu';
-import Sidebar from "../../components/Sidebar.jsx";
+import { PrivateBar } from "../../components/Privatebar.jsx";
 
 // Sample data for diets
 const diets = [
@@ -41,12 +38,6 @@ function ListadoDietasPage() {
     console.log(response.data);
   });
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
     <Box
       sx={{
@@ -59,46 +50,8 @@ function ListadoDietasPage() {
       }}
     >
       <TopBar />
-      <Container
-        maxWidth={false}
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "40px",
-          background: "#869CB5",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            color: "#FFF",
-          }}
-        >
-          <MenuItem disableTouchRipple style={{ position: "sticky", backgroundColor: 'transparent', left: 200 }} >
-      {/* Toggle sidebar button */}
-      <IconButton
-        sx={{ color: "#FFF", backgroundColor: "transparent" }}
-        onClick={toggleSidebar}
-      >
-        <MenuIcon />
-      </IconButton>
-      {/* Sidebar component */}
-      <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
-          
-          </MenuItem>
-          <MenuItem>Inicio</MenuItem>
-          <MenuItem>Perfil</MenuItem>
-          <MenuItem>Hoy</MenuItem>
-          <MenuItem>Calorías diarias</MenuItem>
-        </Box>
-      </Container>
-
-        
+      <PrivateBar/>
       <Container maxWidth="lg" sx={{ mt: 4 }}>
-      
         <Box sx={{ mb: 4 }}>
           <Typography variant="h6" component="div" color="#FFF">
             Current Diet

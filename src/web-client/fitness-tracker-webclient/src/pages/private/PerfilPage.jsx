@@ -4,7 +4,6 @@ import { PrivateBar } from '../../components/Privatebar'
 import {
     Container,
     Box,
-    MenuItem,
     Typography,
     List,
     ListItem,
@@ -48,33 +47,7 @@ function PerfilPage() {
         }}
     >
         <TopBar/>
-        <Container
-            maxWidth='false'
-            sx={{
-                display:'flex',
-                justifyContent: 'center',
-                alignContent:'center',
-                alignItems:'center',
-                height:'40px',
-                background:'#869CB5'
-            }}
-        >
-            {/* <Box 
-                sx={{
-                    display:'flex',
-                    justifyContent: 'flex-end',
-                    alignContent:'right',
-                    alignItems:'center',
-                    color:'#FFF'
-                }}
-            >
-                <MenuItem>Inicio</MenuItem>
-                <MenuItem>Perfil</MenuItem>
-                <MenuItem component='a' href='/today'>Hoy</MenuItem>
-                <MenuItem component='a' href='/DailyCalorie'>Calorias diaras</MenuItem>
-            </Box> */}
-            <PrivateBar/>
-        </Container>
+        <PrivateBar/>
         <Container
             maxWidth='none'
             sx={{

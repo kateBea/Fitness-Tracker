@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 
 import { createTheme } from '@mui/material/styles';
+import { PrivateBar } from '../../components/Privatebar';
 
 const theme = createTheme({
     components: {
@@ -47,32 +48,7 @@ function PerfilPage() {
         }}
     >
         <TopBar/>
-        <Container
-            maxWidth='false'
-            sx={{
-                display:'flex',
-                justifyContent: 'center',
-                alignContent:'center',
-                alignItems:'center',
-                height:'40px',
-                background:'#869CB5'
-            }}
-        >
-            <Box 
-                sx={{
-                    display:'flex',
-                    justifyContent: 'flex-end',
-                    alignContent:'right',
-                    alignItems:'center',
-                    color:'#FFF'
-                }}
-            >
-                <MenuItem>Inicio</MenuItem>
-                <MenuItem component='a' href='/perfil'>Perfil</MenuItem>
-                <MenuItem>Hoy</MenuItem>
-                <MenuItem component='a' href='/DailyCalorie'>Calorias diaras</MenuItem>
-            </Box>
-        </Container>
+        <PrivateBar/>
         <Container
             maxWidth='none'
             sx={{

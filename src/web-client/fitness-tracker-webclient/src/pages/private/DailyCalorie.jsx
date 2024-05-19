@@ -9,7 +9,7 @@ import {
     ListItem,
     ListItemText
 } from '@mui/material'
-
+import { PrivateBar } from '../../components/Privatebar';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -47,32 +47,7 @@ function PerfilPage() {
         }}
     >
         <TopBar/>
-        <Container
-            maxWidth='false'
-            sx={{
-                display:'flex',
-                justifyContent: 'center',
-                alignContent:'center',
-                alignItems:'center',
-                height:'40px',
-                background:'#869CB5'
-            }}
-        >
-            <Box 
-                sx={{
-                    display:'flex',
-                    justifyContent: 'flex-end',
-                    alignContent:'right',
-                    alignItems:'center',
-                    color:'#FFF'
-                }}
-            >
-                <MenuItem>Inicio</MenuItem>
-                <MenuItem component='a' href='/perfil'>Perfil</MenuItem>
-                <MenuItem component='a' href='/today'>Hoy</MenuItem>
-                <MenuItem>Calorias diaras</MenuItem>
-            </Box>
-        </Container>
+        <PrivateBar/>
         <Container
             maxWidth='none'
             sx={{
