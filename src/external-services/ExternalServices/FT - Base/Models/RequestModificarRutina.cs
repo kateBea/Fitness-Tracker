@@ -1,9 +1,13 @@
 ﻿using Newtonsoft.Json;
+using static FT___Base.Models.ResponseGetRutinaPorIdSvcOut;
 
 namespace FT___Base.Models
 {
     public class RequestModificarRutina
     {
+        [JsonProperty("rutina_id")]
+        public string IdRutina { get; set; }
+
         [JsonProperty("email")]
         public string Email { get; set; }
 
@@ -29,6 +33,6 @@ namespace FT___Base.Models
         public float PresionArterial { get; set; }
 
         [JsonProperty("alimentos")]
-        public List<RequestModificarRutinaSvcIn.AlimentoInfo> AlimentoInfos { get; set; } = [];
+        public List<AlimentoInfo> AlimentoInfos { get; set; } = [];
     }
 }

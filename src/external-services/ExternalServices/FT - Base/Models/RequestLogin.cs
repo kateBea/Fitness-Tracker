@@ -9,6 +9,5 @@ namespace FT___Base.Models
     {
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
-        public DateTime AttemtLoginDate { get; set; } = DateTime.Now;
     }
 }

@@ -25,7 +25,8 @@ namespace FT___Base.Controllers.v1
         IValidator<RequestGetDietaDeUsuario> validatorGetDietaDeUsuario,
         IValidator<RequestGetRutinaPorId> validatorGetRutinaPorId,
         IValidator<RequestModificarRutina> validatorModificarRutina,
-        IValidator<RequestGetListRutinasUsuario> validatorGetListRutinasUsuario) : ControllerBase
+        IValidator<RequestGetListRutinasUsuario> validatorGetListRutinasUsuario,
+        IValidator<RequestLogin> validatorLogin) : ControllerBase
     {
         #region Properties
         private readonly IValidator<RequestRegistrarUsuario> _validatorRegistrarUsuario = validatorRegistrarUsuario;
@@ -40,6 +41,7 @@ namespace FT___Base.Controllers.v1
         private readonly IValidator<RequestGetRutinaPorId> _validatorGetRutinaPorId = validatorGetRutinaPorId;
         private readonly IValidator<RequestModificarRutina> _validatorModificarRutina = validatorModificarRutina;
         private readonly IValidator<RequestGetListRutinasUsuario> _validatorGetListRutinasUsuario = validatorGetListRutinasUsuario;
+        private readonly IValidator<RequestLogin> _validatorLogin = validatorLogin;
 
 
 
@@ -59,8 +61,14 @@ namespace FT___Base.Controllers.v1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ResponseLoginVM>> Login([FromBody] RequestLogin model)
         {
-            var result = await _baseServices.Login(model);
-            return Ok(result);
+            var result = _validatorLogin.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.Login(model);
+            return Ok(response);
         }
 
         /// <summary>

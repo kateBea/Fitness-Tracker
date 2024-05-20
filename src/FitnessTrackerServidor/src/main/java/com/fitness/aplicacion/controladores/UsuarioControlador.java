@@ -101,6 +101,23 @@ public class UsuarioControlador {
 		return respuesta;
 	}
 
+	@PostMapping("login")
+	ResponseEntity<ResponseLogin> login(@RequestBody RequestLogin model) {
+		ResponseLogin responseData = ResponseLogin.builder().build();
+		ResponseEntity<ResponseLogin> response;
+
+		try {
+			responseData = usuarioServicio.login(model);
+			response = new ResponseEntity<>(responseData, responseData.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+
 	@PutMapping("cambiarpassword")
 	ResponseEntity<ResponseCambiarPassword> cambiarPassword(@RequestBody RequestCambiarPassword model) {
 		ResponseCambiarPassword data;

@@ -1,10 +1,14 @@
 ﻿using Newtonsoft.Json;
 using Shared.Utilities;
+using static FT___Base.Models.ResponseGetRutinaPorIdSvcOut;
 
 namespace FT___Base.Models
 {
     public class RequestModificarRutinaSvcIn
     {
+        [JsonProperty("rutina_id")]
+        public string IdRutina { get; set; }
+
         [JsonProperty("email")]
         public string Email { get; set; }
 
@@ -31,21 +35,6 @@ namespace FT___Base.Models
 
         [JsonProperty("alimentos")]
         public List<AlimentoInfo> AlimentoInfos { get; set; }
-
-        public class AlimentoInfo
-        {
-            [JsonProperty("comida_id")]
-            public string ComidaId { get; set; }
-
-            [JsonProperty("tipo")]
-            public string Tipo { get; set; }
-
-            [JsonProperty("hora_consumo")]
-            public DateTime HoraConsumo { get; set; }
-
-            [JsonProperty("orden")]
-            public string Orden { get; set; }
-        }
     }
 
     public class ResponseModificarRutinaSvcOut : BaseResponseSvc

@@ -439,4 +439,34 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         return result;
     }
+
+    @Override
+    public ResponseLogin login(RequestLogin model) {
+        ResponseLogin response = ResponseLogin.builder()
+                .build();
+
+        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+
+        if (usuario.isEmpty()) {
+            response.setResponseDescription("El usuario no existe.");
+
+            return response;
+        }
+
+        boolean verificado = cifrar.matches(model.getPassword(), usuario.get().getContrasena());
+
+        if(verificado) {
+            response.setName(usuario.get().getNombre());
+            response.setFirstSurname(usuario.get().getPrimerApellido());
+            response.setSecondSurname(usuario.get().getSegundoApellido());
+            response.setResponseDescription("Credenciales válidos.");
+            response.setSuccess(true);
+            response.setLoggedAt(LocalDateTime.now());
+        } else {
+            response.setResponseDescription("Credenciales no válidos.");
+            response.setSuccess(false);
+        }
+
+        return response;
+    }
 }

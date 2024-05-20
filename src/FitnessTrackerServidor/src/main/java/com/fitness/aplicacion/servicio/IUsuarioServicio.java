@@ -150,4 +150,12 @@ public interface IUsuarioServicio {
 	 */
 	List<ResponseGetRutina.ResponseGetRutinaData> getListRutinas(RequestGetListRutinas model);
 
+	/**
+	 * Maneja la solicitud de inicio de sesión de un usuario.
+	 *
+	 * @param model La solicitud de inicio de sesión que contiene las credenciales del usuario.
+	 * @return Una respuesta que contiene la información de inicio de sesión del usuario.
+	 */
+	ResponseLogin login(RequestLogin model);
+
 }

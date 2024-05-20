@@ -24,6 +24,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IBaseServices, BaseServices>();
 
 // Add validators
+builder.Services.AddScoped<IValidator<RequestLogin>, RequestLoginValidator>();
 builder.Services.AddScoped<IValidator<RequestRegistrarUsuario>, RegisterUsuarioValidator>();
 builder.Services.AddScoped<IValidator<RequestCambiarPassword>, CambiarPasswordValidator>();
 
