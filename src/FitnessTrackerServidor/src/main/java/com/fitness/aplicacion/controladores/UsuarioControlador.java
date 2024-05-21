@@ -120,18 +120,30 @@ public class UsuarioControlador {
 
 	@PutMapping("cambiarpassword")
 	ResponseEntity<ResponseCambiarPassword> cambiarPassword(@RequestBody RequestCambiarPassword model) {
-		ResponseCambiarPassword data;
+		ResponseCambiarPassword data = ResponseCambiarPassword.builder().build();
 		ResponseEntity<ResponseCambiarPassword> response;
 
-		var result = usuarioServicio.cambiarPassword(model);
-		data = ResponseCambiarPassword
-				.builder()
-				.success(result)
-				.responseDescription(result ? "Contraseña cambiada con éxito" : "Contraseña o usuario inválidos")
-				.changeDate(LocalDateTime.now())
-				.build();
+		try {
+			var result = usuarioServicio.cambiarPassword(model);
+			data = ResponseCambiarPassword
+					.builder()
+					.success(result)
+					.responseDescription(result ? "Contraseña cambiada con éxito" : "Contraseña o email inválidos")
+					.changeDate(LocalDateTime.now())
+					.build();
 
-		response = new ResponseEntity<>(data, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+			response = new ResponseEntity<>(data, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+
+		}catch (RuntimeException excep) {
+			data.setSuccess(false);
+			data.setResponseDescription(excep.getMessage());
+			response = new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
+
+		} catch (Exception e) {
+			data.setSuccess(false);
+			data.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(data, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 
 		return response;
 	}

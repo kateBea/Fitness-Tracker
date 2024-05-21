@@ -19,16 +19,16 @@ import java.time.LocalDate;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 public class UsuarioInsertar {
-	@JsonProperty(value = "correo_electronico")
+	@JsonProperty(value = "correo_electronico", required = true)
 	private String email;
 
-	@JsonProperty(value = "nombre_usuario")
+	@JsonProperty(value = "nombre")
 	private String nombre;
 
-	@JsonProperty(value = "password")
+	@JsonProperty(value = "password", required = true)
 	private String contrasena;
 
-	@JsonProperty(value = "nombre_usuario")
+	@JsonProperty(value = "nombre_usuario", required = true)
 	private String nombreDeUsuario;
 
 	@JsonProperty(value = "primer_apellido")
@@ -40,9 +40,6 @@ public class UsuarioInsertar {
 	@JsonProperty(value = "fecha_nacimiento")
 	private LocalDate fechaDeNacimiento;
 
-	@JsonProperty(value = "fecha_registro")
-	private LocalDate fechaRegistro;
-
 	// En centímetros
 	@JsonProperty(value = "altura")
 	private float altura;
@@ -52,5 +49,5 @@ public class UsuarioInsertar {
 	private float peso;
 
 	@JsonProperty(value = "sexo")
-	private Sexo sexo;
+	private String sexo;
 }

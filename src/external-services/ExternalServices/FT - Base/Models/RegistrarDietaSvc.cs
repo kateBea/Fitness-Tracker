@@ -25,7 +25,7 @@ namespace FT___Base.Models
         public double ConsumoDeAgua { get; set; }
     }
 
-    public class ResponseRegistrarDietaSvcOut : BaseResponseSvc
+    public class ResponseRegistrarDietaOut : BaseResponseSvc
     {
         [JsonProperty("created_at")]
         public DateTime? CreatedAt { get; set; } = DateTime.Now;

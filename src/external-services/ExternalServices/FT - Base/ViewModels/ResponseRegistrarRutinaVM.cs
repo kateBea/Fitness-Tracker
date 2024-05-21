@@ -1,15 +1,15 @@
-﻿using Shared.Utilities;
+﻿using Newtonsoft.Json;
 
 namespace FT___Base.ViewModels
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ResponseCambiarPasswordVM : BaseResponse
+    public class ResponseRegistrarRutinaVM
     {
         /// <summary>
         /// 
         /// </summary>
-        public DateTime? PasswordChangeDate { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

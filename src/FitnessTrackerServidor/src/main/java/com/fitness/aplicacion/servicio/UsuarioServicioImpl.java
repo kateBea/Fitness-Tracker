@@ -55,7 +55,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         if(userDB.isEmpty()) {
             // Mapear los datos del usuario
             Usuario userInsertar = ObjectMapperUtils.map(user, Usuario.class);
-            
+
+            userInsertar.setSexo(Sexo.fromStr(user.getSexo()));
+            userInsertar.setFechaRegistro(LocalDateTime.now());
+            userInsertar.setFechaUltimaModificacion(LocalDateTime.now());
+
             // Cifrar la contraseña antes de almacenarla en la base de datos
             String contrasenaCifrada = cifrar.encode(userInsertar.getContrasena());
             userInsertar.setContrasena(contrasenaCifrada);
@@ -160,11 +164,20 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public boolean cambiarPassword(RequestCambiarPassword model) {
         boolean result = true;
+
+
         Optional<Usuario> info = DAOS.findById(model.getEmail());
 
         if (info.isPresent()) {
             boolean match =
                     cifrar.matches(model.getOldPassword(), info.get().getContrasena());
+
+            boolean oldMatchesNew =
+                    cifrar.matches(model.getNewPassword(), info.get().getContrasena());
+
+            if (match && oldMatchesNew) {
+                throw new RuntimeException("La contraseña nueva debe ser diferente a la antigua");
+            }
 
             if (match) {
                 info.get().setContrasena(cifrar.encode(model.getNewPassword()));
@@ -448,6 +461,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         Optional<Usuario> usuario = DAOS.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
+            response.setSuccess(false);
             response.setResponseDescription("El usuario no existe.");
 
             return response;
@@ -456,6 +470,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         boolean verificado = cifrar.matches(model.getPassword(), usuario.get().getContrasena());
 
         if(verificado) {
+            response.setEmail(usuario.get().getEmail());
             response.setName(usuario.get().getNombre());
             response.setFirstSurname(usuario.get().getPrimerApellido());
             response.setSecondSurname(usuario.get().getSegundoApellido());

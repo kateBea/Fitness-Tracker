@@ -3,6 +3,7 @@ using FT___Base.Models;
 using FT___Base.ViewModels;
 using FTAlimentos.Models;
 using Shared.Utilities;
+using static FT___Base.ViewModels.ResponseLoginVM;
 
 namespace FT___Base.Mapping
 {
@@ -25,6 +26,9 @@ namespace FT___Base.Mapping
             CreateMap<RequestGetDietaDeUsuario, RequestGetDietaUsuarioInSvc>();
             CreateMap<ResponseGetDietaUsuarioSvcOut, ResponseGetDietaDeUsuarioVM>();
 
+            CreateMap<RequestRegistrarRutina, RequestRegistrarRutinaIn>();
+            CreateMap<RequestRegistrarRutinaOut, ResponseRegistrarRutinaVM>();
+
             CreateMap<RequestGetListDietasDeUsuario, RequestGetListDietasDeUsuarioSvcIn>();
             CreateMap<ResponseGetListDietasDeUsuarioSvcOut, ResponseRequestGetListDietasDeUsuarioVM>();
 
@@ -35,7 +39,7 @@ namespace FT___Base.Mapping
             CreateMap<ResponseGetRutinaPorIdSvcOut, ResponseGetRutinaPorIdVM>();
 
             CreateMap<RequestLogin, RequestLoginSvcIn>();
-            CreateMap<RequestLoginSvcOut, ResponseLoginVM>();
+            CreateMap<RequestLoginSvcOut, ResponseLoginVMData>();
 
 
             CreateMap<RequestModificarDieta, RequestModifcarDietaSvcIn>();
@@ -48,12 +52,12 @@ namespace FT___Base.Mapping
             CreateMap<ResponseModificarRutinaSvcOut, ResponseModificarRutinaVM>();
 
             CreateMap<RequestRegistrarUsuario, RequestRegisterSvcIn>();
-            CreateMap<ResponseRegisterSvcOut, ResponseRegisterVM>();
+            CreateMap<ResponseRegisterSvcOut, ResponseRegistrarUsuarioVM>();
 
             CreateMap<RequestRegistrarDieta, RequestRegistrarDietaSvcIn>();
-            CreateMap<ResponseRegistrarDietaSvcOut, ResponseRegistrarDietaVM>();
+            CreateMap<ResponseRegistrarDietaOut, ResponseRegistrarDietaVM>();
         }
     }
 
-    
+
 }
