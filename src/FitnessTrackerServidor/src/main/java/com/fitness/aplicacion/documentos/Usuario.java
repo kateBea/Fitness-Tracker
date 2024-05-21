@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -30,11 +31,15 @@ public class Usuario {
 
 	@Field(value = "nombre_usuario")
 	@JsonProperty(value = "nombre_usuario")
-	private String nombre;
+	private String nombreUsuario;
 
 	@Field(value = "password")
 	@JsonProperty(value = "password")
 	private String contrasena;
+
+	@Field(value = "nombre")
+	@JsonProperty(value = "nombre")
+	private String nombre;
 
 	@Field(value = "primer_apellido")
 	@JsonProperty(value = "primer_apellido")
@@ -50,7 +55,11 @@ public class Usuario {
 
 	@Field(value = "fecha_registro")
 	@JsonProperty(value = "fecha_registro")
-	private LocalDate fechaRegistro;
+	private LocalDateTime fechaRegistro;
+
+	@Field(value = "ultima_modificacion")
+	@JsonProperty(value = "ultima_modificacion")
+	private LocalDateTime fechaUltimaModificacion;
 
 	// En centímetros
 	@Field(value = "altura")

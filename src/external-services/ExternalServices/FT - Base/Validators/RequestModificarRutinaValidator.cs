@@ -8,7 +8,7 @@ namespace FT___Base.Validators
     {
         public RequestModificarRutinaValidator()
         {
-            RuleFor(data => data.Id).NotEmpty();
+            RuleFor(data => data.IdRutina).NotEmpty();
             RuleFor(data => data.Email).NotEmpty();
         }
     }

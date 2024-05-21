@@ -1,15 +1,18 @@
-﻿namespace FT___Base.ViewModels
+﻿using FT___Base.Models;
+using Newtonsoft.Json;
+using Shared.Utilities;
+
+namespace FT___Base.ViewModels
 {
-    public class ResponseGetDatosUsuarioVM
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ResponseGetDatosUsuarioVM : BaseResponse
     {
-        public string Email { get; set; }
-        public string NombreUsuario { get; set; }
-        public string Nombre { get; set; }
-        public string PrimerApellido { get; set; }
-        public string SegundoApellido { get; set; }
-        public DateTime FechaNacimiento { get; set; }
-        public double Altura { get; set; }
-        public double Peso { get; set; }
-        public string Sexo { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonProperty("data")]
+        public ResponseGetDatosUsuarioSvcOutData? Data { get; set; } = new();
     }
 }

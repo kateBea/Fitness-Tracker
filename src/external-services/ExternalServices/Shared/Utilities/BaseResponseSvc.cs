@@ -7,11 +7,21 @@ using System.Threading.Tasks;
 
 namespace Shared.Utilities
 {
+    /// <summary>
+    /// Base response for external services
+    /// </summary>
     public class BaseResponseSvc
     {
+        /// <summary>
+        /// Response description
+        /// </summary>
         [JsonProperty("response_description")]
-        public string ResponseDescription { get; set; }
+        public string ResponseDescription { get; set; } = string.Empty;
 
-        // success prop
+        /// <summary>
+        /// Wether the requested operation succeded or not
+        /// </summary>
+        [JsonProperty("success")]
+        public bool Success { get; set; } = true;
     }
 }

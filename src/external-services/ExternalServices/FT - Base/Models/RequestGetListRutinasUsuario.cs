@@ -1,21 +1,18 @@
-﻿namespace FT___Base.Models
+﻿using Newtonsoft.Json;
+
+namespace FT___Base.Models
 {
     public class RequestGetListRutinasUsuario
     {
-        /// <summary>
-        /// Si es cierto, se recogen todas las rutinas, si no, se recogen
-        /// las rutinas en el rango de fechas especificado.
-        /// </summary>
-        public bool RetrieveAll { get; set; } = true;
+        public string Email { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime EndDate { get; set; } = DateTime.Now.AddDays(-5);
+        // Si es cierto se recogen todas las rutinas del usuario,
+        // si no recogen entre las fechas [fechaInicio, fechaFin),
+        // estas por ello deben ser no nulas para este caso
+        public bool FetchAll { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        public DateTime? FechaInicio { get; set; }
+
+        public DateTime? FechaFin { get; set; }
     }
 }

@@ -5,5 +5,12 @@ public enum Tipo {
     MERIENDA_MATUTINA,
     ALMUERZO,
     MERIENDA_VESPERTINA,
-    CENA
+    CENA;
+
+    public static Tipo fromStr(String tipo) {
+        return switch (tipo) {
+            case "DESAYUNO" -> DESAYUNO;
+            default -> ALMUERZO;
+        };
+    }
 }

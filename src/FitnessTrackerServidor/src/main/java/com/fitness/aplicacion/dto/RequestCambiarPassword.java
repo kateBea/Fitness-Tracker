@@ -15,6 +15,9 @@ import java.time.LocalDateTime;
 
 public class RequestCambiarPassword {
 
+    @JsonProperty(value = "email")
+    private String email;
+
     @JsonProperty(value = "new_password")
     private String newPassword;
 

@@ -24,9 +24,10 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IBaseServices, BaseServices>();
 
 // Add validators
+builder.Services.AddScoped<IValidator<RequestLogin>, RequestLoginValidator>();
 builder.Services.AddScoped<IValidator<RequestRegistrarUsuario>, RegisterUsuarioValidator>();
 builder.Services.AddScoped<IValidator<RequestCambiarPassword>, CambiarPasswordValidator>();
-
+builder.Services.AddScoped<IValidator<RequestRegistrarRutina>, RequestRegistrarRutinaValidator>();
 builder.Services.AddScoped<IValidator<RequestRegistrarDieta>, RequestRegistrarDietaValidator>();
 builder.Services.AddScoped<IValidator<RequestModificarDieta>, RequestModificarDietaValidator>();
 builder.Services.AddScoped<IValidator<RequestGetDatosUsuario>, RequestGetDatosUsuarioValidator>();

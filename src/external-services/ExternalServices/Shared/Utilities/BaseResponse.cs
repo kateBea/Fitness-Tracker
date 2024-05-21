@@ -16,11 +16,6 @@ namespace Shared.Utilities
         /// <summary>
         /// 
         /// </summary>
-        public string ResponseCode { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 
-        /// </summary>
         public string ResponseDescription { get; set; } = string.Empty;
 
         /// <summary>
