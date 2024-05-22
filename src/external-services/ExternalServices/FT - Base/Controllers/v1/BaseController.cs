@@ -104,7 +104,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">Información para cambiar la contraseña solicitada</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseCambiarPasswordVM"/></returns>
         [HttpPut("CambiarPassword")]
-        [AllowAnonymous]
+        [Authorize]
         [SwaggerOperation(Tags = ["Usuario"])]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseCambiarPasswordVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -127,7 +127,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">Los detalles de la dieta a registrar.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseRegistrarDietaVM"/></returns>
         [HttpPost("RegistrarDieta")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseRegistrarDietaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -149,7 +149,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">Los detalles de la dieta a modificar.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModifcarDietaVM"/></returns>
         [HttpPut("ModificarDieta")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModifcarDietaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -171,7 +171,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">La solicitud para obtener los datos del usuario.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetDatosUsuarioVM"/></returns>
         [HttpGet("GetDatosUsuario")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetDatosUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -193,7 +193,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">La solicitud para modificar los datos del usuario.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModificarDatosUsuarioVM"/></returns>
         [HttpPut("ModificarDatosUsuario")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModificarDatosUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -215,7 +215,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">La solicitud para obtener la lista de dietas del usuario.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseRequestGetListDietasDeUsuarioVM"/></returns>
         [HttpGet("GetListDietasDeUsuario")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseRequestGetListDietasDeUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -237,7 +237,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">La solicitud para obtener la dieta del usuario.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetDietaDeUsuarioVM"/></returns>
         [HttpGet("GetDietaDeUsuario")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetDietaDeUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -260,7 +260,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">Datos de solicitud para modificar la rutina.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModificarRutinaVM"/></returns>
         [HttpGet("ModificarRutina")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModificarRutinaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -282,7 +282,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">Datos de solicitud para registrar la rutina.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseRegistrarRutinaVM"/></returns>
         [HttpPost("RegistrarRutina")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseRegistrarRutinaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -304,7 +304,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">Datos de solicitud para obtener la rutina.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetRutinaPorIdVM"/></returns>
         [HttpGet("GetRutinaPorId")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetRutinaPorIdVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -330,7 +330,7 @@ namespace FT___Base.Controllers.v1
         /// <param name="model">Datos de solicitud para obtener las rutinas del usuario.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetListRutinasUsuarioVM"/></returns>
         [HttpGet("GetListRutinasUsuario")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetListRutinasUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

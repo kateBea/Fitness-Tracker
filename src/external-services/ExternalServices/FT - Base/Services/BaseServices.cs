@@ -11,6 +11,7 @@ using System.Net.Http.Headers;
 using System.Net;
 using AutoMapper;
 using static FT___Base.ViewModels.ResponseLoginVM;
+using Security.Authentication;
 
 namespace FT___Base.Services
 {
@@ -249,6 +250,22 @@ namespace FT___Base.Services
                 resultVm.Success = parsed!.Success;
 
                 resultVm.Data = parsed!.Success ? _mapper.Map<ResponseLoginVMData>(parsed) : null;
+
+                if (resultVm.Success)
+                {
+                    // token logic
+                    var input = new GenerateJwtTokenIn()
+                    {
+                        Username = model.Email,
+                    };
+
+                    var output = JwtTokenHandler.GenerateJwt(input);
+
+                    resultVm.Data.Token = output.Token;
+                    resultVm.Data.TokenExpirationDate = output.TokenExpireDate;
+                    resultVm.Data.TokenDuration = output.TokenExpireTime;
+                }
+
             }
 
             return resultVm;
