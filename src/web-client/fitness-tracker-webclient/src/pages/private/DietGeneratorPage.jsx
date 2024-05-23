@@ -77,7 +77,7 @@ function DietGeneratorPage() {
         <React.Fragment>
           <h2>Modelar dieta</h2>
           <form onSubmit={handleSubmit} action={<Link to="/login" />}>
-            {/* Primera fila de formulario */}
+            {/* EDAD Y GENERO */}
             <Grid container columnSpacing={2} sx={{ marginBottom: 0 }}>
               <Grid item xs={6}>
                 <InputLabel id="edad-input">Edad</InputLabel>
@@ -112,7 +112,7 @@ function DietGeneratorPage() {
                 </Select>
               </Grid>
             </Grid>
-            {/* Segunda Fila de formulario */}
+            {/* PESO Y ALTURA */}
             <Grid container columnSpacing={2} sx={{ marginBottom: 0 }}>
               <Grid item xs={6}>
                 <InputLabel id="peso-input">Peso (kg)</InputLabel>
@@ -145,7 +145,7 @@ function DietGeneratorPage() {
                 />
               </Grid>
             </Grid>
-            {/* Tercera Fila de formulario */}
+            {/* NUVEL DE ACTIVIDAD FISICA Y OBJETIVO PRINCIPAL*/}
             <Grid container columnSpacing={2} sx={{ marginTop: '27px' }}>
               <Grid item xs={6}>
                 <InputLabel id="nivel-actividad-input">Nivel de Actividad Física</InputLabel>
@@ -184,12 +184,12 @@ function DietGeneratorPage() {
                 </Select>
               </Grid>
             </Grid>
-            {/* Cuarta Fila de formulario */}
+            {/* RESTRICCIONES ALIMENTICIAS CHECKS*/}
             <Grid container sx={{ marginBottom: 0 ,display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}>
-              <Grid item lg={2} md={2.5} sm={12} >
-                <InputLabel id="nivel-actividad-input">Nivel de Actividad Física</InputLabel>
+              <Grid item lg={2} md={3} sm={12} >
+                <InputLabel id="nivel-actividad-input">Restricciones Alimenticias</InputLabel>
               </Grid>
-              <Grid item lg={10} md={9.5} sm={12}>
+              <Grid item lg={10} md={9} sm={12}>
                 <FormControl component="fieldset" variant="standard" fullWidth>
                   <FormGroup>
                     <Grid container >
@@ -248,6 +248,7 @@ function DietGeneratorPage() {
                 </FormControl>
               </Grid>
             </Grid>
+            {/*  */}
             <Grid>
               <InputLabel id="tiempo-cocina">Tiempo preferido cocina (en minutos)</InputLabel>
               <TextField
