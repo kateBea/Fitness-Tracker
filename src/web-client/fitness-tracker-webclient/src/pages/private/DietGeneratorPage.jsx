@@ -2,17 +2,17 @@ import React from "react";
 
 import { TopBar } from "../../components/Topbar";
 import { PrivateBar } from '../../components/Privatebar';
-import { 
+import {
   Container,
   Box,
-  MenuItem, 
-  TextField, 
-  Select, 
-  InputLabel, 
+  MenuItem,
+  TextField,
+  Select,
+  InputLabel,
   Grid,
   FormGroup,
   FormControlLabel,
-  Checkbox, 
+  Checkbox,
   FormControl,
 } from "@mui/material";
 
@@ -33,8 +33,11 @@ function DietGeneratorPage() {
 
   const [state, setState] = React.useState({
     vegetariano: false,
-    jason: false,
-    antoine: false,
+    vegano: false,
+    gluten: false,
+    lacteos: false,
+    frutoSeco: false,
+    otros: false
   });
 
   const handleChange = (event) => {
@@ -44,7 +47,7 @@ function DietGeneratorPage() {
     });
   };
 
-  const { vegetariano, jason, antoine } = state;
+  const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = state;
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -143,8 +146,8 @@ function DietGeneratorPage() {
               </Grid>
             </Grid>
             {/* Tercera Fila de formulario */}
-            <Grid container columnSpacing={2} sx={{ marginTop:'27px' }}>
-            <Grid item xs={6}>
+            <Grid container columnSpacing={2} sx={{ marginTop: '27px' }}>
+              <Grid item xs={6}>
                 <InputLabel id="nivel-actividad-input">Nivel de Actividad Física</InputLabel>
               </Grid>
               <Grid item xs={6}>
@@ -182,20 +185,65 @@ function DietGeneratorPage() {
               </Grid>
             </Grid>
             {/* Cuarta Fila de formulario */}
-            <Grid container columnSpacing={2} sx={{ marginBottom: 0 }}>
-              <Grid item xs={6}>
+            <Grid container sx={{ marginBottom: 0 ,display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}>
+              <Grid item lg={2} md={2.5} sm={12} >
                 <InputLabel id="nivel-actividad-input">Nivel de Actividad Física</InputLabel>
               </Grid>
-              <Grid rowSpacing={2} columnSpacing={3}>
-                <FormControl component="fieldset" variant="standard">
+              <Grid item lg={10} md={9.5} sm={12}>
+                <FormControl component="fieldset" variant="standard" fullWidth>
                   <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox checked={vegetariano} onChange={handleChange} name="vegetariano" />
-                      }
-                      label="vegetariano"
-                    />
-                    
+                    <Grid container >
+                      <Grid item lg={2} md={2.3} sm={3} xs={4}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox checked={vegetariano} onChange={handleChange} name="vegetariano" />
+                          }
+                          label="Vegetariano"
+                        />
+                      </Grid>
+                      <Grid item lg={2} md={1.7} sm={2.3} xs={4}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox checked={vegano} onChange={handleChange} name="vegano" />
+                          }
+                          label="Vegano"
+                        />
+                      </Grid>
+                      <Grid item lg={2} md={1.5} sm={2.5} xs={4}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox checked={gluten} onChange={handleChange} name="gluten" />
+                          }
+                          label="Gluten"
+                        />
+                      </Grid>
+                      <Grid item lg={2} md={1.7} sm={2.2} xs={4}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox checked={lacteos} onChange={handleChange} name="lacteos" />
+                          }
+                          label="Lacteos"
+                        />
+                      </Grid>
+                      <Grid item lg={2} md={2.3} sm={3} xs={4}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox checked={frutoSeco} onChange={handleChange} name="frutoSeco" />
+                          }
+                          label="Frutos Secos"
+                          sx={{ width: '139px' }}
+                        />
+                      </Grid>
+                      <Grid item lg={2} md={2} sm={6} xs={4}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox checked={otros} onChange={handleChange} name="otros" />
+                          }
+                          label="Otros"
+                          sx={{ width: '139px' }}
+                        />
+                      </Grid>
+                    </Grid>
                   </FormGroup>
                 </FormControl>
               </Grid>
