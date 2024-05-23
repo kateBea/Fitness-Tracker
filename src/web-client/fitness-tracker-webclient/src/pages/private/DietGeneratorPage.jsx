@@ -23,13 +23,16 @@ import { Link } from "react-router-dom";
 function DietGeneratorPage() {
   // Preparar datos del formulario
   const [edad, setEdad] = useState("");
+  const [genero, setGenero] = useState("")
   const [altura, setAltura] = useState("");
   const [peso, setPeso] = useState("");
-  const [calorias, setCalorias] = useState("");
+  const [actividad, setActividad] = useState("");
+  const [objetivo, setObjetivo] = useState("");
+  const [habilidad, setHabilidad] = useState("");
   const [tiempoCocina, setTiempoCocina] = useState("");
-  const [fechaInicio, setFechaInicio] = useState("");
-  const [fechaFin, setFechaFin] = useState("");
-  // const [vegetariano, setVegetariano] = useState(false);
+  // const [fechaInicio, setFechaInicio] = useState("");
+  // const [fechaFin, setFechaFin] = useState("");
+  const [notas, setNotas] = useState("");
 
   const [state, setState] = React.useState({
     vegetariano: false,
@@ -104,11 +107,13 @@ function DietGeneratorPage() {
                   label="genero"
                   fullWidth
                   sx={{ mb: 4 }}
-                  value={1}
+                  value={genero}
+                  onChange={(e) => setGenero(e.target.value)}
+                  required
                 >
-                  <MenuItem value={1}>Masculino</MenuItem>
-                  <MenuItem value={2}>Femenino</MenuItem>
-                  <MenuItem value={3}>Otro</MenuItem>
+                  <MenuItem value={"hombre"}>Hombre</MenuItem>
+                  <MenuItem value={"mujer"}>Mujer</MenuItem>
+                  <MenuItem value={"otro"}>Otro</MenuItem>
                 </Select>
               </Grid>
             </Grid>
@@ -145,7 +150,7 @@ function DietGeneratorPage() {
                 />
               </Grid>
             </Grid>
-            {/* NUVEL DE ACTIVIDAD FISICA Y OBJETIVO PRINCIPAL*/}
+            {/* NIVEL DE ACTIVIDAD FISICA Y OBJETIVO PRINCIPAL*/}
             <Grid container columnSpacing={2} sx={{ marginTop: '27px' }}>
               <Grid item xs={6}>
                 <InputLabel id="nivel-actividad-input">Nivel de Actividad Física</InputLabel>
@@ -160,12 +165,14 @@ function DietGeneratorPage() {
                   label="nivel-actividad"
                   fullWidth
                   sx={{ mb: 4 }}
-                  value={3}
+                  value={actividad}
+                  onChange={(e) => setActividad(e.target.value)}
+                  required
                 >
-                  <MenuItem value={1}>Sedentario</MenuItem>
-                  <MenuItem value={2}>Moderado</MenuItem>
-                  <MenuItem value={3}>Activo</MenuItem>
-                  <MenuItem value={4}>Muy Activo</MenuItem>
+                  <MenuItem value={"sedentario"}>Sedentario</MenuItem>
+                  <MenuItem value={"moderado"}>Moderado</MenuItem>
+                  <MenuItem value={"activo"}>Activo</MenuItem>
+                  <MenuItem value={"muyActivo"}>Muy Activo</MenuItem>
                 </Select>
               </Grid>
               <Grid item xs={6}>
@@ -175,17 +182,19 @@ function DietGeneratorPage() {
                   label="objectivo-principal"
                   fullWidth
                   sx={{ mb: 4 }}
-                  value={4}
+                  value={objetivo}
+                  onChange={(e) => setObjetivo(e.target.value)}
+                  required
                 >
-                  <MenuItem value={1}>Perder Peso</MenuItem>
-                  <MenuItem value={2}>Mantener Peso</MenuItem>
-                  <MenuItem value={3}>Ganar Masa Muscular</MenuItem>
-                  <MenuItem value={4}>Mejorar Salud</MenuItem>
+                  <MenuItem value={"perder"}>Perder Peso</MenuItem>
+                  <MenuItem value={"mantener"}>Mantener Peso</MenuItem>
+                  <MenuItem value={"ganar"}>Ganar Masa Muscular</MenuItem>
+                  <MenuItem value={"mejorar"}>Mejorar Salud</MenuItem>
                 </Select>
               </Grid>
             </Grid>
             {/* RESTRICCIONES ALIMENTICIAS CHECKS*/}
-            <Grid container sx={{ marginBottom: 0 ,display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'center'}}>
+            <Grid container sx={{ marginBottom: 0, display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'center' }}>
               <Grid item lg={2} md={3} sm={12} >
                 <InputLabel id="nivel-actividad-input">Restricciones Alimenticias</InputLabel>
               </Grid>
@@ -248,22 +257,63 @@ function DietGeneratorPage() {
                 </FormControl>
               </Grid>
             </Grid>
-            {/*  */}
+            {/* HABILIDAD EN LA COCINA Y TIEMPO DE COCINA */}
+            <Grid container columnSpacing={2} sx={{ marginTop: '20px'}}>
+              <Grid item xs={6}>
+                <InputLabel id="nivel-habilidad-cocina">
+                  Habilidad en la Cocina
+                </InputLabel>
+                <Select
+                  labelId="nivel-habilidad-cocina"
+                  id="habilidad-cocina"
+                  label="cocina"
+                  fullWidth
+                  sx={{ mb: 4 }}
+                  value={habilidad}
+                  onChange={(e) => setHabilidad(e.target.value)}
+                  required
+                >
+                  <MenuItem value={"principiante"}>Principiante</MenuItem>
+                  <MenuItem value={"intermedio"}>Intermedio</MenuItem>
+                  <MenuItem value={"avanzado"}>Avanzado</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel id="tiempo-disponible-cocina">
+                  Tiempo disponible para Cocinar
+                </InputLabel>
+                <Select
+                  labelId="ntiempo-disponible-cocina"
+                  id="tiempo-cocina"
+                  label="tiempo"
+                  fullWidth
+                  sx={{ mb: 4 }}
+                  value={tiempoCocina}
+                  onChange={(e) => setTiempoCocina(e.target.value)}
+                  required
+                >
+                  <MenuItem value={"menos30"}>Menos de 30 minutos</MenuItem>
+                  <MenuItem value={"30/60"}>30-60 minutos</MenuItem>
+                  <MenuItem value={"mas60"}>Más de 60 minutos</MenuItem>
+                </Select>
+              </Grid> 
+            </Grid>
+            {/* Comentarios Adicionales */}
             <Grid>
-              <InputLabel id="tiempo-cocina">Tiempo preferido cocina (en minutos)</InputLabel>
+              <InputLabel id="tiempo-cocina">Notas y comentarios adicionales</InputLabel>
               <TextField
                 type="text"
                 variant="outlined"
                 color="secondary"
                 labelId="tiempo-cocina"
-                onChange={(e) => setTiempoCocina(e.target.value)}
-                value={tiempoCocina}
+                onChange={(e) => setNotas(e.target.value)}
+                value={notas}
                 fullWidth
                 required
                 sx={{ mb: 4 }}
               />
             </Grid>
-            <InputLabel id="start-date">Fecha de inicio</InputLabel>
+            {/* <InputLabel id="start-date">Fecha de inicio</InputLabel>
             <TextField
               type="date"
               labelId="start-date"
@@ -301,8 +351,19 @@ function DietGeneratorPage() {
               <MenuItem value={1}>Moderado</MenuItem>
               <MenuItem value={2}>Activo</MenuItem>
               <MenuItem value={3}>Muy activo</MenuItem>
-            </Select>
-            <Button variant="outlined" color="primary" type="submit">
+            </Select> */}
+            <Button variant="outlined" color="primary" type="submit" sx={{
+              background:'#D92668',
+              margin:'10px',
+              width:'230px',
+              borderTopLeftRadius:'30px',
+              borderBottomLeftRadius:'0px',
+              borderTopRightRadius:'0px',
+              borderBottomRightRadius:'30px',
+              textTransform: 'none',
+              fontSize:'20pt',
+              
+            }}>
               GENERATE
             </Button>
           </form>
