@@ -33,7 +33,4 @@ public class RequestRegistrarRutina {
 
     @JsonProperty(value = "nivel_oxigeno_sangre")
     private float nivelOxigenoSangre;
-
-    @JsonProperty(value = "presion_arterial")
-    private float presionArterial;
 }

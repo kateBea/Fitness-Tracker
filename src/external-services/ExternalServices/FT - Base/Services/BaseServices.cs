@@ -12,6 +12,8 @@ using System.Net;
 using AutoMapper;
 using static FT___Base.ViewModels.ResponseLoginVM;
 using Security.Authentication;
+using Shared.Contexts;
+using Shared.Constants;
 
 namespace FT___Base.Services
 {
@@ -39,6 +41,8 @@ namespace FT___Base.Services
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
 
+        private readonly IDataHttpContext _dataHttpContext;
+
         #endregion
 
         /// <summary>
@@ -46,9 +50,10 @@ namespace FT___Base.Services
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="mapper"></param>
-        public BaseServices(IConfiguration configuration, IMapper mapper)
+        public BaseServices(IConfiguration configuration, IMapper mapper, IDataHttpContext dataHttpContext)
         {
             _mapper = mapper;
+            _dataHttpContext = dataHttpContext;
 
             _loginEndpoint = configuration.GetSection("ExternalServices:Login").Value!;
             _registerEndpoint = configuration.GetSection("ExternalServices:RegisterEndpoint").Value!;

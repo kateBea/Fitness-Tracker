@@ -224,7 +224,11 @@ public class UsuarioControlador {
 				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
 				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException except) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(except.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
+		}catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
 			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);

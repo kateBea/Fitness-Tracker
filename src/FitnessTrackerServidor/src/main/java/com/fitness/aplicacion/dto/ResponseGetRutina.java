@@ -43,9 +43,6 @@ public class ResponseGetRutina extends BaseResponse {
         @JsonProperty(value = "nivel_oxigeno_sangre")
         private float nivelOxigenoSangre;
 
-        @JsonProperty(value = "presion_arterial")
-        private float presionArterial;
-
         @JsonProperty(value = "fecha_seguimiento")
         private LocalDateTime fechaSeguimiento;
 

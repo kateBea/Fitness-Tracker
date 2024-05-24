@@ -6,6 +6,7 @@ using Security.Authentication;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Filters;
+using Shared.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddCustomJwtAuthentication();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -39,6 +41,7 @@ builder.Services.AddSwaggerGen(c =>
 // Add services
 builder.Services.AddScoped<IAlimentosService, AlimentosService>();
 builder.Services.AddScoped<IRecetasService, RecetasService>();
+builder.Services.AddScoped<IDataHttpContext, DataHttpContext>();
 
 builder.Services.AddAutoMapper(typeof(AlimentosMapperProfiles));
 builder.Services.AddAutoMapper(typeof(RecetasMapperProfiles));

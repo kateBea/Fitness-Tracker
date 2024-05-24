@@ -100,7 +100,7 @@ function PerfilPage() {
                     }}
                 >
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -118,7 +118,7 @@ function PerfilPage() {
                         >Valor1</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -136,7 +136,7 @@ function PerfilPage() {
                         >Valor_2</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -175,7 +175,7 @@ function PerfilPage() {
                     }}
                 >
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -193,7 +193,7 @@ function PerfilPage() {
                         >Valor_1</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -211,7 +211,7 @@ function PerfilPage() {
                         >Valor_2</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -250,7 +250,7 @@ function PerfilPage() {
                     }}
                 >
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -268,7 +268,7 @@ function PerfilPage() {
                         >Valor_1</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -286,7 +286,7 @@ function PerfilPage() {
                         >valor_2</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',

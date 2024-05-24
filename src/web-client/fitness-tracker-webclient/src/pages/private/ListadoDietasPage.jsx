@@ -34,7 +34,7 @@ const DietCard = ({ diet }) => (
 
 function ListadoDietasPage() {
   // Axios test
-  axios.get(API_ROUTES.DebugBaseUrl).then((response) => {
+  axios.get(API_ROUTES.GetListDietasUsuario).then((response) => {
     console.log(response.data);
   });
 

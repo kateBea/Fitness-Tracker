@@ -47,10 +47,6 @@ public class Rutina {
     @JsonProperty(value = "nivel_oxigeno_sangre")
     private float nivelOxigenoSangre;
 
-    @Field(value = "presion_arterial")
-    @JsonProperty(value = "presion_arterial")
-    private float presionArterial;
-
     @Field(value = "fecha_seguimiento")
     @JsonProperty(value = "fecha_seguimiento")
     private LocalDateTime fechaSeguimiento;

@@ -39,9 +39,6 @@ public class RequestModificarRutina {
     @JsonProperty(value = "nivel_oxigeno_sangre")
     private float nivelOxigenoSangre;
 
-    @JsonProperty(value = "presion_arterial")
-    private float presionArterial;
-
     @JsonProperty(value = "alimentos")
     private List<AlimentoInfo> alimentoInfos;
 

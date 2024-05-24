@@ -6,6 +6,7 @@ using FTAlimentos.ModelsSvc.Parse;
 using FTAlimentos.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Shared.Contexts;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
@@ -28,6 +29,7 @@ namespace FTAlimentos.Services
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
+        private readonly IDataHttpContext _dataHttpContext;
         #endregion
 
         /// <summary>
@@ -35,9 +37,9 @@ namespace FTAlimentos.Services
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="mapper"></param>
-        public AlimentosService(IConfiguration configuration, IMapper mapper)
+        public AlimentosService(IConfiguration configuration, IMapper mapper, IDataHttpContext dataHttpContext)
         {
-
+            _dataHttpContext = dataHttpContext;
             _configuration = configuration;
 
             _mapper = mapper;

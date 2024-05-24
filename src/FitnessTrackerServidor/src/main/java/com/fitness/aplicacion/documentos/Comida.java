@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
-@Document(value = "Comidas")
+@Document
 public class Comida {
 
     @Id
@@ -25,33 +25,33 @@ public class Comida {
     @EqualsAndHashCode.Include
     private String id;
 
-    @Field()
+    @Field(value = "nombre")
     @JsonProperty(value = "nombre")
     private String nombre;
 
-    @Field()
+    @Field("descripcion")
     @JsonProperty(value = "descripcion")
     private String descripcion;
 
-    @Field()
-    @JsonProperty(value = "unidades")
-    private int unidades;
-
-    @Field()
+    @Field(value = "calorias")
     @JsonProperty(value = "calorias")
     private float calorias; //kcal
 
-    @Field()
+    @Field(value = "proteinas")
+    @JsonProperty(value = "proteinas")
+    private float proteinas;
+
+    @Field(value = "grasas")
+    @JsonProperty(value = "grasas")
+    private float grasas;
+
+    @Field(value = "carbohidratos")
     @JsonProperty(value = "carbohidratos")
     private float carbohidratos; // gramos
 
-    @Field()
+    @Field(value = "vitaminas")
     @JsonProperty(value = "vitaminas")
     private List<String> vitaminas;
-
-    @Field()
-    @JsonProperty(value = "grasas")
-    private float grasas;
 
     @Field(value = "fecha_registro")
     @JsonProperty(value = "fecha_registro")

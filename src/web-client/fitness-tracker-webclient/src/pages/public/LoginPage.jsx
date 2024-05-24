@@ -16,8 +16,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LogoFitness from '../../img/logo-fitness-tracker.png';
 import { TopBar } from '../../components/Topbar';
 import { API_ROUTES } from '../../ApiRoutes';
-import MainPage from '../private/MainPage';
-import PerfilPage from '../private/PerfilPage';
 
 const theme = createTheme({
   palette: {
@@ -51,11 +49,9 @@ function LoginPage() {
       if (response.data.success) {
         navigate("/Today");
       } else {
-        // Si succes es falso, en ambos casos el reponse descrption tiene un mensaje
         console.log(response.data.errors);
       }
     } catch (error) {
-      // Si hay alguno que otro error en la petición
       console.error('Error logging in:', error);
     }
   };
@@ -116,82 +112,75 @@ function LoginPage() {
                 sx={{
                     color: 'white',
                     textDecoration: 'none',
-                    margin: '15px'
+                    margin: '15px',
                 }}
               >Fitness-Tracker</Typography>
           </Box>
         </Box>
         <Box>
-          <FormControl variant='standard'
-              margin='normal'
+          <FormControl variant='standard' margin='normal' sx={{ width: '100%' }}>
+            <Input
+              id="user"
+              startAdornment={
+                <InputAdornment position="start">
+                  <PersonOutlineOutlinedIcon 
+                    fontSize='large'
+                    sx={{
+                      marginLeft: '10px',
+                      marginRight: '20px',
+                      color: 'white',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              placeholder='Email'
+              required={true}
+              type='text'
+              fullWidth={true}
+              value={usuario}
+              onChange={(e) => setUsuario(e.target.value)}
               sx={{
-                width: '100%'
+                color: '#FFF',
+                fontSize: '14pt',
+                borderBottomColor: '#FFF',
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: '5px'
               }}
-            >
-            <Box>
-              <Input
-                id="user"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <PersonOutlineOutlinedIcon 
-                      fontSize='large'
-                      sx={{
-                        marginLeft: '10px',
-                        marginRight: '20px',
-                        color: 'white',
-                      }}
-                    />
-                  </InputAdornment>
-                }
-                placeholder='Email'
-                required
-                type='text'
-                fullWidth
-                value={usuario}
-                onChange={(e) => setUsuario(e.target.value)}
-                sx={{
-                  color: '#FFF',
-                  fontSize: '14pt',
-                  borderBottomColor: '#FFF',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  padding: '5px'
-                }}
-                theme={theme}
-              />
-            </Box>
-            <Box>
-              <Input
-                id="password"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <LockOutlinedIcon
-                      fontSize='large'
-                      sx={{
-                        marginLeft: '10px',
-                        marginRight: '20px',
-                        color: 'white',
-                      }}
-                    />
-                  </InputAdornment>
-                }
-                placeholder='Password'
-                required
-                type='password'
-                fullWidth
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                sx={{
-                  color: '#FFF',
-                  fontSize: '14pt',
-                  borderBottomColor: '#FFF',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  padding: '5px'
-                }}
-                theme={theme}
-              />
-            </Box>
+              theme={theme}
+            />
+          </FormControl>
+          <FormControl variant='standard' margin='normal' sx={{ width: '100%' }}>
+            <Input
+              id="password"
+              startAdornment={
+                <InputAdornment position="start">
+                  <LockOutlinedIcon
+                    fontSize='large'
+                    sx={{
+                      marginLeft: '10px',
+                      marginRight: '20px',
+                      color: 'white',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              placeholder='Password'
+              required={true}
+              type='password'
+              fullWidth={true}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                color: '#FFF',
+                fontSize: '14pt',
+                borderBottomColor: '#FFF',
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: '5px'
+              }}
+              theme={theme}
+            />
           </FormControl>
         </Box>
         <Box 
