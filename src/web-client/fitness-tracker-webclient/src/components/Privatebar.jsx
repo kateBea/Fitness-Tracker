@@ -38,8 +38,8 @@ export const PrivateBar = () => {
                     color:'#FFF'
                 }}
             >   
-                <MenuItem disableTouchRipple style={{ position: "sticky", backgroundColor: 'transparent', left: 200 }} >
-                {/* Toggle sidebar button */}
+                <MenuItem disableTouchRipple style={{ backgroundColor: 'transparent'}} >
+                    {/* Toggle sidebar button */}
                     <IconButton
                     sx={{ color: "#FFF", backgroundColor: "transparent" }}
                     onClick={toggleSidebar}
