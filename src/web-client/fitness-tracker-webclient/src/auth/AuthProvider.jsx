@@ -27,7 +27,13 @@ function AuthProvider({ children }) {
           setUsername(response.data.data.email);
   
           axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.token}`;
+          
+          const tokenExpirationDate = new Date(Date.now());
+          tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(response.data.data.tokenDuration));
+
           localStorage.setItem("token", response.data.data.token);
+          localStorage.setItem("tokenExpirationDate", tokenExpirationDate);
+          localStorage.setItem("tokenDuration", response.data.data.tokenDuration);
         } else {
           console.log(response.data.errors);
           setErrors(response.data.errors);

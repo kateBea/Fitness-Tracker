@@ -18,7 +18,7 @@ namespace Security.Authentication
         public static GenerateJwtTokenOut? GenerateJwt(GenerateJwtTokenIn data)
         {
             var tokenKey = Encoding.ASCII.GetBytes(AuthConstants.JWT_SECURITY_KEY);
-            var tokenExpiryTimeStamp = DateTime.Now.AddMinutes(AuthConstants.JWT_TOKEN_VALIDITY_TIME);
+            var tokenExpiryTimeStamp = DateTime.Now.AddSeconds(AuthConstants.JWT_TOKEN_VALIDITY_TIME);
 
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
             {
@@ -43,7 +43,7 @@ namespace Security.Authentication
             return new GenerateJwtTokenOut()
             {
                 Token = token,
-                TokenExpireTime = tokenExpiryTimeStamp.Subtract(DateTime.Now).Seconds,
+                TokenExpireTime = (int)tokenExpiryTimeStamp.Subtract(DateTime.Now).TotalSeconds,
                 TokenExpireDate = tokenExpiryTimeStamp,
             };
         }

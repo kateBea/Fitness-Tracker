@@ -15,6 +15,8 @@ using Security.Authentication;
 using Shared.Contexts;
 using Shared.Constants;
 using System.Security.Claims;
+using System.Security.Cryptography;
+using Shared.Utilities;
 
 namespace FT___Base.Services
 {
@@ -284,9 +286,13 @@ namespace FT___Base.Services
                 if (resultVm.Success)
                 {
                     // token logic
+                    // el username es el email, es de esta forma que identifcamos a los
+                    // usuarios, para evitar exponerlo en los claims del token se encripta
+                    var encriptedEmail = EncodeUserEmail(model.Email);
+
                     var input = new GenerateJwtTokenIn()
                     {
-                        Username = model.Email,
+                        Username = encriptedEmail,
                     };
 
                     var output = JwtTokenHandler.GenerateJwt(input);
@@ -474,6 +480,50 @@ namespace FT___Base.Services
         }
 
         #region Private Methods
+
+        /// <summary>
+        /// Returns encripted email in 64 base
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private string EncodeUserEmail(string email)
+        {
+            byte[] encrypted;
+
+            // Create a new instance of the Aes
+            // class.  This generates a new key and initialization
+            // vector (IV).
+            using (Aes myAes = Aes.Create())
+            {
+
+                // Encrypt the string to an array of bytes.
+                encrypted = Cryptography.EncryptStringToBytes_Aes(email, myAes.Key, myAes.IV);
+            }
+
+            return Convert.ToBase64String(encrypted);
+        }
+
+        /// <summary>
+        /// returns decripted email
+        /// </summary>
+        /// <param name="email">64 base encripted email</param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        private string DencodeUserEmail(string email)
+        {
+            string roundtrip = string.Empty;
+            // Create a new instance of the Aes
+            // class.  This generates a new key and initialization
+            // vector (IV).
+            using (Aes myAes = Aes.Create())
+            {
+                // Decrypt the bytes to a string.
+                roundtrip = Cryptography.DecryptStringFromBytes_Aes(Convert.FromBase64String(email), myAes.Key, myAes.IV);
+            }
+
+            return roundtrip;
+        }
 
         /// <summary>
         /// 
