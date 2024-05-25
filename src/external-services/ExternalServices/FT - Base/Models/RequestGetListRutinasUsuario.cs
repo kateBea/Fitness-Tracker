@@ -4,7 +4,6 @@ namespace FT___Base.Models
 {
     public class RequestGetListRutinasUsuario
     {
-        public string Email { get; set; }
 
         // Si es cierto se recogen todas las rutinas del usuario,
         // si no recogen entre las fechas [fechaInicio, fechaFin),

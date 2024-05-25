@@ -4,7 +4,6 @@ namespace FT___Base.Models
 {
     public class RequestModificarDatosUsuario
     {
-        public string Email { get; set; } = string.Empty;
 
         public string NombreUsuario { get; set; } = string.Empty;
 

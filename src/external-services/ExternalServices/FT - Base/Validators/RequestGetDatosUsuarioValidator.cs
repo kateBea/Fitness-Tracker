@@ -14,7 +14,6 @@ namespace FT___Base.Validators
         /// </summary>
         public RequestGetDatosUsuarioValidator()
         {
-            RuleFor(x => x.Email).NotEmpty();
         }
     }
 }

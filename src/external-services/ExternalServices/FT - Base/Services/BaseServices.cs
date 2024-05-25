@@ -14,6 +14,7 @@ using static FT___Base.ViewModels.ResponseLoginVM;
 using Security.Authentication;
 using Shared.Contexts;
 using Shared.Constants;
+using System.Security.Claims;
 
 namespace FT___Base.Services
 {
@@ -81,10 +82,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseCambiarPasswordVM> CambiarPassword(RequestCambiarPassword model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseCambiarPasswordVM();
             string finalUrl = _SetBaseParams(_cambiarPasswordEndpoint).ToString();
 
             var obj = _mapper.Map<CambiarPasswordSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -107,10 +112,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseGetDatosUsuarioVM> GetDatosUsuario(RequestGetDatosUsuario model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseGetDatosUsuarioVM();
             string finalUrl = _SetBaseParams(_getDatosUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetDatosUsuarioSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -133,10 +142,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseGetDietaDeUsuarioVM> GetDietaUsuario(RequestGetDietaDeUsuario model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseGetDietaDeUsuarioVM();
             string finalUrl = _SetBaseParams(_getDietaUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetDietaUsuarioInSvc>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -159,10 +172,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseRequestGetListDietasDeUsuarioVM> GetListDietasDeUsuario(RequestGetListDietasDeUsuario model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseRequestGetListDietasDeUsuarioVM();
             string finalUrl = _SetBaseParams(_getListDietasUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetListDietasDeUsuarioSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -186,10 +203,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseGetListRutinasUsuarioVM> GetListRutinasUsuario(RequestGetListRutinasUsuario model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseGetListRutinasUsuarioVM();
             string finalUrl = _SetBaseParams(_getListRutinasEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetListRutinasUsuarioSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -212,10 +233,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseGetRutinaPorIdVM> GetRutinaPorId(RequestGetRutinaPorId model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseGetRutinaPorIdVM();
             string finalUrl = _SetBaseParams(_getRutinaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetRutinaPorIdSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -283,10 +308,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseModifcarDietaVM> ModificarDieta(RequestModificarDieta model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseModifcarDietaVM();
             string finalUrl = _SetBaseParams(_modificarDietaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestModifcarDietaSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -309,10 +338,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseModificarDatosUsuarioVM> ModificarDatosUsuario(RequestModificarDatosUsuario model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseModificarDatosUsuarioVM();
             string finalUrl = _SetBaseParams(_modificarDatosUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestModificarDatosUsuarioSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -335,10 +368,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseModificarRutinaVM> ModificarRutina(RequestModificarRutina model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseModificarRutinaVM();
             string finalUrl = _SetBaseParams(_modificarRutinaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestModificarRutinaSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -356,10 +393,14 @@ namespace FT___Base.Services
 
         public async Task<ResponseRegistrarRutinaVM> RegistrarRutina(RequestRegistrarRutina model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseRegistrarRutinaVM();
             string finalUrl = _SetBaseParams(_registrarRutinaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestRegistrarRutinaIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -409,10 +450,14 @@ namespace FT___Base.Services
         /// <returns></returns>
         public async Task<ResponseRegistrarDietaVM> RegistrarDieta(RequestRegistrarDieta model)
         {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
             var resultVm = new ResponseRegistrarDietaVM();
             string finalUrl = _SetBaseParams(_registrarDietaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestRegistrarDietaSvcIn>(model);
+            obj.Email = emailFromToken;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));

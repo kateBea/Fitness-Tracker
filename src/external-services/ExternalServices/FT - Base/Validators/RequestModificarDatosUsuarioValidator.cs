@@ -8,7 +8,6 @@ namespace FT___Base.Validators
     {
         public RequestModificarDatosUsuarioValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.NombreUsuario).NotEmpty().Length(3, 50);
             RuleFor(x => x.Nombre).NotEmpty().Length(1, 50);
             RuleFor(x => x.PrimerApellido).NotEmpty().Length(1, 50);

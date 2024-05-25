@@ -22,7 +22,7 @@ namespace Security.Authentication
 
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
             {
-                new Claim(ClaimTypes.Name, data.Username),
+                new Claim("email", data.Username),
                 new Claim(ClaimTypes.Role, data.Role)
             });
 
@@ -46,6 +46,21 @@ namespace Security.Authentication
                 TokenExpireTime = tokenExpiryTimeStamp.Subtract(DateTime.Now).Seconds,
                 TokenExpireDate = tokenExpiryTimeStamp,
             };
+        }
+
+        public static string GetClaimFromJwt(string jwtToken, string claimType)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(jwtToken) as JwtSecurityToken;
+
+            if (jsonToken == null)
+            {
+                throw new ArgumentException("Invalid JWT token");
+            }
+
+            var claim = jsonToken.Claims.FirstOrDefault(c => c.Type == claimType);
+
+            return claim?.Value;
         }
 
         public static IServiceCollection AddCustomJwtAuthentication(this IServiceCollection service)

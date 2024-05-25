@@ -1,13 +1,12 @@
 import React from 'react'
-import AuthProvider, { useAuthContext } from './AuthProvider'
 import { Navigate, Outlet } from 'react-router-dom';
-import { PAGE_ROUTES } from '../PageConstants';
 
 function ProtectedRoutes() {
-    const { /* componenetes para comprobar authenticacion */ userIsLogged } = useAuthContext();
+  const tokenLS = localStorage.getItem("token");
 
-    if (userIsLogged) {
-        return <Navigate to={PAGE_ROUTES.Login} replace={true}/>
+  if (tokenLS == null || tokenLS == undefined) {
+      console.log("User not logged")
+      return <Navigate to="/login" />;
     }
 
   return <Outlet/>

@@ -8,7 +8,6 @@ namespace FT___Base.Models
     /// </summary>
     public class RequestRegistrarDieta : BaseRequest
     {
-        public string Email { get; set; }
 
         public float CaloriasTarget { get; set; }
 

@@ -12,6 +12,8 @@ import {
 
 import { createTheme } from '@mui/material/styles';
 import { PrivateBar } from '../../components/Privatebar';
+import { useAuthContext } from '../../auth/AuthProvider';
+
 
 const theme = createTheme({
     components: {
@@ -36,6 +38,7 @@ const theme = createTheme({
 });
 
 function PerfilPage() {
+
     return (
     <Box
         sx={{

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 import {
   Box,
   Typography,
@@ -38,25 +38,26 @@ const theme = createTheme({
 });
 
 function LoginPage() {
-  const { register, handleSubmit } = useForm();
 
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { userIsLogged, loginUser } = useAuthContext();
+  const { loginUser } = useAuthContext();
 
   const handleLogin = async () => {
-    loginUser(email, password);
+    await loginUser(email, password);
   };
 
   useEffect(() => {
-    if (userIsLogged) {
+    const tokenLS = localStorage.getItem("token");
+    console.log("tokenls " + tokenLS)
+
+    if (tokenLS != null || tokenLS != undefined) {
+      console.log("User is already logged")
       navigate(PAGE_ROUTES.Today);
     }
-
-  }, [userIsLogged])
-
+  });
 
   return (
     <Box 
