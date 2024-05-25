@@ -38,4 +38,12 @@ public class Alimento {
     @Field()
     @JsonProperty(value = "orden")
     private Orden orden;
+
+    @Field(value = "fecha_registro")
+    @JsonProperty(value = "fecha_registro")
+    private LocalDateTime fechaRegistro;
+
+    @Field(value = "ultima_modificacion")
+    @JsonProperty(value = "ultima_modificacion")
+    private LocalDateTime fechaUltimaModificacion;
 }

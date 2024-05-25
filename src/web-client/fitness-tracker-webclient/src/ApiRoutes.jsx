@@ -29,6 +29,6 @@ export const API_ROUTES = {
     ModificarDatos: "https://localhost:7298/api/client/ModificarDatosUsuario",
     ModificarDieta: "https://localhost:7298/api/client/ModificarDieta",
     ModificarRutina: "https://localhost:7298/api/client/ModificarRutina",
-    RegistrarUsuario: "https://localhost:7298/api/client/Register",
+    RegistrarUsuario: "https://localhost:7298/api/client/RegistrarUsuario",
     RegistrarDieta: "https://localhost:7298/api/client/RegistrarDieta",
 };

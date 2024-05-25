@@ -1,35 +1,22 @@
-﻿using Shared.Utilities;
+﻿using Newtonsoft.Json;
+using Shared.Utilities;
 
 namespace FT___Base.Models
 {
     public class RequestModificarDieta : BaseRequest
     {
-        public string Id { get; set; } = string.Empty;
+        public string Email { get; set; }
 
-        public float TargetCalories { get; set; } = 0.0f;
+        public float CaloriasTarget { get; set; }
 
-        /// <summary>
-        /// Fecha de inicio de la dieta.
-        /// </summary>
-        public DateTime FechaInicio { get; set; } = DateTime.Now;
+        public DateTime FechaInicio { get; set; }
 
-        /// <summary>
-        /// Fecha de finalización de la dieta.
-        /// </summary>
-        public DateTime FechaFin { get; set; } = DateTime.Now;
+        public DateTime FechaFin { get; set; }
 
-        /// <summary>
-        /// Consuma de agua diario en litros.
-        /// </summary>
-        public float ConsumoAgua = 0.0f;
+        public List<string> ComidasSugeridas { get; set; }
 
-        /// <summary>
-        /// Comidas preferidas para esta dieta.
-        /// </summary>
-        public List<ComidaDieta> ComidasSugeridas { get; set; } = [];
+        public float ConsumoDeAgua { get; set; }
+
+        public bool Activa { get; set; }
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
 }

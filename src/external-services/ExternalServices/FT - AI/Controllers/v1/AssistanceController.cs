@@ -54,7 +54,7 @@ namespace FTAI.Controllers.v1
         /// <param name="message">El mensaje a ser enviado</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseMessageDebugVM"/></returns>
         [HttpGet("MessageDebug")]
-        [AllowAnonymous] // Autorize with role admin
+        [Authorize] // Autorize with role admin
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessageDebugVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -78,7 +78,7 @@ namespace FTAI.Controllers.v1
         /// <param name="model">Mensaje a serv enviado.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseMessageDebugVM"/>.</returns>
         [HttpGet("MessageDebugLimitTokens")]
-        [AllowAnonymous] // authorize with role admin
+        [Authorize] // authorize with role admin
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessageDebugVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -102,7 +102,7 @@ namespace FTAI.Controllers.v1
         /// <param name="model">Requisitos de la dieta</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGenerarDietaVM"/>.</returns>
         [HttpPost("GenerarDieta")]
-        [AllowAnonymous] // authorize
+        [Authorize] // authorize
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGenerarDietaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -125,7 +125,7 @@ namespace FTAI.Controllers.v1
         /// <param name="model">Datos de la nueva conversación.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseStartNewChatAssistanceVM"/>.</returns>
         [HttpPut("ChatAssistance")]
-        [AllowAnonymous] // authorize
+        [Authorize] // authorize
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseStartNewChatAssistanceVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

@@ -15,4 +15,11 @@ public enum Sexo {
             return "Mujer";
         }
     };
+
+    public static Sexo fromStr(String sexo) {
+        return switch (sexo) {
+            case "HOMBRE" -> HOMBRE;
+            default -> HOMBRE;
+        };
+    }
 }

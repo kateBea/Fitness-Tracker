@@ -8,9 +8,15 @@ namespace FT___Base.Validators
     {
         public RequestGetListRutinasUsuarioValidator()
         {
-            RuleFor(x => x.StartDate).NotEmpty();
-            RuleFor(x => x.EndDate).NotEmpty().LessThanOrEqualTo(x => x.StartDate);
-            RuleFor(x => x.RetrieveAll).NotEmpty();
+            RuleFor(x => x.FetchAll).NotEmpty().DependentRules( () =>
+            {
+                When(data => data.FetchAll == false, () =>
+                {
+                    RuleFor(x => x.FechaInicio).NotEmpty();
+                    RuleFor(x => x.FechaFin).NotEmpty().LessThanOrEqualTo(x => x.FechaInicio);
+                });
+            });
+
         }
     }
 }

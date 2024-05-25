@@ -1,15 +1,31 @@
-﻿namespace FT___Base.Models
+﻿using Newtonsoft.Json;
+
+namespace FT___Base.Models
 {
     public class RequestModificarDatosUsuario
     {
-        public string Email { get; set; }
-        public string NombreUsuario { get; set; }
-        public string Nombre { get; set; }
-        public string PrimerApellido { get; set; }
-        public string SegundoApellido { get; set; }
-        public DateTime FechaNacimiento { get; set; }
-        public double Altura { get; set; }
-        public double Peso { get; set; }
-        public string Sexo { get; set; }
+        public string Email { get; set; } = string.Empty;
+
+        public string NombreUsuario { get; set; } = string.Empty;
+
+
+        public string Nombre { get; set; } = string.Empty;
+
+
+        public string PrimerApellido { get; set; } = string.Empty;
+
+
+        public string SegundoApellido { get; set; } = string.Empty;
+
+
+        public DateTime FechaDeNacimiento { get; set; } = DateTime.Now;
+
+        // En centímetros
+        public double Altura { get; set; } = 0.0;
+
+        // En kilogramos
+        public double Peso { get; set; } = 0.0;
+
+        public string Sexo { get; set; } = string.Empty;
     }
 }

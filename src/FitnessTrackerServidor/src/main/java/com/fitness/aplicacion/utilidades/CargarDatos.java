@@ -1,20 +1,18 @@
 package com.fitness.aplicacion.utilidades;
 
 import com.fitness.aplicacion.documentos.*;
-import com.fitness.aplicacion.dto.UsuarioInsertar;
-import com.fitness.aplicacion.mapeo.ObjectMapperUtils;
 import com.fitness.aplicacion.servicio.IUsuarioServicio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 @Order(0)
 @Component
@@ -24,6 +22,8 @@ public class CargarDatos implements CommandLineRunner {
     @Qualifier("usuarioServicioImpl")
     IUsuarioServicio usuarioServicio;
 
+    BCryptPasswordEncoder cifrar = new BCryptPasswordEncoder();
+
 
     @Override
     public void run(String... args) throws Exception {
@@ -31,11 +31,12 @@ public class CargarDatos implements CommandLineRunner {
         Usuario cliente1 = Usuario.builder()
                 .email("juan.perez@correo.com")
                 .nombre("Juan")
+                .nombreUsuario("El Bicho")
                 .primerApellido("Perez")
                 .segundoApellido("Gomez")
-                .contrasena("password123")
+                .contrasena(cifrar.encode("password123"))
                 .fechaDeNacimiento(LocalDate.of(1990, 4, 25))
-                .fechaRegistro(LocalDate.now())
+                .fechaRegistro(LocalDateTime.now())
                 .altura(180.0f)
                 .peso(75.0f)
                 .sexo(Sexo.HOMBRE)
@@ -48,9 +49,9 @@ public class CargarDatos implements CommandLineRunner {
                 .nombre("Maria")
                 .primerApellido("Garcia")
                 .segundoApellido("Lopez")
-                .contrasena("securepass")
+                .contrasena(cifrar.encode("securepass"))
                 .fechaDeNacimiento(LocalDate.of(1995, 6, 15))
-                .fechaRegistro(LocalDate.now())
+                .fechaRegistro(LocalDateTime.now())
                 .altura(165.0f)
                 .peso(60.0f)
                 .sexo(Sexo.MUJER)
@@ -60,7 +61,7 @@ public class CargarDatos implements CommandLineRunner {
                                 .caloriasTarget(2000.0f)
                                 .fechaInicio(LocalDateTime.of(2024, 5, 1, 0, 0))
                                 .fechaFin(LocalDateTime.of(2024, 6, 1, 0, 0))
-                                .comidasSugferidas(Arrays.asList(
+                                .comidasSugeridas(Arrays.asList(
                                         Comida.builder()
                                                 .id("comida1")
                                                 .nombre("Ensalada")
@@ -112,9 +113,9 @@ public class CargarDatos implements CommandLineRunner {
                 .nombre("Ana")
                 .primerApellido("Martinez")
                 .segundoApellido("Rodriguez")
-                .contrasena("strongpassword")
+                .contrasena(cifrar.encode("strongpassword"))
                 .fechaDeNacimiento(LocalDate.of(1985, 12, 10))
-                .fechaRegistro(LocalDate.now())
+                .fechaRegistro(LocalDateTime.now())
                 .altura(170.0f)
                 .peso(65.0f)
                 .sexo(Sexo.MUJER)
@@ -124,7 +125,7 @@ public class CargarDatos implements CommandLineRunner {
                                 .caloriasTarget(1800.0f)
                                 .fechaInicio(LocalDateTime.of(2024, 4, 1, 0, 0))
                                 .fechaFin(LocalDateTime.of(2024, 4, 30, 0, 0))
-                                .comidasSugferidas(Arrays.asList(
+                                .comidasSugeridas(Arrays.asList(
                                         Comida.builder()
                                                 .id("comida2")
                                                 .nombre("Sopa de Verduras")
@@ -187,9 +188,9 @@ public class CargarDatos implements CommandLineRunner {
                 .nombre("Carlos")
                 .primerApellido("Fernandez")
                 .segundoApellido("Lopez")
-                .contrasena("mysecretpass")
+                .contrasena(cifrar.encode("mysecretpass"))
                 .fechaDeNacimiento(LocalDate.of(1992, 3, 5))
-                .fechaRegistro(LocalDate.now())
+                .fechaRegistro(LocalDateTime.now())
                 .altura(175.0f)
                 .peso(70.0f)
                 .sexo(Sexo.HOMBRE)
@@ -199,7 +200,7 @@ public class CargarDatos implements CommandLineRunner {
                                 .caloriasTarget(2500.0f)
                                 .fechaInicio(LocalDateTime.of(2024, 1, 1, 0, 0))
                                 .fechaFin(LocalDateTime.of(2024, 1, 31, 0, 0))
-                                .comidasSugferidas(Arrays.asList(
+                                .comidasSugeridas(Arrays.asList(
                                         Comida.builder()
                                                 .id("comida5")
                                                 .nombre("Pasta con Pollo")
@@ -256,10 +257,10 @@ public class CargarDatos implements CommandLineRunner {
                 ))
                 .build();
 
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente1, UsuarioInsertar.class));
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente2, UsuarioInsertar.class));
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente3, UsuarioInsertar.class));
-        usuarioServicio.insertarUsuario(ObjectMapperUtils.map(cliente4, UsuarioInsertar.class));
+        usuarioServicio.insertarDebug(cliente1);
+        usuarioServicio.insertarDebug(cliente2);
+        usuarioServicio.insertarDebug(cliente3);
+        usuarioServicio.insertarDebug(cliente4);
 
         System.out.println("Insertado cliente nuevo");
     }

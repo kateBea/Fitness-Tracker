@@ -1,4 +1,6 @@
-﻿using Shared.Utilities;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Shared.Utilities;
 
 namespace FT___Base.ViewModels
 {
@@ -7,6 +9,6 @@ namespace FT___Base.ViewModels
     /// </summary>
     public class ResponseModifcarDietaVM : BaseResponse
     {
-
+        public DateTime? ModifiedAt { get; set; } = DateTime.Now;
     }
 }

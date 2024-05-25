@@ -10,6 +10,6 @@ namespace FT___Base.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        public DateTime PasswordChangeDate { get; set; } = DateTime.Now;
+        public DateTime? PasswordChangeDate { get; set; }
     }
 }

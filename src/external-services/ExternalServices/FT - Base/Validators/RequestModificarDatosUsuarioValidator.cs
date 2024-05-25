@@ -13,7 +13,7 @@ namespace FT___Base.Validators
             RuleFor(x => x.Nombre).NotEmpty().Length(1, 50);
             RuleFor(x => x.PrimerApellido).NotEmpty().Length(1, 50);
             RuleFor(x => x.SegundoApellido).Length(0, 50);
-            RuleFor(x => x.FechaNacimiento).NotEmpty().LessThan(DateTime.Now);
+            RuleFor(x => x.FechaDeNacimiento).NotEmpty().LessThan(DateTime.Now);
             RuleFor(x => x.Altura).GreaterThan(0);
             RuleFor(x => x.Peso).GreaterThan(0);
             RuleFor(x => x.Sexo).NotEmpty();
