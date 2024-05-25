@@ -18,7 +18,6 @@ function ProtectedRoutes() {
       console.log("User not logged")
 
       // limpiar en caso de que esté el token
-      console.log("Clearing token and duration from LS")
       localStorage.removeItem('token')
       localStorage.removeItem('tokenExpirationDate')
       localStorage.removeItem('tokenDuration')

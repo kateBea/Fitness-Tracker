@@ -9,8 +9,14 @@ namespace Shared.Utilities
 {
     public static class Cryptography
     {
-        public static byte[] EncryptStringToBytes_Aes(string plainText, byte[] Key, byte[] IV)
+        private static readonly Aes _aes = Aes.Create();
+
+        public static byte[] EncryptStringToBytes_Aes(string plainText, byte[]? Key = null, byte[]? IV = null, Aes? aes = null)
         {
+            Key = Key is null ? _aes.Key : null;
+            IV = IV is null ? _aes.IV : null;
+            aes = aes is null ? _aes : null;
+
             // Check arguments.
             if (plainText == null || plainText.Length <= 0)
                 throw new ArgumentNullException("Null or empty crypt data");
@@ -22,13 +28,12 @@ namespace Shared.Utilities
 
             // Create an Aes object
             // with the specified key and IV.
-            using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
+                aes.Key = Key;
+                aes.IV = IV;
 
                 // Create an encryptor to perform the stream transform.
-                ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
+                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
 
                 // Create the streams used for encryption.
                 using (MemoryStream msEncrypt = new MemoryStream())
@@ -49,8 +54,12 @@ namespace Shared.Utilities
             return encrypted;
         }
 
-        public static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[] Key, byte[] IV)
+        public static string DecryptStringFromBytes_Aes(byte[] cipherText, byte[]? Key = null, byte[]? IV = null, Aes? aes = null)
         {
+            Key = Key is null ? _aes.Key : null;
+            IV = IV is null ? _aes.IV : null;
+            aes = aes is null ? _aes : null;
+
             // Check arguments.
             if (cipherText == null || cipherText.Length <= 0)
                 throw new ArgumentNullException("Null or empty cipher text");
@@ -65,13 +74,12 @@ namespace Shared.Utilities
 
             // Create an Aes object
             // with the specified key and IV.
-            using (Aes aesAlg = Aes.Create())
             {
-                aesAlg.Key = Key;
-                aesAlg.IV = IV;
+                aes.Key = Key;
+                aes.IV = IV;
 
                 // Create a decryptor to perform the stream transform.
-                ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
 
                 // Create the streams used for decryption.
                 using (MemoryStream msDecrypt = new MemoryStream(cipherText))

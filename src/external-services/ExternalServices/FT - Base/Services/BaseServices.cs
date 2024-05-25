@@ -1,22 +1,21 @@
-﻿using FT___Base.Interfaces;
+﻿using AutoMapper;
+using FT___Base.Interfaces;
 using FT___Base.Models;
 using FT___Base.ViewModels;
-using System.Web;
-using System;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Text;
 using FTAlimentos.Models;
-using System.Net.Http.Headers;
-using System.Net;
-using AutoMapper;
-using static FT___Base.ViewModels.ResponseLoginVM;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Security.Authentication;
-using Shared.Contexts;
 using Shared.Constants;
-using System.Security.Claims;
-using System.Security.Cryptography;
+using Shared.Contexts;
 using Shared.Utilities;
+using System.Net;
+using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text;
+using System.Web;
+using static FT___Base.ViewModels.ResponseGetDatosUsuarioVM;
+using static FT___Base.ViewModels.ResponseLoginVM;
 
 namespace FT___Base.Services
 {
@@ -72,7 +71,7 @@ namespace FT___Base.Services
             _getListRutinasEndpoint = configuration.GetSection("ExternalServices:GetRutinasEndpoint").Value!;
             _registrarRutinaEndpoint = configuration.GetSection("ExternalServices:RegistrarRutinaEndpoint").Value!;
 
-            _httpClient = new HttpClient();
+                _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
@@ -88,10 +87,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseCambiarPasswordVM();
-            string finalUrl = _SetBaseParams(_cambiarPasswordEndpoint).ToString();
+            string finalUrl = SetBaseParams(_cambiarPasswordEndpoint).ToString();
 
             var obj = _mapper.Map<CambiarPasswordSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -118,10 +117,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseGetDatosUsuarioVM();
-            string finalUrl = _SetBaseParams(_getDatosUsuarioEndpoint).ToString();
+            string finalUrl = SetBaseParams(_getDatosUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetDatosUsuarioSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -131,7 +130,7 @@ namespace FT___Base.Services
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseGetDatosUsuarioSvcOut>(json);
 
-                resultVm = _mapper.Map<ResponseGetDatosUsuarioVM>(parsed);
+                resultVm.Data = _mapper.Map<ResponseGetDatosUsuarioVMData>(parsed?.Data);
             }
 
             return resultVm;
@@ -148,10 +147,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseGetDietaDeUsuarioVM();
-            string finalUrl = _SetBaseParams(_getDietaUsuarioEndpoint).ToString();
+            string finalUrl = SetBaseParams(_getDietaUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetDietaUsuarioInSvc>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -178,10 +177,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseRequestGetListDietasDeUsuarioVM();
-            string finalUrl = _SetBaseParams(_getListDietasUsuarioEndpoint).ToString();
+            string finalUrl = SetBaseParams(_getListDietasUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetListDietasDeUsuarioSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -209,10 +208,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseGetListRutinasUsuarioVM();
-            string finalUrl = _SetBaseParams(_getListRutinasEndpoint).ToString();
+            string finalUrl = SetBaseParams(_getListRutinasEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetListRutinasUsuarioSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -239,10 +238,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseGetRutinaPorIdVM();
-            string finalUrl = _SetBaseParams(_getRutinaEndpoint).ToString();
+            string finalUrl = SetBaseParams(_getRutinaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestGetRutinaPorIdSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -266,7 +265,7 @@ namespace FT___Base.Services
         public async Task<ResponseLoginVM> Login(RequestLogin model)
         {
             var resultVm = new ResponseLoginVM();
-            string finalUrl = _SetBaseParams(_loginEndpoint).ToString();
+            string finalUrl = SetBaseParams(_loginEndpoint).ToString();
 
             var obj = _mapper.Map<RequestLoginSvcIn>(model);
 
@@ -300,6 +299,10 @@ namespace FT___Base.Services
                     resultVm.Data.Token = output.Token;
                     resultVm.Data.TokenExpirationDate = output.TokenExpireDate;
                     resultVm.Data.TokenDuration = output.TokenExpireTime;
+
+                    var token = JwtTokenHandler.GetClaimFromJwt(output.Token, "email");
+                    var decrypt = DecodeUserEmail(token);
+                    var e = decrypt;
                 }
 
             }
@@ -318,10 +321,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseModifcarDietaVM();
-            string finalUrl = _SetBaseParams(_modificarDietaEndpoint).ToString();
+            string finalUrl = SetBaseParams(_modificarDietaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestModifcarDietaSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -348,10 +351,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseModificarDatosUsuarioVM();
-            string finalUrl = _SetBaseParams(_modificarDatosUsuarioEndpoint).ToString();
+            string finalUrl = SetBaseParams(_modificarDatosUsuarioEndpoint).ToString();
 
             var obj = _mapper.Map<RequestModificarDatosUsuarioSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -378,10 +381,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseModificarRutinaVM();
-            string finalUrl = _SetBaseParams(_modificarRutinaEndpoint).ToString();
+            string finalUrl = SetBaseParams(_modificarRutinaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestModificarRutinaSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -403,10 +406,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseRegistrarRutinaVM();
-            string finalUrl = _SetBaseParams(_registrarRutinaEndpoint).ToString();
+            string finalUrl = SetBaseParams(_registrarRutinaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestRegistrarRutinaIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -430,7 +433,7 @@ namespace FT___Base.Services
         public async Task<ResponseRegistrarUsuarioVM> RegistrarUsuario(RequestRegistrarUsuario model)
         {
             var resultVm = new ResponseRegistrarUsuarioVM();
-            string finalUrl = _SetBaseParams(_registerEndpoint).ToString();
+            string finalUrl = SetBaseParams(_registerEndpoint).ToString();
 
             var obj = _mapper.Map<RequestRegisterSvcIn>(model);
 
@@ -460,10 +463,10 @@ namespace FT___Base.Services
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
             var resultVm = new ResponseRegistrarDietaVM();
-            string finalUrl = _SetBaseParams(_registrarDietaEndpoint).ToString();
+            string finalUrl = SetBaseParams(_registrarDietaEndpoint).ToString();
 
             var obj = _mapper.Map<RequestRegistrarDietaSvcIn>(model);
-            obj.Email = emailFromToken;
+            obj.Email = DecodeUserEmail(emailFromToken)    ;
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -494,11 +497,9 @@ namespace FT___Base.Services
             // Create a new instance of the Aes
             // class.  This generates a new key and initialization
             // vector (IV).
-            using (Aes myAes = Aes.Create())
             {
-
                 // Encrypt the string to an array of bytes.
-                encrypted = Cryptography.EncryptStringToBytes_Aes(email, myAes.Key, myAes.IV);
+                encrypted = Cryptography.EncryptStringToBytes_Aes(email);
             }
 
             return Convert.ToBase64String(encrypted);
@@ -510,16 +511,15 @@ namespace FT___Base.Services
         /// <param name="email">64 base encripted email</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        private string DencodeUserEmail(string email)
+        private string DecodeUserEmail(string email)
         {
-            string roundtrip = string.Empty;
+            string roundtrip;
             // Create a new instance of the Aes
             // class.  This generates a new key and initialization
             // vector (IV).
-            using (Aes myAes = Aes.Create())
             {
                 // Decrypt the bytes to a string.
-                roundtrip = Cryptography.DecryptStringFromBytes_Aes(Convert.FromBase64String(email), myAes.Key, myAes.IV);
+                roundtrip = Cryptography.DecryptStringFromBytes_Aes(Convert.FromBase64String(email));
             }
 
             return roundtrip;
@@ -531,11 +531,13 @@ namespace FT___Base.Services
         /// <param name="baseUrl"></param>
         /// <param name="port"></param>
         /// <returns></returns>
-        private UriBuilder _SetBaseParams(string baseUrl, int port = 8080)
+        private static UriBuilder SetBaseParams(string baseUrl, int port = 8080)
         {
-            UriBuilder result = new UriBuilder(baseUrl);
+            UriBuilder result = new(baseUrl)
+            {
+                Port = port
+            };
 
-            result.Port = port;
             var query = HttpUtility.ParseQueryString(result.Query);
 
             result.Query = query.ToString();
