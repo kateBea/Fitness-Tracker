@@ -16,8 +16,6 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LogoFitness from '../../img/logo-fitness-tracker.png';
 import { TopBar } from '../../components/Topbar';
 import { API_ROUTES } from '../../ApiRoutes';
-import MainPage from '../private/MainPage';
-import PerfilPage from '../private/PerfilPage';
 
 const theme = createTheme({
   palette: {
