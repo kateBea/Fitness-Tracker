@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import {useForm} from 'react-hook-form'
 import {
   Box,
   Typography,
@@ -16,6 +17,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LogoFitness from '../../img/logo-fitness-tracker.png';
 import { TopBar } from '../../components/Topbar';
 import { API_ROUTES } from '../../ApiRoutes';
+import { PAGE_ROUTES } from '../../PageConstants';
+import { useAuthContext } from '../../auth/AuthProvider';
 
 const theme = createTheme({
   palette: {
@@ -35,26 +38,25 @@ const theme = createTheme({
 });
 
 function LoginPage() {
+  const { register, handleSubmit } = useForm();
+
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(API_ROUTES.Login, {
-        email: usuario,
-        password
-      });
+  const { userIsLogged, loginUser } = useAuthContext();
 
-      if (response.data.success) {
-        navigate("/Today");
-      } else {
-        console.log(response.data.errors);
-      }
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
+  const handleLogin = async () => {
+    loginUser(email, password);
   };
+
+  useEffect(() => {
+    if (userIsLogged) {
+      navigate(PAGE_ROUTES.Today);
+    }
+
+  }, [userIsLogged])
+
 
   return (
     <Box 
@@ -137,8 +139,8 @@ function LoginPage() {
               required={true}
               type='text'
               fullWidth={true}
-              value={usuario}
-              onChange={(e) => setUsuario(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               sx={{
                 color: '#FFF',
                 fontSize: '14pt',
@@ -203,6 +205,7 @@ function LoginPage() {
               fontSize: '20pt'
             }}
             onClick={handleLogin}
+            type='submit'
           >
             Log in
           </Button>

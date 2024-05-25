@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState } from 'react'
 import { API_ROUTES } from '../ApiRoutes';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
-export const useAuth = () => {
+export const useAuthContext = () => {
     const context = useContext(AuthContext);
     if (!context) {
         throw new Error("useAuth debe ser usado dentro de un provider");
@@ -19,7 +20,7 @@ function AuthProvider ({ children }) {
     const [userIsLogged, setUserIsLogged] = useState(false);
     const [errors, setErrors] = useState([]);
     
-    const logUser = async (email, password) => {
+    const loginUser = async (email, password) => {
         try {
             const requestData = { email: email, password: password }
             const response = await axios.post( API_ROUTES.Login, requestData );
@@ -36,6 +37,16 @@ function AuthProvider ({ children }) {
             }
         }catch (error) {
             // Si hay alguno que otro error en la petición
+            console.error('Error en el login: ', error);
+        }
+
+    };
+
+    const logoutUser = async () => {
+        try {
+            // limpiar local storage
+        }catch (error) {
+            // Si hay alguno que otro error en la petición
             console.error('Error logging in:', error);
         }
 
@@ -44,7 +55,8 @@ function AuthProvider ({ children }) {
     return (
         <AuthContext.Provider
             value={{
-                logUser,
+                loginUser,
+                logoutUser,
                 userEmail,
                 userUsername,
                 userIsLogged,

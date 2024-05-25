@@ -1,5 +1,6 @@
 package com.fitness.aplicacion.servicio;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -427,7 +428,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         Rutina nueva = ObjectMapperUtils.map(model, Rutina.class);
-        nueva.setFechaSeguimiento(LocalDateTime.now());
+        nueva.setFechaSeguimiento(LocalDate.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
 
         List<Rutina> rutinas = usuario.get().getRutinas();
@@ -463,12 +464,20 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         rutina.get().setCaloriasQuemadas(model.getCaloriasQuemadas());
         rutina.get().setPasosRealizados(model.getPasosRealizados());
         rutina.get().setFrecuenciaCardiaca(model.getFrecuenciaCardiaca());
+        rutina.get().setNivelOxigenoSangre(model.getNivelOxigenoSangre());
         rutina.get().setFechaUltimaModificacion(LocalDateTime.now());
 
         // cargar alimento alimentos
-        List<Alimento> alimentos = new ArrayList<>();
+        List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas().isEmpty() ?
+                new ArrayList<>() : usuario.get().getComidasRegistradas();
+
+        List<Alimento> alimentos = rutina.get().getComidasConsumidas().isEmpty() ?
+                new ArrayList<>() : rutina.get().getComidasConsumidas();
         for (RequestModificarRutina.AlimentoInfo alimentoInfo : model.getAlimentoInfos()) {
-            Optional<Comida> comida = comidaRepositorio.findById(alimentoInfo.getComidaId());
+            // Buscamos la comida con el id de alimentoInfo en el repertorio de comidas que tiene registrado el usuario
+            Optional<Comida> comida = comidasRegistradasUsuario.stream()
+                            .filter(c -> c.getId().equals(alimentoInfo.getComidaId()))
+                            .findFirst();
 
             comida.ifPresent(value -> alimentos.add(
                     Alimento
@@ -481,11 +490,25 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                             .horaConsumo(alimentoInfo.getHoraConsumo())
                             .build()
             ));
+
+            // Si la comida que se intenta añadir no existe se da de alta
+            if (comida.isEmpty()) {
+                comidasRegistradasUsuario.add(
+                        Comida.builder()
+                                .id(alimentoInfo.getComidaId())
+                                .nombre(alimentoInfo.getNombre())
+                                .fechaRegistro(LocalDateTime.now())
+                                .fechaUltimaModificacion(LocalDateTime.now())
+                                .descripcion("Sin descripción")
+                                .build()
+                );
+            }
         }
 
         rutina.get().setComidasConsumidas(alimentos);
         rutinaRepositorio.save(rutina.get());
 
+        usuario.get().setComidasRegistradas(comidasRegistradasUsuario);
         DAOS.save(usuario.get());
 
         return true;

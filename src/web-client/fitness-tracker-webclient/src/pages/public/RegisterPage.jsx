@@ -17,6 +17,7 @@ import MarkAsUnreadOutlinedIcon from '@mui/icons-material/MarkAsUnreadOutlined';
 import LogoFitness from '../../img/logo-fitness-tracker.png';
 import { TopBar } from '../../components/Topbar';
 import { API_ROUTES } from '../../ApiRoutes';
+import { PAGE_ROUTES } from '../../PageConstants';
 
 const theme = createTheme({
   palette: {
@@ -43,19 +44,16 @@ function RegisterPage() {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post(API_ROUTES.RegistrarUsuario, {
-        email,
-        username,
-        password,
-      });
+      const requestData = { email, username, password };
+      const response = await axios.post(API_ROUTES.RegistrarUsuario, requestData);
 
       if (response.data.success) {
-        navigate('/Login');
+        navigate(PAGE_ROUTES.Login);
       } else {
         console.log(response.data.errors);
       }
     } catch (error) {
-      console.error('Error registering:', error);
+      console.error('Error al registrar el usuario: ', error);
     }
   };
 

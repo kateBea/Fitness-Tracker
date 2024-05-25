@@ -19,6 +19,7 @@ import EditarDieta from './pages/private/VisualizarDietaPage.jsx'
 import ListadoDietas from './pages/private/ListadoDietasPage.jsx'
 
 import ListadoRutinasPage from './pages/private/ListadoRutinasPage.jsx'
+import ProtectedRoutes from './auth/ProtectedRoutes.jsx';
 
 export default function App() {
   return (
@@ -31,15 +32,17 @@ export default function App() {
           <Route path="/Register" element={<RegisterPage/>}></Route>
           
           {/* Private */}
-          <Route path="/ChatAssistance" element={<ChatAssistancePage/>}></Route>
-          <Route path="/DailyCalorie" element={<DailyCalorie/>}></Route>
-          <Route path="/Today" element={<DailyPage/>}></Route>
-          <Route path="/GenerarDieta" element={<DietGeneratorPage/>}></Route>
-          <Route path="/EditarDieta" element={<EditarDieta/>}></Route>
-          <Route path="/ListadoDietas" element={<ListadoDietas/>}></Route>
-          <Route path="/ListadoRutinas" element={<ListadoRutinasPage/>}></Route>
-          <Route path="/MainPage" element={<MainPage/>}></Route>
-          <Route path="/Perfil" element={<PerfilPage/>}></Route>
+          <Route element={<ProtectedRoutes/>}>
+            <Route path="/ChatAssistance" element={<ChatAssistancePage/>}></Route>
+            <Route path="/DailyCalorie" element={<DailyCalorie/>}></Route>
+            <Route path="/Today" element={<DailyPage/>}></Route>
+            <Route path="/GenerarDieta" element={<DietGeneratorPage/>}></Route>
+            <Route path="/EditarDieta" element={<EditarDieta/>}></Route>
+            <Route path="/ListadoDietas" element={<ListadoDietas/>}></Route>
+            <Route path="/ListadoRutinas" element={<ListadoRutinasPage/>}></Route>
+            <Route path="/MainPage" element={<MainPage/>}></Route>
+            <Route path="/Perfil" element={<PerfilPage/>}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

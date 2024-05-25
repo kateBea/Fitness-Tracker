@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class ResponseGetRutina extends BaseResponse {
         private float nivelOxigenoSangre;
 
         @JsonProperty(value = "fecha_seguimiento")
-        private LocalDateTime fechaSeguimiento;
+        private LocalDate fechaSeguimiento;
 
         @JsonProperty(value = "ultima_modificacion")
         private LocalDateTime fechaUltimaModificacion;

@@ -22,7 +22,7 @@ namespace Security.Authentication
 
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Name, data.Username ?? string.Empty),
+                new Claim(ClaimTypes.Name, data.Username),
                 new Claim(ClaimTypes.Role, data.Role)
             });
 
@@ -92,7 +92,7 @@ namespace Security.Authentication
 
     public class GenerateJwtTokenIn
     {
-        public string? Username { get; set; }
+        public string Username { get; set; }
         public string Role { get; set; } = "User"; // default role is user
     }
 

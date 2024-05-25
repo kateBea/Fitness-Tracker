@@ -324,7 +324,7 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("registrarrutina")
-	ResponseEntity<ResponseRegistrarRutina> modificarDieta(@RequestBody RequestRegistrarRutina model) {
+	ResponseEntity<ResponseRegistrarRutina> registrarRutina(@RequestBody RequestRegistrarRutina model) {
 		ResponseRegistrarRutina responseData = ResponseRegistrarRutina.builder().build();
 		ResponseEntity<ResponseRegistrarRutina> response;
 

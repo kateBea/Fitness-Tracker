@@ -1,5 +1,6 @@
 package com.fitness.aplicacion.utilidades;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -7,7 +8,7 @@ import java.util.stream.Stream;
 
 public class UtilidadesFechas {
 
-    public static boolean isBetween(LocalDateTime target, LocalDateTime start, LocalDateTime end) {
+    public static boolean isBetween(LocalDate target, LocalDate start, LocalDate end) {
         if (Stream.of(target, start, end).anyMatch(Objects::isNull)) {
             return false;
         }

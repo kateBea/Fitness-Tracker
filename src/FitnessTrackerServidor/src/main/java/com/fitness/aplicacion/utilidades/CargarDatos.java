@@ -121,7 +121,7 @@ public class CargarDatos implements CommandLineRunner {
                 .pasosRealizados(10000)
                 .frecuenciaCardiaca(60)
                 .nivelOxigenoSangre(98)
-                .fechaSeguimiento(LocalDateTime.of(2024, 5, 21, 0, 0))
+                .fechaSeguimiento(LocalDate.of(2024, 5, 21))
                 .fechaUltimaModificacion(LocalDateTime.now())
                 .comidasConsumidas(Arrays.asList(alimento1, alimento2, alimento3))
                 .build();
@@ -238,7 +238,7 @@ public class CargarDatos implements CommandLineRunner {
                 .pasosRealizados(8000)
                 .frecuenciaCardiaca(70)
                 .nivelOxigenoSangre(97)
-                .fechaSeguimiento(LocalDateTime.of(2024, 5, 22, 0, 0))
+                .fechaSeguimiento(LocalDate.of(2024, 5, 22))
                 .fechaUltimaModificacion(LocalDateTime.now())
                 .comidasConsumidas(Arrays.asList(alimento4, alimento5, alimento6))
                 .build();
@@ -355,7 +355,7 @@ public class CargarDatos implements CommandLineRunner {
                 .pasosRealizados(12000)
                 .frecuenciaCardiaca(55)
                 .nivelOxigenoSangre(99)
-                .fechaSeguimiento(LocalDateTime.of(2024, 5, 23, 0, 0))
+                .fechaSeguimiento(LocalDate.of(2024, 5, 23))
                 .fechaUltimaModificacion(LocalDateTime.now())
                 .comidasConsumidas(Arrays.asList(alimento7, alimento8, alimento9))
                 .build();
@@ -472,7 +472,7 @@ public class CargarDatos implements CommandLineRunner {
                 .pasosRealizados(15000)
                 .frecuenciaCardiaca(65)
                 .nivelOxigenoSangre(96)
-                .fechaSeguimiento(LocalDateTime.of(2024, 5, 24, 0, 0))
+                .fechaSeguimiento(LocalDate.of(2024, 5, 24))
                 .fechaUltimaModificacion(LocalDateTime.now())
                 .comidasConsumidas(Arrays.asList(alimento10, alimento11, alimento12))
                 .build();

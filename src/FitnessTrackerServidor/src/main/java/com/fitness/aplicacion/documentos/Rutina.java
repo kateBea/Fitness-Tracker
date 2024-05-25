@@ -49,7 +49,7 @@ public class Rutina {
 
     @Field(value = "fecha_seguimiento")
     @JsonProperty(value = "fecha_seguimiento")
-    private LocalDateTime fechaSeguimiento;
+    private LocalDate fechaSeguimiento;
 
     @Field(value = "ultima_modificacion")
     @JsonProperty(value = "ultima_modificacion")

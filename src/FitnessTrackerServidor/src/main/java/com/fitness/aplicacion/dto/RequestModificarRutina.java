@@ -50,6 +50,9 @@ public class RequestModificarRutina {
         @JsonProperty(value = "comida_id")
         private String comidaId;
 
+        @JsonProperty(value = "nombre")
+        private String nombre;
+
         @JsonProperty(value = "tipo")
         private String tipo;
 
