@@ -16,6 +16,7 @@ import DailyPage from './pages/private/DailyPage.jsx'
 import DailyCalorie from './pages/private/DailyCalorie.jsx'
 import EditarDieta from './pages/private/VisualizarDietaPage.jsx'
 import ListadoDietas from './pages/private/ListadoDietasPage.jsx'
+import DietaResultPage from './pages/private/DietaResultPage.jsx';
 
 import ListadoRutinasPage from './pages/private/ListadoRutinasPage.jsx'
 import ProtectedRoutes from './auth/ProtectedRoutes.jsx';
@@ -36,6 +37,7 @@ export default function App() {
             <Route path="/DailyCalorie" element={<DailyCalorie/>}></Route>
             <Route path="/Today" element={<DailyPage/>}></Route>
             <Route path="/GenerarDieta" element={<DietGeneratorPage/>}></Route>
+            <Route path="/GenerarDietaResult" element={<DietaResultPage/>}></Route>
             <Route path="/EditarDieta" element={<EditarDieta/>}></Route>
             <Route path="/ListadoDietas" element={<ListadoDietas/>}></Route>
             <Route path="/ListadoRutinas" element={<ListadoRutinasPage/>}></Route>

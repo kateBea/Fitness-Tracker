@@ -34,7 +34,9 @@ const theme = createTheme({
     },
 });
 
-function PerfilPage() {
+function DailyCalorie() {
+    
+
     return (
     <Box
         sx={{
@@ -310,4 +312,4 @@ function PerfilPage() {
     );
 }
 
-export default PerfilPage
+export default DailyCalorie

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import { TopBar } from '../../components/Topbar'
 import {
     Container,
@@ -12,8 +13,7 @@ import {
 
 import { createTheme } from '@mui/material/styles';
 import { PrivateBar } from '../../components/Privatebar';
-import { useAuthContext } from '../../auth/AuthProvider';
-
+import { API_ROUTES } from '../../ApiRoutes';
 
 const theme = createTheme({
     components: {
@@ -37,7 +37,33 @@ const theme = createTheme({
     },
 });
 
-function PerfilPage() {
+function DailyPage() {
+    const [listadoDietas, setListadoDietas] = useState({});
+    const [listadoRutinas, setListadoRutinas] = useState({});
+
+    const loadRutineAndDiet = async () => {
+        try {
+          const responseDietas = await axios
+            .get(API_ROUTES.GetListDietasUsuario);
+
+            const responseRutinas = await axios
+            .get(API_ROUTES.GetListRutinasUsuario);
+
+            setListadoDietas(responseDietas.data)
+            setListadoRutinas(responseRutinas.data)
+    
+          console.log(responseDietas);
+          console.log(responseRutinas);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    
+      useEffect(() => {
+        const tokenLS = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
+        loadRutineAndDiet();
+      });
 
     return (
     <Box
@@ -314,4 +340,4 @@ function PerfilPage() {
     );
 }
 
-export default PerfilPage
+export default DailyPage
