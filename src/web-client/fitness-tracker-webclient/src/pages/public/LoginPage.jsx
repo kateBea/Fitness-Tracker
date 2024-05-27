@@ -42,6 +42,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const tokenLS = localStorage.getItem("token");
 
   const { loginUser } = useAuthContext();
 
@@ -50,14 +51,13 @@ function LoginPage() {
   };
 
   useEffect(() => {
-    const tokenLS = localStorage.getItem("token");
     console.log("tokenls " + tokenLS)
 
     if (tokenLS != null || tokenLS != undefined) {
       console.log("User is already logged")
       navigate(PAGE_ROUTES.Today);
     }
-  });
+  }, [tokenLS]);
 
   return (
     <Box 

@@ -1,6 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TopBar } from '../../components/Topbar'
+import axios from 'axios';
 import {
     Container,
     Box,
@@ -38,19 +39,25 @@ const theme = createTheme({
 });
 
 function DailyPage() {
+    const [fetchDataSuccesfull, setFetchDataSuccesfull] = useState(false);
     const [listadoDietas, setListadoDietas] = useState({});
     const [listadoRutinas, setListadoRutinas] = useState({});
 
     const loadRutineAndDiet = async () => {
+        const tokenLS = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
+
         try {
           const responseDietas = await axios
             .get(API_ROUTES.GetListDietasUsuario);
 
             const responseRutinas = await axios
-            .get(API_ROUTES.GetListRutinasUsuario);
+            .get(API_ROUTES.GetListRutinasUsuario, { params: { fetchAll: true }});
 
             setListadoDietas(responseDietas.data)
             setListadoRutinas(responseRutinas.data)
+
+            setFetchDataSuccesfull(true)
     
           console.log(responseDietas);
           console.log(responseRutinas);
@@ -59,11 +66,10 @@ function DailyPage() {
         }
       };
     
+      
       useEffect(() => {
-        const tokenLS = localStorage.getItem("token");
-        axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
-        loadRutineAndDiet();
-      });
+          loadRutineAndDiet();
+      }, [fetchDataSuccesfull]);
 
     return (
     <Box
@@ -118,7 +124,7 @@ function DailyPage() {
                         
                     }}
                 >
-                    Desayuno
+                    Rutina
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
@@ -193,7 +199,7 @@ function DailyPage() {
                         
                     }}
                 >
-                    Resultados
+                    Dieta
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
@@ -268,7 +274,7 @@ function DailyPage() {
                         
                     }}
                 >
-                    Datos Personales
+                    Físico
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',

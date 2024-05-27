@@ -22,7 +22,7 @@ function ProtectedRoutes() {
       localStorage.removeItem('tokenExpirationDate')
       localStorage.removeItem('tokenDuration')
 
-      return <Navigate to="/login" />;
+      return <Navigate to="/Login" />;
     }
 
   return <Outlet/>

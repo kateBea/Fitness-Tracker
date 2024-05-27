@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { TopBar } from "../../components/Topbar";
 import { PrivateBar } from "../../components/Privatebar";
 import {
@@ -10,36 +10,23 @@ import {
   ListItemText,
 } from "@mui/material";
 
-import { createTheme } from "@mui/material/styles";
 import { API_ROUTES } from "../../ApiRoutes";
 import axios from "axios";
-import { useAuthContext } from "../../auth/AuthProvider";
-
-const theme = createTheme({
-  components: {
-    // Name of the component
-    Container: {
-      styleOverrides: {
-        // Name of the slot
-        root: {
-          // Some CSS
-          maxWidth: "100%",
-        },
-      },
-    },
-    MenuItem: {
-      current: {},
-      deactivated: {},
-    },
-  },
-});
 
 function PerfilPage() {
+  // State setup
+  const [dataLoadSucces, setDataLoadSucces] = useState(false);
+  const [datosUsuario, setDatosUsuario] = useState({});
+
+  // Axios setup
+  const tokenLS = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
+
   const loadPerfilData = async () => {
     try {
-      const response = await axios
-        .get(API_ROUTES.GetDatosUsuario);
-
+      const response = await axios.get(API_ROUTES.GetDatosUsuario);
+      setDataLoadSucces(true);
+      setDatosUsuario(response.data);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -47,10 +34,8 @@ function PerfilPage() {
   };
 
   useEffect(() => {
-    const tokenLS = localStorage.getItem("token");
-    axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
     loadPerfilData();
-  });
+  }, [dataLoadSucces]);
 
   return (
     <Box

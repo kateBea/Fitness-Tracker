@@ -1,31 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TopBar } from "../../components/Topbar";
-import { Container, Box, Grid, Card, CardContent, Typography, CardActionArea } from "@mui/material";
+import {
+  Container,
+  Box,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  CardActionArea,
+} from "@mui/material";
 import { API_ROUTES } from "../../ApiRoutes.jsx";
 import ImageCard from "../../components/ImageCard.jsx";
+import moment from "moment";
 
 import { PrivateBar } from "../../components/Privatebar.jsx";
 
-// Sample data for diets
-const diets = [
-  { id: 1, name: 'Keto Diet', description: 'Low-carb, high-fat diet.' },
-  { id: 2, name: 'Vegan Diet', description: 'Plant-based diet without animal products.' },
-  { id: 3, name: 'Paleo Diet', description: 'Diet based on the types of foods presumed to have been eaten by early humans.' },
-  // Add more diet cards as needed
-];
-
-const currentDiet = { id: 4, name: 'Mediterranean Diet', description: 'Diet inspired by the eating habits of Mediterranean countries.' };
-
 const DietCard = ({ diet }) => (
-  <Card sx={{ height: '100%' }}>
+  <Card sx={{ height: "100%" }}>
     <CardActionArea>
       <CardContent>
+        <h1>Objetivo en calorías</h1>
         <Typography variant="h5" component="div">
-          {diet.name}
+          {diet?.caloriasTarget}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {diet.description}
+          Fecha de inicio:
+          {moment(Date.parse(diet?.fechaInicio)).format('LL')}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Fecha de fin:
+          {moment(Date.parse(diet?.fechaFin)).format('LL')}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {diet?.consumoAgua}
         </Typography>
       </CardContent>
     </CardActionArea>
@@ -33,10 +41,38 @@ const DietCard = ({ diet }) => (
 );
 
 function ListadoDietasPage() {
-  // Axios test
-  axios.get(API_ROUTES.GetListDietasUsuario).then((response) => {
-    console.log(response.data);
-  });
+  // State setup
+  const [dataFecthSuccess, setDataFecthSuccess] = useState(false);
+  const [dietaActiva, setDietaActiva] = useState({});
+  const [dietas, setDietas] = useState([]);
+
+  // Axios setup
+  const tokenLS = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
+
+  const loadDietas = async () => {
+    try {
+      const response = await axios.get(API_ROUTES.GetListDietasUsuario);
+
+      setDataFecthSuccess(true);
+      setDietas(response.data.data);
+
+      for (let dietaIndex in dietas) {
+        console.log(dietas[dietaIndex])
+        if (dietas[dietaIndex].activa) {
+          setDietaActiva(dietas[dietaIndex])
+        }
+      }
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    loadDietas();
+  }, [dataFecthSuccess]);
 
   return (
     <Box
@@ -50,22 +86,30 @@ function ListadoDietasPage() {
       }}
     >
       <TopBar />
-      <PrivateBar/>
+      <PrivateBar />
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Box sx={{ mb: 4 }}>
           <Typography variant="h6" component="div" color="#FFF">
-            Current Diet
+            Dieta actual
           </Typography>
-          <DietCard diet={currentDiet} />
+          <DietCard diet={dietaActiva} />
         </Box>
         <Box>
           <Typography variant="h6" component="div" color="#FFF" sx={{ mb: 2 }}>
-            Your Designed Diets
+            Listado de dietas
           </Typography>
           <Grid container spacing={2}>
-            {diets.map((diet) => (
+            
+            {
+              
+            dietas.map(diet => (
+              
               <Grid item xs={12} sm={6} md={4} key={diet.id}>
-                <ImageCard></ImageCard>
+                <ImageCard
+                  fechaFin={diet?.fechaFin}
+                  fechaInicio={diet?.fechaInicio}
+                  caloriasTarget={diet?.caloriasTarget}
+                ></ImageCard>
               </Grid>
             ))}
           </Grid>
@@ -76,4 +120,3 @@ function ListadoDietasPage() {
 }
 
 export default ListadoDietasPage;
-

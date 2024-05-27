@@ -37,6 +37,9 @@ namespace FT___Base.Models
             [JsonProperty("consumo_agua")]
             public float ConsumoDeAgua { get; set; }
 
+            [JsonProperty("activa")]
+            public bool Activa { get; set; }
+
             [JsonProperty("fecha_registro")]
             public DateTime? FechaRegistro { get; set; }
 

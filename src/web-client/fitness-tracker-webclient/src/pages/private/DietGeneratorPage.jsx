@@ -21,6 +21,10 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 
 function DietGeneratorPage() {
+  // el resultado se visualiza con una modal
+
+
+
   // Preparar datos del formulario
   const [edad, setEdad] = useState("");
   const [genero, setGenero] = useState("")
