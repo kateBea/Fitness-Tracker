@@ -27,6 +27,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -35,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -45,7 +47,7 @@ import com.example.fitnesstrackerapp.pantallas.VentanaRegister
 import com.example.fitnesstrackerapp.pantallas.pantallaInformacion
 import com.example.fitnesstrackerapp.pantallas.pantallaPrincipal
 import com.example.fitnesstrackerapp.ui.theme.azul1
-import com.example.fitnesstrackerapp.uiViewModel.ViewModelFitness
+import com.example.fitnesstrackerapp.uiViewModel.InformacionViewModel
 
 sealed class Pantallas(var route:String){
     data object Login : Pantallas("login")
@@ -58,14 +60,14 @@ sealed class Pantallas(var route:String){
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun navegacion(navController: NavHostController, ViewModel: ViewModelFitness) {
+fun navegacion(navController: NavHostController) {
     val showToolbar = remember {mutableStateOf(false)}
     hideOrShowToolbar(navController = navController, showToolbar = showToolbar)
 
     if(showToolbar.value){
-        scaffoldPantallas(navHostController = navController, ViewModel)
+        scaffoldPantallas(navHostController = navController)
     }else{
-        navegacionPantallas(navController = navController,ViewModel)
+        navegacionPantallas(navController = navController)
     }
 
 
@@ -94,11 +96,12 @@ fun hideOrShowToolbar(
     })
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun navegacionPantallas(navController: NavHostController, ViewModel: ViewModelFitness){
+fun navegacionPantallas(navController: NavHostController){
     NavHost(navController = navController, startDestination = Pantallas.Login.route){
         composable(Pantallas.Login.route){
-            PantallaLogin(navController,ViewModel)
+            PantallaLogin(navController)
         }
         composable(Pantallas.Register.route){
             VentanaRegister(navController)
@@ -118,8 +121,9 @@ fun navegacionPantallas(navController: NavHostController, ViewModel: ViewModelFi
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun scaffoldPantallas(navHostController: NavHostController, ViewModel: ViewModelFitness){
+fun scaffoldPantallas(navHostController: NavHostController, informacionViewModel: InformacionViewModel = hiltViewModel()){
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+    val nombre = informacionViewModel.username.collectAsState().value
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -132,7 +136,7 @@ fun scaffoldPantallas(navHostController: NavHostController, ViewModel: ViewModel
                 ),
                 title = {
                     Text(
-                        "Nombre",
+                        nombre,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -194,7 +198,7 @@ fun scaffoldPantallas(navHostController: NavHostController, ViewModel: ViewModel
                     Icon(Icons.Rounded.DateRange, contentDescription = "", tint = Color.White)
                 }
             }
-            navegacionPantallas(navController = navHostController, ViewModel = ViewModel)
+            navegacionPantallas(navController = navHostController)
         }
     }
 }

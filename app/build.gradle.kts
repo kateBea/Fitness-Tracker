@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -82,4 +84,21 @@ dependencies {
     //Gson
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 
+    // Dagger y Hilt
+    implementation ("com.google.dagger:hilt-android:2.51.1")
+    kapt ("com.google.dagger:hilt-compiler:2.51.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+
+    //Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    annotationProcessor ("androidx.room:room-compiler:2.6.1")
+    kapt("androidx.room:room-compiler:2.6.1")
+
+
+    //Lottie
+    implementation("com.airbnb.android:lottie-compose:4.0.0")
+
+    //ModelMapper
+    implementation("org.modelmapper:modelmapper:3.1.0")
 }
