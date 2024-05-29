@@ -69,10 +69,10 @@ export const TopBar = () => {
                         width:'50%',
                     }}
                 >
-                    <MenuItem >Home</MenuItem>
-                    <MenuItem >App</MenuItem>
-                    <MenuItem >Sobre Nosotros</MenuItem>
-                    <MenuItem >Nuestros Clientes</MenuItem>
+                    <MenuItem href='/'>Home</MenuItem>
+                    <MenuItem href='/'>App</MenuItem>
+                    <MenuItem href='/'>Sobre Nosotros</MenuItem>
+                    <MenuItem href='/'>Nuestros Clientes</MenuItem>
                 </Box>
             </Container>
         </AppBar>
