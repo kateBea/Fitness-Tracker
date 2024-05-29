@@ -39,6 +39,7 @@ function MainPage() {
     paddingRight: '15px',
     marginTop: '20px',
     fontWeight: 'bold',
+    fontSize:'18pt',
     '&:hover': {
       backgroundColor: '#436489',
       color: 'white',
@@ -108,10 +109,10 @@ function MainPage() {
               fontWeight: 'bold'
             }}
           >
-            <MenuItem sx={{ fontWeight: 'bold' }} href='#home' >Home</MenuItem>
-            <MenuItem sx={{ fontWeight: 'bold' }} href='#servicios' >Nuestros Servicios</MenuItem>
-            <MenuItem sx={{ fontWeight: 'bold' }} href='#sobreNosotros' >Sobre Nosotros</MenuItem>
-            <MenuItem sx={{ fontWeight: 'bold' }} href='#app' >App</MenuItem>
+            <MenuItem sx={{ fontWeight: 'bold',fontSize:'18pt' }} href='#home' >Home</MenuItem>
+            <MenuItem sx={{ fontWeight: 'bold',fontSize:'18pt' }} href='#servicios' >Nuestros Servicios</MenuItem>
+            <MenuItem sx={{ fontWeight: 'bold',fontSize:'18pt' }} href='#sobreNosotros' >Sobre Nosotros</MenuItem>
+            <MenuItem sx={{ fontWeight: 'bold',fontSize:'18pt' }} href='#app' >App</MenuItem>
             <Button 
               href="/Register"
               sx={{
@@ -121,6 +122,7 @@ function MainPage() {
               borderRadius: '20px',
               paddingLeft: '10px',
               paddingRight: '10px',
+              fontSize:'18pt',
               '&:hover': {
                 background: '#436489',
               },
@@ -134,17 +136,17 @@ function MainPage() {
             <img src={BackgroundPuntos} style={{ position: 'absolute', width: '120px', left: '-40px' }}></img>
           </Box>
           <Typography
-            variant="h3"
+            variant="h2"
             component="h2"
             href="/"
-            sx={{ marginTop: '150px', marginLeft: '200px', fontWeight: 'bold' }}
+            sx={{ marginTop: '150px', marginLeft: '200px', fontWeight: 'bold',fontSize:'60pt' }}
           >Virtualiza tu cuidado personal
           </Typography>
           <Typography
             variant="p"
             component="p"
             href="/"
-            sx={{ marginTop: '20px', color: '#7D7987', marginLeft: '200px', maxWidth: '45%' }}>Fitness-Tracker provee de un seguimiento personal
+            sx={{ marginTop: '20px', color: '#7D7987',fontSize:'15pt', marginLeft: '200px', maxWidth: '45%' }}>Fitness-Tracker provee de un seguimiento personal
             y de salud para tu beneficio personal en base a tus
             objetivos y metas</Typography>
           <Container sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -152,8 +154,8 @@ function MainPage() {
           </Container>
         </Grid>
         <Grid item lg={6} xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '50px', width: '100%' }}>
-            <img src={RelojInicio}></img>
+          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '50px', width:'100%'}}>
+            <img src={RelojInicio} style={{width:'70%'}}></img>
           </Box>
         </Grid>
       </Grid>
@@ -193,13 +195,13 @@ function MainPage() {
             </Box>
             <Grid container columnSpacing={2} rowSpacing={3} sx={{ display: 'flex', justifyContent: 'center', paddingTop: '30px', paddingRight: '100px', paddingLeft: '100px' }}>
               <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
-                <Box sx={{ width: '350px', height: '300px', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
+                <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={BusquedaInteligente} style={{ width: "70px" }}></img>
                   <Typography
-                    variant="h"
+                    variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontSize: '20pt', fontWeight: 'bold', marginTop: '30px' }}
+                    sx={{ fontSize: '23pt', fontWeight: 'bold', marginTop: '30px' }}
                   >
                     Busqueda Inteligente
                   </Typography>
@@ -207,19 +209,19 @@ function MainPage() {
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', marginTop: '17px' }}
+                    sx={{ color: '#7D7987', marginTop: '17px',fontSize:'15pt' }}
                   >Encuentra y conoce todo aquello que necesites gracias a nuestra IA interactiva acerca de la salud y el fitness
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
-                <Box sx={{ width: '350px', height: '300px', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
+                <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={SmartwatchIco} style={{ width: "60px" }}></img>
                   <Typography
-                    variant="h"
+                    variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontSize: '20pt', fontWeight: 'bold', marginTop: '10px' }}
+                    sx={{ fontSize: '23pt', fontWeight: 'bold', marginTop: '15px' }}
                   >
                     Smartwatch
                   </Typography>
@@ -227,19 +229,19 @@ function MainPage() {
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', marginTop: '17px' }}
+                    sx={{ color: '#7D7987', marginTop: '17px',fontSize:'15pt' }}
                   >Escoge cualquier smartwatch y comienza a usar la app para mejorar tu salud y alcanzar tus objetivos
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
-                <Box sx={{ width: '350px', height: '300px', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
+                <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={ConsultaPersonalizada} style={{ width: "55px" }}></img>
                   <Typography
                     variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontSize: '18pt', fontWeight: 'bold', marginTop: '20px' }}
+                    sx={{ fontSize: '23pt', fontWeight: 'bold', marginTop: '20px' }}
                   >
                     Consulta Personalizada
                   </Typography>
@@ -247,19 +249,19 @@ function MainPage() {
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', marginTop: '17px' }}
+                    sx={{ color: '#7D7987', marginTop: '17px',fontSize:'15pt' }}
                   >Consulta gratuitamente todo aquello que necesites para alcanzar tus objetivos con nuestra IA
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
-                <Box sx={{ width: '350px', height: '300px', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
+              <Grid item xl={4} lg={4} md={6} xs={12} sx={{ display: 'flex', justifyContent: 'center', }}>
+                <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={InfoDetallada} style={{ width: "70px" }}></img>
                   <Typography
-                    variant="h"
+                    variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontSize: '20pt', fontWeight: 'bold', marginTop: '30px' }}
+                    sx={{ fontSize: '23pt', fontWeight: 'bold', marginTop: '30px' }}
                   >
                     Info Detallada
                   </Typography>
@@ -267,20 +269,20 @@ function MainPage() {
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', marginTop: '17px' }}
+                    sx={{ color: '#7D7987', marginTop: '17px',fontSize:'15pt' }}
                   >
                     Consulta la informacion acerca de tus entrenamientos y rendimiento diario
                   </Typography>
                 </Box>
               </Grid>
               <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
-                <Box sx={{ width: '350px', height: '300px', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
+                <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={CuentaIco} style={{ width: "110px" }}></img>
                   <Typography
-                    variant="h"
+                    variant="h2"
                     component="h3"
                     href="/"
-                    sx={{ fontSize: '20pt', fontWeight: 'bold', marginTop: '10px' }}
+                    sx={{ fontSize: '23pt', fontWeight: 'bold', marginTop: '10px' }}
                   >
                     Cuenta
                   </Typography>
@@ -288,28 +290,28 @@ function MainPage() {
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', marginTop: '17px' }}
+                    sx={{ color: '#7D7987', marginTop: '17px',fontSize:'15pt' }}
                   >
                     Accede a tus registros desde cualquier lugar y dispositivo descargandote la app e iniciando sesion o desde nuestra web
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
-                <Box sx={{ width: '350px', height: '300px', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
+              <Grid item xl={4} lg={4} md={6} xs={12} sx={{ display: 'flex', justifyContent: 'center', }}>
+                <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={TrackingIco} style={{ width: "80px" }}></img>
                   <Typography
-                    variant="h"
+                    variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontSize: '20pt', fontWeight: 'bold', marginTop: '20px' }}
+                    sx={{ fontSize: '23pt', fontWeight: 'bold', marginTop: '20px' }}
                   >
-                    Smartwatch
+                    Tracking
                   </Typography>
                   <Typography
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', marginTop: '20px' }}
+                    sx={{ color: '#7D7987', marginTop: '20px',fontSize:'15pt' }}
                   >
                     Trackea tus entrenamientos, tu dia a dia ¡¡INCLUSO TUS PERIODOS DE SUEÑO!!
                   </Typography>
@@ -333,7 +335,7 @@ function MainPage() {
                     variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontWeight: 'bold', fontSize: '30pt' }}
+                    sx={{ fontWeight: 'bold', fontSize: '50pt' }}
                   >Lideres en salud y fitness con nuevas tecnologias
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'start', marginTop: '30px' }}>
@@ -343,7 +345,7 @@ function MainPage() {
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', maxWidth: '80%', textAlign: 'left', marginTop: '30px' }}
+                    sx={{ color: '#7D7987', maxWidth: '80%', textAlign: 'left', marginTop: '30px',fontSize:'18pt' }}
                   >Le brindamos las mejores opciones para usted. Ajústalo a tus necesidades de salud y metas personales  Puedes consultar con nosotros qué tipo de ejercicios son mejores para alcanzar tus objetivos.
                   </Typography>
                 </Box>
@@ -364,7 +366,7 @@ function MainPage() {
                     variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontWeight: 'bold', fontSize: '30pt' }}
+                    sx={{ fontWeight: 'bold', fontSize: '50pt' }}
                   >Descarga nuestra app para dispositivos moviles
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'start', marginTop: '30px' }}>
@@ -374,7 +376,7 @@ function MainPage() {
                     variant="p"
                     component="p"
                     href="/"
-                    sx={{ color: '#7D7987', maxWidth: '80%', textAlign: 'left', marginTop: '30px' }}
+                    sx={{ color: '#7D7987', maxWidth: '80%', textAlign: 'left', marginTop: '30px',fontSize:'18pt' }}
                   >Nuestra aplicación dedicada a la recolección de datos a través del software del smartwatch y soluciones para salud, nutrición y rutinas fitness para el beneficio personal del usuaio. Comienza a alcanzar tus objetivos.
                   </Typography>
                   <ColorButton endIcon={<DownloadIcon />}>
@@ -390,7 +392,7 @@ function MainPage() {
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ background: 'linear-gradient(to top, #436388 0%,#4F7198 50%, #436388 100%)', width: '100%' }}>
-              <Grid container columnSpacing={3} rowSpacing={2} sx={{ padding: '70px', verticalAlign: 'center', paddingTop: '100px', paddingBottom: '100px', marginTop: '100px' }}>
+              <Grid container columnSpacing={3} rowSpacing={2} sx={{ padding: '50px', verticalAlign: 'center', paddingTop: '30px', paddingBottom: '100px', marginTop: '100px' }}>
                 <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
                   <img src={BackgroundPuntos} style={{ position: 'absolute', width: '120px', right: '0px', top: '-160px' }}></img>
                 </Box>
@@ -405,8 +407,8 @@ function MainPage() {
                       title="Logo Fitness-Tracker"
                       alt="Logo Fitness-Tracker App"
                       style={{
-                        width: '50px',
-                        height: '50px',
+                        width: '100px',
+                        height: '100px',
                         position: 'block',
                       }}
                     />
@@ -418,7 +420,7 @@ function MainPage() {
                         color: 'white',
                         textDecoration: 'none',
                         marginLeft: '15px',
-                        fontSize: '25pt'
+                        fontSize: '40pt'
                       }}
                     >
                       Fitness-Tracker
@@ -427,41 +429,41 @@ function MainPage() {
                   <Typography
                     variant="p"
                     component="p"
-                    sx={{ color: '#FFF', textAlign: 'left', width: '65%', marginTop: '15px', fontSize: '10pt', fontWeight: 'light' }}
+                    sx={{ color: '#FFF', textAlign: 'left', width: '65%', marginTop: '15px',marginLeft:'100px', fontSize: '15pt', fontWeight: 'light' }}
                   >Fitness-Tracker provee de soluciones saludables para tu beneficio personal
                   </Typography>
                 </Grid>
-                <Grid item lg={4} md={3} sm={3}>
+                <Grid item lg={4} md={3} sm={3} sx={{marginTop:'20px'}}>
                   <Typography
                     variant="h3"
                     component="h3"
-                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '15pt', fontWeight: 'bold' }}
+                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '25pt', fontWeight: 'bold' }}
                   >Compañia
                   </Typography>
                   <Typography
                     variant="p"
                     component="p"
-                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '10pt', fontWeight: 'light' }}
+                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '15pt', fontWeight: 'light' }}
                   >Sobre nosotros
                   </Typography>
                   <Typography
                     variant="p"
                     component="p"
-                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '10pt', fontWeight: 'light' }}
+                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '15pt', fontWeight: 'light' }}
                   >App
                   </Typography>
                 </Grid>
-                <Grid item lg={4} md={3} sm={3}>
+                <Grid item lg={4} md={3} sm={3} sx={{marginTop:'20px'}}>
                   <Typography
                     variant="h3"
                     component="h3"
-                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '15pt', fontWeight: 'bold' }}
+                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '25pt', fontWeight: 'bold' }}
                   >Region
                   </Typography>
                   <Typography
                     variant="p"
                     component="p"
-                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '10pt', fontWeight: 'light' }}
+                    sx={{ color: '#FFF', textAlign: 'left', marginTop: '15px', fontSize: '15pt', fontWeight: 'light' }}
                   >España
                   </Typography>
                 </Grid>
