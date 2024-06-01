@@ -2,8 +2,10 @@ package com.example.fitnesstrackerapp.pantallas
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,6 +36,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -74,7 +77,7 @@ fun VentanaRegister(navController: NavHostController) {
         Column (modifier = Modifier
             .fillMaxWidth(0.8f)
             .fillMaxHeight(0.7f)
-            ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
+            ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Top){
 
             BotonLogin(
                 campo = textoEmail,
@@ -130,8 +133,14 @@ fun VentanaRegister(navController: NavHostController) {
             Column (modifier = Modifier.fillMaxSize()
                 , horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom){
-                Text(text = "¿Ya tienes cuenta? Entra aquí", modifier = Modifier.padding(0.dp,10.dp)
-                    , fontSize = 20.sp, color = Color.White)
+                Row (modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center){
+                    Text(text = "¿Ya tienes cuenta?", modifier = Modifier.padding(0.dp,10.dp)
+                        , fontSize = 17.sp, color = Color.White)
+                    Text(text = " Entra aquí", modifier = Modifier.padding(0.dp,10.dp).clickable { navController.navigate("login") }
+                        , fontSize = 17.sp, color = Color.White, fontWeight = FontWeight.Black)
+                }
             }
         }
     }

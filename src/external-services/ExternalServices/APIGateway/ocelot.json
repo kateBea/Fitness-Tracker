@@ -5,11 +5,11 @@
     {
       "UpstreamPathTemplate": "/api/assistance/{everything}",
       "DownstreamPathTemplate": "/Assistance/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-ai",
-          "Port": 8081
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -20,7 +20,7 @@
     {
       "UpstreamPathTemplate": "/api/alimentos/{everything}",
       "DownstreamPathTemplate": "/Alimentos/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-alimentos",
@@ -35,7 +35,7 @@
     {
       "UpstreamPathTemplate": "/api/recetas/{everything}",
       "DownstreamPathTemplate": "/Recetas/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-alimentos",
@@ -50,7 +50,7 @@
     {
       "UpstreamPathTemplate": "/api/client/{everything}",
       "DownstreamPathTemplate": "/Base/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-base",
@@ -83,7 +83,7 @@
         {
           "Name": "FT - Alimentos",
           "Version": "v1",
-          "Url": "http://localhost:5041/swagger/v1/swagger.json"
+          "Url": "http://localhost:8080/swagger/v1/swagger.json"
         }
       ]
     },
@@ -96,7 +96,7 @@
         {
           "Name": "FT - Recetas",
           "Version": "v1",
-          "Url": "http://localhost:5041/swagger/v1/swagger.json"
+          "Url": "http://localhost:8080/swagger/v1/swagger.json"
         }
       ]
     },
@@ -109,7 +109,7 @@
         {
           "Name": "FT - Base",
           "Version": "v1",
-          "Url": "http://localhost:5078/swagger/v1/swagger.json"
+          "Url": "http://localhost:8080/swagger/v1/swagger.json"
         }
       ]
     }

@@ -6,9 +6,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 data class InfoResultado (
-    val imagen:ImageVector = Icons.Rounded.LocalFireDepartment,
-    val color:Color = Color.Blue,
+    val imagen:Int = 1,
     var titulo:String = "Metabolismo basal",
-    var info:String = "1633 KCAL"
-){
-}
+    var info:String = ""
+)

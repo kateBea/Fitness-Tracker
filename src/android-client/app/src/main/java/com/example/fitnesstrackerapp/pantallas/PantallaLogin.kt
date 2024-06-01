@@ -1,9 +1,13 @@
 package com.example.fitnesstrackerapp.pantallas
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +23,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,19 +39,25 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavHostController
 import com.example.fitnesstrackerapp.R
 import com.example.fitnesstrackerapp.ui.theme.azul1
 import com.example.fitnesstrackerapp.ui.theme.azul2
 import com.example.fitnesstrackerapp.ui.theme.colorBoton
+import com.example.fitnesstrackerapp.uiViewModel.LoginViewModel
 import com.example.fitnesstrackerapp.utilidades.BotonLogin
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun PantallaLogin(navController: NavHostController) {
+fun PantallaLogin(navController: NavHostController,loginViewModel: LoginViewModel = hiltViewModel()) {
     val brush = Brush.linearGradient(listOf(azul2, azul1))
     val image: Painter = painterResource(id = R.drawable.grupo)
     val fuente = FontFamily(Font(R.font.extralight))
@@ -56,6 +68,11 @@ fun PantallaLogin(navController: NavHostController) {
     var firstTimeButon by remember { mutableStateOf(false) }
     val (focusRequester) = FocusRequester.createRefs()
 
+    val usuarioInfo = loginViewModel.usuarioInfo.collectAsState().value
+
+    LaunchedEffect(true){
+        loginViewModel.setUser()
+    }
 
     Column (modifier = Modifier
         .background(brush)
@@ -91,6 +108,8 @@ fun PantallaLogin(navController: NavHostController) {
                 firstTimeButton = firstTimeButon,
                 labelTexto = "Contraseña",
                 textoError = "Escriba la contraseña",
+                PasswordVisualTransformation(),
+                KeyboardType.Password,
                 accountCircle = Icons.Rounded.Lock,
                 focusRequester = focusRequester
             )
@@ -102,7 +121,7 @@ fun PantallaLogin(navController: NavHostController) {
                 ElevatedButton(
                     onClick = {
                         firstTimeButon = true
-                        navController.navigate("menu")
+                        hacerLlamada(textoEmail.value,textoPass.value,loginViewModel)
                     }, modifier = Modifier
                         .height(60.dp)
                         .fillMaxWidth(0.8f)
@@ -118,9 +137,28 @@ fun PantallaLogin(navController: NavHostController) {
             Column (modifier = Modifier.fillMaxSize()
             , horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom){
-                Text(text = "¿No tienes cuenta? Regístrate aquí", modifier = Modifier.padding(0.dp,10.dp)
-                , fontSize = 20.sp, color = Color.White)
+                Row (modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center){
+                    Text(text = "¿No tienes cuenta?", modifier = Modifier.padding(0.dp,10.dp)
+                        , fontSize = 17.sp, color = Color.White)
+                    Text(text = " Regístrate aquí", modifier = Modifier
+                        .padding(0.dp, 10.dp)
+                        .clickable { navController.navigate("register") }
+                        , fontSize = 17.sp, color = Color.White, fontWeight = FontWeight.Black)
+                }
             }
         }
     }
+
+    if(usuarioInfo.success){
+        navController.navigate("menu")
+    }
+
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun hacerLlamada(textoEmail:String, textoPass:String, viewModelFitness: LoginViewModel){
+    if(textoEmail.isNotEmpty() && textoPass.isNotEmpty())
+        viewModelFitness.login(textoEmail,textoPass)
 }
