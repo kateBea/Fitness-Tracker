@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "ft-ai": "StartDebugging",
+        "ft-alimentos": "StartDebugging",
+        "ft-base": "StartDebugging",
+        "apigateway": "StartDebugging"
+      }
+    }
+  }
+}

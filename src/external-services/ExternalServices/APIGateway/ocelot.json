@@ -8,8 +8,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7031
+          "Host": "ft-ai",
+          "Port": 8081
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -23,8 +23,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7181
+          "Host": "ft-alimentos",
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -38,8 +38,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7181
+          "Host": "ft-alimentos",
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -53,8 +53,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "ft-base",
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -70,7 +70,7 @@
         {
           "Name": "FT - AI",
           "Version": "v1",
-          "Url": "http://localhost:5149/swagger/v1/swagger.json"
+          "Url": "http://localhost:8080/swagger/v1/swagger.json"
         }
       ]
     },
