@@ -12,6 +12,7 @@ import com.example.fitnesstrackerapp.basedatos.repositorio.UsuarioRepositorio
 import com.example.fitnesstrackerapp.clases.InfoMenu.InfoMenu
 import com.example.fitnesstrackerapp.clases.InfoMenu.InfoResultado
 import com.example.fitnesstrackerapp.modelmapper.ModelMapperConfig
+import com.example.fitnesstrackerapp.objetos.request.UsuarioRequest
 import com.example.fitnesstrackerapp.objetos.response.Sexo
 import com.example.fitnesstrackerapp.repositorio.RepositorioRetrofit
 import com.example.fitnesstrackerapp.utilidades.valores
@@ -99,6 +100,10 @@ class PantallaPrincipalViewModel @Inject constructor(
             dao.actualizarUsuario(_usuario.value)
             setInfo()
             actualizarDatos()
+
+            val usuario = ModelMapperConfig.modelMapper.map(_usuario.value, UsuarioRequest::class.java)
+            repositorio.actualizarUsuario(usuario)
+
             eventosViewModel.setState(EventosUIState.Done)
         }
     }
@@ -111,6 +116,10 @@ class PantallaPrincipalViewModel @Inject constructor(
             dao.actualizarUsuario(_usuario.value)
             setInfo()
             actualizarDatos()
+
+            val usuario = ModelMapperConfig.modelMapper.map(_usuario.value, UsuarioRequest::class.java)
+            repositorio.actualizarUsuario(usuario)
+
             eventosViewModel.setState(EventosUIState.Done)
         }
     }
@@ -123,6 +132,10 @@ class PantallaPrincipalViewModel @Inject constructor(
             dao.actualizarUsuario(_usuario.value)
             setInfo()
             actualizarDatos()
+
+            val usuario = ModelMapperConfig.modelMapper.map(_usuario.value, UsuarioRequest::class.java)
+            repositorio.actualizarUsuario(usuario)
+
             eventosViewModel.setState(EventosUIState.Done)
         }
     }

@@ -3,6 +3,7 @@ package com.example.fitnesstrackerapp.apiservicio
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.fitnesstrackerapp.objetos.login.UsuarioVerificar
+import com.example.fitnesstrackerapp.objetos.request.UsuarioRequest
 import com.example.fitnesstrackerapp.objetos.response.ResponseLogin
 import com.example.fitnesstrackerapp.objetos.usuario.DatosUsuario
 import com.google.gson.GsonBuilder
@@ -11,7 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
-import java.time.LocalDate
+import retrofit2.http.PUT
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -21,6 +22,9 @@ interface ApiServicio {
 
     @POST("getdatosusuario")
     suspend fun getDatosUsuario(@Body email:String):DatosUsuario
+
+    @PUT("modificardatosusuario")
+    suspend fun actualizarUsuario(@Body usuarioRequest: UsuarioRequest)
 
 }
 
