@@ -4,7 +4,7 @@ import {
   Grid,
   Icon,
   List,
-  ListItem,
+  ListItemButton,
   ListItemText,
 } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -12,93 +12,128 @@ import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { PAGE_ROUTES } from "../PageConstants";
+import RamenDiningIcon from '@mui/icons-material/RamenDining';
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
   const tokenValue = localStorage.getItem("token");
 
-  const navigate = useNavigate();
-  const cerrarSesion = async () => {
+  const cerrarSesion = () => {
     if (tokenValue != null || tokenValue != undefined) {
-        console.log('cerrando sesión')
+      console.log('cerrando sesión');
 
       localStorage.removeItem("token");
       localStorage.removeItem("tokenExpirationDate");
       localStorage.removeItem("tokenDuration");
 
-      //navigate("/Login");
-      return <Navigate to="/Login" />;
+      navigate("/Login");
     }
   };
+
+  const listadoDietas = () => {
+    console.log(`Navegando a dietas`);
+    navigate("/ListadoDietas");
+  };
+
+  const listadoRutinas = () => {
+    console.log(`Navegando a rutinas`);
+    navigate("/ListadoRutinas");
+  };
+
+  const perfil = () => {
+    console.log(`Navegando a perfil`);
+    navigate("/Perfil");
+  };
+
+  const inicio = () => {
+    console.log(`Navegando a Overview`);
+    navigate("/Today");
+  };
+
+  const generarDieta = () => {
+    console.log(`Navegando a generar dieta`);
+    navigate("/GenerarDieta");
+  };
+  
 
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose}>
       <div style={{ width: 280 }}>
-        {" "}
-        {/* Adjust the width as needed */}
         <List>
-          <ListItem button>
+          <ListItemButton onClick={inicio}>
             <Grid container spacing={2}>
               <Grid item>
                 <Icon>
-                  <QueryStatsIcon></QueryStatsIcon>{" "}
+                  <QueryStatsIcon />
                 </Icon>
               </Grid>
               <Grid item>
                 <ListItemText primary="Overview" />
               </Grid>
             </Grid>
-          </ListItem>
-          <ListItem button>
+          </ListItemButton>
+          <ListItemButton onClick={generarDieta}>
             <Grid container spacing={2}>
               <Grid item>
                 <Icon>
-                  <FastfoodIcon></FastfoodIcon>{" "}
+                  <RamenDiningIcon />
+                </Icon>
+              </Grid>
+              <Grid item>
+                <ListItemText primary="Generar dieta" />
+              </Grid>
+            </Grid>
+          </ListItemButton>
+          <ListItemButton onClick={listadoDietas}>
+            <Grid container spacing={2}>
+              <Grid item>
+                <Icon>
+                  <FastfoodIcon />
                 </Icon>
               </Grid>
               <Grid item>
                 <ListItemText primary="Listado de dietas" />
               </Grid>
             </Grid>
-          </ListItem>
-          <ListItem button>
+          </ListItemButton>
+          <ListItemButton onClick={listadoRutinas}>
             <Grid container spacing={2}>
               <Grid item>
                 <Icon>
-                  <ChecklistRtlIcon></ChecklistRtlIcon>{" "}
+                  <ChecklistRtlIcon />
                 </Icon>
               </Grid>
               <Grid item>
                 <ListItemText primary="Listado de rutinas" />
               </Grid>
             </Grid>
-          </ListItem>
-          <ListItem button>
+          </ListItemButton>
+          <ListItemButton onClick={perfil}>
             <Grid container spacing={2}>
               <Grid item>
                 <Icon>
-                  <AccountBoxIcon></AccountBoxIcon>{" "}
+                  <AccountBoxIcon />
                 </Icon>
               </Grid>
               <Grid item>
                 <ListItemText primary="Información de cuenta" />
               </Grid>
             </Grid>
-          </ListItem>
-          <ListItem button>
+          </ListItemButton>
+          <ListItemButton onClick={cerrarSesion}>
             <Grid container spacing={2}>
               <Grid item>
                 <Icon>
-                  <LogoutIcon></LogoutIcon>{" "}
+                  <LogoutIcon />
                 </Icon>
               </Grid>
               <Grid item>
-                <ListItemText primary="Cerrar sesión" onClick={cerrarSesion} />
+                <ListItemText primary="Cerrar sesión" />
               </Grid>
             </Grid>
-          </ListItem>
-          {/* Add more sidebar options as needed */}
+          </ListItemButton>
         </List>
       </div>
     </Drawer>

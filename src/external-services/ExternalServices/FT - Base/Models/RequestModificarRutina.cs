@@ -7,8 +7,6 @@ namespace FT___Base.Models
     {
         public string IdRutina { get; set; }
 
-        public string RutinaId { get; set; }
-
         public float TiempoDeSuenio { get; set; }
 
         public float CaloriasQuemadas { get; set; }
@@ -18,8 +16,6 @@ namespace FT___Base.Models
         public float FrecuenciaCardiaca { get; set; }
 
         public float NivelOxigenoSangre { get; set; }
-
-        public float PresionArterial { get; set; }
 
         public List<AlimentoInfo> AlimentoInfos { get; set; } = [];
     }

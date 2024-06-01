@@ -15,6 +15,5 @@ namespace FT___Base.Models
 
         public double NivelOxigenoSangre { get; set; }
 
-        public double PresionArterial { get; set; }
     }
 }

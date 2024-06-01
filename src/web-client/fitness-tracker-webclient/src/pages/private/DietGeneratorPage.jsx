@@ -1,5 +1,6 @@
 import React from "react";
-
+import { useEffect } from "react";
+import axios from "axios";
 import { TopBar } from "../../components/Topbar";
 import { PrivateBar } from '../../components/Privatebar';
 import {
@@ -19,13 +20,12 @@ import {
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import { API_ROUTES } from "../../ApiRoutes";
 
 function DietGeneratorPage() {
-  // el resultado se visualiza con una modal
-
-
-
-  // Preparar datos del formulario
+   // State setup
+   const [dataFecthSuccess, setDataFecthSuccess] = useState(false);
+   // Preparar datos del formulario
   const [edad, setEdad] = useState("");
   const [genero, setGenero] = useState("")
   const [altura, setAltura] = useState("");
@@ -55,10 +55,41 @@ function DietGeneratorPage() {
   };
 
   const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = state;
+ 
+   // Axios setup
+   const token = localStorage.getItem("token");
+   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+ 
+   const generarDieta = async () => {
+     try {
+      // Recoger datos del usuario
+      const responseUserData = await axios.get(API_ROUTES.GetDatosUsuario);
+      const datosUsuario = responseUserData?.data;
 
-  function handleSubmit(event) {
+      const requestData = {
+        fechaNacimiento: "2024-05-28T13:46:50.406Z",
+        sexo: genero,
+        altura: datosUsuario?.altura,
+        nivelActividadFisica: actividad,
+        objetivoPrincipal: objetivo,
+        habilidadCulinaria: habilidad,
+        comentariosAdicionales: notas,
+        fechaInicio: "2024-05-28T13:46:50.406Z",
+        fechaFin: "2024-05-28T13:46:50.407Z",
+      };
+      
+       const response = await axios.post(API_ROUTES.GenerarDieta, requestData);
+ 
+       setDataFecthSuccess(true);
+       console.log(response);
+     } catch (error) {
+       console.log(error);
+     }
+   };
+
+   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(altura, calorias, tiempoCocina, fechaInicio, fechaFin, edad);
+    generarDieta();
   }
 
   return (
@@ -83,7 +114,7 @@ function DietGeneratorPage() {
       }}>
         <React.Fragment>
           <h2>Modelar dieta</h2>
-          <form onSubmit={handleSubmit} action={<Link to="/login" />}>
+          <form onSubmit={handleSubmit}>
             {/* EDAD Y GENERO */}
             <Grid container columnSpacing={2} sx={{ marginBottom: 0 }}>
               <Grid item xs={6}>

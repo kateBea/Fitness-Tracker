@@ -5,6 +5,9 @@ namespace FT___Base.Models
 {
     public class RequestModifcarDietaSvcIn
     {
+        [JsonProperty("dieta_id")]
+        public string IdDieta { get; set; }
+
         [JsonProperty("email")]
         public string Email { get; set; }
 

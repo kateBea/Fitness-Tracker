@@ -32,13 +32,12 @@ public class UsuarioControlador {
 	@PostMapping("insertar")
 	public ResponseEntity<Boolean> insertar(@RequestBody UsuarioInsertar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
+		ResponseEntity<Boolean> respuesta;
 		// Llamada al método del servicio para insertar un usuario
 		Boolean resultado = usuarioServicio.insertarUsuario(user);
 
 		// Si la inserción fue exitosa, cambia la respuesta a OK
-		if(resultado)
-			respuesta = ResponseEntity.ok(true);
+		respuesta = ResponseEntity.ok(resultado);
 		
 		return respuesta;
 	}

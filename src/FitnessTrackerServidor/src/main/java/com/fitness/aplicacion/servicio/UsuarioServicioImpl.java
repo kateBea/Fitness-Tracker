@@ -14,6 +14,7 @@ import com.fitness.aplicacion.repositorio.IComidaRepositorio;
 import com.fitness.aplicacion.repositorio.IDietaRepositorio;
 import com.fitness.aplicacion.repositorio.IRutinaRepositorio;
 import com.fitness.aplicacion.utilidades.UtilidadesFechas;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -243,6 +244,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         Dieta nueva = ObjectMapperUtils.map(model, Dieta.class);
 
+        nueva.setId(new ObjectId().toString());
         nueva.setFechaRegistro(LocalDateTime.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
 
@@ -262,7 +264,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                     .findFirst();
 
             // La comida no está registrada en la lista de comidas del usuario
-            if (comidaRegistrada.isEmpty()) {
+            if (comidaRegistrada.isEmpty() && (comidaNueva.getId() == null || comidaNueva.getId().isEmpty())) {
+                aInsertar.setId(new ObjectId().toString());
                 aInsertar.setFechaRegistro(LocalDateTime.now());
                 aInsertar.setFechaUltimaModificacion(LocalDateTime.now());
 
@@ -428,6 +431,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         Rutina nueva = ObjectMapperUtils.map(model, Rutina.class);
+
+        nueva.setId(new ObjectId().toString());
         nueva.setFechaSeguimiento(LocalDate.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
 
@@ -588,6 +593,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         boolean verificado = cifrar.matches(model.getPassword(), usuario.get().getContrasena());
 
         if(verificado) {
+            response.setUsername(usuario.get().getNombreUsuario());
             response.setEmail(usuario.get().getEmail());
             response.setName(usuario.get().getNombre());
             response.setFirstSurname(usuario.get().getPrimerApellido());

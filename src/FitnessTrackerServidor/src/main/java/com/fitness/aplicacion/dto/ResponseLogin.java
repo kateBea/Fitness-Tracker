@@ -19,6 +19,9 @@ public class ResponseLogin extends BaseResponse {
     @JsonProperty(value = "email")
     private String email;
 
+    @JsonProperty(value = "username")
+    private String username;
+
     @JsonProperty(value = "name")
     private String name;
 
@@ -27,15 +30,6 @@ public class ResponseLogin extends BaseResponse {
 
     @JsonProperty(value = "second_name")
     private String secondSurname;
-
-    @JsonProperty(value = "token")
-    private String token;
-
-    @JsonProperty(value = "token_expiration_date")
-    private LocalDateTime tokenExpiration;
-
-    @JsonProperty(value = "token_duration")
-    private int tokenDuration;
 
     @JsonProperty(value = "logged_at")
     private LocalDateTime loggedAt;

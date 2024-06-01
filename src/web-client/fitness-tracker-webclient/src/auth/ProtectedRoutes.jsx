@@ -6,13 +6,8 @@ function ProtectedRoutes() {
   const dateNow = new Date(Date.now());
   const tokebValue = localStorage.getItem("token");
   const tokenDuration = parseInt(localStorage.getItem("tokenDuration"));
-
   const tokenExpirationDate = new Date(Date.parse(localStorage.getItem("tokenExpirationDate")));
-
   const expirationDatePassed = tokenExpirationDate <= dateNow;
-
-  console.log(`now date: ${dateNow}, passed: ${expirationDatePassed}`)
-  console.log(`expir date: ${tokenExpirationDate}, passed: ${expirationDatePassed}`)
 
   if ((tokebValue == null || tokebValue == undefined) || expirationDatePassed) {
       console.log("User not logged")

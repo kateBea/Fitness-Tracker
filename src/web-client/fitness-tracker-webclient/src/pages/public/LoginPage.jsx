@@ -38,26 +38,28 @@ const theme = createTheme({
 });
 
 function LoginPage() {
-
+  // Pre setup
   const navigate = useNavigate();
+  const { loginUser } = useAuthContext();
+
+  // State setup
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const tokenLS = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
 
-  const { loginUser } = useAuthContext();
 
   const handleLogin = async () => {
     await loginUser(email, password);
   };
 
   useEffect(() => {
-    console.log("tokenls " + tokenLS)
+    console.log("tokenls " + token)
 
-    if (tokenLS != null || tokenLS != undefined) {
+    if (token != null || token != undefined) {
       console.log("User is already logged")
       navigate(PAGE_ROUTES.Today);
     }
-  }, [tokenLS]);
+  }, [token]);
 
   return (
     <Box 

@@ -28,7 +28,7 @@ namespace FTAlimentos.Controllers.v1
         /// <param name="prompt">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="ResponseFoodParseVM"/></returns>
         [HttpGet("BuscarPorDescripcion")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseFoodParseVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -46,7 +46,7 @@ namespace FTAlimentos.Controllers.v1
         /// <param name="foodId">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="ResponseNutrientsVM"/></returns>
         [HttpGet("GetNutrients")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseNutrientsVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -64,7 +64,7 @@ namespace FTAlimentos.Controllers.v1
         /// <param name="prompt">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="ResponseAutocompleteVM"/></returns>
         [HttpGet("Autocomplete")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseAutocompleteVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

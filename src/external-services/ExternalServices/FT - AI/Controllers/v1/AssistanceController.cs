@@ -35,7 +35,7 @@ namespace FTAI.Controllers.v1
         /// </summary>
         /// <returns><see cref="string"/></returns>
         [HttpGet("Greeting")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

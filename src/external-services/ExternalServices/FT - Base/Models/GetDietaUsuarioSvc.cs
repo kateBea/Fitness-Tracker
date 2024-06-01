@@ -58,8 +58,8 @@ namespace FT___Base.Models
             [JsonProperty("descripcion")]
             public string Descripcion { get; set; }
 
-            [JsonProperty("unidades")]
-            public int Unidades { get; set; }
+            [JsonProperty("proteinas")]
+            public double Proteinas { get; set; }
 
             [JsonProperty("calorias")]
             public float Calorias { get; set; }
@@ -72,12 +72,6 @@ namespace FT___Base.Models
 
             [JsonProperty("grasas")]
             public float Grasas { get; set; }
-
-            [JsonProperty("fecha_registro")]
-            public DateTime? FechaRegistro { get; set; }
-
-            [JsonProperty("ultima_modificacion")]
-            public DateTime? FechaUltimaModificacion { get; set; }
         }
     }
 }

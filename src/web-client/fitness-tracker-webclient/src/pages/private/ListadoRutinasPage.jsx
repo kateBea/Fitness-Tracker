@@ -10,16 +10,24 @@ import { useEffect } from "react";
 
 import { PrivateBar } from "../../components/Privatebar.jsx";
 
+import RutinaModal from "../../components/RutinaModal.jsx";
+
 
 const ListadoRutinasPage = () => {
   const [rutinas, setRutinas] = useState([]);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpen = () => {
+    console.log("handleOpen")
+    setModalOpen(!modalOpen)
+  };
 
   const loadRutinas = async () => {
     try {
       const response = await axios
         .get(API_ROUTES.GetListRutinasUsuario, { params: { fetchAll: true }});
 
-        setRutinas(response.data)
+        setRutinas(response.data.data)
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -51,8 +59,12 @@ const ListadoRutinasPage = () => {
         </Typography>
         <Grid container spacing={2}>
           {rutinas.map((rutina) => (
-            <Grid item xs={12} sm={6} md={4} key={rutina._id}>
-              <RutinaCard rutina={rutina} />
+            <Grid item xs={12} sm={6} md={4} key={rutina.id}>
+              <RutinaCard rutina={rutina} onModalOpen={handleOpen}/>
+              { modalOpen && 
+              
+                <RutinaModal rutina={rutina} wantOpen={modalOpen}/>
+              }
             </Grid>
           ))}
         </Grid>

@@ -5,7 +5,7 @@ namespace FT___Base.Models
 {
     public class RequestModificarDieta : BaseRequest
     {
-
+        public string IdDieta { get; set; }
         public float CaloriasTarget { get; set; }
 
         public DateTime FechaInicio { get; set; }

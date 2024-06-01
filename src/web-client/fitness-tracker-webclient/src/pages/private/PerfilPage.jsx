@@ -17,6 +17,7 @@ function PerfilPage() {
   // State setup
   const [dataLoadSucces, setDataLoadSucces] = useState(false);
   const [datosUsuario, setDatosUsuario] = useState({});
+  const [edad, setEdad] = useState(0)
 
   // Axios setup
   const tokenLS = localStorage.getItem("token");
@@ -26,8 +27,8 @@ function PerfilPage() {
     try {
       const response = await axios.get(API_ROUTES.GetDatosUsuario);
       setDataLoadSucces(true);
-      setDatosUsuario(response.data);
-      console.log(response);
+      setDatosUsuario(response.data.data);
+      setEdad(new Date(Date.now()).getFullYear() - parseInt(response.data.data.fechaDeNacimiento.split('-')[0]))
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +36,7 @@ function PerfilPage() {
 
   useEffect(() => {
     loadPerfilData();
-  }, [dataLoadSucces]);
+  }, []);
 
   return (
     <Box
@@ -109,7 +110,7 @@ function PerfilPage() {
                 width: "100%",
               }}
             >
-              <ListItemText>Nick</ListItemText>
+              <ListItemText>Nombre de usuario</ListItemText>
               <ListItemText
                 sx={{
                   display: "flex",
@@ -118,7 +119,7 @@ function PerfilPage() {
                   alignItems: "center",
                 }}
               >
-                FastMarisa33
+                {datosUsuario.nombreUsuario}
               </ListItemText>
             </ListItem>
             <ListItem
@@ -138,7 +139,7 @@ function PerfilPage() {
                   alignItems: "center",
                 }}
               >
-                Marisa Lopez Sánchez
+                {datosUsuario.nombre}
               </ListItemText>
             </ListItem>
             <ListItem
@@ -158,7 +159,7 @@ function PerfilPage() {
                   alignItems: "center",
                 }}
               >
-                25
+                {edad}
               </ListItemText>
             </ListItem>
           </List>

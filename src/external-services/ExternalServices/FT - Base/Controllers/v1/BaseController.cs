@@ -259,12 +259,12 @@ namespace FT___Base.Controllers.v1
         /// </summary>
         /// <param name="model">Datos de solicitud para modificar la rutina.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModificarRutinaVM"/></returns>
-        [HttpGet("ModificarRutina")]
+        [HttpPut("ModificarRutina")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModificarRutinaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseModificarRutinaVM>> ModificarRutina([FromQuery] RequestModificarRutina model)
+        public async Task<ActionResult<ResponseModificarRutinaVM>> ModificarRutina([FromBody] RequestModificarRutina model)
         {
             var result = _validatorModificarRutina.Validate(model);
             if (result == null || !result.IsValid)

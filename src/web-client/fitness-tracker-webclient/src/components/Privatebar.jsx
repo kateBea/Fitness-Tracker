@@ -49,11 +49,9 @@ export const PrivateBar = () => {
                     {/* Sidebar component */}
                     <Sidebar isOpen={sidebarOpen} onClose={toggleSidebar} />
                 </MenuItem>
-                <MenuItem >Inicio</MenuItem>
-                <MenuItem component='a' href='/perfil'>Perfil</MenuItem>
-                <MenuItem component='a' href='/today'>Hoy</MenuItem>
-                <MenuItem component='a' href='/DailyCalorie'>Calorias diaras</MenuItem>
-                <MenuItem component='a' href='/ListadoDietas'>Dieta</MenuItem>
+                <MenuItem component='a' href='/Today'>Inicio</MenuItem>
+                <MenuItem component='a' href='/ListadoRutinas'>Rutinas</MenuItem>
+                <MenuItem component='a' href='/ListadoDietas'>Dietas</MenuItem>
             </Box>
         </Container>
     )
