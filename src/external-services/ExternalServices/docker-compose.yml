@@ -11,6 +11,8 @@ services:
       dockerfile: FT - AI/Dockerfile
     networks:
       - backend
+    ports:
+      - 8084:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -21,6 +23,8 @@ services:
       dockerfile: FT - Alimentos/Dockerfile
     networks:
       - backend
+    ports:
+      - 8083:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -32,6 +36,8 @@ services:
       dockerfile: FT - Base/Dockerfile
     networks:
       - backend
+    ports:
+      - 8082:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -43,6 +49,8 @@ services:
       dockerfile: APIGateway/Dockerfile
     networks:
       - backend
+    ports:
+      - 8081:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
