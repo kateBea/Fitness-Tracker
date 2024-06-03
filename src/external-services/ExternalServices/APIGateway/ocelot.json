@@ -70,7 +70,7 @@
         {
           "Name": "FT - AI",
           "Version": "v1",
-          "Url": "http://localhost:8080/swagger/v1/swagger.json"
+          "Url": "http://localhost:8084/swagger/v1/swagger.json"
         }
       ]
     },
@@ -83,7 +83,7 @@
         {
           "Name": "FT - Alimentos",
           "Version": "v1",
-          "Url": "http://localhost:8080/swagger/v1/swagger.json"
+          "Url": "http://localhost:8083/swagger/v1/swagger.json"
         }
       ]
     },
@@ -96,7 +96,7 @@
         {
           "Name": "FT - Recetas",
           "Version": "v1",
-          "Url": "http://localhost:8080/swagger/v1/swagger.json"
+          "Url": "http://localhost:8083/swagger/v1/swagger.json"
         }
       ]
     },
@@ -109,12 +109,12 @@
         {
           "Name": "FT - Base",
           "Version": "v1",
-          "Url": "http://localhost:8080/swagger/v1/swagger.json"
+          "Url": "http://localhost:8082/swagger/v1/swagger.json"
         }
       ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:7298"
+    "BaseUrl": "http://localhost:8081"
   }
 }

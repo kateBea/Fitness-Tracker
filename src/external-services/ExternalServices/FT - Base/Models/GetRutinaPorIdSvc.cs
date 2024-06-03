@@ -63,6 +63,24 @@ namespace FT___Base.Models
 
             [JsonProperty("orden")]
             public string Orden { get; set; }
+
+            [JsonProperty("descripcion")]
+            public string Descripcion { get; set; }
+
+            [JsonProperty("calorias")]
+            public double Calorias { get; set; }
+
+            [JsonProperty("proteinas")]
+            public double Proteinas { get; set; }
+
+            [JsonProperty("grasas")]
+            public double Grasas { get; set; }
+
+            [JsonProperty("carbohidratos")]
+            public double Carbohidratos { get; set; }
+
+            [JsonProperty("vitaminas")]
+            public List<string> Vitaminas { get; set; }
         }
     }
 }

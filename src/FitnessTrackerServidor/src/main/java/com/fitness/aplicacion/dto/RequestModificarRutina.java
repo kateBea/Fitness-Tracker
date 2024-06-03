@@ -53,6 +53,9 @@ public class RequestModificarRutina {
         @JsonProperty(value = "nombre")
         private String nombre;
 
+        @JsonProperty(value = "descripcion")
+        private String descripcion;
+
         @JsonProperty(value = "tipo")
         private String tipo;
 
@@ -61,5 +64,20 @@ public class RequestModificarRutina {
 
         @JsonProperty(value = "orden")
         private String orden;
+
+        @JsonProperty(value = "calorias")
+        private float calorias;
+
+        @JsonProperty(value = "proteinas")
+        private float proteinas;
+
+        @JsonProperty(value = "grasas")
+        private float grasas;
+
+        @JsonProperty(value = "carbohidratos")
+        private float carbohidratos;
+
+        @JsonProperty(value = "vitaminas")
+        private List<String> vitaminas;
     }
 }

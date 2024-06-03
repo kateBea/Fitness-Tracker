@@ -537,7 +537,17 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         List<RequestModificarRutina.AlimentoInfo> alimentoInfos =
                 rutina.get().getComidasConsumidas().stream()
-                        .map(comida -> ObjectMapperUtils.map(comida, RequestModificarRutina.AlimentoInfo.class))
+                        .map(comida -> {
+                            RequestModificarRutina.AlimentoInfo res = ObjectMapperUtils.map(comida, RequestModificarRutina.AlimentoInfo.class);
+
+                            List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
+
+                            Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
+                                    .filter(item -> item.getId().equals(comida.getId()))
+                                    .findFirst();
+
+                            return getAlimentoInfo(res, comidaRegistrada);
+                        })
                         .toList();
 
         ResponseGetRutina.ResponseGetRutinaData result =
@@ -565,15 +575,77 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             result = usuario.get().getRutinas().stream()
                     .filter(rutina -> UtilidadesFechas
                         .isBetween(rutina.getFechaSeguimiento(), model.getFechaInicio(), model.getFechaFin()))
-                    .map(rutina -> ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class))
+                    .map(rutina -> {
+                        ResponseGetRutina.ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class);
+
+                        List<RequestModificarRutina.AlimentoInfo> alimentoInfos = res.getComidasConsumidas();
+
+                        if (alimentoInfos == null) {
+                            return res;
+                        }
+
+                        alimentoInfos = alimentoInfos.stream()
+                                        .map(alimentoInfo -> {
+
+                                            List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
+
+                                            Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
+                                                    .filter(item -> item.getId().equals(alimentoInfo.getComidaId()))
+                                                    .findFirst();
+
+                                            return getAlimentoInfo(alimentoInfo, comidaRegistrada);
+                                        })
+                                .toList();
+
+                        res.setComidasConsumidas(alimentoInfos != null ? alimentoInfos : new ArrayList<>());
+
+                        return res;
+                    })
                     .toList();
         } else {
             result = usuario.get().getRutinas().stream()
-                    .map(rutina -> ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class))
+                    .map(rutina -> {
+                        ResponseGetRutina.ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class);
+
+                        List<RequestModificarRutina.AlimentoInfo> alimentoInfos = res.getComidasConsumidas();
+
+                        if (alimentoInfos == null) {
+                            return res;
+                        }
+
+                        alimentoInfos = alimentoInfos.stream()
+                                .map(alimentoInfo -> {
+
+                                    List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
+
+                                    Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
+                                            .filter(item -> item.getId().equals(alimentoInfo.getComidaId()))
+                                            .findFirst();
+
+                                    return getAlimentoInfo(alimentoInfo, comidaRegistrada);
+                                })
+                                .toList();
+
+                        res.setComidasConsumidas(alimentoInfos != null ? alimentoInfos : new ArrayList<>());
+
+                        return res;
+                    })
                     .toList();
         }
 
         return result;
+    }
+
+    private RequestModificarRutina.AlimentoInfo getAlimentoInfo(RequestModificarRutina.AlimentoInfo alimentoInfo, Optional<Comida> comidaRegistrada) {
+        if (comidaRegistrada.isPresent()) {
+            alimentoInfo.setNombre(comidaRegistrada.get().getNombre());
+            alimentoInfo.setDescripcion(comidaRegistrada.get().getDescripcion());
+            alimentoInfo.setCalorias(comidaRegistrada.get().getCalorias());
+            alimentoInfo.setGrasas(comidaRegistrada.get().getGrasas());
+            alimentoInfo.setCarbohidratos(comidaRegistrada.get().getCarbohidratos());
+            alimentoInfo.setVitaminas(comidaRegistrada.get().getVitaminas());
+        }
+        return alimentoInfo;
     }
 
     @Override
