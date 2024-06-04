@@ -22,9 +22,6 @@ namespace FT___Base.Models
 
         [JsonProperty("nivel_oxigeno_sangre")]
         public double NivelOxigenoSangre { get; set; }
-
-        [JsonProperty("presion_arterial")]
-        public double PresionArterial { get; set; }
     }
 
     /// <summary>

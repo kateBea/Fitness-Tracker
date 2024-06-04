@@ -7,11 +7,7 @@ namespace FT___Base.Models
     /// </summary>
     public class RequestLogin : BaseRequest
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Email { get; set; } = string.Empty;
-
+        public string Email { get; set; }
         /// <summary>
         /// 
         /// </summary>

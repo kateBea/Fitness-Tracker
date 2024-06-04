@@ -18,11 +18,11 @@ namespace Security.Authentication
         public static GenerateJwtTokenOut? GenerateJwt(GenerateJwtTokenIn data)
         {
             var tokenKey = Encoding.ASCII.GetBytes(AuthConstants.JWT_SECURITY_KEY);
-            var tokenExpiryTimeStamp = DateTime.Now.AddMinutes(AuthConstants.JWT_TOKEN_VALIDITY_TIME);
+            var tokenExpiryTimeStamp = DateTime.Now.AddSeconds(AuthConstants.JWT_TOKEN_VALIDITY_TIME);
 
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Name, data.Username ?? string.Empty),
+                new Claim("email", data.Username),
                 new Claim(ClaimTypes.Role, data.Role)
             });
 
@@ -43,9 +43,24 @@ namespace Security.Authentication
             return new GenerateJwtTokenOut()
             {
                 Token = token,
-                TokenExpireTime = tokenExpiryTimeStamp.Subtract(DateTime.Now).Seconds,
+                TokenExpireTime = (int)tokenExpiryTimeStamp.Subtract(DateTime.Now).TotalSeconds,
                 TokenExpireDate = tokenExpiryTimeStamp,
             };
+        }
+
+        public static string GetClaimFromJwt(string jwtToken, string claimType)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(jwtToken) as JwtSecurityToken;
+
+            if (jsonToken == null)
+            {
+                throw new ArgumentException("Invalid JWT token");
+            }
+
+            var claim = jsonToken.Claims.FirstOrDefault(c => c.Type == claimType);
+
+            return claim?.Value;
         }
 
         public static IServiceCollection AddCustomJwtAuthentication(this IServiceCollection service)
@@ -92,7 +107,7 @@ namespace Security.Authentication
 
     public class GenerateJwtTokenIn
     {
-        public string? Username { get; set; }
+        public string Username { get; set; }
         public string Role { get; set; } = "User"; // default role is user
     }
 

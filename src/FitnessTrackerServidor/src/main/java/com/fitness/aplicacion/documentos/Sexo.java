@@ -14,12 +14,20 @@ public enum Sexo {
         public String toString() {
             return "Mujer";
         }
+    },
+
+    OTRO {
+        @Override
+        public String toString() {
+            return "Otro";
+        }
     };
 
     public static Sexo fromStr(String sexo) {
         return switch (sexo) {
-            case "HOMBRE" -> HOMBRE;
-            default -> HOMBRE;
+            case "HOMBRE", "H", "h", "hombre", "masculino", "macho" -> HOMBRE;
+            case "MUJER", "M", "F", "mujer", "femenino", "hembra" -> MUJER;
+            default -> OTRO;
         };
     }
 }

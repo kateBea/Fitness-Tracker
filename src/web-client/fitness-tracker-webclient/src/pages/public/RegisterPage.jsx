@@ -17,6 +17,7 @@ import MarkAsUnreadOutlinedIcon from '@mui/icons-material/MarkAsUnreadOutlined';
 import LogoFitness from '../../img/logo-fitness-tracker.png';
 import { TopBar } from '../../components/Topbar';
 import { API_ROUTES } from '../../ApiRoutes';
+import { PAGE_ROUTES } from '../../PageConstants';
 
 const theme = createTheme({
   palette: {
@@ -43,21 +44,16 @@ function RegisterPage() {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post(API_ROUTES.RegistrarUsuario, {
-        email,
-        username,
-        password,
-      });
+      const requestData = { email, username, password };
+      const response = await axios.post(API_ROUTES.RegistrarUsuario, requestData);
 
       if (response.data.success) {
-        navigate('/Login');
+        navigate(PAGE_ROUTES.Login);
       } else {
-        // Si succes es falso, en ambos casos el reponse descrption tiene un mensaje
         console.log(response.data.errors);
       }
     } catch (error) {
-      // Si hay alguno que otro error en la petición
-      console.error('Error registering:', error);
+      console.error('Error al registrar el usuario: ', error);
     }
   };
 
@@ -125,109 +121,101 @@ function RegisterPage() {
           </Box>
         </Box>
         <Box>
-          <FormControl variant='standard'
-              margin='normal'
+          <FormControl variant='standard' margin='normal' sx={{ width: '100%' }}>
+            <Input
+              id="user"
+              startAdornment={
+                <InputAdornment position="start">
+                  <PersonOutlineOutlinedIcon 
+                    fontSize='large'
+                    sx={{
+                      marginLeft: '10px',
+                      marginRight: '20px',
+                      color: 'white',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              placeholder='Usuario'
+              required
+              type='text'
+              fullWidth
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               sx={{
-                width: '100%'
+                color: '#FFF',
+                fontSize: '14pt',
+                borderBottomColor: '#FFF',
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: '5px'
               }}
-            >
-            <Box>
-              <Input
-                id="user"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <PersonOutlineOutlinedIcon 
-                      fontSize='large'
-                      sx={{
-                        marginLeft: '10px',
-                        marginRight: '20px',
-                        color: 'white',
-                      }}
-                    />
-                  </InputAdornment>
-                }
-                placeholder='Usuario'
-                required
-                type='text'
-                fullWidth
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                sx={{
-                  color: '#FFF',
-                  fontSize: '14pt',
-                  borderBottomColor: '#FFF',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  padding: '5px'
-                }}
-                theme={theme}
-              />
-            </Box>
-            <Box>
-              <Input
-                id="password"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <LockOutlinedIcon
-                      fontSize='large'
-                      sx={{
-                        marginLeft: '10px',
-                        marginRight: '20px',
-                        color: 'white',
-                      }}
-                    />
-                  </InputAdornment>
-                }
-                placeholder='Password'
-                required
-                type='password'
-                fullWidth
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                sx={{
-                  color: '#FFF',
-                  fontSize: '14pt',
-                  borderBottomColor: '#FFF',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  padding: '5px'
-                }}
-                theme={theme}
-              />
-            </Box>
-            
-            <Box>
-              <Input
-                id="email"
-                placeholder='Correo electrónico'
-                startAdornment={
-                  <InputAdornment position="start">
-                    <MarkAsUnreadOutlinedIcon
-                      fontSize='large'
-                      sx={{
-                        marginLeft: '10px',
-                        marginRight: '20px',
-                        color: 'white',
-                      }}
-                    />
-                  </InputAdornment>
-                }
-                required
-                type='text'
-                fullWidth
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                sx={{
-                  color: '#FFF',
-                  fontSize: '14pt',
-                  borderBottomColor: '#FFF',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  padding: '5px'
-                }}
-                theme={theme}
-              />
-            </Box>
+              theme={theme}
+            />
+          </FormControl>
+          <FormControl variant='standard' margin='normal' sx={{ width: '100%' }}>
+            <Input
+              id="password"
+              startAdornment={
+                <InputAdornment position="start">
+                  <LockOutlinedIcon
+                    fontSize='large'
+                    sx={{
+                      marginLeft: '10px',
+                      marginRight: '20px',
+                      color: 'white',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              placeholder='Password'
+              required
+              type='password'
+              fullWidth
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                color: '#FFF',
+                fontSize: '14pt',
+                borderBottomColor: '#FFF',
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: '5px'
+              }}
+              theme={theme}
+            />
+          </FormControl>
+          <FormControl variant='standard' margin='normal' sx={{ width: '100%' }}>
+            <Input
+              id="email"
+              placeholder='Correo electrónico'
+              startAdornment={
+                <InputAdornment position="start">
+                  <MarkAsUnreadOutlinedIcon
+                    fontSize='large'
+                    sx={{
+                      marginLeft: '10px',
+                      marginRight: '20px',
+                      color: 'white',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              required
+              type='text'
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              sx={{
+                color: '#FFF',
+                fontSize: '14pt',
+                borderBottomColor: '#FFF',
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: '5px'
+              }}
+              theme={theme}
+            />
           </FormControl>
         </Box>
         <Box 

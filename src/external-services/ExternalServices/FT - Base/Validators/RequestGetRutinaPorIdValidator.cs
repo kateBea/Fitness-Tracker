@@ -8,7 +8,6 @@ namespace FT___Base.Validators
     {
         public RequestGetRutinaPorIdValidator()
         {
-            RuleFor(x => x.Email).NotEmpty();
             RuleFor(x => x.IdRutina).NotEmpty();
         }
     }

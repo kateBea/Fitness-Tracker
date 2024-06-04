@@ -13,6 +13,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 
 // Setup Ocelot Api Gateway
 builder.Configuration
@@ -47,8 +48,9 @@ app.UseSwaggerForOcelotUI(opt =>
     opt.PathToSwaggerGenerator = "/swagger/docs";
 });
 
+//app.UseHttpsRedirection();
+
 app.UseOcelot().Wait();
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 

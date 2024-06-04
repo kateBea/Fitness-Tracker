@@ -79,6 +79,10 @@ public class Usuario {
 	@JsonProperty(value = "dietas")
 	private List<Dieta> dietas;
 
+	@Field(value = "comidas_registradas")
+	@JsonProperty(value = "comidas_registradas")
+	private List<Comida> comidasRegistradas;
+
 	@Field(value = "rutinas")
 	@JsonProperty(value = "rutinas")
 	private List<Rutina> rutinas;

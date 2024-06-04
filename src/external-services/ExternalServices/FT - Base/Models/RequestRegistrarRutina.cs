@@ -4,7 +4,6 @@ namespace FT___Base.Models
 {
     public class RequestRegistrarRutina
     {
-        public string Email { get; set; } = string.Empty;
 
         public double TiempoDeSuenio { get; set; } = 0;
 
@@ -16,6 +15,5 @@ namespace FT___Base.Models
 
         public double NivelOxigenoSangre { get; set; }
 
-        public double PresionArterial { get; set; }
     }
 }

@@ -55,7 +55,7 @@ fun BotonLogin(
         modifier = Modifier
             .fillMaxWidth()
             .padding(15.dp, 0.dp)
-            .height(intrinsicSize = IntrinsicSize.Max)
+            .height(tamano)
             .focusRequester(focusRequester),
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Color.Transparent,
@@ -124,6 +124,6 @@ fun BotonLogin(
     )
 }
 
-fun validacion(texto: String, opcion:Boolean):Boolean{
-    return false
+fun validacion(texto: String, firstTimeButton:Boolean):Boolean{
+    return return texto.isEmpty() && firstTimeButton
 }

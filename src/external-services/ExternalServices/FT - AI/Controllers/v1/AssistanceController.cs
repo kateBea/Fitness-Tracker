@@ -35,7 +35,7 @@ namespace FTAI.Controllers.v1
         /// </summary>
         /// <returns><see cref="string"/></returns>
         [HttpGet("Greeting")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -124,7 +124,7 @@ namespace FTAI.Controllers.v1
         /// </summary>
         /// <param name="model">Datos de la nueva conversación.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseStartNewChatAssistanceVM"/>.</returns>
-        [HttpPut("ChatAssistance")]
+        [HttpPost("ChatAssistance")]
         [Authorize] // authorize
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseStartNewChatAssistanceVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

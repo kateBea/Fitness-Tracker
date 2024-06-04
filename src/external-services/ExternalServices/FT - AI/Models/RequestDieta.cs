@@ -72,6 +72,6 @@ namespace FTAI.Models
         /// <summary>
         /// Comidas preferidas para esta dieta.
         /// </summary>
-        public List<ComidaDieta> PreferenciasAlimenticias { get; set; } = [];
+        //public List<ComidaDieta> PreferenciasAlimenticias { get; set; } = [];
     }
 }

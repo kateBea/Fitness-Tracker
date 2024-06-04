@@ -14,3 +14,5 @@ val azul1 = Color(0xFF293B50)
 val azul2 = Color(0xFF436489)
 val colorBoton = Color(0xFFD92668)
 val colorPerfil = Color(0xFFd4d4d4)
+
+val cargando = Color(0x90FFFFFF)

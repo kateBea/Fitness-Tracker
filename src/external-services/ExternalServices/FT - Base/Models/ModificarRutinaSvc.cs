@@ -30,9 +30,6 @@ namespace FT___Base.Models
         [JsonProperty("nivel_oxigeno_sangre")]
         public float NivelOxigenoSangre { get; set; }
 
-        [JsonProperty("presion_arterial")]
-        public float PresionArterial { get; set; }
-
         [JsonProperty("alimentos")]
         public List<AlimentoInfo> AlimentoInfos { get; set; }
     }

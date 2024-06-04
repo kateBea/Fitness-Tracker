@@ -28,7 +28,6 @@ namespace FT___Base.Models
         [JsonProperty("segundo_apellido")]
         public string? SecondSurname { get; set; } = string.Empty;
 
-
         [JsonProperty("fecha_nacimiento")]
         public DateOnly? Birthday { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddYears(-18));
 

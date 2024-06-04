@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 import {
   Box,
   Typography,
@@ -16,6 +17,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import LogoFitness from '../../img/logo-fitness-tracker.png';
 import { TopBar } from '../../components/Topbar';
 import { API_ROUTES } from '../../ApiRoutes';
+import { PAGE_ROUTES } from '../../PageConstants';
+import { useAuthContext } from '../../auth/AuthProvider';
 
 const theme = createTheme({
   palette: {
@@ -35,28 +38,28 @@ const theme = createTheme({
 });
 
 function LoginPage() {
+  // Pre setup
   const navigate = useNavigate();
-  const [usuario, setUsuario] = useState('');
+  const { loginUser } = useAuthContext();
+
+  // State setup
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const token = localStorage.getItem("token");
+
 
   const handleLogin = async () => {
-    try {
-      const response = await axios.post(API_ROUTES.Login, {
-        email: usuario,
-        password
-      });
-
-      if (response.data.success) {
-        navigate("/Today");
-      } else {
-        // Si succes es falso, en ambos casos el reponse descrption tiene un mensaje
-        console.log(response.data.errors);
-      }
-    } catch (error) {
-      // Si hay alguno que otro error en la petición
-      console.error('Error logging in:', error);
-    }
+    await loginUser(email, password);
   };
+
+  useEffect(() => {
+    console.log("tokenls " + token)
+
+    if (token != null || token != undefined) {
+      console.log("User is already logged")
+      navigate(PAGE_ROUTES.Today);
+    }
+  }, [token]);
 
   return (
     <Box 
@@ -114,82 +117,75 @@ function LoginPage() {
                 sx={{
                     color: 'white',
                     textDecoration: 'none',
-                    margin: '15px'
+                    margin: '15px',
                 }}
               >Fitness-Tracker</Typography>
           </Box>
         </Box>
         <Box>
-          <FormControl variant='standard'
-              margin='normal'
+          <FormControl variant='standard' margin='normal' sx={{ width: '100%' }}>
+            <Input
+              id="user"
+              startAdornment={
+                <InputAdornment position="start">
+                  <PersonOutlineOutlinedIcon 
+                    fontSize='large'
+                    sx={{
+                      marginLeft: '10px',
+                      marginRight: '20px',
+                      color: 'white',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              placeholder='Email'
+              required={true}
+              type='text'
+              fullWidth={true}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               sx={{
-                width: '100%'
+                color: '#FFF',
+                fontSize: '14pt',
+                borderBottomColor: '#FFF',
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: '5px'
               }}
-            >
-            <Box>
-              <Input
-                id="user"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <PersonOutlineOutlinedIcon 
-                      fontSize='large'
-                      sx={{
-                        marginLeft: '10px',
-                        marginRight: '20px',
-                        color: 'white',
-                      }}
-                    />
-                  </InputAdornment>
-                }
-                placeholder='Email'
-                required
-                type='text'
-                fullWidth
-                value={usuario}
-                onChange={(e) => setUsuario(e.target.value)}
-                sx={{
-                  color: '#FFF',
-                  fontSize: '14pt',
-                  borderBottomColor: '#FFF',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  padding: '5px'
-                }}
-                theme={theme}
-              />
-            </Box>
-            <Box>
-              <Input
-                id="password"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <LockOutlinedIcon
-                      fontSize='large'
-                      sx={{
-                        marginLeft: '10px',
-                        marginRight: '20px',
-                        color: 'white',
-                      }}
-                    />
-                  </InputAdornment>
-                }
-                placeholder='Password'
-                required
-                type='password'
-                fullWidth
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                sx={{
-                  color: '#FFF',
-                  fontSize: '14pt',
-                  borderBottomColor: '#FFF',
-                  marginTop: '10px',
-                  marginBottom: '10px',
-                  padding: '5px'
-                }}
-                theme={theme}
-              />
-            </Box>
+              theme={theme}
+            />
+          </FormControl>
+          <FormControl variant='standard' margin='normal' sx={{ width: '100%' }}>
+            <Input
+              id="password"
+              startAdornment={
+                <InputAdornment position="start">
+                  <LockOutlinedIcon
+                    fontSize='large'
+                    sx={{
+                      marginLeft: '10px',
+                      marginRight: '20px',
+                      color: 'white',
+                    }}
+                  />
+                </InputAdornment>
+              }
+              placeholder='Password'
+              required={true}
+              type='password'
+              fullWidth={true}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              sx={{
+                color: '#FFF',
+                fontSize: '14pt',
+                borderBottomColor: '#FFF',
+                marginTop: '10px',
+                marginBottom: '10px',
+                padding: '5px'
+              }}
+              theme={theme}
+            />
           </FormControl>
         </Box>
         <Box 
@@ -212,6 +208,7 @@ function LoginPage() {
               fontSize: '20pt'
             }}
             onClick={handleLogin}
+            type='submit'
           >
             Log in
           </Button>

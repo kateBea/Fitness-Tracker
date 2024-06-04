@@ -37,15 +37,6 @@ public class Dieta {
     @JsonProperty(value = "fecha_fin")
     private LocalDateTime fechaFin;
 
-    //@DBRef
-    // Hay que serializar en una colección diferente
-    // este es un conjunto de datos que nos suministra edamam y guardamoos en nuestra DB
-    // para fácil uso, pero es información que se comparte entre todas las dietas
-
-    @Field(value = "comidas_sugeridas")
-    @JsonProperty(value = "comidas_sugeridas")
-    private List<Comida> comidasSugeridas;
-
     @Field(value = "consumo_agua")
     @JsonProperty(value = "consumo_agua")
     private float consumoDeAgua;
@@ -55,6 +46,10 @@ public class Dieta {
     @Field(value = "activa")
     @JsonProperty(value = "activa")
     private boolean activa;
+
+    @Field(value = "comidas_sugeridas")
+    @JsonProperty(value = "comidas_sugeridas")
+    private List<ComidaSugerida> comidasSugeridas;
 
     // Podemos tener registrada una dieta para un cliente,
     // pero posiblemente él o ella quiera empezarla tarde a la fecha

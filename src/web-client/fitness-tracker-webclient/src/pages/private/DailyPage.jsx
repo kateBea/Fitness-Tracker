@@ -1,5 +1,7 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { TopBar } from '../../components/Topbar'
+import axios from 'axios';
 import {
     Container,
     Box,
@@ -12,6 +14,7 @@ import {
 
 import { createTheme } from '@mui/material/styles';
 import { PrivateBar } from '../../components/Privatebar';
+import { API_ROUTES } from '../../ApiRoutes';
 
 const theme = createTheme({
     components: {
@@ -35,7 +38,39 @@ const theme = createTheme({
     },
 });
 
-function PerfilPage() {
+function DailyPage() {
+    const [fetchDataSuccesfull, setFetchDataSuccesfull] = useState(false);
+    const [listadoDietas, setListadoDietas] = useState({});
+    const [listadoRutinas, setListadoRutinas] = useState({});
+
+    const loadRutineAndDiet = async () => {
+        const tokenLS = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
+
+        try {
+          const responseDietas = await axios
+            .get(API_ROUTES.GetListDietasUsuario);
+
+            const responseRutinas = await axios
+            .get(API_ROUTES.GetListRutinasUsuario, { params: { fetchAll: true }});
+
+            setListadoDietas(responseDietas.data)
+            setListadoRutinas(responseRutinas.data)
+
+            setFetchDataSuccesfull(true)
+    
+          console.log(responseDietas);
+          console.log(responseRutinas);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    
+      
+      useEffect(() => {
+          loadRutineAndDiet();
+      }, [fetchDataSuccesfull]);
+
     return (
     <Box
         sx={{
@@ -89,7 +124,7 @@ function PerfilPage() {
                         
                     }}
                 >
-                    Desayuno
+                    Rutina
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
@@ -101,7 +136,7 @@ function PerfilPage() {
                     }}
                 >
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -119,7 +154,7 @@ function PerfilPage() {
                         >Valor_1</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -137,7 +172,7 @@ function PerfilPage() {
                         >Valor_2</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -164,7 +199,7 @@ function PerfilPage() {
                         
                     }}
                 >
-                    Resultados
+                    Dieta
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
@@ -176,7 +211,7 @@ function PerfilPage() {
                     }}
                 >
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -194,7 +229,7 @@ function PerfilPage() {
                         >Valor_1</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -212,7 +247,7 @@ function PerfilPage() {
                         >Valor_2</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -239,7 +274,7 @@ function PerfilPage() {
                         
                     }}
                 >
-                    Datos Personales
+                    Físico
                 </Typography>
                 <Box sx={{
                     borderWidth:'1px',
@@ -251,7 +286,7 @@ function PerfilPage() {
                     }}
                 >
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -269,7 +304,7 @@ function PerfilPage() {
                         >Valor_1</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -287,7 +322,7 @@ function PerfilPage() {
                         >valor_2</ListItemText>
                     </ListItem>
                     <ListItem
-                        dense='true'
+                        dense={true}
                         sx={{
                             display:'flex',
                             alignContent:'space-between',
@@ -311,4 +346,4 @@ function PerfilPage() {
     );
 }
 
-export default PerfilPage
+export default DailyPage

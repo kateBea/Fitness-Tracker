@@ -8,7 +8,6 @@ namespace FT___Base.Validators
     {
         public RequestGetDietaDeUsuarioValidator()
         {
-            RuleFor(x => x.Email).NotEmpty();
             RuleFor(x => x.IdDieta).NotEmpty();
         }
     }

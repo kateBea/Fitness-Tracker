@@ -37,9 +37,6 @@ namespace FT___Base.Models
             [JsonProperty("nivel_oxigeno_sangre")]
             public float NivelOxigenoSangre { get; set; }
 
-            [JsonProperty("presion_arterial")]
-            public float PresionArterial { get; set; }
-
             [JsonProperty("fecha_seguimiento")]
             public DateTime? FechaSeguimiento { get; set; }
 
@@ -55,6 +52,9 @@ namespace FT___Base.Models
             [JsonProperty("comida_id")]
             public string ComidaId { get; set; }
 
+            [JsonProperty("nombre")]
+            public string Nombre { get; set; }
+
             [JsonProperty("tipo")]
             public string Tipo { get; set; }
 
@@ -63,6 +63,24 @@ namespace FT___Base.Models
 
             [JsonProperty("orden")]
             public string Orden { get; set; }
+
+            [JsonProperty("descripcion")]
+            public string Descripcion { get; set; }
+
+            [JsonProperty("calorias")]
+            public double Calorias { get; set; }
+
+            [JsonProperty("proteinas")]
+            public double Proteinas { get; set; }
+
+            [JsonProperty("grasas")]
+            public double Grasas { get; set; }
+
+            [JsonProperty("carbohidratos")]
+            public double Carbohidratos { get; set; }
+
+            [JsonProperty("vitaminas")]
+            public List<string> Vitaminas { get; set; }
         }
     }
 }

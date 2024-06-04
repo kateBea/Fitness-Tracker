@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -24,8 +25,8 @@ public class RequestGetListRutinas {
     private boolean fetchAll;
 
     @JsonProperty(value = "fecha_inicio")
-    private LocalDateTime fechaInicio;
+    private LocalDate fechaInicio;
 
     @JsonProperty(value = "fecha_fin")
-    private LocalDateTime fechaFin;
+    private LocalDate fechaFin;
 }

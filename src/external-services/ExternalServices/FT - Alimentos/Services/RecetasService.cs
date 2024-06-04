@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using FTAlimentos.ModelsSvc.SearchByCriteria;
 using FTAlimentos.ModelsSvc.SearchRecipe;
 using AutoMapper;
+using Shared.Contexts;
 
 namespace FTAlimentos.Services
 {
@@ -25,11 +26,13 @@ namespace FTAlimentos.Services
         private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
+        private readonly IDataHttpContext _dataHttpContext;
         #endregion
 
-        public RecetasService(IConfiguration configuration, IMapper mapper)
+        public RecetasService(IConfiguration configuration, IMapper mapper, IDataHttpContext dataHttpContext)
         {
             _configuration = configuration;
+            _dataHttpContext = dataHttpContext;
 
             _mapper = mapper;
 

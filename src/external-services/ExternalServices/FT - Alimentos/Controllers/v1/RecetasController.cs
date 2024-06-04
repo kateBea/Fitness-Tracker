@@ -27,7 +27,7 @@ namespace FTAlimentos.Controllers.v1
         /// <param name="criteria">The message to be sent.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="SearchRecipeVM"/></returns>
         [HttpGet("GetRecipeByCriteria")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SearchRecipeVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -44,7 +44,7 @@ namespace FTAlimentos.Controllers.v1
         /// <param name="id">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="SearchRecipeIDVM"/></returns>
         [HttpGet("GetRecipeById")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SearchRecipeIDVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -61,7 +61,7 @@ namespace FTAlimentos.Controllers.v1
         /// <param name="uri">The message to be sent.</param>
         /// <returns>View model response. See: <see cref="SearchRecipeUriVM"/></returns>
         [HttpGet("GetRecipeByUri")]
-        [AllowAnonymous]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SearchRecipeVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

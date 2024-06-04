@@ -3,6 +3,5 @@
     public class RequestGetRutinaPorId
     {
         public string IdRutina { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
     }
 }

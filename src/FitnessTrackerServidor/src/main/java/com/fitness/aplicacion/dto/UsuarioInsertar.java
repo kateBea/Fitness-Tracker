@@ -22,14 +22,14 @@ public class UsuarioInsertar {
 	@JsonProperty(value = "correo_electronico", required = true)
 	private String email;
 
-	@JsonProperty(value = "nombre")
-	private String nombre;
-
 	@JsonProperty(value = "password", required = true)
 	private String contrasena;
 
 	@JsonProperty(value = "nombre_usuario", required = true)
 	private String nombreDeUsuario;
+
+	@JsonProperty(value = "nombre")
+	private String nombre;
 
 	@JsonProperty(value = "primer_apellido")
 	private String primerApellido;

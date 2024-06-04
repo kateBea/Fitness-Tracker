@@ -1,11 +1,12 @@
 package com.fitness.aplicacion.servicio;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
+import java.util.stream.Stream;
 
 import com.fitness.aplicacion.documentos.*;
 import com.fitness.aplicacion.dto.*;
@@ -13,6 +14,7 @@ import com.fitness.aplicacion.repositorio.IComidaRepositorio;
 import com.fitness.aplicacion.repositorio.IDietaRepositorio;
 import com.fitness.aplicacion.repositorio.IRutinaRepositorio;
 import com.fitness.aplicacion.utilidades.UtilidadesFechas;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import com.fitness.aplicacion.mapeo.ObjectMapperUtils;
 import com.fitness.aplicacion.repositorio.IUsuarioRepositorio;
 import org.springframework.transaction.annotation.Transactional;
+import static com.fitness.aplicacion.dto.RequestRegistrarDieta.ComidaSugeridaData;
 
 import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
 
@@ -240,30 +243,72 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         Dieta nueva = ObjectMapperUtils.map(model, Dieta.class);
+
+        nueva.setId(new ObjectId().toString());
         nueva.setFechaRegistro(LocalDateTime.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
 
-        List<Comida> comidas = new ArrayList<>();
+        // no hay otra dieta activa en el rango de fechas
+        dietasActivasSolapan(usuario, model.getFechaInicio(), model.getFechaFin(), model.isActiva());
 
-        for (String comidaId : model.getComidasSugeridas()) {
-            comidaRepositorio
-                    .findById(comidaId)
-                    .ifPresent(comidas::add);
+        List<ComidaSugerida> comidasSugeridasDietaNueva = new ArrayList<>();
+        List<Dieta> dietasDelUsuario = usuario.get().getDietas();
+        List<Comida> comidasRegistradasDelUsuario = usuario.get().getComidasRegistradas();
+
+        for (ComidaSugeridaData comidaNueva : model.getComidasSugeridas()) {
+            // Comida a insertar en caso de que no exista en la lista de registros del usuario
+            Comida aInsertar = ObjectMapperUtils.map(comidaNueva, Comida.class);
+
+            Optional<Comida> comidaRegistrada = comidasRegistradasDelUsuario.stream()
+                    .filter(comida -> comida.equals(aInsertar))
+                    .findFirst();
+
+            // La comida no está registrada en la lista de comidas del usuario
+            if (comidaRegistrada.isEmpty() && (comidaNueva.getId() == null || comidaNueva.getId().isEmpty())) {
+                aInsertar.setId(new ObjectId().toString());
+                aInsertar.setFechaRegistro(LocalDateTime.now());
+                aInsertar.setFechaUltimaModificacion(LocalDateTime.now());
+
+                comidasRegistradasDelUsuario.add(aInsertar);
+            }
+
+            // Cojo el id de la nueva comida porque es la que voy a insertar siempre
+            // tanto cuando el usuario la tiene registrada como cuando no la tiene registrada
+            comidasSugeridasDietaNueva.add(ComidaSugerida.builder()
+                    .id(aInsertar.getId())
+                    .orden(Orden.fromStr(comidaNueva.getOrden()))
+                    .tipo(Tipo.fromStr(comidaNueva.getTipo())).build());
         }
 
-        nueva.setComidasSugeridas(comidas);
+        // actualizo las comidas sugeridas de la nueva dieta
+        nueva.setComidasSugeridas(comidasSugeridasDietaNueva);
 
-        List<Dieta> dietas = usuario
-                .get()
-                .getDietas();
+        // añado la nueva dieta
+        dietasDelUsuario.add(nueva);
 
-        dietas.add(nueva);
-
-        usuario.get().setDietas(dietas);
+        // actualizo las comidas registradas del usuario y las dietas
+        usuario.get().setDietas(dietasDelUsuario);
+        usuario.get().setComidasRegistradas(comidasRegistradasDelUsuario);
 
         DAOS.save(usuario.get());
 
         return true;
+    }
+
+    /**
+     * Asume que el usuario no está vació
+     * */
+    private static void dietasActivasSolapan(Optional<Usuario> usuario, LocalDateTime fechaInicio, LocalDateTime fechaFin, boolean activa) {
+        boolean dietasActivasSolapan = usuario.get().getDietas().stream()
+            .anyMatch(dieta ->
+                    Stream.of(fechaInicio, fechaFin).anyMatch(Objects::isNull) ||
+                            (UtilidadesFechas.intervalsOverlap(
+                        fechaInicio, fechaFin,
+                        dieta.getFechaInicio(), dieta.getFechaFin()) && dieta.isActiva() && activa));
+
+        if (dietasActivasSolapan) {
+            throw new RuntimeException("Ya existe una dieta activa en el intervalo de fechas indicado o las fechas no son válidas.");
+        }
     }
 
     @Override
@@ -274,34 +319,67 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             return false;
         }
 
-        boolean dietasActivasSolapan = usuario.get().getDietas().stream()
-                .anyMatch(dieta -> UtilidadesFechas
-                        .intervalsOverlap(model.getFechaInicio(), model.getFechaFin(), dieta.getFechaInicio(), dieta.getFechaFin()) &&
-                        dieta.isActiva());
+        dietasActivasSolapan(usuario, model.getFechaInicio(), model.getFechaFin(), model.isActiva());
 
-        if (dietasActivasSolapan) {
-            throw new RuntimeException("Ya existe una dieta activa en el intervalo de fechas indicado.");
+        Optional<Dieta> aModificar = usuario.get().getDietas().stream()
+                .filter(dieta -> model.getDietaId().equals(dieta.getId()))
+                .findFirst();
+
+        if (aModificar.isEmpty()) {
+            return false;
         }
 
-        RequestRegistrarDieta data = ObjectMapperUtils.map(model, RequestRegistrarDieta.class);
+        aModificar.get().setCaloriasTarget(model.getCaloriasTarget());
+        aModificar.get().setConsumoDeAgua(model.getConsumoDeAgua());
+        aModificar.get().setActiva(model.isActiva());
+        aModificar.get().setFechaFin(model.getFechaFin());
+        aModificar.get().setFechaInicio(model.getFechaInicio());
+        aModificar.get().setFechaUltimaModificacion(LocalDateTime.now());
 
-        return registrarDieta(data);
+        DAOS.save(usuario.get());
+
+        return true;
     }
 
     @Override
     public Optional<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> getDieta(RequestGetDietaUsuario model) {
-        if (!DAOS.existsById(model.getEmail())) {
+        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+
+        if (usuario.isEmpty()) {
             return Optional.empty();
         }
 
-        Optional<Dieta> dieta = DAOS.findById(model.getEmail())
-                .get().getDietas().stream().filter(d -> d.getId().equalsIgnoreCase(model.getIdDieta())).findFirst();
+        Optional<Dieta> dietaEncontrada = usuario.get().getDietas().stream()
+                .filter(target -> target.getId().equals(model.getIdDieta()))
+                .findFirst();
 
+        if (dietaEncontrada.isEmpty()) {
+            return Optional.empty();
+        }
 
-        ResponseGetDietaUsuario.ResponseGetDietaUsuarioData result = ObjectMapperUtils
-                .map(dieta.orElse(null), ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
+        ResponseGetDietaUsuario.ResponseGetDietaUsuarioData result =
+                ObjectMapperUtils.map(dietaEncontrada.get(), ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
 
-        return Optional.ofNullable(result);
+        List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
+
+        for (ComidaSugerida comidaSugerida : dietaEncontrada.get().getComidasSugeridas()) {
+            Optional<Comida> comidaResult = usuario.get().getComidasRegistradas().stream()
+                    .filter(c -> c.getId().equals(comidaSugerida.getId()))
+                    .findFirst();
+
+            comidaResult.ifPresent(comida -> {
+                var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida.class);
+
+                toAdd.setTipo(comidaSugerida.getTipo().name());
+                toAdd.setOrden(comidaSugerida.getOrden().name());
+
+                comidasSugeridasResult.add(toAdd);
+            });
+        }
+
+        result.setComidasSugeridasResult(comidasSugeridasResult);
+
+        return Optional.of(result);
     }
 
     @Override
@@ -312,12 +390,34 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             throw new RuntimeException("El usuario no existe");
         }
 
-        List<Dieta> dietas = usuario.get().getDietas();
-        List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = new ArrayList<>();
+        List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result =
+                usuario.get().getDietas().stream()
+                .map(dietaEncontrada -> {
+                    ResponseGetDietaUsuario.ResponseGetDietaUsuarioData singleDietaData =
+                            ObjectMapperUtils.map(dietaEncontrada, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
 
-        for (Dieta dieta : dietas) {
-            result.add(ObjectMapperUtils.map(dieta, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class));
-        }
+                    List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
+
+
+                    for (ComidaSugerida comidaSugerida : dietaEncontrada.getComidasSugeridas()) {
+                        Optional<Comida> comidaResult = usuario.get().getComidasRegistradas().stream()
+                                .filter(c -> c.getId().equals(comidaSugerida.getId()))
+                                .findFirst();
+
+                        comidaResult.ifPresent(comida -> {
+                            var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida.class);
+
+                            toAdd.setTipo(comidaSugerida.getTipo().name());
+                            toAdd.setOrden(comidaSugerida.getOrden().name());
+
+                            comidasSugeridasResult.add(toAdd);
+                        });
+                    }
+
+                    singleDietaData.setComidasSugeridasResult(comidasSugeridasResult);
+
+                    return singleDietaData;
+                }).toList();
 
         return result;
     }
@@ -331,7 +431,9 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         Rutina nueva = ObjectMapperUtils.map(model, Rutina.class);
-        nueva.setFechaSeguimiento(LocalDateTime.now());
+
+        nueva.setId(new ObjectId().toString());
+        nueva.setFechaSeguimiento(LocalDate.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
 
         List<Rutina> rutinas = usuario.get().getRutinas();
@@ -367,13 +469,20 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         rutina.get().setCaloriasQuemadas(model.getCaloriasQuemadas());
         rutina.get().setPasosRealizados(model.getPasosRealizados());
         rutina.get().setFrecuenciaCardiaca(model.getFrecuenciaCardiaca());
-        rutina.get().setPresionArterial(model.getPresionArterial());
+        rutina.get().setNivelOxigenoSangre(model.getNivelOxigenoSangre());
         rutina.get().setFechaUltimaModificacion(LocalDateTime.now());
 
         // cargar alimento alimentos
-        List<Alimento> alimentos = new ArrayList<>();
+        List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas().isEmpty() ?
+                new ArrayList<>() : usuario.get().getComidasRegistradas();
+
+        List<Alimento> alimentos = rutina.get().getComidasConsumidas().isEmpty() ?
+                new ArrayList<>() : rutina.get().getComidasConsumidas();
         for (RequestModificarRutina.AlimentoInfo alimentoInfo : model.getAlimentoInfos()) {
-            Optional<Comida> comida = comidaRepositorio.findById(alimentoInfo.getComidaId());
+            // Buscamos la comida con el id de alimentoInfo en el repertorio de comidas que tiene registrado el usuario
+            Optional<Comida> comida = comidasRegistradasUsuario.stream()
+                            .filter(c -> c.getId().equals(alimentoInfo.getComidaId()))
+                            .findFirst();
 
             comida.ifPresent(value -> alimentos.add(
                     Alimento
@@ -386,11 +495,25 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                             .horaConsumo(alimentoInfo.getHoraConsumo())
                             .build()
             ));
+
+            // Si la comida que se intenta añadir no existe se da de alta
+            if (comida.isEmpty()) {
+                comidasRegistradasUsuario.add(
+                        Comida.builder()
+                                .id(alimentoInfo.getComidaId())
+                                .nombre(alimentoInfo.getNombre())
+                                .fechaRegistro(LocalDateTime.now())
+                                .fechaUltimaModificacion(LocalDateTime.now())
+                                .descripcion("Sin descripción")
+                                .build()
+                );
+            }
         }
 
         rutina.get().setComidasConsumidas(alimentos);
         rutinaRepositorio.save(rutina.get());
 
+        usuario.get().setComidasRegistradas(comidasRegistradasUsuario);
         DAOS.save(usuario.get());
 
         return true;
@@ -414,7 +537,17 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         List<RequestModificarRutina.AlimentoInfo> alimentoInfos =
                 rutina.get().getComidasConsumidas().stream()
-                        .map(comida -> ObjectMapperUtils.map(comida, RequestModificarRutina.AlimentoInfo.class))
+                        .map(comida -> {
+                            RequestModificarRutina.AlimentoInfo res = ObjectMapperUtils.map(comida, RequestModificarRutina.AlimentoInfo.class);
+
+                            List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
+
+                            Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
+                                    .filter(item -> item.getId().equals(comida.getId()))
+                                    .findFirst();
+
+                            return getAlimentoInfo(res, comidaRegistrada);
+                        })
                         .toList();
 
         ResponseGetRutina.ResponseGetRutinaData result =
@@ -442,15 +575,77 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             result = usuario.get().getRutinas().stream()
                     .filter(rutina -> UtilidadesFechas
                         .isBetween(rutina.getFechaSeguimiento(), model.getFechaInicio(), model.getFechaFin()))
-                    .map(rutina -> ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class))
+                    .map(rutina -> {
+                        ResponseGetRutina.ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class);
+
+                        List<RequestModificarRutina.AlimentoInfo> alimentoInfos = res.getComidasConsumidas();
+
+                        if (alimentoInfos == null) {
+                            return res;
+                        }
+
+                        alimentoInfos = alimentoInfos.stream()
+                                        .map(alimentoInfo -> {
+
+                                            List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
+
+                                            Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
+                                                    .filter(item -> item.getId().equals(alimentoInfo.getComidaId()))
+                                                    .findFirst();
+
+                                            return getAlimentoInfo(alimentoInfo, comidaRegistrada);
+                                        })
+                                .toList();
+
+                        res.setComidasConsumidas(alimentoInfos != null ? alimentoInfos : new ArrayList<>());
+
+                        return res;
+                    })
                     .toList();
         } else {
             result = usuario.get().getRutinas().stream()
-                    .map(rutina -> ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class))
+                    .map(rutina -> {
+                        ResponseGetRutina.ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class);
+
+                        List<RequestModificarRutina.AlimentoInfo> alimentoInfos = res.getComidasConsumidas();
+
+                        if (alimentoInfos == null) {
+                            return res;
+                        }
+
+                        alimentoInfos = alimentoInfos.stream()
+                                .map(alimentoInfo -> {
+
+                                    List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
+
+                                    Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
+                                            .filter(item -> item.getId().equals(alimentoInfo.getComidaId()))
+                                            .findFirst();
+
+                                    return getAlimentoInfo(alimentoInfo, comidaRegistrada);
+                                })
+                                .toList();
+
+                        res.setComidasConsumidas(alimentoInfos != null ? alimentoInfos : new ArrayList<>());
+
+                        return res;
+                    })
                     .toList();
         }
 
         return result;
+    }
+
+    private RequestModificarRutina.AlimentoInfo getAlimentoInfo(RequestModificarRutina.AlimentoInfo alimentoInfo, Optional<Comida> comidaRegistrada) {
+        if (comidaRegistrada.isPresent()) {
+            alimentoInfo.setNombre(comidaRegistrada.get().getNombre());
+            alimentoInfo.setDescripcion(comidaRegistrada.get().getDescripcion());
+            alimentoInfo.setCalorias(comidaRegistrada.get().getCalorias());
+            alimentoInfo.setGrasas(comidaRegistrada.get().getGrasas());
+            alimentoInfo.setCarbohidratos(comidaRegistrada.get().getCarbohidratos());
+            alimentoInfo.setVitaminas(comidaRegistrada.get().getVitaminas());
+        }
+        return alimentoInfo;
     }
 
     @Override
@@ -470,6 +665,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         boolean verificado = cifrar.matches(model.getPassword(), usuario.get().getContrasena());
 
         if(verificado) {
+            response.setUsername(usuario.get().getNombreUsuario());
             response.setEmail(usuario.get().getEmail());
             response.setName(usuario.get().getNombre());
             response.setFirstSurname(usuario.get().getPrimerApellido());

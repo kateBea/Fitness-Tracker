@@ -32,13 +32,12 @@ public class UsuarioControlador {
 	@PostMapping("insertar")
 	public ResponseEntity<Boolean> insertar(@RequestBody UsuarioInsertar user){
 		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false,HttpStatus.BAD_REQUEST);
+		ResponseEntity<Boolean> respuesta;
 		// Llamada al método del servicio para insertar un usuario
 		Boolean resultado = usuarioServicio.insertarUsuario(user);
 
 		// Si la inserción fue exitosa, cambia la respuesta a OK
-		if(resultado)
-			respuesta = ResponseEntity.ok(true);
+		respuesta = ResponseEntity.ok(resultado);
 		
 		return respuesta;
 	}
@@ -108,7 +107,7 @@ public class UsuarioControlador {
 
 		try {
 			responseData = usuarioServicio.login(model);
-			response = new ResponseEntity<>(responseData, responseData.isSuccess() ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
@@ -132,12 +131,12 @@ public class UsuarioControlador {
 					.changeDate(LocalDateTime.now())
 					.build();
 
-			response = new ResponseEntity<>(data, result ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
+			response = new ResponseEntity<>(data, HttpStatus.OK);
 
 		}catch (RuntimeException excep) {
 			data.setSuccess(false);
 			data.setResponseDescription(excep.getMessage());
-			response = new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
+			response = new ResponseEntity<>(data, HttpStatus.OK);
 
 		} catch (Exception e) {
 			data.setSuccess(false);
@@ -161,11 +160,11 @@ public class UsuarioControlador {
 				responseData.setData(result.get());
 				responseData.setResponseDescription("Usuario localizado");
 
-				response = new ResponseEntity<>(responseData, HttpStatus.FOUND);
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("El usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			responseData.setSuccess(false);
@@ -193,7 +192,7 @@ public class UsuarioControlador {
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("El usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			responseData.setSuccess(false);
@@ -218,13 +217,17 @@ public class UsuarioControlador {
 				responseData.setCreatedAt(LocalDateTime.now());
 				responseData.setResponseDescription("Dieta registrada con éxito");
 
-				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
 			}
-		} catch (Exception e) {
+
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
+		} catch (RuntimeException except) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(except.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
+		}catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
 			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -246,16 +249,16 @@ public class UsuarioControlador {
 				responseData.setModifiedAt(LocalDateTime.now());
 				responseData.setResponseDescription("Dieta modificada con éxito");
 
-				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
 			}
+
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (RuntimeException except) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(except.getMessage());
-			response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
@@ -282,7 +285,7 @@ public class UsuarioControlador {
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("No se pudo localizar la dieta o el usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			}
 		} catch (Exception e) {
 			responseData.setSuccess(false);
@@ -309,7 +312,7 @@ public class UsuarioControlador {
 		} catch (RuntimeException usuarioNotFound) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(usuarioNotFound.getMessage());
-			response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
@@ -320,7 +323,7 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("registrarrutina")
-	ResponseEntity<ResponseRegistrarRutina> modificarDieta(@RequestBody RequestRegistrarRutina model) {
+	ResponseEntity<ResponseRegistrarRutina> registrarRutina(@RequestBody RequestRegistrarRutina model) {
 		ResponseRegistrarRutina responseData = ResponseRegistrarRutina.builder().build();
 		ResponseEntity<ResponseRegistrarRutina> response;
 
@@ -332,12 +335,12 @@ public class UsuarioControlador {
 				responseData.setCreatedAt(LocalDateTime.now());
 				responseData.setResponseDescription("Rutina registrada con éxito");
 
-				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("No se pudo registrar la rutina. Esta es inválida o el usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
 			}
+
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
@@ -360,12 +363,12 @@ public class UsuarioControlador {
 				responseData.setModifiedAt(LocalDateTime.now());
 				responseData.setResponseDescription("Rutina modificada con éxito");
 
-				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("No se pudo modificar la rutina. Esta es inválida o el usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.BAD_REQUEST);
 			}
+
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
@@ -388,12 +391,12 @@ public class UsuarioControlador {
 				responseData.setData(result.get());
 				responseData.setResponseDescription("Rutina localizada con éxito");
 
-				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			} else {
 				responseData.setSuccess(false);
 				responseData.setResponseDescription("No se pudo localizar la rutina o el usuario no existe.");
-				response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
 			}
+
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
@@ -418,7 +421,7 @@ public class UsuarioControlador {
 		} catch (RuntimeException usuarioNotFound) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(usuarioNotFound.getMessage());
-			response = new ResponseEntity<>(responseData, HttpStatus.NOT_FOUND);
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 
 		} catch (Exception e) {
 			responseData.setSuccess(false);

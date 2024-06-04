@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
+using Shared.Contexts;
 
 namespace FTAI.Services
 {
@@ -39,6 +40,8 @@ namespace FTAI.Services
         /// </summary>
         private static List<UserConversation> _activeConversation = [];
 
+        private readonly IDataHttpContext _dataHttpContext;
+
         #endregion
 
         /// <summary>
@@ -46,11 +49,12 @@ namespace FTAI.Services
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="configuration"></param>
-        public AssistanceService(ILogger<AssistanceService> logger, IConfiguration configuration, IMapper mapper)
+        public AssistanceService(ILogger<AssistanceService> logger, IConfiguration configuration, IMapper mapper, IDataHttpContext dataHttpContext)
         {
             _logger = logger;
-            _authKey = configuration.GetValue<string>("openAIAuthKey");
+            _authKey = configuration.GetValue<string>("OpenAIAuthKey");
             _mapper = mapper;
+            _dataHttpContext = dataHttpContext;
 
             // Init OpenAI lib
             Model.DefaultChatModel = Model.GPT4_Vision;

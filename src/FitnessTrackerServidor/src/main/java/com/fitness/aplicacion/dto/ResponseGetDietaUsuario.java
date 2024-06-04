@@ -40,14 +40,14 @@ public class ResponseGetDietaUsuario extends BaseResponse {
         private LocalDateTime fechaFin;
 
         @JsonProperty(value = "comidas_sugeridas")
-        private List<ResponseGetDietaUsuarioDataComida> comidasSugeridas;
+        private List<ResponseGetDietaUsuarioDataComida> comidasSugeridasResult;
+
+        @JsonProperty(value = "activa")
+        private boolean activa;
 
         @JsonProperty(value = "consumo_agua")
         private float consumoDeAgua;
 
-        // Podemos tener registrada una dieta para un cliente,
-        // pero posiblemente él o ella quiera empezarla tarde a la fecha
-        // de registro
         @JsonProperty(value = "fecha_registro")
         private LocalDateTime fechaRegistro;
 
@@ -69,11 +69,20 @@ public class ResponseGetDietaUsuario extends BaseResponse {
         @JsonProperty(value = "descripcion")
         private String descripcion;
 
-        @JsonProperty(value = "unidades")
-        private int unidades;
-
         @JsonProperty(value = "calorias")
         private float calorias; //kcal
+
+        @JsonProperty(value = "proteinas")
+        private float proteinas;
+
+        @JsonProperty(value = "grasas")
+        private float grasas;
+
+        @JsonProperty(value = "tipo")
+        private String tipo;
+
+        @JsonProperty(value = "orden")
+        private String orden;
 
         @JsonProperty(value = "carbohidratos")
         private float carbohidratos; // gramos
@@ -81,13 +90,7 @@ public class ResponseGetDietaUsuario extends BaseResponse {
         @JsonProperty(value = "vitaminas")
         private List<String> vitaminas;
 
-        @JsonProperty(value = "grasas")
-        private float grasas;
-
         @JsonProperty(value = "fecha_registro")
         private LocalDateTime fechaRegistro;
-
-        @JsonProperty(value = "ultima_modificacion")
-        private LocalDateTime fechaUltimaModificacion;
     }
 }

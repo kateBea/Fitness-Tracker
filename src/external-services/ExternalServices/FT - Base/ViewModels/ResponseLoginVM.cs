@@ -11,8 +11,8 @@ namespace FT___Base.ViewModels
 
         public class ResponseLoginVMData
         {
-            public string Email { get; set; } = string.Empty;
             public string Name { get; set; } = string.Empty;
+            public string Username { get; set; } = string.Empty;
             public string FirstSurname { get; set; } = string.Empty;
             public string? SecondSurname { get; set; } = string.Empty;
             public string Token { get; set; } = string.Empty;

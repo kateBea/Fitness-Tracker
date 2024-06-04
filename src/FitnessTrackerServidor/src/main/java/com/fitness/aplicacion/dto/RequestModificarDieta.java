@@ -18,6 +18,9 @@ public class RequestModificarDieta {
     @JsonProperty(value = "email")
     private String email;
 
+    @JsonProperty(value = "dieta_id")
+    private String dietaId;
+
     @JsonProperty(value = "calorias_target")
     private float caloriasTarget;
 
@@ -27,8 +30,14 @@ public class RequestModificarDieta {
     @JsonProperty(value = "fecha_fin")
     private LocalDateTime fechaFin;
 
-    @JsonProperty(value = "id_comidas_sugeridas")
-    private List<String> comidasSugeridas;
+    // Las comidas no se modifican a través de los cambios sobre la dieta
+    // modificar una comida implica una funcionalidad a parte y sería adecuado
+    // que tuviese sus propios endpoints, de momento este es el soporte
+    // que ofrece nuestra aplicación, si es necesario actualizar una comida en concreto
+    // se hará a través de el registro de una dieta, registrando la comida si no existe
+    // y modificándola con los datos nuevos en caso de existir.
+    //@JsonProperty(value = "id_comidas_sugeridas")
+    //private List<String> comidasSugeridas;
 
     @JsonProperty(value = "consumo_agua")
     private float consumoDeAgua;

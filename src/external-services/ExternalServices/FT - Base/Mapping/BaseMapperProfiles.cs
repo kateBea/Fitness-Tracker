@@ -3,6 +3,7 @@ using FT___Base.Models;
 using FT___Base.ViewModels;
 using FTAlimentos.Models;
 using Shared.Utilities;
+using static FT___Base.ViewModels.ResponseGetDatosUsuarioVM;
 using static FT___Base.ViewModels.ResponseLoginVM;
 
 namespace FT___Base.Mapping
@@ -21,7 +22,7 @@ namespace FT___Base.Mapping
             CreateMap<CambiarPasswordSvcOut, ResponseCambiarPasswordVM>();
 
             CreateMap<RequestGetDatosUsuario, RequestGetDatosUsuarioSvcIn>();
-            CreateMap<ResponseGetDatosUsuarioSvcOut, ResponseGetDatosUsuarioVM>();
+            CreateMap<ResponseGetDatosUsuarioSvcOutData, ResponseGetDatosUsuarioVMData>();
 
             CreateMap<RequestGetDietaDeUsuario, RequestGetDietaUsuarioInSvc>();
             CreateMap<ResponseGetDietaUsuarioSvcOut, ResponseGetDietaDeUsuarioVM>();

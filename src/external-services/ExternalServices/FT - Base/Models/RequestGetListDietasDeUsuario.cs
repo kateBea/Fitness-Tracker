@@ -2,6 +2,5 @@
 {
     public class RequestGetListDietasDeUsuario
     {
-        public string Email { get; set; }
     }
 }

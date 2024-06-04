@@ -31,9 +31,49 @@ public class RequestRegistrarDieta {
     @JsonProperty(value = "fecha_fin")
     private LocalDateTime fechaFin;
 
-    @JsonProperty(value = "id_comidas_sugeridas")
-    private List<String> comidasSugeridas;
+    @JsonProperty(value = "comidas_sugeridas")
+    private List<ComidaSugeridaData> comidasSugeridas;
+
+    @JsonProperty(value = "activa")
+    private boolean activa;
 
     @JsonProperty(value = "consumo_agua")
     private float consumoDeAgua;
+
+    @Data
+    @SuperBuilder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ComidaSugeridaData {
+        @JsonProperty(value = "id")
+        @EqualsAndHashCode.Include
+        private String id;
+
+        @JsonProperty(value = "orden")
+        private String orden;
+
+        @JsonProperty(value = "tipo")
+        private String tipo;
+
+        @JsonProperty(value = "nombre")
+        private String nombre;
+
+        @JsonProperty(value = "descripcion")
+        private String descripcion;
+
+        @JsonProperty(value = "calorias")
+        private float calorias; //kcal
+
+        @JsonProperty(value = "proteinas")
+        private float proteinas;
+
+        @JsonProperty(value = "grasas")
+        private float grasas;
+
+        @JsonProperty(value = "carbohidratos")
+        private float carbohidratos; // gramos
+
+        @JsonProperty(value = "vitaminas")
+        private List<String> vitaminas;
+    }
 }

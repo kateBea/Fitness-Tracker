@@ -5,11 +5,11 @@
     {
       "UpstreamPathTemplate": "/api/assistance/{everything}",
       "DownstreamPathTemplate": "/Assistance/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7031
+          "Host": "ft-ai",
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -20,11 +20,11 @@
     {
       "UpstreamPathTemplate": "/api/alimentos/{everything}",
       "DownstreamPathTemplate": "/Alimentos/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7181
+          "Host": "ft-alimentos",
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -35,11 +35,11 @@
     {
       "UpstreamPathTemplate": "/api/recetas/{everything}",
       "DownstreamPathTemplate": "/Recetas/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7181
+          "Host": "ft-alimentos",
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -50,11 +50,11 @@
     {
       "UpstreamPathTemplate": "/api/client/{everything}",
       "DownstreamPathTemplate": "/Base/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7070
+          "Host": "ft-base",
+          "Port": 8080
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -70,7 +70,7 @@
         {
           "Name": "FT - AI",
           "Version": "v1",
-          "Url": "http://localhost:5149/swagger/v1/swagger.json"
+          "Url": "http://localhost:8084/swagger/v1/swagger.json"
         }
       ]
     },
@@ -83,7 +83,7 @@
         {
           "Name": "FT - Alimentos",
           "Version": "v1",
-          "Url": "http://localhost:5041/swagger/v1/swagger.json"
+          "Url": "http://localhost:8083/swagger/v1/swagger.json"
         }
       ]
     },
@@ -96,7 +96,7 @@
         {
           "Name": "FT - Recetas",
           "Version": "v1",
-          "Url": "http://localhost:5041/swagger/v1/swagger.json"
+          "Url": "http://localhost:8083/swagger/v1/swagger.json"
         }
       ]
     },
@@ -109,12 +109,12 @@
         {
           "Name": "FT - Base",
           "Version": "v1",
-          "Url": "http://localhost:5078/swagger/v1/swagger.json"
+          "Url": "http://localhost:8082/swagger/v1/swagger.json"
         }
       ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:7298"
+    "BaseUrl": "http://localhost:8081"
   }
 }
