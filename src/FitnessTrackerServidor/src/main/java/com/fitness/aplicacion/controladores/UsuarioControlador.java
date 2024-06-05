@@ -210,18 +210,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseRegistrarDieta> response;
 
 		try {
-			Boolean result = usuarioServicio.registrarDieta(model);
-			responseData.setSuccess(true);
-
-			if (result) {
-				responseData.setCreatedAt(LocalDateTime.now());
-				responseData.setResponseDescription("Dieta registrada con éxito");
-
-			} else {
-				responseData.setSuccess(false);
-				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
-			}
-
+			responseData = usuarioServicio.registrarDieta(model);
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (RuntimeException except) {
 			responseData.setSuccess(false);
@@ -328,18 +317,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseRegistrarRutina> response;
 
 		try {
-			Boolean result = usuarioServicio.registrarRutina(model);
-			responseData.setSuccess(true);
-
-			if (result) {
-				responseData.setCreatedAt(LocalDateTime.now());
-				responseData.setResponseDescription("Rutina registrada con éxito");
-
-			} else {
-				responseData.setSuccess(false);
-				responseData.setResponseDescription("No se pudo registrar la rutina. Esta es inválida o el usuario no existe.");
-			}
-
+			responseData = usuarioServicio.registrarRutina(model);
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);

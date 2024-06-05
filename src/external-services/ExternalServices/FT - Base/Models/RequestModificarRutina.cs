@@ -5,7 +5,7 @@ namespace FT___Base.Models
 {
     public class RequestModificarRutina
     {
-        public string IdRutina { get; set; }
+        public string Id { get; set; }
 
         public float TiempoDeSuenio { get; set; }
 
@@ -17,6 +17,6 @@ namespace FT___Base.Models
 
         public float NivelOxigenoSangre { get; set; }
 
-        public List<AlimentoInfo> AlimentoInfos { get; set; } = [];
+        public List<AlimentoInfo> ComidasConsumidas { get; set; } = [];
     }
 }

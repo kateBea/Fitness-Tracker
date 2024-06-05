@@ -235,11 +235,15 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     }
 
     @Override
-    public Boolean registrarDieta(RequestRegistrarDieta model) {
+    public ResponseRegistrarDieta registrarDieta(RequestRegistrarDieta model) {
         Optional<Usuario> usuario = DAOS.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
-            return false;
+            return ResponseRegistrarDieta.builder()
+                    .createdAt(LocalDateTime.now())
+                    .responseDescription("El usuario no existe")
+                    .success(false)
+                    .build();
         }
 
         Dieta nueva = ObjectMapperUtils.map(model, Dieta.class);
@@ -292,7 +296,12 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         DAOS.save(usuario.get());
 
-        return true;
+        return ResponseRegistrarDieta.builder()
+                .id(nueva.getId())
+                .createdAt(LocalDateTime.now())
+                .responseDescription("Dieta registrada con éxito")
+                .success(true)
+                .build();
     }
 
     /**
@@ -423,11 +432,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     }
 
     @Override
-    public Boolean registrarRutina(RequestRegistrarRutina model) {
+    public ResponseRegistrarRutina registrarRutina(RequestRegistrarRutina model) {
         Optional<Usuario> usuario = DAOS.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
-            return false;
+            return ResponseRegistrarRutina.builder()
+                    .responseDescription("El usuario no existe")
+                    .success(false)
+                    .build();
         }
 
         Rutina nueva = ObjectMapperUtils.map(model, Rutina.class);
@@ -445,7 +457,12 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         DAOS.save(usuario.get());
 
-        return true;
+        return ResponseRegistrarRutina.builder()
+                .id(nueva.getId())
+                .responseDescription("Rutina registrada con éxito")
+                .createdAt(LocalDateTime.now())
+                .success(true)
+                .build();
     }
 
     @Override
@@ -476,7 +493,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas().isEmpty() ?
                 new ArrayList<>() : usuario.get().getComidasRegistradas();
 
-        List<Alimento> alimentos = rutina.get().getComidasConsumidas().isEmpty() ?
+        List<Alimento> alimentos = rutina.get().getComidasConsumidas() == null ?
                 new ArrayList<>() : rutina.get().getComidasConsumidas();
         for (RequestModificarRutina.AlimentoInfo alimentoInfo : model.getAlimentoInfos()) {
             // Buscamos la comida con el id de alimentoInfo en el repertorio de comidas que tiene registrado el usuario
@@ -535,7 +552,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             return Optional.empty();
         }
 
-        List<RequestModificarRutina.AlimentoInfo> alimentoInfos =
+        List<RequestModificarRutina.AlimentoInfo> alimentoInfos = rutina.get().getComidasConsumidas() != null ?
                 rutina.get().getComidasConsumidas().stream()
                         .map(comida -> {
                             RequestModificarRutina.AlimentoInfo res = ObjectMapperUtils.map(comida, RequestModificarRutina.AlimentoInfo.class);
@@ -548,7 +565,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
                             return getAlimentoInfo(res, comidaRegistrada);
                         })
-                        .toList();
+                        .toList()
+                : new ArrayList<>();
 
         ResponseGetRutina.ResponseGetRutinaData result =
                 ObjectMapperUtils.map(rutina.get(), ResponseGetRutina.ResponseGetRutinaData.class);

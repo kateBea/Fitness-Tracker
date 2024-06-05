@@ -8,7 +8,9 @@ Trabajo de fin de grado de aplicación para gestionar el entrenamiento físico.
 
 ## Capturas cliente Android
 
-<p>
+A continuación se muestran algunas capturas del cliente android.
+
+<p align="center">
     <img src="/capturas/android-img1.png" alt="Pantalla 1" width="250"/>
     <img src="/capturas/android-img2.png" alt="Pantalla 2" width="250"/>
 </p>
@@ -21,15 +23,16 @@ Este proyecto es también una forma de ampliar nuestros conocimientos en librer�
 
 ## Estructura
 
-El proyecto consta de varias aplicaciones. Una aplicación cliente Android, una aplicación cliente Web y dos servicios que componen el conjunto backend.
+El proyecto consta de tres bloques principales. Un cliente Android, un cliente web y un backend. El backend sigue una arquitectura similar a microservicios y también hace de puente entre nuestros clientes y APIs externas que sean necesarios para nuestros clientes como por ejemplo, el módulo de inteligencia artificial para generar dietas o el módulo de información nutricional.
 
 ## Cliente Android
 
-- Funcionalidades Principales:
+#### Funcionalidades Principales:
 
-1.
+1. Registrar usuarios a la base de datos
+2. Registrar rutinas y información recibida de Wear OS.
 
-- Ejecución:
+#### Ejecución (depurar):
 
 1. Seleccionamos y abrimos la carpeta de android-client medienta el editor Android Studio.
 2. El editor debería ser capaza de actualizar los paquetes de Gradle si es necesario, si no probar con el proyecto en la rama master.

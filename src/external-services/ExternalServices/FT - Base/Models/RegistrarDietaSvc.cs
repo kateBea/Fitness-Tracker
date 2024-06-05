@@ -60,6 +60,9 @@ namespace FT___Base.Models
 
     public class ResponseRegistrarDietaOut : BaseResponseSvc
     {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
         [JsonProperty("created_at")]
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
     }
