@@ -9,7 +9,7 @@ namespace FT___Base.Models
         public string Email { get; set; }
 
         [JsonProperty("rutina_id")]
-        public string IdRutina { get; set; }
+        public string Id { get; set; }
     }
 
     public class ResponseGetRutinaPorIdSvcOut : BaseResponseSvc
@@ -80,7 +80,7 @@ namespace FT___Base.Models
             public double Carbohidratos { get; set; }
 
             [JsonProperty("vitaminas")]
-            public List<string> Vitaminas { get; set; }
+            public List<string> Vitaminas { get; set; } = [];
         }
     }
 }

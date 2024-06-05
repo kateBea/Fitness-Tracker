@@ -92,7 +92,7 @@ public interface IUsuarioServicio {
 	 * @param model El modelo que contiene la información necesaria para registrar una dieta.
 	 * @return true si el registro de la dieta fue exitoso, false en caso contrario.
 	 */
-	Boolean registrarDieta(RequestRegistrarDieta model);
+	ResponseRegistrarDieta registrarDieta(RequestRegistrarDieta model);
 
 	/**
 	 * Modifica una dieta existente.
@@ -124,7 +124,7 @@ public interface IUsuarioServicio {
 	 * @param model El modelo que contiene la información necesaria para registrar una rutina.
 	 * @return true si el registro de la rutina fue exitoso, false en caso contrario.
 	 */
-	Boolean registrarRutina(RequestRegistrarRutina model);
+	ResponseRegistrarRutina registrarRutina(RequestRegistrarRutina model);
 
 	/**
 	 * Modifica una rutina existente.

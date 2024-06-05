@@ -5,6 +5,6 @@ namespace FT___Base.Models
 {
     public class RequestGetDietaDeUsuario : BaseRequest
     {
-        public string IdDieta { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
     }
 }

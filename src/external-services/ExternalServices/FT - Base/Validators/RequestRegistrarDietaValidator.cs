@@ -11,7 +11,6 @@ namespace FT___Base.Validators
             RuleFor(x => x.CaloriasTarget).GreaterThan(0);
             RuleFor(x => x.FechaInicio).NotEmpty().LessThanOrEqualTo(x => x.FechaFin);
             RuleFor(x => x.FechaFin).NotEmpty();
-            RuleFor(x => x.ComidasSugeridas).NotEmpty();
             RuleFor(x => x.ConsumoDeAgua).GreaterThan(0);
         }
     }

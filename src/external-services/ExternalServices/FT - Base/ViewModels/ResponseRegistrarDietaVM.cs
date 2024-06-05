@@ -9,7 +9,7 @@ namespace FT___Base.ViewModels
     /// </summary>
     public class ResponseRegistrarDietaVM : BaseResponse
     {
-        [JsonProperty("created_at")]
+        public string Id { get; set; }
         public DateTime? CreatedAt { get; set; } = DateTime.Now;
     }
 }

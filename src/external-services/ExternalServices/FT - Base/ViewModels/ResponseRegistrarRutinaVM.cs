@@ -7,6 +7,9 @@ namespace FT___Base.ViewModels
     /// </summary>
     public class ResponseRegistrarRutinaVM
     {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

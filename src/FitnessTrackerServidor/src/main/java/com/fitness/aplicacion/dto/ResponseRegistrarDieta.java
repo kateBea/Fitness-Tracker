@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ResponseRegistrarDieta extends BaseResponse {
 
+    @JsonProperty(value = "id")
+    private String id;
+
     @JsonProperty(value = "created_at")
     private LocalDateTime createdAt;
 }

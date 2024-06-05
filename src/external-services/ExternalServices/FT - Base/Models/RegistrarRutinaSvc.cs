@@ -29,6 +29,8 @@ namespace FT___Base.Models
     /// </summary>
     public class RequestRegistrarRutinaOut : BaseResponseSvc
     {
+        [JsonProperty("id")]
+        public string Id { get; set; }
         /// <summary>
         /// 
         /// </summary>
