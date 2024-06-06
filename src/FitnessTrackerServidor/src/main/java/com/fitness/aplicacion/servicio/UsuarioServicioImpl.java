@@ -168,15 +168,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     public boolean cambiarPassword(RequestCambiarPassword model) {
         boolean result = true;
 
-
         Optional<Usuario> info = DAOS.findById(model.getEmail());
 
         if (info.isPresent()) {
-            boolean match =
-                    cifrar.matches(model.getOldPassword(), info.get().getContrasena());
-
-            boolean oldMatchesNew =
-                    cifrar.matches(model.getNewPassword(), info.get().getContrasena());
+            boolean match = cifrar.matches(model.getOldPassword(), info.get().getContrasena());
+            boolean oldMatchesNew = cifrar.matches(model.getNewPassword(), info.get().getContrasena());
 
             if (match && oldMatchesNew) {
                 throw new RuntimeException("La contraseña nueva debe ser diferente a la antigua");
@@ -489,12 +485,15 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         rutina.get().setNivelOxigenoSangre(model.getNivelOxigenoSangre());
         rutina.get().setFechaUltimaModificacion(LocalDateTime.now());
 
-        // cargar alimento alimentos
+        // cargar las comidas registradas del usuario, en ellas se buscan las comidas
+        // que se estén intentando añadir a la rutina a modificar
         List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas().isEmpty() ?
                 new ArrayList<>() : usuario.get().getComidasRegistradas();
 
+        // cargamos las comidas consumidas para actualizarlas en el usuario
         List<Alimento> alimentos = rutina.get().getComidasConsumidas() == null ?
                 new ArrayList<>() : rutina.get().getComidasConsumidas();
+
         for (RequestModificarRutina.AlimentoInfo alimentoInfo : model.getAlimentoInfos()) {
             // Buscamos la comida con el id de alimentoInfo en el repertorio de comidas que tiene registrado el usuario
             Optional<Comida> comida = comidasRegistradasUsuario.stream()
@@ -528,7 +527,6 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         rutina.get().setComidasConsumidas(alimentos);
-        rutinaRepositorio.save(rutina.get());
 
         usuario.get().setComidasRegistradas(comidasRegistradasUsuario);
         DAOS.save(usuario.get());

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared.Utilities
 {
+    /// <summary>
+    /// Base request
+    /// </summary>
     public class BaseRequest
     {
 

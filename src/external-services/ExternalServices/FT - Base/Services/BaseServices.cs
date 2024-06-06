@@ -95,7 +95,7 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.BadRequest)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<CambiarPasswordSvcOut>(json);
@@ -289,8 +289,7 @@ namespace FT___Base.Services
                 if (resultVm.Success)
                 {
                     // token logic
-                    // el username es el email, es de esta forma que identifcamos a los
-                    // usuarios, para evitar exponerlo en los claims del token se encripta
+                    // el username es el email, es de esta forma que identifcamos a los usuarios
                     var encriptedEmail = EncodeUserEmail(model.Email);
 
                     var input = new GenerateJwtTokenIn()
@@ -304,9 +303,11 @@ namespace FT___Base.Services
                     resultVm.Data.TokenExpirationDate = output.TokenExpireDate;
                     resultVm.Data.TokenDuration = output.TokenExpireTime;
 
+#if DEBUG
                     var token = JwtTokenHandler.GetClaimFromJwt(output.Token, "email");
                     var decrypt = DecodeUserEmail(token);
                     var e = decrypt;
+#endif
                 }
 
             }
