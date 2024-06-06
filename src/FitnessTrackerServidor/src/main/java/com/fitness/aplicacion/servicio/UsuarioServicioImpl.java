@@ -449,7 +449,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         Rutina nueva = ObjectMapperUtils.map(model, Rutina.class);
-        
+
         nueva.setId(new ObjectId().toString());
         nueva.setFechaSeguimiento(LocalDate.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
