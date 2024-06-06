@@ -323,11 +323,6 @@ public class UsuarioControlador {
 		try {
 			responseData = usuarioServicio.registrarRutina(model);
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
-
-		} catch (RuntimeException e) {
-			responseData.setSuccess(false);
-			responseData.setResponseDescription(e.getMessage());
-			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());

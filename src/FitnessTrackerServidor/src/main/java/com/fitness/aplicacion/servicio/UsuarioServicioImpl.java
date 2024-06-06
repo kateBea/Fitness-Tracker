@@ -441,16 +441,16 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                 .findFirst();
 
         if (rutinaHoy.isPresent()) {
-            throw new RuntimeException(String.format("Existe rutina para el día de hoy con ID: '%s'", rutinaHoy.get().getId()));
+            return ResponseRegistrarRutina.builder()
+                    .id(rutinaHoy.get().getId())
+                    .responseDescription(String.format("Existe rutina para el día de hoy con ID: '%s'", rutinaHoy.get().getId()))
+                    .success(false)
+                    .build();
         }
 
         Rutina nueva = ObjectMapperUtils.map(model, Rutina.class);
-
-        if (rutinaHoy.isEmpty()) {
-            // No hay rutina para hoy, por eso se crea una nueva
-            nueva.setId(new ObjectId().toString());
-        }
-
+        
+        nueva.setId(new ObjectId().toString());
         nueva.setFechaSeguimiento(LocalDate.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
 
