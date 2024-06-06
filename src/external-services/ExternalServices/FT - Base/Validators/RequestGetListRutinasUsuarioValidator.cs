@@ -8,14 +8,16 @@ namespace FT___Base.Validators
     {
         public RequestGetListRutinasUsuarioValidator()
         {
-            RuleFor(x => x.FetchAll).NotNull().DependentRules( () =>
-            {
-                When(data => data.FetchAll == false, () =>
+            RuleFor(x => x.FetchAll).NotEmpty()
+                .DependentRules( () =>
                 {
-                    RuleFor(x => x.FechaInicio).NotEmpty();
-                    RuleFor(x => x.FechaInicio).NotEmpty().LessThanOrEqualTo(x => x.FechaFin);
+                    When(data => data.FetchAll == false, () =>
+                    {
+                        RuleFor(x => x.FechaFin).NotEmpty().WithMessage("La fecha de fin no puede estar vacía si se quiere rutinas en un rango de fechas");
+                        RuleFor(x => x.FechaInicio).NotEmpty().WithMessage("La fecha de inicio no puede estar vacía si se quiere rutinas en un rango de fechas")
+                            .LessThanOrEqualTo(x => x.FechaFin).WithMessage("La fecha de fin debe ser superior a la de inicio");
+                    });
                 });
-            });
 
         }
     }

@@ -42,7 +42,7 @@ namespace FT___Base.Models
             public string Descripcion { get; set; }
 
             [JsonProperty("calorias")]
-            public string Tip { get; set; }
+            public float Calorias { get; set; }
 
             [JsonProperty("proteinas")]
             public float Proteinas { get; set; }

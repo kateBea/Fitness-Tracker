@@ -194,6 +194,10 @@ public class UsuarioControlador {
 				responseData.setResponseDescription("El usuario no existe.");
 				response = new ResponseEntity<>(responseData, HttpStatus.OK);
 			}
+		}catch (RuntimeException e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(e.getMessage());
@@ -240,7 +244,7 @@ public class UsuarioControlador {
 
 			} else {
 				responseData.setSuccess(false);
-				responseData.setResponseDescription("No se pudo registrar la dieta. Esta es inválida o el usuario no existe.");
+				responseData.setResponseDescription("No se pudo modificar la dieta. Esta es inválida o el usuario no existe.");
 			}
 
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);

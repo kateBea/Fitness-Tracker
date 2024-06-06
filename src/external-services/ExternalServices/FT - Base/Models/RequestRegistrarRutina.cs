@@ -5,15 +5,15 @@ namespace FT___Base.Models
     public class RequestRegistrarRutina
     {
 
-        public double TiempoDeSuenio { get; set; } = 0;
+        public double TiempoDeSuenio { get; set; } = 0.0;
 
-        public double CaloriasQuemadas { get; set; }
+        public double CaloriasQuemadas { get; set; } = 0.0;
 
-        public int PasosRealizados { get; set; }
+        public int PasosRealizados { get; set; } = 0;
 
-        public double FrecuenciaCardiaca { get; set; }
+        public double FrecuenciaCardiaca { get; set; } = 0.0;
 
-        public double NivelOxigenoSangre { get; set; }
+        public double NivelOxigenoSangre { get; set; } = 0.0;
 
     }
 }

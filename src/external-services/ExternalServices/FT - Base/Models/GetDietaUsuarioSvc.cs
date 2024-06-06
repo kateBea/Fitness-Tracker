@@ -9,7 +9,7 @@ namespace FT___Base.Models
         public string Email { get; set; } = string.Empty;
 
         [JsonProperty("dieta_id")]
-        public string IdDieta { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
     }
 
     public class ResponseGetDietaUsuarioSvcOut : BaseResponseSvc
@@ -45,6 +45,8 @@ namespace FT___Base.Models
 
             [JsonProperty("ultima_modificacion")]
             public DateTime? FechaUltimaModificacion { get; set; }
+
+            
         }
 
         public class ResponseGetDietaUsuarioDataComida
@@ -72,6 +74,15 @@ namespace FT___Base.Models
 
             [JsonProperty("grasas")]
             public float Grasas { get; set; }
+
+            [JsonProperty("tipo")]
+            public string Tipo { get; set; } = string.Empty;
+
+            [JsonProperty("orden")]
+            public string Orden { get; set; } = string.Empty;
+
+            [JsonProperty("fecha_registro")]
+            public DateTime? FechaRegistro { get; set; }
         }
     }
 }

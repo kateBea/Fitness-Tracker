@@ -5,19 +5,16 @@ using Shared.Utilities;
 namespace FT___Base.Models
 {
     /// <summary>
-    /// 
+    /// Get datos usuario external service request model
     /// </summary>
     public class RequestGetDatosUsuarioSvcIn
     {
-        [JsonProperty("dieta_id")]
-        public string IdDieta { get; set; } = string.Empty;
-
         [JsonProperty("email")]
         public string Email { get; set; } = string.Empty;
     }
 
     /// <summary>
-    /// 
+    /// Get datos usuario external service response model
     /// </summary>
     public class ResponseGetDatosUsuarioSvcOut : BaseResponseSvc
     {

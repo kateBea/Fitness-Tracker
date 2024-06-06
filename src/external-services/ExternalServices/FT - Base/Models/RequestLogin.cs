@@ -3,11 +3,15 @@
 namespace FT___Base.Models
 {
     /// <summary>
-    /// 
+    /// Login request model
     /// </summary>
     public class RequestLogin : BaseRequest
     {
-        public string Email { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Email { get; set; } = string.Empty;
+
         /// <summary>
         /// 
         /// </summary>

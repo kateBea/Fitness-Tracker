@@ -29,7 +29,7 @@ namespace FT___Base.Models
 
 
         [JsonProperty("fecha_nacimiento")]
-        public DateTime FechaDeNacimiento { get; set; } = DateTime.Now;
+        public DateOnly FechaDeNacimiento { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddYears(-18));
 
         // En centímetros
         [JsonProperty("altura")]

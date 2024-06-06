@@ -23,7 +23,4 @@ public class RequestCambiarPassword {
 
     @JsonProperty(value = "old_password")
     private String oldPassword;
-
-    @JsonProperty(value = "attempt_change_date")
-    private LocalDateTime attemptChangeDate;
 }

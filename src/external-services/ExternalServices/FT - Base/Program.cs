@@ -13,7 +13,6 @@ using Shared.Contexts;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddCustomJwtAuthentication();
 builder.Services.AddHttpContextAccessor();
@@ -78,7 +77,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
