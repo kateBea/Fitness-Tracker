@@ -9,25 +9,23 @@ import java.time.LocalDateTime
 
 @RequiresApi(Build.VERSION_CODES.O)
 data class Usuario(
-    @SerializedName("correo_electronico")
-    val email: String = "",
 
-    @SerializedName("nombre_usuario")
+    @SerializedName("nombreUsuario")
     val nombreUsuario: String = "",
 
     @SerializedName("nombre")
     val nombre: String = "",
 
-    @SerializedName("primer_apellido")
+    @SerializedName("primerApellido")
     val apellido: String = "",
 
-    @SerializedName("segundo_apellido")
+    @SerializedName("segundoApellido")
     val segundoApellido: String = "",
 
-    @SerializedName("fecha_nacimiento")
+    @SerializedName("fechaDeNacimiento")
     val fechaNacimiento: String = "",
 
-    @SerializedName("fecha_alta")
+    @SerializedName("fechaRegistro")
     val fechaRegistro: String = "",
 
     @SerializedName("altura")

@@ -5,17 +5,15 @@ import com.example.fitnesstrackerapp.objetos.response.Sexo
 import com.google.gson.annotations.SerializedName
 
 data class UsuarioRequest(
-    @SerializedName("correo_electronico")
-    var email:String = "",
-    @SerializedName("nombre_usuario")
+    @SerializedName("nombreUsuario")
     var nombreUsuario:String = "",
     @SerializedName("nombre")
     var nombre:String = "",
-    @SerializedName("primer_apellido")
+    @SerializedName("primerApellido")
     var apellido:String = "",
-    @SerializedName("segundo_apellido")
+    @SerializedName("segundoApellido")
     var segundoApellido:String = "",
-    @SerializedName("fecha_nacimiento")
+    @SerializedName("fechaDeNacimiento")
     var fechaNacimiento:String = "",
     @SerializedName("altura")
     var altura:Float = 0f,

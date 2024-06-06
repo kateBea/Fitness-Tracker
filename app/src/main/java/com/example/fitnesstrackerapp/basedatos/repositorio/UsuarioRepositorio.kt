@@ -12,4 +12,7 @@ class UsuarioRepositorio  @Inject constructor(private val usuarioDao: UsuarioDao
     fun actualizarUsuario(usuarioInfo: UsuarioInfo) = usuarioDao.actualizarusuario(usuarioInfo)
     fun borrarUsuario() = usuarioDao.borrarUsuarios()
     fun getNombreUsuario() = usuarioDao.getNombreUsuario()
+
+    fun getToken() = usuarioDao.getToken()
+    fun getEmail() = usuarioDao.getEmail()
 }

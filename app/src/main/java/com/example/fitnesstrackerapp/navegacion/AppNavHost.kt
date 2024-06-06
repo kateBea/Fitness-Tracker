@@ -39,8 +39,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.example.fitnesstrackerapp.pantallas.PantallaBuscar
 import com.example.fitnesstrackerapp.pantallas.PantallaInfoDiaria
 import com.example.fitnesstrackerapp.pantallas.PantallaLogin
 import com.example.fitnesstrackerapp.pantallas.VentanaRegister
@@ -55,6 +58,7 @@ sealed class Pantallas(var route:String){
     data object Menu : Pantallas("menu")
     data object Info : Pantallas("info")
     data object Diario: Pantallas("diario")
+    data object Buscar: Pantallas("buscar")
 }
 
 
@@ -113,7 +117,11 @@ fun navegacionPantallas(navController: NavHostController){
             pantallaInformacion()
         }
         composable(Pantallas.Diario.route){
-            PantallaInfoDiaria()
+            PantallaInfoDiaria(navHostController = navController)
+        }
+        composable(route = "${Pantallas.Buscar.route}/{number}",arguments = listOf(navArgument("number") { type = NavType.IntType })){
+            val number = it.arguments?.getInt("number")
+            PantallaBuscar(number?:0,navController)
         }
     }
 }

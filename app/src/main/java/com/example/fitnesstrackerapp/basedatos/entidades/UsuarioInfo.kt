@@ -15,6 +15,7 @@ data class UsuarioInfo(
     var segundoApellido:String = "",
     var fechaNacimiento:String = "",
     var fechaRegistro:String = "",
+    var token:String = "",
     var fechaUltimaModificacion:String = "",
     var altura:Float = 0f,
     var peso:Float = 0f,

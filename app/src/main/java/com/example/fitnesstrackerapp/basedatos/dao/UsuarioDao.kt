@@ -25,4 +25,10 @@ interface UsuarioDao {
 
     @Query("Select nombreUsuario from USUARIO")
     fun getNombreUsuario():String?
+
+    @Query("Select token from USUARIO")
+    fun getToken():String?
+
+    @Query("Select email from USUARIO")
+    fun getEmail():String?
 }

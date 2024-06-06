@@ -101,4 +101,7 @@ dependencies {
 
     //ModelMapper
     implementation("org.modelmapper:modelmapper:3.1.0")
+
+    //Interceptor
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }

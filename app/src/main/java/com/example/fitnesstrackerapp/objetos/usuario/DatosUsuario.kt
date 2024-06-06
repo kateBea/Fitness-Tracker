@@ -6,10 +6,10 @@ import com.google.gson.annotations.SerializedName
 
 @RequiresApi(Build.VERSION_CODES.O)
 data class DatosUsuario(
-    @SerializedName("response_description")
+    @SerializedName("data")
+    val usuario: Usuario = Usuario(),
+    @SerializedName("responseDescription")
     val responseDescription:String = "",
     @SerializedName("success")
-    val success:Boolean = false,
-    @SerializedName("data")
-    val usuario: Usuario = Usuario()
+    val success:Boolean = false
 )
