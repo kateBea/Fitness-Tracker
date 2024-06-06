@@ -265,7 +265,7 @@ namespace FT___Base.Services
                 resultVm = _mapper.Map<ResponseGetRutinaPorIdVM>(parsed);
 
                 // Evitar mandar al cliente una lista vacía
-                if (resultVm.Data != null)
+                if (resultVm?.Data.ComidasConsumidas == null)
                 {
                     resultVm.Data.ComidasConsumidas = [];
                 }
