@@ -497,7 +497,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         // cargar las comidas registradas del usuario, en ellas se buscan las comidas
         // que se estén intentando añadir a la rutina a modificar
-        List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas().isEmpty() ?
+        List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas() == null ?
                 new ArrayList<>() : usuario.get().getComidasRegistradas();
 
         // cargamos las comidas consumidas para actualizarlas en el usuario
@@ -507,32 +507,56 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         for (RequestModificarRutina.AlimentoInfo alimentoInfo : model.getAlimentoInfos()) {
             // Buscamos la comida con el id de alimentoInfo en el repertorio de comidas que tiene registrado el usuario
             Optional<Comida> comida = comidasRegistradasUsuario.stream()
-                            .filter(c -> c.getId().equals(alimentoInfo.getComidaId()))
+                            .filter(c -> alimentoInfo.getComidaId().equals(c.getId()))
                             .findFirst();
 
-            comida.ifPresent(value -> alimentos.add(
-                    Alimento
-                            .builder()
-                            .comida(value)
-                            .tipo(Tipo.fromStr(alimentoInfo.getTipo()))
-                            .orden(Orden.fromStr(alimentoInfo.getOrden()))
-                            .fechaRegistro(LocalDateTime.now())
-                            .fechaUltimaModificacion(LocalDateTime.now())
-                            .horaConsumo(alimentoInfo.getHoraConsumo())
-                            .build()
-            ));
+
 
             // Si la comida que se intenta añadir no existe se da de alta
             if (comida.isEmpty()) {
-                comidasRegistradasUsuario.add(
+                comida=  Optional.of(
                         Comida.builder()
                                 .id(alimentoInfo.getComidaId())
+                                .calorias(alimentoInfo.getCalorias())
+                                .carbohidratos(alimentoInfo.getCarbohidratos())
+                                .proteinas(alimentoInfo.getProteinas())
+                                .grasas(alimentoInfo.getGrasas())
                                 .nombre(alimentoInfo.getNombre())
                                 .fechaRegistro(LocalDateTime.now())
                                 .fechaUltimaModificacion(LocalDateTime.now())
-                                .descripcion("Sin descripción")
-                                .build()
-                );
+                                .descripcion(alimentoInfo.getDescripcion())
+                                .vitaminas(alimentoInfo.getVitaminas())
+                                .build());
+
+                comidasRegistradasUsuario.add(comida.get());
+            }
+
+            final String alimentoId = comida.get().getId();
+            boolean existeEnRutina = alimentos.stream().anyMatch(a -> alimentoId.equals(a.getId()));
+
+            if (!existeEnRutina) {
+                alimentos.add(
+                        Alimento
+                                .builder()
+                                .id(alimentoId)
+                                .comida(comida.get())
+                                .tipo(Tipo.fromStr(alimentoInfo.getTipo()))
+                                .orden(Orden.fromStr(alimentoInfo.getOrden()))
+                                .fechaRegistro(LocalDateTime.now())
+                                .fechaUltimaModificacion(LocalDateTime.now())
+                                .horaConsumo(alimentoInfo.getHoraConsumo())
+                                .build());
+            } else {
+                var result = alimentos.stream().filter(a -> a.getId().equals(alimentoId)).findFirst();
+
+                if (result.isPresent()) {
+
+                    result.get().setComida(comida.get());
+                    result.get().setTipo(Tipo.fromStr(alimentoInfo.getTipo()));
+                    result.get().setOrden(Orden.fromStr(alimentoInfo.getOrden()));
+                    result.get().setFechaUltimaModificacion(LocalDateTime.now());
+                    result.get().setHoraConsumo(alimentoInfo.getHoraConsumo());
+                }
             }
         }
 

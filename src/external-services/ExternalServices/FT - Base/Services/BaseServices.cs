@@ -407,7 +407,7 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.BadRequest)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseModificarRutinaSvcOut>(json);
