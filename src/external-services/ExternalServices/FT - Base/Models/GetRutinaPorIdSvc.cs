@@ -38,13 +38,13 @@ namespace FT___Base.Models
             public float NivelOxigenoSangre { get; set; }
 
             [JsonProperty("fecha_seguimiento")]
-            public DateTime? FechaSeguimiento { get; set; }
+            public DateOnly? FechaSeguimiento { get; set; }
 
             [JsonProperty("ultima_modificacion")]
             public DateTime? FechaUltimaModificacion { get; set; }
 
             [JsonProperty("comidas_consumidas")]
-            public List<AlimentoInfo> ComidasConsumidas { get; set; }
+            public List<AlimentoInfo> ComidasConsumidas { get; set; } = [];
         }
 
         public class AlimentoInfo

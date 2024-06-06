@@ -252,8 +252,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         dietasActivasSolapan(usuario, model.getFechaInicio(), model.getFechaFin(), model.isActiva());
 
         List<ComidaSugerida> comidasSugeridasDietaNueva = new ArrayList<>();
-        List<Dieta> dietasDelUsuario = usuario.get().getDietas();
-        List<Comida> comidasRegistradasDelUsuario = usuario.get().getComidasRegistradas();
+        List<Dieta> dietasDelUsuario = usuario.get().getDietas() != null ? usuario.get().getDietas() : new ArrayList<>();
+        List<Comida> comidasRegistradasDelUsuario = usuario.get().getComidasRegistradas() != null ? usuario.get().getComidasRegistradas() : new ArrayList<>();
 
         for (ComidaSugeridaData comidaNueva : model.getComidasSugeridas()) {
             // Comida a insertar en caso de que no exista en la lista de registros del usuario
@@ -334,8 +334,6 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             return false;
         }
 
-        aModificar.get().setCaloriasTarget(model.getCaloriasTarget());
-        aModificar.get().setConsumoDeAgua(model.getConsumoDeAgua());
         aModificar.get().setActiva(model.isActiva());
         aModificar.get().setFechaFin(model.getFechaFin());
         aModificar.get().setFechaInicio(model.getFechaInicio());
@@ -397,14 +395,13 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result =
                 usuario.get().getDietas().stream()
-                .map(dietaEncontrada -> {
+                .map(dietaRegistradaUsuario -> {
                     ResponseGetDietaUsuario.ResponseGetDietaUsuarioData singleDietaData =
-                            ObjectMapperUtils.map(dietaEncontrada, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
+                            ObjectMapperUtils.map(dietaRegistradaUsuario, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
 
                     List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
 
-
-                    for (ComidaSugerida comidaSugerida : dietaEncontrada.getComidasSugeridas()) {
+                    for (ComidaSugerida comidaSugerida : dietaRegistradaUsuario.getComidasSugeridas()) {
                         Optional<Comida> comidaResult = usuario.get().getComidasRegistradas().stream()
                                 .filter(c -> c.getId().equals(comidaSugerida.getId()))
                                 .findFirst();
@@ -438,9 +435,22 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                     .build();
         }
 
+        // Buscamos si ya existe una rutina para hoy
+        Optional<Rutina> rutinaHoy = usuario.get().getRutinas().stream()
+                .filter(rutinaItem -> rutinaItem.getFechaSeguimiento().equals(LocalDate.now()))
+                .findFirst();
+
+        if (rutinaHoy.isPresent()) {
+            throw new RuntimeException(String.format("Existe rutina para el día de hoy con ID: '%s'", rutinaHoy.get().getId()));
+        }
+
         Rutina nueva = ObjectMapperUtils.map(model, Rutina.class);
 
-        nueva.setId(new ObjectId().toString());
+        if (rutinaHoy.isEmpty()) {
+            // No hay rutina para hoy, por eso se crea una nueva
+            nueva.setId(new ObjectId().toString());
+        }
+
         nueva.setFechaSeguimiento(LocalDate.now());
         nueva.setFechaUltimaModificacion(LocalDateTime.now());
 
@@ -588,6 +598,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         if (!model.isFetchAll()) {
+            // Se quiere rutinas en un rango
             result = usuario.get().getRutinas().stream()
                     .filter(rutina -> UtilidadesFechas
                         .isBetween(rutina.getFechaSeguimiento(), model.getFechaInicio(), model.getFechaFin()))
@@ -597,6 +608,9 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                         List<RequestModificarRutina.AlimentoInfo> alimentoInfos = res.getComidasConsumidas();
 
                         if (alimentoInfos == null) {
+                            // Mandamos una lista vacía indicando que no hay
+                            // alimentos registrados para la fecha de esta rutina
+                            alimentoInfos = new ArrayList<>();
                             return res;
                         }
 
@@ -604,6 +618,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                                         .map(alimentoInfo -> {
 
                                             List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
+
+                                            if (comidasRegistradasUsuario == null) {
+                                                // TODO: revisar, temporal para evitar nullptr excep si el usuario no tiene comidas registradas
+                                                comidasRegistradasUsuario = new ArrayList<>();
+                                            }
 
                                             Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
                                                     .filter(item -> item.getId().equals(alimentoInfo.getComidaId()))
@@ -613,12 +632,13 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                                         })
                                 .toList();
 
-                        res.setComidasConsumidas(alimentoInfos != null ? alimentoInfos : new ArrayList<>());
+                        res.setComidasConsumidas(alimentoInfos);
 
                         return res;
                     })
                     .toList();
         } else {
+            // Se piden todas las rutinas
             result = usuario.get().getRutinas().stream()
                     .map(rutina -> {
                         ResponseGetRutina.ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class);
@@ -634,6 +654,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
                                     List<Comida> comidasRegistradasUsuario = usuario.get().getComidasRegistradas();
 
+                                    if (comidasRegistradasUsuario == null) {
+                                        // TODO: revisar, temporal para evitar nullptr excep si el usuario no tiene comidas registradas
+                                        comidasRegistradasUsuario = new ArrayList<>();
+                                    }
+
                                     Optional<Comida> comidaRegistrada = comidasRegistradasUsuario.stream()
                                             .filter(item -> item.getId().equals(alimentoInfo.getComidaId()))
                                             .findFirst();
@@ -642,7 +667,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                                 })
                                 .toList();
 
-                        res.setComidasConsumidas(alimentoInfos != null ? alimentoInfos : new ArrayList<>());
+                        res.setComidasConsumidas(alimentoInfos);
 
                         return res;
                     })

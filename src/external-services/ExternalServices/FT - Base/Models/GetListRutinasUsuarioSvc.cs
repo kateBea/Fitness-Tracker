@@ -16,10 +16,10 @@ namespace FT___Base.Models
         public bool FetchAll { get; set; }
 
         [JsonProperty("fecha_inicio")]
-        public DateTime? FechaInicio { get; set; }
+        public DateOnly? FechaInicio { get; set; }
 
         [JsonProperty("fecha_fin")]
-        public DateTime? FechaFin { get; set; }
+        public DateOnly? FechaFin { get; set; }
     }
 
     public class ResponseGetListRutinasUsuarioSvcOut : BaseResponseSvc

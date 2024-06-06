@@ -131,6 +131,7 @@ namespace FT___Base.Services
                 var parsed = JsonConvert.DeserializeObject<ResponseGetDatosUsuarioSvcOut>(json);
 
                 resultVm.Data = _mapper.Map<ResponseGetDatosUsuarioVMData>(parsed?.Data);
+                resultVm.ResponseDescription = parsed?.ResponseDescription;
             } 
             else if (result.StatusCode == HttpStatusCode.InternalServerError)
             {
@@ -159,7 +160,7 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.NotFound)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseGetDietaUsuarioSvcOut>(json);
@@ -189,7 +190,7 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.OK)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseGetListDietasDeUsuarioSvcOut>(json);
@@ -226,6 +227,12 @@ namespace FT___Base.Services
                 var parsed = JsonConvert.DeserializeObject<ResponseGetListRutinasUsuarioSvcOut>(json);
 
                 resultVm = _mapper.Map<ResponseGetListRutinasUsuarioVM>(parsed);
+
+                foreach (var item in resultVm?.Data)
+                {
+                    // Evitar mandar una lista nula al cliente si está vacía
+                    item.ComidasConsumidas ??= [];
+                }
             }
 
             return resultVm;
@@ -250,12 +257,18 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.NotFound)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseGetRutinaPorIdSvcOut>(json);
 
                 resultVm = _mapper.Map<ResponseGetRutinaPorIdVM>(parsed);
+
+                // Evitar mandar al cliente una lista vacía
+                if (resultVm.Data != null)
+                {
+                    resultVm.Data.ComidasConsumidas = [];
+                }
             }
 
             return resultVm;
@@ -364,7 +377,7 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PutAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.NotFound)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseModificarDatosUsuarioSvcOut>(json);
@@ -476,7 +489,7 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.BadRequest)
+            if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseRegistrarDietaOut>(json);
@@ -516,7 +529,7 @@ namespace FT___Base.Services
         /// <param name="email">64 base encripted email</param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        private string DecodeUserEmail(string email)
+        private static string DecodeUserEmail(string email)
         {
             string roundtrip;
             // Create a new instance of the Aes

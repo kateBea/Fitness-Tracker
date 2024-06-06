@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Shared.Utilities;
 
 namespace FT___Base.ViewModels
 {
     /// <summary>
     /// 
     /// </summary>
-    public class ResponseRegistrarRutinaVM
+    public class ResponseRegistrarRutinaVM : BaseResponse
     {
-        [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>

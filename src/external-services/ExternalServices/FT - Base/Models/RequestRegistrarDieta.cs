@@ -16,9 +16,7 @@ namespace FT___Base.Models
 
         public DateTime FechaFin { get; set; }
 
-        public List<ComidaSugeridaData> ComidasSugeridas { get; set; }
-
         public double ConsumoDeAgua { get; set; }
-        public bool Activa { get; set; }
+        public List<ComidaSugeridaData> ComidasSugeridas { get; set; }
     }
 }

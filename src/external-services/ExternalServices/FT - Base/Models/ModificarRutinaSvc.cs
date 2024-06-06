@@ -34,6 +34,6 @@ namespace FT___Base.Models
     public class ResponseModificarRutinaSvcOut : BaseResponseSvc
     {
         [JsonProperty("modified_at")]
-        public DateTime? MyProperty { get; set; } = DateTime.Now;
+        public DateTime? ModifiedAt { get; set; } = DateTime.Now;
     }
 }
