@@ -158,4 +158,11 @@ public interface IUsuarioServicio {
 	 */
 	ResponseLogin login(RequestLogin model);
 
+	/**
+	 * Devuelve el listado de alimentos registrado para el usuario.
+	 *
+	 * @param model El modelo de solicitud con la identificación del usuario.
+	 * @return Una respuesta que contiene los alimentos registrados de este usuario.
+	 */
+	ResponseGetAlimentos getListAlimentos(RequestGetAlimentos model);
 }

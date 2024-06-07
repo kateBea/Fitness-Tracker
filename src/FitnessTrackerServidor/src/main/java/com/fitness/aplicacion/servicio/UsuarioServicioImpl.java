@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.fitness.aplicacion.documentos.*;
@@ -236,7 +237,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         if (usuario.isEmpty()) {
             return ResponseRegistrarDieta.builder()
-                    .createdAt(LocalDateTime.now())
+                    .createdAt(null)
                     .responseDescription("El usuario no existe")
                     .success(false)
                     .build();
@@ -264,8 +265,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                     .findFirst();
 
             // La comida no está registrada en la lista de comidas del usuario
-            if (comidaRegistrada.isEmpty() && (comidaNueva.getId() == null || comidaNueva.getId().isEmpty())) {
-                aInsertar.setId(new ObjectId().toString());
+            if (comidaRegistrada.isEmpty()) {
+                aInsertar.setId(comidaNueva.getId());
                 aInsertar.setFechaRegistro(LocalDateTime.now());
                 aInsertar.setFechaUltimaModificacion(LocalDateTime.now());
 
@@ -304,6 +305,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
      * Asume que el usuario no está vació
      * */
     private static void dietasActivasSolapan(Optional<Usuario> usuario, LocalDateTime fechaInicio, LocalDateTime fechaFin, boolean activa) {
+        // TODO: hotfix
+        if (usuario.get().getDietas() == null) {
+            usuario.get().setDietas(new ArrayList<>());
+        }
+
         boolean dietasActivasSolapan = usuario.get().getDietas().stream()
             .anyMatch(dieta ->
                     Stream.of(fechaInicio, fechaFin).anyMatch(Objects::isNull) ||
@@ -392,34 +398,42 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         if (usuario.isEmpty()) {
             throw new RuntimeException("El usuario no existe");
         }
+        List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = new ArrayList<>();
 
-        List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result =
-                usuario.get().getDietas().stream()
-                .map(dietaRegistradaUsuario -> {
-                    ResponseGetDietaUsuario.ResponseGetDietaUsuarioData singleDietaData =
-                            ObjectMapperUtils.map(dietaRegistradaUsuario, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
+        if (usuario.get().getDietas() != null) {
+             result =
+                    usuario.get().getDietas().stream()
+                            .map(dietaRegistradaUsuario -> {
+                                ResponseGetDietaUsuario.ResponseGetDietaUsuarioData singleDietaData =
+                                        ObjectMapperUtils.map(dietaRegistradaUsuario, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
 
-                    List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
+                                List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
 
-                    for (ComidaSugerida comidaSugerida : dietaRegistradaUsuario.getComidasSugeridas()) {
-                        Optional<Comida> comidaResult = usuario.get().getComidasRegistradas().stream()
-                                .filter(c -> c.getId().equals(comidaSugerida.getId()))
-                                .findFirst();
+                                for (ComidaSugerida comidaSugerida : dietaRegistradaUsuario.getComidasSugeridas()) {
+                                    Optional<Comida> comidaResult = Optional.empty();
 
-                        comidaResult.ifPresent(comida -> {
-                            var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida.class);
+                                    if (usuario.get().getComidasRegistradas() != null) {
+                                        comidaResult = usuario.get().getComidasRegistradas().stream()
+                                                .filter(c -> c.getId().equals(comidaSugerida.getId()))
+                                                .findFirst();
+                                    }
 
-                            toAdd.setTipo(comidaSugerida.getTipo().name());
-                            toAdd.setOrden(comidaSugerida.getOrden().name());
+                                    comidaResult.ifPresent(comida -> {
+                                        var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida.class);
 
-                            comidasSugeridasResult.add(toAdd);
-                        });
-                    }
+                                        toAdd.setTipo(comidaSugerida.getTipo().name());
+                                        toAdd.setOrden(comidaSugerida.getOrden().name());
 
-                    singleDietaData.setComidasSugeridasResult(comidasSugeridasResult);
+                                        comidasSugeridasResult.add(toAdd);
+                                    });
+                                }
 
-                    return singleDietaData;
-                }).toList();
+                                singleDietaData.setComidasSugeridasResult(comidasSugeridasResult);
+
+                                return singleDietaData;
+                            }).toList();
+        }
+
 
         return result;
     }
@@ -744,5 +758,40 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         }
 
         return response;
+    }
+
+    @Override
+    public ResponseGetAlimentos getListAlimentos(RequestGetAlimentos model) {
+        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+
+        if (usuario.isEmpty()) {
+            return ResponseGetAlimentos.builder()
+                    .success(false)
+                    .responseDescription("El usuario no existe")
+                    .data(new ArrayList<>())
+                    .build();
+        }
+
+        // TODO: hotfix
+        if (usuario.get().getComidasRegistradas() == null) {
+            usuario.get().setComidasRegistradas(new ArrayList<>());
+        }
+
+        List<ResponseGetAlimentos.GetAlimentoListItem> alimentos =
+                usuario.get().getComidasRegistradas().stream()
+                        .map(comida -> ObjectMapperUtils.map(comida, ResponseGetAlimentos.GetAlimentoListItem.class))
+                        .toList();
+
+        for (ResponseGetAlimentos.GetAlimentoListItem alimento : alimentos) {
+            if (alimento.getVitaminas() == null) {
+                alimento.setVitaminas(new ArrayList<>());
+            }
+        }
+
+        return ResponseGetAlimentos.builder()
+                .success(true)
+                .responseDescription("Alimentos localizados con éxito")
+                .data(alimentos)
+                .build();
     }
 }

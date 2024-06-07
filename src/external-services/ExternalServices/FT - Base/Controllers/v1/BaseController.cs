@@ -28,11 +28,13 @@ namespace FT___Base.Controllers.v1
         IValidator<RequestModificarRutina> validatorModificarRutina,
         IValidator<RequestGetListRutinasUsuario> validatorGetListRutinasUsuario,
         IValidator<RequestRegistrarRutina> validatorRegistrarRutina,
+        IValidator<RequestGetAlimentos> validatorGetAlimentos,
         IValidator<RequestLogin> validatorLogin) : ControllerBase
     {
         #region Properties
         private readonly IValidator<RequestRegistrarUsuario> _validatorRegistrarUsuario = validatorRegistrarUsuario;
         private readonly IValidator<RequestCambiarPassword> _validatorCambiarPassword = validatorCambiarPassword;
+        private readonly IValidator<RequestGetAlimentos> _validatorGetAlimentos = validatorGetAlimentos;
 
         private readonly IValidator<RequestRegistrarDieta> _validatorRegistrarDieta = validatorRegistrarDieta;
         private readonly IValidator<RequestModificarDieta> _validatorModificarDieta = validatorModificarDieta;
@@ -234,7 +236,32 @@ namespace FT___Base.Controllers.v1
             var response = await _baseServices.GetListRutinasUsuario(model);
             return Ok(response);
         }
-    
+
+        /// <summary>
+        /// Obtiene el listado de alimentos registrados del usuario.
+        /// </summary>
+        /// <remarks>
+        /// Retorna una lista con los alimentos que el usuario tiene registrado hasta la fecha.
+        /// </remarks>
+        /// <param name="model">Datos de solicitud para obtener los alimentos.</param>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGetAlimentosVM"/></returns>
+        [HttpGet("GetAlimentos")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGetAlimentosVM))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<ResponseGetAlimentosVM>> GetAlimentos([FromQuery] RequestGetAlimentos model)
+        {
+            var result = _validatorGetAlimentos.Validate(model);
+            if (result == null || !result.IsValid)
+            {
+                return BadRequest(result?.Errors);
+            }
+
+            var response = await _baseServices.GetAlimentos(model);
+            return Ok(response);
+        }
+
         /// <summary>
         /// Registra una nueva dieta.
         /// </summary>

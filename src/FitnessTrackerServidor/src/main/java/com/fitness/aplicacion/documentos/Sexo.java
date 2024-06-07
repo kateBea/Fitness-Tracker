@@ -25,9 +25,9 @@ public enum Sexo {
 
     public static Sexo fromStr(String sexo) {
         return switch (sexo) {
-            case "HOMBRE", "H", "h", "hombre", "Hombre", "masculino", "macho" -> HOMBRE;
+            case "HOMBRE", "H", "h", "hombre", "Hombre", "masculino", "macho", "" -> HOMBRE;
             case "MUJER", "M", "F", "mujer", "Mujer", "femenino", "hembra" -> MUJER;
-            default -> throw new RuntimeException("El sexo debe ser 'Hombre', 'Mujer' u 'Otro'");
+            default -> throw new RuntimeException("El sexo debe ser 'Hombre', 'Mujer' u 'Otro' o un string vacío");
         };
     }
 }

@@ -39,6 +39,7 @@ namespace FT___Base.Services
         private readonly string _getRutinaEndpoint;
         private readonly string _getListRutinasEndpoint;
         private readonly string _registrarRutinaEndpoint;
+        private readonly string _getAlimentosEndpoint;
 
         private readonly HttpClient _httpClient;
         private readonly IMapper _mapper;
@@ -70,6 +71,7 @@ namespace FT___Base.Services
             _getRutinaEndpoint = configuration.GetSection("ExternalServices:GetRutinaEndpoint").Value!;
             _getListRutinasEndpoint = configuration.GetSection("ExternalServices:GetRutinasEndpoint").Value!;
             _registrarRutinaEndpoint = configuration.GetSection("ExternalServices:RegistrarRutinaEndpoint").Value!;
+            _getAlimentosEndpoint = configuration.GetSection("ExternalServices:GetAlimentosEndpoint").Value!;
 
                 _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Accept.Add(
@@ -233,6 +235,36 @@ namespace FT___Base.Services
                     // Evitar mandar una lista nula al cliente si está vacía
                     item.ComidasConsumidas ??= [];
                 }
+            }
+
+            return resultVm;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<ResponseGetAlimentosVM> GetAlimentos(RequestGetAlimentos model)
+        {
+            string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
+            string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
+
+            var resultVm = new ResponseGetAlimentosVM();
+            string finalUrl = SetBaseParams(_getAlimentosEndpoint).ToString();
+
+            var obj = _mapper.Map<RequestGetAlimentosSvc>(model);
+            obj.Email = DecodeUserEmail(emailFromToken);
+
+            var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                var json = await result.Content.ReadAsStringAsync();
+                var parsed = JsonConvert.DeserializeObject<ResponseGetAlimentosSvc>(json);
+
+                resultVm = _mapper.Map<ResponseGetAlimentosVM>(parsed);
             }
 
             return resultVm;
@@ -458,13 +490,13 @@ namespace FT___Base.Services
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK)
+            if (result.StatusCode == HttpStatusCode.OK || result.StatusCode == HttpStatusCode.InternalServerError)
             {
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<bool>(json);
 
                 resultVm.Success = parsed;
-                resultVm.ResponseDescription = parsed!? "Usuario registrado" : "Error en el registro";
+                resultVm.ResponseDescription = resultVm.Success ? "Usuario registrado" : "Error en el registro";
             }
 
             return resultVm;

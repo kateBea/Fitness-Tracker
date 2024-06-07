@@ -18,6 +18,7 @@ namespace FT___Base.Interfaces
         public Task<ResponseGetRutinaPorIdVM> GetRutinaPorId(RequestGetRutinaPorId model);
         public Task<ResponseModificarRutinaVM> ModificarRutina(RequestModificarRutina model);
         public Task<ResponseGetListRutinasUsuarioVM> GetListRutinasUsuario(RequestGetListRutinasUsuario model);
+        public Task<ResponseGetAlimentosVM> GetAlimentos(RequestGetAlimentos model);
         public Task<ResponseRegistrarRutinaVM> RegistrarRutina(RequestRegistrarRutina model);
     }
 }
