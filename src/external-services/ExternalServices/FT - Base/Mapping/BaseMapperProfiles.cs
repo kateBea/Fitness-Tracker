@@ -21,6 +21,9 @@ namespace FT___Base.Mapping
             CreateMap<RequestCambiarPassword, CambiarPasswordSvcIn>();
             CreateMap<CambiarPasswordSvcOut, ResponseCambiarPasswordVM>();
 
+            CreateMap<RequestGetAlimentos, RequestGetAlimentosSvc>();
+            CreateMap<ResponseGetAlimentosSvc, ResponseGetAlimentosVM>();
+
             CreateMap<RequestGetDatosUsuario, RequestGetDatosUsuarioSvcIn>();
             CreateMap<ResponseGetDatosUsuarioSvcOutData, ResponseGetDatosUsuarioVMData>();
 

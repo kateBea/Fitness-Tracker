@@ -60,6 +60,7 @@ builder.Services.AddScoped<IValidator<RequestGetDietaDeUsuario>, RequestGetDieta
 builder.Services.AddScoped<IValidator<RequestGetRutinaPorId>, RequestGetRutinaPorIdValidator>();
 builder.Services.AddScoped<IValidator<RequestModificarRutina>, RequestModificarRutinaValidator>();
 builder.Services.AddScoped<IValidator<RequestGetListRutinasUsuario>, RequestGetListRutinasUsuarioValidator>();
+builder.Services.AddScoped<IValidator<RequestGetAlimentos>, RequestGetAlimentosValidator>();
 
 // Mappings
 builder.Services.AddAutoMapper(typeof(BaseServices));   

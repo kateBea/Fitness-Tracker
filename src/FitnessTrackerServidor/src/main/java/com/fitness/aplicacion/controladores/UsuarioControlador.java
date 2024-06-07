@@ -31,15 +31,17 @@ public class UsuarioControlador {
 	// Peticion para insertar un nuevo usuario
 	@PostMapping("insertar")
 	public ResponseEntity<Boolean> insertar(@RequestBody UsuarioInsertar user){
-		// Respuesta por defecto: error de solicitud
-		ResponseEntity<Boolean> respuesta;
-		// Llamada al método del servicio para insertar un usuario
-		Boolean resultado = usuarioServicio.insertarUsuario(user);
+		ResponseEntity<Boolean> response;
 
-		// Si la inserción fue exitosa, cambia la respuesta a OK
-		respuesta = ResponseEntity.ok(resultado);
-		
-		return respuesta;
+		try {
+			// Llamada al método del servicio para insertar un usuario
+			Boolean resultado = usuarioServicio.insertarUsuario(user);
+			response = new ResponseEntity<>(resultado, HttpStatus.OK);
+		} catch (Exception e) {
+			response = new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
 	}
 	
 	// Peticion para verificar las credenciales de inicio de sesión
@@ -403,6 +405,24 @@ public class UsuarioControlador {
 		} catch (RuntimeException usuarioNotFound) {
 			responseData.setSuccess(false);
 			responseData.setResponseDescription(usuarioNotFound.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.OK);
+
+		} catch (Exception e) {
+			responseData.setSuccess(false);
+			responseData.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		return response;
+	}
+
+	@PostMapping("getalimentos")
+	ResponseEntity<ResponseGetAlimentos> getAlimentos(@RequestBody RequestGetAlimentos model) {
+		ResponseGetAlimentos responseData = ResponseGetAlimentos.builder().data(null).build();
+		ResponseEntity<ResponseGetAlimentos> response;
+
+		try {
+			responseData = usuarioServicio.getListAlimentos(model);
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 
 		} catch (Exception e) {

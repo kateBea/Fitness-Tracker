@@ -8,6 +8,7 @@ C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\mapeo\ObjectMapperUtils.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\dto\ResponseModificarDieta.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\FitnessTrackerServidorApplication.java
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\dto\RequestGetAlimentos.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\documentos\Alimento.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\repositorio\IDietaRepositorio.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\dto\ResponseGetDatosUsuario.java
@@ -37,6 +38,7 @@ C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\dto\RequestModificarDatosUsuario.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\dto\UsuarioInfo.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\dto\RequestLogin.java
+C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\dto\ResponseGetAlimentos.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\servicio\IUsuarioServicio.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\repositorio\IUsuarioRepositorio.java
 C:\Users\zanet\Desktop\Fitness-Tracker\src\FitnessTrackerServidor\src\main\java\com\fitness\aplicacion\controladores\UsuarioControlador.java
