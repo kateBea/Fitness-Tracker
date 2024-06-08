@@ -48,6 +48,8 @@ fun PantallaInfoDiaria(alimentosViewModel: AlimentosViewModel = hiltViewModel(),
     val proteinas = alimentosViewModel.proteinas.collectAsState().value
     val grasas = alimentosViewModel.grasas.collectAsState().value
     val carbohidratos = alimentosViewModel.carbohidratos.collectAsState().value
+    val agua = alimentosViewModel.agua.collectAsState().value
+    val aguaReq = alimentosViewModel.aguaReq.collectAsState().value
 
 
     Column (modifier = Modifier
@@ -129,9 +131,9 @@ fun PantallaInfoDiaria(alimentosViewModel: AlimentosViewModel = hiltViewModel(),
             .height(50.dp)
         , verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center){
-            Icon(Icons.Rounded.ArrowBackIosNew, contentDescription = "", modifier = Modifier.clickable {})
-            Text(text = "0/2500", fontSize = 30.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(25.dp,0.dp))
-            Icon(Icons.Rounded.ArrowForwardIos, contentDescription = "", modifier = Modifier.clickable {})
+            Icon(Icons.Rounded.ArrowBackIosNew, contentDescription = "", modifier = Modifier.clickable {alimentosViewModel.actualizarAgua(false)})
+            Text(text = "$agua/$aguaReq", fontSize = 30.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(25.dp,0.dp))
+            Icon(Icons.Rounded.ArrowForwardIos, contentDescription = "", modifier = Modifier.clickable {alimentosViewModel.actualizarAgua(true)})
         }
     }
 }

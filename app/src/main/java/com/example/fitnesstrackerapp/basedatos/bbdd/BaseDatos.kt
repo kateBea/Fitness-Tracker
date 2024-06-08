@@ -13,7 +13,7 @@ import com.example.fitnesstrackerapp.basedatos.entidades.UsuarioInfo
 
 @Database(
     entities = [UsuarioInfo::class,Comida::class, Rutina::class,FechaDia::class],
-    version = 14,
+    version = 16,
     exportSchema = false
 )
 

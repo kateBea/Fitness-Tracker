@@ -61,9 +61,16 @@ class AlimentosViewModel @Inject constructor(
     private val _carbohidratos  = MutableStateFlow(0f)
     val carbohidratos:StateFlow<Float> get() = _carbohidratos.asStateFlow()
 
+    private val _agua = MutableStateFlow(0)
+    val agua :StateFlow<Int> get() = _agua.asStateFlow()
+
+    private val _aguaReq = MutableStateFlow(0f)
+    val aguaReq :StateFlow<Float> get() = _aguaReq.asStateFlow()
+
     init {
         try {
             calcularKCal()
+            requerimientoAgua()
             cogerRutinas()
         }catch (e:Exception){
             Log.d("ERROR",e.message.toString())
@@ -120,6 +127,7 @@ class AlimentosViewModel @Inject constructor(
             var fecha = LocalDate.parse(fDao.getFecha())
             fecha = fecha.minusDays(1)
             fDao.actualizar(FechaDia(1,fecha.toString()))
+            requerimientoAgua()
             cogerRutinas()
         }
     }
@@ -129,6 +137,7 @@ class AlimentosViewModel @Inject constructor(
             var fecha = LocalDate.parse(fDao.getFecha())
             fecha = fecha.plusDays(1)
             fDao.actualizar(FechaDia(1,fecha.toString()))
+            requerimientoAgua()
             cogerRutinas()
         }
     }
@@ -151,6 +160,44 @@ class AlimentosViewModel @Inject constructor(
             _proteinas.value = _kcal.value * 0.4f / 4
             _grasas.value = _kcal.value * 0.3f / 9
             _carbohidratos.value = _kcal.value * 0.3f / 4
+        }
+    }
+
+    fun actualizarAgua(aumento:Boolean){
+        viewModelScope.launch (Dispatchers.IO){
+            try{
+                eventosViewModel.setState(EventosUIState.Cargando)
+                val valorAgua = if(aumento) 250 else -250
+                if(_agua.value + valorAgua >= 0){
+                    val fecha = fDao.getFecha()
+                    val rutina = rDao.getRutina(fecha)
+
+                    if(rutina != null){
+                        _agua.value += valorAgua
+                        rDao.actualizarAgua(_agua.value,fecha)
+                    }else{
+                        val rutinaCrear = Rutina()
+                        _agua.value += valorAgua
+                        rutinaCrear.fechaSeguimiendo = fecha
+                        rutinaCrear.aguaconsumida = _agua.value
+                        rDao.insertar(rutinaCrear)
+                    }
+
+                }
+                eventosViewModel.setState(EventosUIState.Done)
+            }catch (e:Exception){
+                Log.d("ERROR",e.message.toString())
+            }
+        }
+
+    }
+
+    fun requerimientoAgua(){
+        viewModelScope.launch (Dispatchers.IO){
+            val fecha = fDao.getFecha()
+
+            _agua.value = rDao.cogerAgua(fecha)
+            _aguaReq.value = (0.033f * _usuario.value.peso) * 1000f
         }
     }
 }

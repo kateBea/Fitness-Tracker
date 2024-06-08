@@ -14,4 +14,11 @@ interface RutinaDao {
 
     @Query("SELECT * FROM Rutinas where Date(fechaSeguimiendo) = Date(:fecha)")
     fun getRutina(fecha:String):Rutina
+
+    @Query("UPDATE Rutinas set aguaconsumida = :aguaconsumida where Date(fechaSeguimiendo) = Date(:fecha)")
+    fun actualizarAgua(aguaconsumida:Int,fecha:String)
+
+    @Query("Select aguaconsumida from Rutinas where Date(fechaSeguimiendo) = Date(:fecha)")
+    fun cogerAgua(fecha:String):Int
+
 }
