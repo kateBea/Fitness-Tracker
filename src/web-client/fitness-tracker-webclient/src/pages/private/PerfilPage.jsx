@@ -131,7 +131,16 @@ function PerfilPage() {
               width: "100%",
               height: "100%",
               borderRadius: "40px",
-              padding: "40px",
+              [theme.breakpoints.up('800')]:{
+                padding: "40px",
+              },
+              [theme.breakpoints.up('600')]:{
+                padding: "20px",
+              },
+              [theme.breakpoints.down('600')]:{
+                padding: "10px",
+              },
+              
               // paddingTop:'10px'
             }}
           >
