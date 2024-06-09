@@ -31,53 +31,65 @@ import retrofit2.http.Url
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+/**
+ * Interfaz que define las operaciones disponibles en el servicio de API.
+ */
 interface ApiServicio {
     @POST("client/Login")
-    suspend fun hacerLogin(@Body user:UsuarioVerificar): ResponseLogin
+    suspend fun hacerLogin(@Body user: UsuarioVerificar): ResponseLogin
 
     @GET("client/getdatosusuario")
-    suspend fun getDatosUsuario(@Header("Authorization") token:String):DatosUsuario
+    suspend fun getDatosUsuario(@Header("Authorization") token: String): DatosUsuario
 
     @PUT("client/modificardatosusuario")
-    suspend fun actualizarUsuario(@Header("Authorization") token:String,@Body usuarioRequest: UsuarioRequest)
+    suspend fun actualizarUsuario(@Header("Authorization") token: String, @Body usuarioRequest: UsuarioRequest)
 
     @GET("client/GetListRutinasUsuario")
-    suspend fun getRutinasUsuario(@Header("Authorization") token:String, @Query("FetchAll") fetch:Boolean, @Query("FechaInicio") fechaInicio:String, @Query("FechaFin") fechaFinal:String):AlimentosResponse
+    suspend fun getRutinasUsuario(@Header("Authorization") token: String, @Query("FetchAll") fetch: Boolean, @Query("FechaInicio") fechaInicio: String, @Query("FechaFin") fechaFinal: String): AlimentosResponse
 
     @GET("alimentos/BuscarPorDescripcion")
-    suspend fun buscarAlimentos(@Header("Authorization") token:String, @Query("prompt") prompt:String):ResponseAlimentos
+    suspend fun buscarAlimentos(@Header("Authorization") token: String, @Query("prompt") prompt: String): ResponseAlimentos
 
     @POST("client/RegistrarRutina")
-    suspend fun insertarRutina(@Header("Authorization") token:String, @Body rutinasResponse: RutinaRequest): ResponseInsertar
+    suspend fun insertarRutina(@Header("Authorization") token: String, @Body rutinasResponse: RutinaRequest): ResponseInsertar
 
     @PUT("client/ModificarRutina")
-    suspend fun modificarDieta(@Header("Authorization") token:String, @Body rutinasResponse: RutinasResponse)
+    suspend fun modificarDieta(@Header("Authorization") token: String, @Body rutinasResponse: RutinasResponse)
 
     @POST("client/RegistrarUsuario")
-    suspend fun register(@Body user:RegisterRequest)
+    suspend fun register(@Body user: RegisterRequest)
 }
 
+/**
+ * Función para obtener una instancia de Retrofit para realizar llamadas a la API.
+ *
+ * @return Una instancia de Retrofit configurada para la API.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
-fun getRetrofitClient():Retrofit{
+fun getRetrofitClient(): Retrofit {
 
+    // Configuración para serializar/deserializar fechas y horas en formato LocalDateTime
     val gsonDateTime = GsonBuilder().registerTypeAdapter(
         LocalDateTime::class.java,
         JsonDeserializer { json, _, _ ->
-            LocalDateTime.parse(json.asJsonPrimitive.asString,
-                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"))
+            LocalDateTime.parse(
+                json.asJsonPrimitive.asString,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS")
+            )
         }
     ).create()
 
-    // Create an interceptor for logging HTTP requests and responses
+    // Crear un interceptor para registrar las solicitudes y respuestas HTTP
     val loggingInterceptor = HttpLoggingInterceptor().apply {
         setLevel(HttpLoggingInterceptor.Level.BODY)
     }
 
-    // Configure OkHttpClient with the logging interceptor
+    // Configurar OkHttpClient con el interceptor de registro
     val client = OkHttpClient.Builder()
         .addInterceptor(loggingInterceptor)
         .build()
 
+    // Construir y devolver una instancia de Retrofit con la URL base y el convertidor Gson personalizado
     return Retrofit.Builder().baseUrl("http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/")
         .addConverterFactory(GsonConverterFactory.create(gsonDateTime))
         .client(client)

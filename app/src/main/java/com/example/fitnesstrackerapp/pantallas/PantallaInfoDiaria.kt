@@ -166,7 +166,7 @@ fun filaAlimentacion(
         Column (modifier = Modifier
             .fillMaxHeight(),horizontalAlignment = Alignment.CenterHorizontally){
             Text(text = "Grasas", fontSize = 15.sp)
-            Text(text = "${lista.stream().map { it.carbohidratos }.collect(Collectors.toList()).sum().toInt()}/${(grasas/5).toInt()} g", fontWeight = FontWeight.Black)
+            Text(text = "${lista.stream().map { it.grasas }.collect(Collectors.toList()).sum().toInt()}/${(grasas/5).toInt()} g", fontWeight = FontWeight.Black)
         }
     }
     Divider()

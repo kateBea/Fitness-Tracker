@@ -84,7 +84,7 @@ class AlimentosViewModel @Inject constructor(
             _fecha.value = fecha
             val  token = dao.getToken()?:""
 
-            val entrega = repositorio.getListasUsuario(token,fecha.minusDays(1).toString(),fecha.plusDays(1).toString())
+            val entrega = repositorio.getRutinasUsuario(token,fecha.minusDays(1).toString(),fecha.plusDays(1).toString())
             if(entrega.rutinas.isNotEmpty()){
                 pasarABBDD(entrega.rutinas.get(0))
                 fDao.actualizar(FechaDia(1,fecha.toString(),true))

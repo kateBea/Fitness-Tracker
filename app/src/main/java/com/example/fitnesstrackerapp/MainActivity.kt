@@ -21,9 +21,26 @@ import com.example.fitnesstrackerapp.utilidades.MensajeError
 import com.example.fitnesstrackerapp.utilidades.cargando
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * MainActivity es el punto de entrada principal de la aplicación Android.
+ * Está anotada con @AndroidEntryPoint para habilitar la inyección de dependencias usando Hilt.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    /**
+     * ViewModel para gestionar los datos relacionados con la UI en el ciclo de vida de la actividad.
+     */
     private val eventosViewModel: EventosViewModel by viewModels()
+
+    /**
+     * Llamado cuando la actividad se está iniciando. Aquí es donde debe ir la mayor parte de la inicialización.
+     *
+     * @param savedInstanceState Si la actividad está siendo re-inicializada después de haber sido
+     *                           previamente cerrada, entonces este Bundle contiene los datos más
+     *                           recientes proporcionados en {@link #onSaveInstanceState(Bundle)}.
+     *                           Nota: En caso contrario, es null.
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,17 +49,21 @@ class MainActivity : ComponentActivity() {
             val estado = eventosViewModel.uiState.collectAsState().value
 
             FitnessTrackerAppTheme {
-                // A surface container using the 'background' color from the theme
+                // Un contenedor de superficie usando el color de 'background' del tema
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     navegacion(navController)
 
-                    when(estado){
-                        EventosUIState.Cargando -> {cargando()}
-                        EventosUIState.Done -> {}
-                        is EventosUIState.Error -> {MensajeError(texto = estado.texto){eventosViewModel.setState(EventosUIState.Done)}}
+                    when (estado) {
+                        EventosUIState.Cargando -> { cargando() }
+                        EventosUIState.Done -> { /* No se necesita acción */ }
+                        is EventosUIState.Error -> {
+                            MensajeError(texto = estado.texto) {
+                                eventosViewModel.setState(EventosUIState.Done)
+                            }
+                        }
                     }
                 }
             }
