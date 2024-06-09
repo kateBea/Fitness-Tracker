@@ -62,7 +62,12 @@ function PerfilPage() {
     >
       <TopBar />
       <PrivateBar />
-      <Grid container columnSpacing={7} rowSpacing={4} sx={{ padding: '50px' }}>
+      <Grid container columnSpacing={7} rowSpacing={4} sx={{
+        padding: '50px',
+        [theme.breakpoints.down('600')]:{
+          padding: '20px',
+        }
+      }}>
         <Grid item lg={4} md={4} sm={4} xs={12}>
           <Box
             sx={{
@@ -75,7 +80,7 @@ function PerfilPage() {
               <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != null ? datosUsuario.imagen : Prueba} style={{ width: '70%', height: '100%', marginTop: '20px' }} />
               </Grid>
-              <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width:'100%',}}>
+              <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
                 <Typography
                   variant='h2'
                   component='h2'
@@ -85,16 +90,16 @@ function PerfilPage() {
                     [theme.breakpoints.down('1200')]: {
                       fontSize: '30pt'
                     },
-                    [theme.breakpoints.down('900')]:{
-                      
-                      fontSize:'20pt',
+                    [theme.breakpoints.down('900')]: {
+
+                      fontSize: '20pt',
                     }
                   }}
                 >
                   ElGuilleDEV
                 </Typography>
               </Grid>
-              <Grid item lg={12} sx={{ display: 'flex', justifyContent: 'center',width:'100%' }}>
+              <Grid item lg={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                 <Button
                   variant="contained"
                   sx={{
@@ -111,9 +116,9 @@ function PerfilPage() {
                     [theme.breakpoints.down('1200')]: {
                       fontSize: '30pt'
                     },
-                    [theme.breakpoints.down('900')]:{
-                      
-                      fontSize:'20pt',
+                    [theme.breakpoints.down('900')]: {
+
+                      fontSize: '20pt',
                     }
                   }}
                   type='submit'
@@ -131,16 +136,16 @@ function PerfilPage() {
               width: "100%",
               height: "100%",
               borderRadius: "40px",
-              [theme.breakpoints.up('800')]:{
+              [theme.breakpoints.up('800')]: {
                 padding: "40px",
               },
-              [theme.breakpoints.up('600')]:{
+              [theme.breakpoints.up('600')]: {
                 padding: "20px",
               },
-              [theme.breakpoints.down('600')]:{
+              [theme.breakpoints.down('600')]: {
                 padding: "10px",
               },
-              
+
               // paddingTop:'10px'
             }}
           >
