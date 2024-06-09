@@ -3,6 +3,7 @@ package com.example.fitnesstrackerapp.apiservicio
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.fitnesstrackerapp.objetos.login.UsuarioVerificar
+import com.example.fitnesstrackerapp.objetos.request.RegisterRequest
 import com.example.fitnesstrackerapp.objetos.request.RutinaRequest
 import com.example.fitnesstrackerapp.objetos.request.UsuarioRequest
 import com.example.fitnesstrackerapp.objetos.response.AlimentosResponse
@@ -52,6 +53,8 @@ interface ApiServicio {
     @PUT("client/ModificarRutina")
     suspend fun modificarDieta(@Header("Authorization") token:String, @Body rutinasResponse: RutinasResponse)
 
+    @POST("client/RegistrarUsuario")
+    suspend fun register(@Body user:RegisterRequest)
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

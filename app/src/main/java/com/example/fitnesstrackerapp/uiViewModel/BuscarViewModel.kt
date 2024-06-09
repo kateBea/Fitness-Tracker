@@ -105,7 +105,7 @@ class BuscarViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun mapearRutina(rutina: Rutina):RutinasResponse{
        val rutinaR = RutinasResponse()
-        rutinaR.id = rutina.id
+        rutinaR.id = rutina.idRoom.toString()+" room"
         rutinaR.tiempoSueno = rutina.tiempoSueno
         rutinaR.tiempoSueno = rutina.tiempoSueno
         rutinaR.pasosRealizados = rutina.pasosRealizados

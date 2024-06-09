@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import com.example.fitnesstrackerapp.apiservicio.ApiServicio
 import com.example.fitnesstrackerapp.apiservicio.getRetrofitClient
 import com.example.fitnesstrackerapp.objetos.login.UsuarioVerificar
+import com.example.fitnesstrackerapp.objetos.request.RegisterRequest
 import com.example.fitnesstrackerapp.objetos.request.RutinaRequest
 import com.example.fitnesstrackerapp.objetos.request.UsuarioRequest
 import com.example.fitnesstrackerapp.objetos.response.AlimentosResponse
@@ -47,6 +48,10 @@ class RepositorioRetrofit (
 
     suspend fun actualizarRutina(token: String,rutina:RutinasResponse){
         return apiServicio.create(ApiServicio::class.java).modificarDieta("Bearer $token",rutina)
+    }
+
+    suspend fun register(user:RegisterRequest){
+        return apiServicio.create(ApiServicio::class.java).register(user)
     }
 
 }
