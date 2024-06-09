@@ -10,7 +10,8 @@ import {
     List,
     ListItem,
     ListItemText,
-    Grid
+    Grid,
+    Avatar
 } from '@mui/material'
 
 import PeepoDJ from '../../img/peepo_dj.png'
@@ -70,11 +71,11 @@ function DailyPage() {
             console.log(dataLoadSucces)
             console.log(datosUsuario)
             console.log(edad)
+            console.log("suenio",ultimaRutinas.tiempoDeSuenio)
         } catch (error) {
             console.log(error);
         }
     };
-
 
     useEffect(() => {
         loadRutineAndDiet();
@@ -175,7 +176,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{ultimaRutinas.tiempoDeSuenio}</ListItemText>
+                            >{ultimaRutinas != null ? ultimaRutinas.tiempoDeSuenio : "No hay tiempo de Sueño"}</ListItemText>
                         </ListItem>
                         <ListItem
                             dense={true}
@@ -193,7 +194,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{ultimaRutinas.pasosRealizados}</ListItemText>
+                            >{ultimaRutinas != null? ultimaRutinas.pasosRealizados : "No se han encontrado pasos"}</ListItemText>
                         </ListItem>
                         <ListItem
                             dense={true}
@@ -211,7 +212,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{ultimaRutinas.caloriasQuemadas}</ListItemText>
+                            >{ultimaRutinas != null? ultimaRutinas.caloriasQuemadas : "No se han encontrado calorias"}</ListItemText>
                         </ListItem>
                     </List>
                     <Typography
@@ -250,7 +251,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{ultimaDietas.caloriasTarget}</ListItemText>
+                            >{ultimaDietas != null? ultimaDietas.caloriasTarget : "No se han encontrado calorias"}</ListItemText>
                         </ListItem>
                         <ListItem
                             dense={true}
@@ -268,7 +269,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{ultimaDietas.consumoDeAgua}</ListItemText>
+                            >{ultimaDietas != null? ultimaDietas.consumoDeAgua : "No se ha encontrado consumo de agua"}</ListItemText>
                         </ListItem>
                         <ListItem
                             dense={true}
@@ -286,7 +287,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{comidasSugeridas}</ListItemText>
+                            >{comidasSugeridas != null? comidasSugeridas : "No se han encontrado comidas"}</ListItemText>
                         </ListItem>
                     </List>
                     <Typography
@@ -325,7 +326,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{ultimaRutinas.frecuenciaCardiaca}</ListItemText>
+                            >{ultimaRutinas != null? ultimaRutinas.frecuenciaCardiaca : "No se ha encontrado frecuencia"}</ListItemText>
                         </ListItem>
                         <ListItem
                             dense={true}
@@ -343,7 +344,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{ultimaRutinas.nivelOxigenoSangre}</ListItemText>
+                            >{ultimaRutinas != null? ultimaRutinas.nivelOxigenoSangre : "No se han encontrado niveles"}</ListItemText>
                         </ListItem>
                         <ListItem
                             dense={true}
@@ -361,7 +362,7 @@ function DailyPage() {
                                     alignContent: 'right',
                                     alignItems: 'center',
                                 }}
-                            >{comidasConsumidas}</ListItemText>
+                            >{comidasConsumidas != null? comidasConsumidas : "No se han encotrado comidas"}</ListItemText>
                         </ListItem>
                     </List>
                 </Box>
