@@ -9,340 +9,364 @@ import {
     Typography,
     List,
     ListItem,
-    ListItemText
+    ListItemText,
+    Grid
 } from '@mui/material'
+
+import PeepoDJ from '../../img/peepo_dj.png'
 
 import { createTheme } from '@mui/material/styles';
 import { PrivateBar } from '../../components/Privatebar';
 import { API_ROUTES } from '../../ApiRoutes';
 
-const theme = createTheme({
-    components: {
-        // Name of the component
-        Container: {
-            styleOverrides: {
-            // Name of the slot
-                root: {
-                    // Some CSS
-                    maxWidth:'100%'
-                },
-            },
-        },
-        MenuItem: {
-            current: {
-            },
-            deactivated: {
-                
-            }
-        }
-    },
-});
+
 
 function DailyPage() {
     const [fetchDataSuccesfull, setFetchDataSuccesfull] = useState(false);
-    const [listadoDietas, setListadoDietas] = useState({});
-    const [listadoRutinas, setListadoRutinas] = useState({});
+    const [ultimaDietas, setUltimaDietas] = useState({});
+    const [ultimaRutinas, setUltimaRutinas] = useState({});
+    const [comidasSugeridas, setComidasSugeridas] = useState();
+    const [comidasConsumidas, setComidasConsumidas] = useState();
+
+    const [dataLoadSucces, setDataLoadSucces] = useState(false);
+    const [datosUsuario, setDatosUsuario] = useState({});
+    const [edad, setEdad] = useState(0)
+
+    const tokenLS = localStorage.getItem("token");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
 
     const loadRutineAndDiet = async () => {
-        const tokenLS = localStorage.getItem("token");
-        axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
 
         try {
-          const responseDietas = await axios
-            .get(API_ROUTES.GetListDietasUsuario);
+            const responseDietas = await axios
+                .get(API_ROUTES.GetListDietasUsuario);
 
             const responseRutinas = await axios
-            .get(API_ROUTES.GetListRutinasUsuario, { params: { fetchAll: true }});
+                .get(API_ROUTES.GetListRutinasUsuario, { params: { fetchAll: true } });
 
-            setListadoDietas(responseDietas.data)
-            setListadoRutinas(responseRutinas.data)
-
+            setUltimaDietas(responseDietas.data.data[responseDietas.data.data.length - 1])
+            setUltimaRutinas(responseRutinas.data.data[responseDietas.data.data.length - 1])
+            
             setFetchDataSuccesfull(true)
-    
-          console.log(responseDietas);
-          console.log(responseRutinas);
+            console.log("Ultima Rutina" ,ultimaRutinas)
+            console.log("Comidas sugeridas " ,ultimaDietas.comidasSugeridas.length); 
+            setComidasSugeridas(ultimaDietas.comidasSugeridas.length > 0 ? ultimaDietas.comidasSugeridas.map(comida => comida.nombre).join(', ') : 'No hay comidas sugeridas');
+            setComidasConsumidas(ultimaRutinas.comidasConsumidas.length > 0 ? ultimaRutinas.comidasConsumidas.map(comida => comida.nombre).join(', ') : 'No hay comidas consumidas');
+            console.log(responseDietas);
+            console.log(responseRutinas);
+            console.log("Listado dietas", ultimaDietas)
+            console.log("Listado rutinas" ,ultimaRutinas)
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
-      };
-    
-      
-      useEffect(() => {
-          loadRutineAndDiet();
-      }, [fetchDataSuccesfull]);
+    };
+
+    const loadPerfilData = async () => {
+        try {
+            const response = await axios.get(API_ROUTES.GetDatosUsuario);
+            setDataLoadSucces(true);
+            setDatosUsuario(response.data.data);
+            setEdad(new Date(Date.now()).getFullYear() - parseInt(response.data.data.fechaDeNacimiento.split('-')[0]))
+            console.log(dataLoadSucces)
+            console.log(datosUsuario)
+            console.log(edad)
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+
+    useEffect(() => {
+        loadRutineAndDiet();
+        loadPerfilData();
+    }, [fetchDataSuccesfull]);
 
     return (
-    <Box
-        sx={{
-            display:'flex',
-            flexDirection:'column',
-            background: '#293B50',
-            minHeight: '1000px',
-            justifyContent:'start',
-            alignItems:'center'
-        }}
-    >
-        <TopBar/>
-        <PrivateBar/>
-        <Container
-            maxWidth='none'
+        <Box
             sx={{
-                display:'inline-flex',
-                width:'100%',
-                height:'100%'
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#293B50',
+                minHeight: '1000px',
+                justifyContent: 'start',
+                alignItems: 'center'
             }}
         >
-            <Box
+            <TopBar />
+            <PrivateBar />
+            <Container
+                maxWidth='none'
                 sx={{
-                    background:'#FFF',
-                    width:'30%',
-                    height:'580px',
-                    marginTop:'40px',
-                    marginLeft:'40px',
-                    borderRadius:'40px'
+                    display: 'inline-flex',
+                    width: '100%',
+                    height: '100%'
                 }}
             >
-            </Box>
-            <Box
-                sx={{
-                    background:'#FFF',
-                    width:'63%',
-                    height:'70%px',
-                    marginTop:'40px',
-                    marginLeft:'40px',
-                    borderRadius:'40px',
-                    padding:'40px',
-                    // paddingTop:'10px'
-                }}
-            >
-                <Typography
-                    component='h3'
+                <Box
                     sx={{
-                        fontSize:'20pt',
-                        fontWeight:'bold',
-                        marginLeft:'40px',
-                        
+                        background: '#FFF',
+                        width: '30%',
+                        height: '580px',
+                        marginTop: '40px',
+                        marginLeft: '40px',
+                        borderRadius: '40px'
                     }}
                 >
-                    Rutina
-                </Typography>
-                <Box sx={{
-                    borderWidth:'1px',
-                    borderBlockStyle:'solid',
-                }}></Box>
-                <List
+                    <Grid container rowSpacing={5}>
+                        <Grid item lg={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <img src={PeepoDJ} style={{ width: '70%', borderRadius: '100%' }}></img>
+                        </Grid>
+                        <Grid item lg={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+                            <Typography
+                                variant='h2'
+                                component='h2'
+                                sx={{ textAlign: 'center' }}
+                            >
+                                {datosUsuario.nombreUsuario}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Box>
+                <Box
                     sx={{
-                        marginLeft:'25px'
+                        background: '#FFF',
+                        width: '63%',
+                        height: '70%px',
+                        marginTop: '40px',
+                        marginLeft: '40px',
+                        borderRadius: '40px',
+                        padding: '40px',
+                        // paddingTop:'10px'
                     }}
                 >
-                    <ListItem
-                        dense={true}
+                    <Typography
+                        component='h3'
                         sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
+                            fontSize: '20pt',
+                            fontWeight: 'bold',
+                            marginLeft: '40px',
+
                         }}
                     >
-                        <ListItemText>Dato1</ListItemText>
-                        <ListItemText
-                            sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
-                            }}
-                        >Valor_1</ListItemText>
-                    </ListItem>
-                    <ListItem
-                        dense={true}
+                        Rutina
+                    </Typography>
+                    <Box sx={{
+                        borderWidth: '1px',
+                        borderBlockStyle: 'solid',
+                    }}></Box>
+                    <List
                         sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
+                            marginLeft: '25px'
                         }}
                     >
-                        <ListItemText>Dato2</ListItemText>
-                        <ListItemText
+                        <ListItem
+                            dense={true}
                             sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
                             }}
-                        >Valor_2</ListItemText>
-                    </ListItem>
-                    <ListItem
-                        dense={true}
+                        >
+                            <ListItemText>Tiempo de Sueño</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{ultimaRutinas.tiempoDeSuenio}</ListItemText>
+                        </ListItem>
+                        <ListItem
+                            dense={true}
+                            sx={{
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
+                            }}
+                        >
+                            <ListItemText>Pasos Realizados</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{ultimaRutinas.pasosRealizados}</ListItemText>
+                        </ListItem>
+                        <ListItem
+                            dense={true}
+                            sx={{
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
+                            }}
+                        >
+                            <ListItemText>Calorias Quemadas</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{ultimaRutinas.caloriasQuemadas}</ListItemText>
+                        </ListItem>
+                    </List>
+                    <Typography
+                        component='h3'
                         sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
+                            fontSize: '20pt',
+                            fontWeight: 'bold',
+                            marginLeft: '40px',
+
                         }}
                     >
-                        <ListItemText>Dato3_</ListItemText>
-                        <ListItemText
-                            sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
-                            }}
-                        >Valor_3</ListItemText>
-                    </ListItem>
-                </List>
-                <Typography
-                    component='h3'
-                    sx={{
-                        fontSize:'20pt',
-                        fontWeight:'bold',
-                        marginLeft:'40px',
-                        
-                    }}
-                >
-                    Dieta
-                </Typography>
-                <Box sx={{
-                    borderWidth:'1px',
-                    borderBlockStyle:'solid',
-                }}></Box>
-                <List
-                    sx={{
-                        marginLeft:'25px'
-                    }}
-                >
-                    <ListItem
-                        dense={true}
+                        Dieta
+                    </Typography>
+                    <Box sx={{
+                        borderWidth: '1px',
+                        borderBlockStyle: 'solid',
+                    }}></Box>
+                    <List
                         sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
+                            marginLeft: '25px'
                         }}
                     >
-                        <ListItemText>Dato1</ListItemText>
-                        <ListItemText
+                        <ListItem
+                            dense={true}
                             sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
                             }}
-                        >Valor_1</ListItemText>
-                    </ListItem>
-                    <ListItem
-                        dense={true}
+                        >
+                            <ListItemText>Calorias Requeridas</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{ultimaDietas.caloriasTarget}</ListItemText>
+                        </ListItem>
+                        <ListItem
+                            dense={true}
+                            sx={{
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
+                            }}
+                        >
+                            <ListItemText>Agua Requerida</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{ultimaDietas.consumoDeAgua}</ListItemText>
+                        </ListItem>
+                        <ListItem
+                            dense={true}
+                            sx={{
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
+                            }}
+                        >
+                            <ListItemText>Comidas Sugeridas</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{comidasSugeridas}</ListItemText>
+                        </ListItem>
+                    </List>
+                    <Typography
+                        component='h3'
                         sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
+                            fontSize: '20pt',
+                            fontWeight: 'bold',
+                            marginLeft: '40px',
+
                         }}
                     >
-                        <ListItemText>Dato2</ListItemText>
-                        <ListItemText
-                            sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
-                            }}
-                        >Valor_2</ListItemText>
-                    </ListItem>
-                    <ListItem
-                        dense={true}
+                        Físico
+                    </Typography>
+                    <Box sx={{
+                        borderWidth: '1px',
+                        borderBlockStyle: 'solid',
+                    }}></Box>
+                    <List
                         sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
+                            marginLeft: '25px'
                         }}
                     >
-                        <ListItemText>Dato3</ListItemText>
-                        <ListItemText
+                        <ListItem
+                            dense={true}
                             sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
                             }}
-                        >Valor_3</ListItemText>
-                    </ListItem>
-                </List>
-                <Typography
-                    component='h3'
-                    sx={{
-                        fontSize:'20pt',
-                        fontWeight:'bold',
-                        marginLeft:'40px',
-                        
-                    }}
-                >
-                    Físico
-                </Typography>
-                <Box sx={{
-                    borderWidth:'1px',
-                    borderBlockStyle:'solid',
-                }}></Box>
-                <List
-                    sx={{
-                        marginLeft:'25px'
-                    }}
-                >
-                    <ListItem
-                        dense={true}
-                        sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
-                        }}
-                    >
-                        <ListItemText>Dato1</ListItemText>
-                        <ListItemText
+                        >
+                            <ListItemText>Frecuencia Cardiaca</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{ultimaRutinas.frecuenciaCardiaca}</ListItemText>
+                        </ListItem>
+                        <ListItem
+                            dense={true}
                             sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
                             }}
-                        >Valor_1</ListItemText>
-                    </ListItem>
-                    <ListItem
-                        dense={true}
-                        sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
-                        }}
-                    >
-                        <ListItemText>Dato2</ListItemText>
-                        <ListItemText
+                        >
+                            <ListItemText>Oxigeno Sangre</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{ultimaRutinas.nivelOxigenoSangre}</ListItemText>
+                        </ListItem>
+                        <ListItem
+                            dense={true}
                             sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
+                                display: 'flex',
+                                alignContent: 'space-between',
+                                width: '100%',
                             }}
-                        >valor_2</ListItemText>
-                    </ListItem>
-                    <ListItem
-                        dense={true}
-                        sx={{
-                            display:'flex',
-                            alignContent:'space-between',
-                            width:'100%',
-                        }}
-                    >
-                        <ListItemText>Dato3</ListItemText>
-                        <ListItemText
-                            sx={{
-                                display:'flex',
-                                justifyContent: 'flex-end',
-                                alignContent:'right',
-                                alignItems:'center',
-                            }}
-                        >Valor_3</ListItemText>
-                    </ListItem>
-                </List>
-            </Box>
-        </Container>
-    </Box>
+                        >
+                            <ListItemText>Comidas Consumidas</ListItemText>
+                            <ListItemText
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'flex-end',
+                                    alignContent: 'right',
+                                    alignItems: 'center',
+                                }}
+                            >{comidasConsumidas}</ListItemText>
+                        </ListItem>
+                    </List>
+                </Box>
+            </Container>
+        </Box>
     );
 }
 
