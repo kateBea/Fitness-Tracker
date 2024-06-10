@@ -88,13 +88,16 @@ export const TopBar = () => {
                             justifyContent: 'flex-end',
                             alignContent: 'right',
                             alignItems: 'center',
-                            background:'blue'
                         },
-                        width: '80%',
+                        width: '50%',
                     }}
                 >
-                    <Grid item md={1.3} sm={2} xs={12} sx={{height:'100%'}}>
+                    <Grid item lg={1} md={1.3} sm={2} xs={12} sx={{height:'100%'}}>
                         <MenuItem onClick={() => handleClick('/')} sx={{
+                            [theme.breakpoints.up('600')]: {
+                                height:'100%',
+                                alignContent:'center',
+                            },
                             [theme.breakpoints.down('600')]: {
                                 height:'100%',
                                 justifyContent:'right',
@@ -102,21 +105,21 @@ export const TopBar = () => {
                             },
                         }}>Home</MenuItem>
                     </Grid>
-                    <Grid item md={1.3} sm={1.5} xs={0} >
+                    <Grid item lg={1} md={1.3} sm={1} xs={0} >
                         <MenuItem onClick={() => handleClick('/')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'
                             }
                         }}>App</MenuItem>
                     </Grid>
-                    <Grid item md={3} sm={4.5} xs={0}>
+                    <Grid item lg={3}md={3.5} sm={4} xs={0}>
                         <MenuItem onClick={() => handleClick('/')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'
                             }
                         }}>Sobre Nosotros</MenuItem>
                     </Grid>
-                    <Grid item md={3} sm={4} xs={0}>
+                    <Grid item lg={3}md={4} sm={5} xs={0}>
                         <MenuItem onClick={() => handleClick('/')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'

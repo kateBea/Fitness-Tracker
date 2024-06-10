@@ -78,7 +78,15 @@ function RegisterPage() {
           borderRadius: '60px',
           padding: '40px',
           margin: '50px',
-          width: '35%',
+          [theme.breakpoints.up('1200')]:{
+            width: '40%',
+          },
+          [theme.breakpoints.down('1200')]:{
+            width: '60%',
+          },
+          [theme.breakpoints.down('700')]:{
+            width: '100%',
+          }
         }}
       >
         <Box>
@@ -113,7 +121,10 @@ function RegisterPage() {
                 sx={{
                     color: 'white',
                     textDecoration: 'none',
-                    margin: '15px'
+                    margin: '15px',
+                    [theme.breakpoints.down('450')]:{
+                      fontSize:'27pt'
+                    }
                 }}
               >
                 Fitness-Tracker
