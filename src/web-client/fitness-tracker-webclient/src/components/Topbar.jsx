@@ -7,6 +7,7 @@ import {
     Container,
     Typography,
     MenuItem,
+    Grid
 } from '@mui/material';
 
 import LogoFitness from '../img/logo-fitness-tracker.png';
@@ -64,11 +65,14 @@ export const TopBar = () => {
                             color: 'white',
                             textDecoration: 'none',
                             margin: '15px',
-                            [theme.breakpoints.down('900')]:{
-                                fontSize:'20pt'
+                            [theme.breakpoints.down('900')]: {
+                                fontSize: '20pt'
                             },
-                            [theme.breakpoints.down('600')]:{
-                                fontSize:'0pt'
+                            [theme.breakpoints.down('750')]: {
+                                fontSize: '15pt'
+                            },
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
                             }
 
                         }}
@@ -76,20 +80,50 @@ export const TopBar = () => {
                         Fitness-Tracker
                     </Typography>
                 </Box>
-                <Box
+                <Grid container columnSpacing={1}
                     sx={{
                         display: 'flex',
-                        justifyContent: 'flex-end',
-                        alignContent: 'right',
-                        alignItems: 'center',
-                        width: '50%',
+                        
+                        [theme.breakpoints.up('600')]: {
+                            justifyContent: 'flex-end',
+                            alignContent: 'right',
+                            alignItems: 'center',
+                            background:'blue'
+                        },
+                        width: '80%',
                     }}
                 >
-                    <MenuItem onClick={() => handleClick('/')}>Home</MenuItem>
-                    <MenuItem onClick={() => handleClick('/')}>App</MenuItem>
-                    <MenuItem onClick={() => handleClick('/')}>Sobre Nosotros</MenuItem>
-                    <MenuItem onClick={() => handleClick('/')}>Nuestros Clientes</MenuItem>
-                </Box>
+                    <Grid item md={1.3} sm={2} xs={12} sx={{height:'100%'}}>
+                        <MenuItem onClick={() => handleClick('/')} sx={{
+                            [theme.breakpoints.down('600')]: {
+                                height:'100%',
+                                justifyContent:'right',
+                                fontSize:'20pt'
+                            },
+                        }}>Home</MenuItem>
+                    </Grid>
+                    <Grid item md={1.3} sm={1.5} xs={0} >
+                        <MenuItem onClick={() => handleClick('/')} sx={{
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
+                            }
+                        }}>App</MenuItem>
+                    </Grid>
+                    <Grid item md={3} sm={4.5} xs={0}>
+                        <MenuItem onClick={() => handleClick('/')} sx={{
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
+                            }
+                        }}>Sobre Nosotros</MenuItem>
+                    </Grid>
+                    <Grid item md={3} sm={4} xs={0}>
+                        <MenuItem onClick={() => handleClick('/')} sx={{
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
+                            }
+                        }}>Nuestros Clientes</MenuItem>
+                    </Grid>
+                </Grid>
             </Container>
         </AppBar>
     )
