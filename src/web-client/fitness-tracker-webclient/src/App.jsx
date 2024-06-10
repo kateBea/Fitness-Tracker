@@ -31,26 +31,28 @@ export default function App() {
           <Route path="/Login" element={<LoginPage />}></Route>
           <Route path="/Register" element={<RegisterPage />}></Route>
 
+          {/* Meter todo dentro de protectedRoutes desde aqui para abajo */}
+          { /* Usuario */}
+          <Route path="/Perfil" element={<PerfilPage />}></Route>
+
+
+          { /* Dietas */}
+          <Route path="/GenerarDieta" element={<DietGeneratorPage />}></Route>
+          <Route path="/ListadoDietas" element={<ListadoDietas />}></Route>
+
+
+          { /* Rutinas */}
+          <Route path="/Today" element={<DailyPage />}></Route>
+          <Route path="/ListadoRutinas" element={<ListadoRutinasPage />}></Route>
+
+
+          { /* Pendiente de borrar o work in progress */}
+          <Route path="/DailyCalorie" element={<DailyCalorie />}></Route>
+          <Route path="/ChatAssistance" element={<ChatAssistancePage />}></Route>
+          {/* Private */}
+
           <Route element={<ProtectedRoutes />}>
-            {/* Meter todo dentro de protectedRoutes desde aqui para abajo */}
-            { /* Usuario */}
-            <Route path="/Perfil" element={<PerfilPage />}></Route>
 
-
-            { /* Dietas */}
-            <Route path="/GenerarDieta" element={<DietGeneratorPage />}></Route>
-            <Route path="/ListadoDietas" element={<ListadoDietas />}></Route>
-
-
-            { /* Rutinas */}
-            <Route path="/Today" element={<DailyPage />}></Route>
-            <Route path="/ListadoRutinas" element={<ListadoRutinasPage />}></Route>
-
-
-            { /* Pendiente de borrar o work in progress */}
-            <Route path="/DailyCalorie" element={<DailyCalorie />}></Route>
-            <Route path="/ChatAssistance" element={<ChatAssistancePage />}></Route>
-            {/* Private */}
           </Route>
         </Routes>
       </BrowserRouter>

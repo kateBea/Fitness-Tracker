@@ -6,7 +6,7 @@ import {
     AppBar,
     Container,
     Typography,
-    MenuItem
+    MenuItem,
 } from '@mui/material';
 
 import LogoFitness from '../img/logo-fitness-tracker.png';
@@ -19,6 +19,8 @@ export const TopBar = () => {
     const handleClick = (path) => {
         navigate(path);
     };
+
+    const theme = createTheme();
 
     return (
         <AppBar
@@ -58,11 +60,17 @@ export const TopBar = () => {
                     <Typography
                         variant="h3"
                         component="h1"
-                        href="/"
                         sx={{
                             color: 'white',
                             textDecoration: 'none',
-                            margin: '15px'
+                            margin: '15px',
+                            [theme.breakpoints.down('900')]:{
+                                fontSize:'20pt'
+                            },
+                            [theme.breakpoints.down('600')]:{
+                                fontSize:'0pt'
+                            }
+
                         }}
                     >
                         Fitness-Tracker
