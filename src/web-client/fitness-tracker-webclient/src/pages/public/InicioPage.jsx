@@ -118,12 +118,12 @@ function MainPage() {
             sx={{
               display: 'flex',
               color: '#436489',
-              marginRight:'30px',
+              marginRight: '30px',
               [theme.breakpoints.up('1200')]: {
                 justifyContent: 'flex-end',
                 alignContent: 'right',
                 alignItems: 'center',
-                width:'50%'
+                width: '50%'
               },
               [theme.breakpoints.down('1200')]: {
                 justifyContent: 'flex-end',
@@ -137,20 +137,20 @@ function MainPage() {
                 alignItems: 'center',
                 width: '100%',
               },
-              
+
             }}
           >
             <Grid item xl={1.1} lg={1.3} md={1.3} sm={1.3} xs={1.3}>
-              <MenuItem sx={{ fontWeight: 'bold'}} href='#home' >Home</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold' }} href='#home' >Home</MenuItem>
             </Grid>
             <Grid item xl={2.7} lg={3.5} md={3.5} sm={3.5} xs={2.5}>
-              <MenuItem sx={{ fontWeight: 'bold',[theme.breakpoints.down('650')]: {fontSize:'0pt'}}} href='#servicios' >Nuestros Servicios</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} href='#servicios' >Nuestros Servicios</MenuItem>
             </Grid>
             <Grid item xl={2.2} lg={3} md={3} sm={3} xs={2}>
-              <MenuItem sx={{ fontWeight: 'bold',[theme.breakpoints.down('650')]: {fontSize:'0pt'} }} href='#sobreNosotros' >Sobre Nosotros</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} href='#sobreNosotros' >Sobre Nosotros</MenuItem>
             </Grid>
             <Grid item xl={1} lg={1.3} md={1.3} sm={1.3} xs={2}>
-              <MenuItem sx={{ fontWeight: 'bold',[theme.breakpoints.down('650')]: {fontSize:'0pt'} }} href='#app' >App</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} href='#app' >App</MenuItem>
             </Grid>
             <Grid item xl={2} lg={2.5} md={2.5} sm={2.5} xs={4}>
               <Button
@@ -180,7 +180,17 @@ function MainPage() {
             variant="h2"
             component="h2"
             href="/"
-            sx={{ marginTop: '150px', marginLeft: '200px', fontWeight: 'bold', fontSize: '60pt' }}
+            sx={{
+              marginTop: '150px',
+              marginLeft: '200px',
+              fontWeight: 'bold',
+              [theme.breakpoints.up('1600')]: {
+                fontSize: '55pt',
+              },
+              [theme.breakpoints.down('1600')]: {
+                fontSize: '40pt',
+              }
+            }}
           >Virtualiza tu cuidado personal
           </Typography>
           <Typography
@@ -195,7 +205,7 @@ function MainPage() {
           </Container>
         </Grid>
         <Grid item lg={6} xs={12}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '50px', width: '100%' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '50px', width: '100%' }}>
             <img src={RelojInicio} style={{ width: '70%' }}></img>
           </Box>
         </Grid>
@@ -376,7 +386,15 @@ function MainPage() {
                     variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontWeight: 'bold', fontSize: '50pt' }}
+                    sx={{
+                      fontWeight: 'bold',
+                      [theme.breakpoints.up('1600')]: {
+                        fontSize: '50pt'
+                      },
+                      [theme.breakpoints.down('1300')]: {
+                        fontSize: '35pt'
+                      }
+                    }}
                   >Lideres en salud y fitness con nuevas tecnologias
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'start', marginTop: '30px' }}>
@@ -399,15 +417,22 @@ function MainPage() {
             </Box>
           </Grid>
           <Grid item xs={12} fullWidth sx={{ marginTop: '100px' }}>
-            <Grid container fullWidth>
-
+            <Grid container fullWidth rowSpacing={3}>
               <Grid item md={6} xs={12}>
                 <Box sx={{ marginTop: '60px', marginLeft: '90px' }}>
                   <Typography
                     variant="h3"
                     component="h3"
                     href="/"
-                    sx={{ fontWeight: 'bold', fontSize: '50pt' }}
+                    sx={{
+                      fontWeight: 'bold',
+                      [theme.breakpoints.up('1600')]: {
+                        fontSize: '50pt'
+                      },
+                      [theme.breakpoints.down('1300')]: {
+                        fontSize: '35pt'
+                      }
+                    }}
                   >Descarga nuestra app para dispositivos moviles
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'start', marginTop: '30px' }}>
@@ -433,7 +458,7 @@ function MainPage() {
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ background: 'linear-gradient(to top, #436388 0%,#4F7198 50%, #436388 100%)', width: '100%' }}>
-              <Grid container columnSpacing={3} rowSpacing={2} sx={{ padding: '50px', verticalAlign: 'center', paddingTop: '30px', paddingBottom: '100px', marginTop: '100px' }}>
+              <Grid container columnSpacing={3} rowSpacing={2} sx={{ padding: '50px', verticalAlign: 'center', paddingTop: '30px', paddingBottom: '100px', marginTop: '100px',[theme.breakpoints.down('600')]:{justifyContent:'center'}}}>
                 <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
                   <img src={BackgroundPuntos} style={{ position: 'absolute', width: '120px', right: '0px', top: '-160px' }}></img>
                 </Box>
@@ -461,7 +486,13 @@ function MainPage() {
                         color: 'white',
                         textDecoration: 'none',
                         marginLeft: '15px',
-                        fontSize: '40pt'
+                        [theme.breakpoints.up('600')]:{
+                          fontSize: '30pt'
+                        },
+                        [theme.breakpoints.down('600')]:{
+                          fontSize: '20pt'
+                        },
+                        
                       }}
                     >
                       Fitness-Tracker
