@@ -6,7 +6,8 @@ import {
     AppBar,
     Container,
     Typography,
-    MenuItem
+    MenuItem,
+    Grid
 } from '@mui/material';
 
 import LogoFitness from '../img/logo-fitness-tracker.png';
@@ -16,9 +17,17 @@ export const TopBar = () => {
 
     const navigate = useNavigate();
 
-    const handleClick = (path) => {
-        navigate(path);
+    const handleScroll = (sectionId, path) => {
+        navigate(path, { replace: true });
+        setTimeout(() => {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 150);
     };
+
+    const theme = createTheme();
 
     return (
         <AppBar
@@ -58,30 +67,72 @@ export const TopBar = () => {
                     <Typography
                         variant="h3"
                         component="h1"
-                        href="/"
                         sx={{
                             color: 'white',
                             textDecoration: 'none',
-                            margin: '15px'
+                            margin: '15px',
+                            [theme.breakpoints.down('900')]: {
+                                fontSize: '20pt'
+                            },
+                            [theme.breakpoints.down('750')]: {
+                                fontSize: '15pt'
+                            },
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
+                            }
+
                         }}
                     >
                         Fitness-Tracker
                     </Typography>
                 </Box>
-                <Box
+                <Grid container columnSpacing={1}
                     sx={{
                         display: 'flex',
-                        justifyContent: 'flex-end',
-                        alignContent: 'right',
-                        alignItems: 'center',
+                        
+                        [theme.breakpoints.up('600')]: {
+                            justifyContent: 'flex-end',
+                            alignContent: 'right',
+                            alignItems: 'center',
+                        },
                         width: '50%',
                     }}
                 >
-                    <MenuItem onClick={() => handleClick('/')}>Home</MenuItem>
-                    <MenuItem onClick={() => handleClick('/')}>App</MenuItem>
-                    <MenuItem onClick={() => handleClick('/')}>Sobre Nosotros</MenuItem>
-                    <MenuItem onClick={() => handleClick('/')}>Nuestros Clientes</MenuItem>
-                </Box>
+                    <Grid item xl={1} lg={1.2} md={1.5} sm={1.8} xs={12} sx={{height:'100%'}}>
+                        <MenuItem onClick={() => handleScroll('home', '/#home')} sx={{
+                            [theme.breakpoints.up('600')]: {
+                                height:'100%',
+                                alignContent:'center',
+                            },
+                            [theme.breakpoints.down('600')]: {
+                                height:'100%',
+                                justifyContent:'right',
+                                fontSize:'20pt'
+                            },
+                        }}>Home</MenuItem>
+                    </Grid>
+                    <Grid item xl={1} lg={1} md={1.5} sm={1.2} xs={0} >
+                        <MenuItem onClick={() => handleScroll('app', '/#app')} sx={{
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
+                            }
+                        }}>App</MenuItem>
+                    </Grid>
+                    <Grid item xl={2} lg={2.5}md={3.5} sm={4} xs={0}>
+                        <MenuItem onClick={() => handleScroll('sobreNosotros', '/#sobreNosotros')}sx={{
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
+                            }
+                        }}>Sobre Nosotros</MenuItem>
+                    </Grid>
+                    <Grid item xl={2} lg={2.5}md={4} sm={5} xs={0}>
+                        <MenuItem onClick={() => handleScroll('servicios', '/#servicios')} sx={{
+                            [theme.breakpoints.down('600')]: {
+                                fontSize: '0pt'
+                            }
+                        }}>Nuestros Servicios</MenuItem>
+                    </Grid>
+                </Grid>
             </Container>
         </AppBar>
     )

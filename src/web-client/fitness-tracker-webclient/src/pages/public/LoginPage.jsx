@@ -67,7 +67,7 @@ function LoginPage() {
         display: 'flex',
         flexDirection: 'column',
         background: '#293B50',
-        minHeight: '1000px',
+        minHeight: '100vh',
         justifyContent: 'start',
         alignItems: 'center'
       }}
@@ -82,7 +82,15 @@ function LoginPage() {
           borderRadius: '60px',
           padding: '40px',
           margin: '50px',
-          width: '35%',
+          [theme.breakpoints.up('1200')]:{
+            width: '40%',
+          },
+          [theme.breakpoints.down('1200')]:{
+            width: '60%',
+          },
+          [theme.breakpoints.down('700')]:{
+            width: '100%',
+          }
         }}
       >
         <Box>
@@ -90,7 +98,7 @@ function LoginPage() {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              width: '100%'
+              width: '100%',
             }}
           >
             <img src={LogoFitness} 
@@ -118,6 +126,9 @@ function LoginPage() {
                     color: 'white',
                     textDecoration: 'none',
                     margin: '15px',
+                    [theme.breakpoints.down('450')]:{
+                      fontSize:'27pt'
+                    }
                 }}
               >Fitness-Tracker</Typography>
           </Box>

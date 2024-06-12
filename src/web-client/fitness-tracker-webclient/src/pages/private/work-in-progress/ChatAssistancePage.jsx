@@ -34,7 +34,7 @@ function ChatAssistancePage() {
             display:'flex',
             flexDirection:'column',
             background: '#293B50',
-            minHeight: '1000px',
+            minHeight: '100vh',
             justifyContent:'start',
             alignItems:'center'
         }}

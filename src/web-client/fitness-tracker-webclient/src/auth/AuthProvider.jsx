@@ -42,7 +42,6 @@ function AuthProvider({ children }) {
         // Si hay alguno que otro error en la petición
         console.error("Error en el login: ", error);
       }
-
   };
 
   const logoutUser = async () => {
