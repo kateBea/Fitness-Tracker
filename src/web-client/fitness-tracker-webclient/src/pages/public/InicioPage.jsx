@@ -52,6 +52,15 @@ function MainPage() {
 
   const theme = createTheme();
 
+  const handleScroll = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    console.log("Se ha encontrado la seccion ", section)
+    if (section) {
+      
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <Box>
       <AppBar
@@ -141,16 +150,16 @@ function MainPage() {
             }}
           >
             <Grid item xl={1.1} lg={1.3} md={1.3} sm={1.3} xs={1.3}>
-              <MenuItem sx={{ fontWeight: 'bold' }} href='#home' >Home</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold' }} onClick={() => handleScroll("home")} >Home</MenuItem>
             </Grid>
             <Grid item xl={2.7} lg={3.5} md={3.5} sm={3.5} xs={2.5}>
-              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} href='#servicios' >Nuestros Servicios</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} onClick={() => handleScroll("servicios")} >Nuestros Servicios</MenuItem>
             </Grid>
             <Grid item xl={2.2} lg={3} md={3} sm={3} xs={2}>
-              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} href='#sobreNosotros' >Sobre Nosotros</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} onClick={() => handleScroll("sobreNosotros")}>Sobre Nosotros</MenuItem>
             </Grid>
             <Grid item xl={1} lg={1.3} md={1.3} sm={1.3} xs={2}>
-              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} href='#app' >App</MenuItem>
+              <MenuItem sx={{ fontWeight: 'bold', [theme.breakpoints.down('650')]: { fontSize: '0pt' } }} onClick={() => handleScroll("app")} >App</MenuItem>
             </Grid>
             <Grid item xl={2} lg={2.5} md={2.5} sm={2.5} xs={4}>
               <Button
@@ -171,7 +180,7 @@ function MainPage() {
           </Grid>
         </Container>
       </AppBar>
-      <Grid id='#home' container columnSpacing={2}>
+      <Grid id='home' component='section' container columnSpacing={2}>
         <Grid item lg={6} xs={12}>
           <Box sx={{ position: 'relative', marginTop: '40px' }}>
             <img src={BackgroundPuntos} style={{ position: 'absolute', width: '120px', left: '-40px' }}></img>
@@ -211,7 +220,7 @@ function MainPage() {
         </Grid>
       </Grid>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Grid container id='#servicios'>
+        <Grid container component='section' id='servicios'>
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
               <Typography
@@ -375,7 +384,7 @@ function MainPage() {
               <img src={BarraSeparacion} style={{ width: '30%', height: '3px' }}></img>
             </Box>
           </Grid>
-          <Grid item xs={12} fullWidth sx={{ marginTop: '100px' }}>
+          <Grid item xs={12} component='section' id='sobreNosotros' fullWidth sx={{ marginTop: '100px' }}>
             <Grid container fullWidth>
               <Grid item md={6} xs={12}>
                 <img src={LideresSalud} style={{ width: '95%' }}></img>
@@ -417,7 +426,7 @@ function MainPage() {
             </Box>
           </Grid>
           <Grid item xs={12} fullWidth sx={{ marginTop: '100px' }}>
-            <Grid container fullWidth rowSpacing={3}>
+            <Grid container component='section' id='app' fullWidth rowSpacing={3}>
               <Grid item md={6} xs={12}>
                 <Box sx={{ marginTop: '60px', marginLeft: '90px' }}>
                   <Typography
@@ -458,7 +467,7 @@ function MainPage() {
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ background: 'linear-gradient(to top, #436388 0%,#4F7198 50%, #436388 100%)', width: '100%' }}>
-              <Grid container columnSpacing={3} rowSpacing={2} sx={{ padding: '50px', verticalAlign: 'center', paddingTop: '30px', paddingBottom: '100px', marginTop: '100px',[theme.breakpoints.down('600')]:{justifyContent:'center'}}}>
+              <Grid container columnSpacing={3} rowSpacing={2} sx={{ padding: '50px', verticalAlign: 'center', paddingTop: '30px', paddingBottom: '100px', marginTop: '100px', [theme.breakpoints.down('600')]: { justifyContent: 'center' } }}>
                 <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
                   <img src={BackgroundPuntos} style={{ position: 'absolute', width: '120px', right: '0px', top: '-160px' }}></img>
                 </Box>
@@ -486,13 +495,13 @@ function MainPage() {
                         color: 'white',
                         textDecoration: 'none',
                         marginLeft: '15px',
-                        [theme.breakpoints.up('600')]:{
+                        [theme.breakpoints.up('600')]: {
                           fontSize: '30pt'
                         },
-                        [theme.breakpoints.down('600')]:{
+                        [theme.breakpoints.down('600')]: {
                           fontSize: '20pt'
                         },
-                        
+
                       }}
                     >
                       Fitness-Tracker

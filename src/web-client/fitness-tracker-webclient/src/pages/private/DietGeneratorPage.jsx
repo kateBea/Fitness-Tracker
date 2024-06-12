@@ -23,9 +23,9 @@ import { Link } from "react-router-dom";
 import { API_ROUTES } from "../../ApiRoutes";
 
 function DietGeneratorPage() {
-   // State setup
-   const [dataFecthSuccess, setDataFecthSuccess] = useState(false);
-   // Preparar datos del formulario
+  // State setup
+  const [dataFecthSuccess, setDataFecthSuccess] = useState(false);
+  // Preparar datos del formulario
   const [edad, setEdad] = useState("");
   const [genero, setGenero] = useState("")
   const [altura, setAltura] = useState("");
@@ -55,13 +55,13 @@ function DietGeneratorPage() {
   };
 
   const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = state;
- 
-   // Axios setup
-   const token = localStorage.getItem("token");
-   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
- 
-   const generarDieta = async () => {
-     try {
+
+  // Axios setup
+  const token = localStorage.getItem("token");
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+  const generarDieta = async () => {
+    try {
       // Recoger datos del usuario
       const responseUserData = await axios.get(API_ROUTES.GetDatosUsuario);
       const datosUsuario = responseUserData?.data;
@@ -77,17 +77,17 @@ function DietGeneratorPage() {
         fechaInicio: "2024-05-28T13:46:50.406Z",
         fechaFin: "2024-05-28T13:46:50.407Z",
       };
-      
-       const response = await axios.post(API_ROUTES.GenerarDieta, requestData);
- 
-       setDataFecthSuccess(true);
-       console.log(response);
-     } catch (error) {
-       console.log(error);
-     }
-   };
 
-   const handleSubmit = async (event) => {
+      const response = await axios.post(API_ROUTES.GenerarDieta, requestData);
+
+      setDataFecthSuccess(true);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     generarDieta();
   }
@@ -293,7 +293,7 @@ function DietGeneratorPage() {
               </Grid>
             </Grid>
             {/* HABILIDAD EN LA COCINA Y TIEMPO DE COCINA */}
-            <Grid container columnSpacing={2} sx={{ marginTop: '20px'}}>
+            <Grid container columnSpacing={2} sx={{ marginTop: '20px' }}>
               <Grid item xs={6}>
                 <InputLabel id="nivel-habilidad-cocina">
                   Habilidad en la Cocina
@@ -331,7 +331,7 @@ function DietGeneratorPage() {
                   <MenuItem value={"30/60"}>30-60 minutos</MenuItem>
                   <MenuItem value={"mas60"}>Más de 60 minutos</MenuItem>
                 </Select>
-              </Grid> 
+              </Grid>
             </Grid>
             {/* Comentarios Adicionales */}
             <Grid>
@@ -388,16 +388,16 @@ function DietGeneratorPage() {
               <MenuItem value={3}>Muy activo</MenuItem>
             </Select> */}
             <Button variant="outlined" color="primary" type="submit" sx={{
-              background:'#D92668',
-              margin:'10px',
-              width:'230px',
-              borderTopLeftRadius:'30px',
-              borderBottomLeftRadius:'0px',
-              borderTopRightRadius:'0px',
-              borderBottomRightRadius:'30px',
+              background: '#D92668',
+              margin: '10px',
+              width: '230px',
+              borderTopLeftRadius: '30px',
+              borderBottomLeftRadius: '0px',
+              borderTopRightRadius: '0px',
+              borderBottomRightRadius: '30px',
               textTransform: 'none',
-              fontSize:'20pt',
-              
+              fontSize: '20pt',
+
             }}>
               GENERATE
             </Button>
