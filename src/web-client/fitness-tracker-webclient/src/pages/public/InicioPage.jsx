@@ -140,19 +140,19 @@ function MainPage() {
               
             }}
           >
-            <Grid item lg={1.3} md={1.3} sm={1.3} xs={1.3}>
+            <Grid item xl={1.1} lg={1.3} md={1.3} sm={1.3} xs={1.3}>
               <MenuItem sx={{ fontWeight: 'bold'}} href='#home' >Home</MenuItem>
             </Grid>
-            <Grid item lg={3.5} md={3.5} sm={3.5} xs={2.5}>
+            <Grid item xl={2.7} lg={3.5} md={3.5} sm={3.5} xs={2.5}>
               <MenuItem sx={{ fontWeight: 'bold',[theme.breakpoints.down('650')]: {fontSize:'0pt'}}} href='#servicios' >Nuestros Servicios</MenuItem>
             </Grid>
-            <Grid item lg={3} md={3} sm={3} xs={2}>
+            <Grid item xl={2.2} lg={3} md={3} sm={3} xs={2}>
               <MenuItem sx={{ fontWeight: 'bold',[theme.breakpoints.down('650')]: {fontSize:'0pt'} }} href='#sobreNosotros' >Sobre Nosotros</MenuItem>
             </Grid>
-            <Grid item lg={1.3} md={1.3} sm={1.3} xs={2}>
+            <Grid item xl={1} lg={1.3} md={1.3} sm={1.3} xs={2}>
               <MenuItem sx={{ fontWeight: 'bold',[theme.breakpoints.down('650')]: {fontSize:'0pt'} }} href='#app' >App</MenuItem>
             </Grid>
-            <Grid item lg={2.5} md={2.5} sm={2.5} xs={4}>
+            <Grid item xl={2} lg={2.5} md={2.5} sm={2.5} xs={4}>
               <Button
                 href="/Register"
                 sx={{
