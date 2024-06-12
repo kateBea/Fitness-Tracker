@@ -25,7 +25,7 @@ import ConsultaPersonalizada from "../../img/consulta-personalizada.png"
 import TrackingIco from "../../img/tracking-ico.png"
 import CuentaIco from "../../img/cuenta-icono.png"
 import InfoDetallada from "../../img/info-detallada.png"
-import LideresSalud from "../../img/lideres-salud.png"
+import LideresSalud from "../../img/lideres-salud.jpg"
 import SmartTraclerApp from "../../img/smart-tracker-app.png"
 import BackgroundPuntosBlancos from "../../img/background-puntos-blancos.png"
 
