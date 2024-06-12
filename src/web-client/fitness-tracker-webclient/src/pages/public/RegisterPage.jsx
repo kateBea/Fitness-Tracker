@@ -63,7 +63,7 @@ function RegisterPage() {
         display: 'flex',
         flexDirection: 'column',
         background: '#293B50',
-        height: '100vh',
+        minHeight: '100vh',
         justifyContent: 'start',
         alignItems: 'center'
       }}
