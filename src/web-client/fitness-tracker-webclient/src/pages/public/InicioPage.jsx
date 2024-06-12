@@ -379,12 +379,12 @@ function MainPage() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item component='section' id='sobreNosotros'  xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
               <img src={BarraSeparacion} style={{ width: '30%', height: '3px' }}></img>
             </Box>
           </Grid>
-          <Grid item xs={12} component='section' id='sobreNosotros' fullWidth sx={{ marginTop: '100px' }}>
+          <Grid item xs={12}fullWidth sx={{ marginTop: '100px' }}>
             <Grid container fullWidth>
               <Grid item md={6} xs={12}>
                 <img src={LideresSalud} style={{ width: '95%' }}></img>

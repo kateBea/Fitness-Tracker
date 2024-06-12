@@ -17,8 +17,14 @@ export const TopBar = () => {
 
     const navigate = useNavigate();
 
-    const handleClick = (path) => {
-        navigate(path);
+    const handleScroll = (sectionId, path) => {
+        navigate(path, { replace: true });
+        setTimeout(() => {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 150);
     };
 
     const theme = createTheme();
@@ -93,7 +99,7 @@ export const TopBar = () => {
                     }}
                 >
                     <Grid item xl={1} lg={1.2} md={1.5} sm={1.8} xs={12} sx={{height:'100%'}}>
-                        <MenuItem onClick={() => handleClick('/')} sx={{
+                        <MenuItem onClick={() => handleScroll('home', '/#home')} sx={{
                             [theme.breakpoints.up('600')]: {
                                 height:'100%',
                                 alignContent:'center',
@@ -106,25 +112,25 @@ export const TopBar = () => {
                         }}>Home</MenuItem>
                     </Grid>
                     <Grid item xl={1} lg={1} md={1.5} sm={1.2} xs={0} >
-                        <MenuItem onClick={() => handleClick('/')} sx={{
+                        <MenuItem onClick={() => handleScroll('app', '/#app')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'
                             }
                         }}>App</MenuItem>
                     </Grid>
                     <Grid item xl={2} lg={2.5}md={3.5} sm={4} xs={0}>
-                        <MenuItem onClick={() => handleClick('/')} sx={{
+                        <MenuItem onClick={() => handleScroll('sobreNosotros', '/#sobreNosotros')}sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'
                             }
                         }}>Sobre Nosotros</MenuItem>
                     </Grid>
                     <Grid item xl={2} lg={2.5}md={4} sm={5} xs={0}>
-                        <MenuItem onClick={() => handleClick('/')} sx={{
+                        <MenuItem onClick={() => handleScroll('servicios', '/#servicios')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'
                             }
-                        }}>Nuestros Clientes</MenuItem>
+                        }}>Nuestros Servicios</MenuItem>
                     </Grid>
                 </Grid>
             </Container>
