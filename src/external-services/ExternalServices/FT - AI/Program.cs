@@ -12,6 +12,8 @@ using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Filters;
 using Shared.Contexts;
 using Microsoft.Extensions.DependencyInjection;
+using FTAlimentos.Interfaces;
+using FTAlimentos.Services;
 
 // Create builder
 var builder = WebApplication.CreateBuilder(args);
@@ -44,6 +46,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddScoped<IAssistanceService, AssistanceService>();
+builder.Services.AddScoped<IAlimentosService, AlimentosService>();
+
 builder.Services.AddAutoMapper(typeof(MapperProfiles));
 
 builder.Services.AddScoped<IDataHttpContext, DataHttpContext>();

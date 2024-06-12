@@ -9,9 +9,12 @@ using AutoMapper;
 using Shared.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json.Schema;
-using Newtonsoft.Json.Schema.Generation;
 using Shared.Contexts;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using FTAI.Controllers.v1;
+using FTAlimentos.Interfaces;
+using System;
+using NJsonSchema;
 
 namespace FTAI.Services
 {
@@ -29,6 +32,7 @@ namespace FTAI.Services
         /// </summary>
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
+        private readonly IAlimentosService _alimentosService;
 
         /// <summary>
         /// 
@@ -49,12 +53,13 @@ namespace FTAI.Services
         /// </summary>
         /// <param name="logger"></param>
         /// <param name="configuration"></param>
-        public AssistanceService(ILogger<AssistanceService> logger, IConfiguration configuration, IMapper mapper, IDataHttpContext dataHttpContext)
+        public AssistanceService(ILogger<AssistanceService> logger, IConfiguration configuration, IMapper mapper, IDataHttpContext dataHttpContext, IAlimentosService alimentosService)
         {
             _logger = logger;
             _authKey = configuration.GetValue<string>("OpenAIAuthKey");
             _mapper = mapper;
             _dataHttpContext = dataHttpContext;
+            _alimentosService = alimentosService;
 
             // Init OpenAI lib
             Model.DefaultChatModel = Model.GPT4_Vision;
@@ -137,33 +142,196 @@ namespace FTAI.Services
         public async Task<ResponseGenerarDietaVM> GenerarDieta(RequestGenerarDieta dieta)
         {
             // Setup
-            var message = BuildDietaQuery(dieta);
             var api = new OpenAI_API.OpenAIAPI();
 
-            // Chat coompletion
-            JSchemaGenerator generator = new()
-            {
-                // change contract resolver so property names are camel case
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
+            // Determinar categoría
+            List<string> health = await GetHealthLabels(dieta, api);
 
-            JSchema schema = generator.Generate(typeof(AIResponseSchemaJson));
+            // Asignar categoría
+            string categoria = "generic-meals";
+
+            // Obtener las comidas
+            dieta.PreferenciasAlimenticias = await GetComidas(health, categoria);
+
+            // Cosntruimos la query de la dieta
+            var message = BuildDietaQuery(dieta);
+
+            // Chat coompletion
+            var requestAttempts = 5;
+            var requestSuccess = false;
+            var schema = JsonSchema.FromType<AIResponseSchemaJson>().ToJson();
+            var ejemplo = JsonConvert.SerializeObject(GetEjemplo(), Formatting.Indented);
             FileLogging.LogToFile($"JSON Schema of PlanDieta (request) ===================\n{message}");
             FileLogging.LogToFile($"JSON Schema of PlanDieta (response) ===================\n{schema}");
 
-            var assistantResponseStr = await api.Chat.CreateChatCompletionAsync(
-                $"Generar dieta con las siguientes especificaciones:\n{message}.\n" +
-                $"Usa únicamente las comidas que hay en el Array preferenciasAlimenticias para esta dieta\n" +
-                $"los posibles valores para orden_comida son: PRIMER_PLATO, SEGUNDO_PLATO, TERCER_PLATO, PLATO_UNICO\n" +
-                $"los posibles valores para tipo_comida son: DESAYUNO, MERIENDA_MATUTINA, ALMUERZO, MERIENDA_VESPERTINA, CENA\n" +
-                $"Responde solo con un JSON siguiendo el siguiente JSON Schema:\n{schema}\n");
+            var assistantResponseObject = new AIResponseSchemaJson();
 
-            var assistantResponseObject = GetAssistantObjectResponseFromStr(assistantResponseStr.ToString());
+            while (requestAttempts > 0 && !requestSuccess)
+            {
+                try
+                {
+                    var assistantResponseStr = await api.Chat.CreateChatCompletionAsync(
+                        $"Generar dieta con las siguientes especificaciones:\n{message}.\n" +
+                        $"Usa únicamente las comidas que hay en el Array preferenciasAlimenticias para esta dieta\n" +
+                        $"los posibles valores para orden_comida son: PRIMER_PLATO, SEGUNDO_PLATO, TERCER_PLATO, PLATO_UNICO\n" +
+                        $"los posibles valores para tipo_comida son: DESAYUNO, MERIENDA_MATUTINA, ALMUERZO, MERIENDA_VESPERTINA, CENA\n" +
+                        $"Establece el consumo de agua diario que consideres necesario para este usuario\n"+
+                        $"Responde solo con un JSON siguiendo el siguiente JSON como ejemplo, no uses los datos del ejemplo, sólo utiliza el mismo formato:\n{ejemplo}\n");
 
-            // File Log
-            FileLogging.LogToFile($"Assistant answer ======================\n{assistantResponseStr}");
+                    assistantResponseObject = GetAssistantObjectResponseFromStr(assistantResponseStr.ToString());
 
-            return _mapper.Map<ResponseGenerarDietaVM>(assistantResponseObject);
+                    // File Log
+                    FileLogging.LogToFile($"Assistant answer ======================\n{assistantResponseStr}");
+                    requestSuccess = true;
+                }
+                catch
+                {
+                    --requestAttempts;
+                }
+            }
+
+            var result = requestSuccess ? _mapper.Map<ResponseGenerarDietaVM>(assistantResponseObject) : new();
+            result.ResponseDescription = requestSuccess ? "Dieta generada con éxito" : "No se ha podido generar la dieta";
+
+            return result;
+        }
+
+        private AIResponseSchemaJson GetEjemplo()
+        {
+            // Ejemplo de uso
+            var ejemploDieta = new AIResponseSchemaJson
+            {
+                PlanDieta = new PlanDieta
+                {
+                    CaloriasObjetivoDiario = 1800.0,
+                    FechaInicio = new DateTime(2024, 6, 10),
+                    FechaFin = new DateTime(2024, 9, 10),
+                    ConsumoDiarioAguaLitros = 2.0,
+                    MenuDiario = new List<MenuDiario>
+        {
+            new MenuDiario
+            {
+                ComidaId = "foodid1",
+                NombreComida = "Food 1",
+                HoraConsumo = new DateTime(2024, 6, 10, 8, 0, 0),
+                CaloriasConsumidas = 190.10363961529697,
+                OrdenComida = "PRIMER_PLATO",
+                TipoComida = "DESAYUNO"
+            },
+            new MenuDiario
+            {
+                ComidaId = "foodId2",
+                NombreComida = "Food 2",
+                HoraConsumo = new DateTime(2024, 6, 10, 13, 0, 0),
+                CaloriasConsumidas = 108.95621144933602,
+                OrdenComida = "PRIMER_PLATO",
+                TipoComida = "ALMUERZO"
+            },
+            // Añadir más comidas según sea necesario
+        }
+                }
+            };
+
+
+            return ejemploDieta;
+        }
+
+        private async Task<List<ComidaDieta>> GetComidas(List<string> health, string categoria)
+        {
+            var result = await _alimentosService.Parse("meal", health, categoria);
+            List<ComidaDieta> comidaDietas = [];
+
+
+            foreach (var item in result?.Result?.Hints)
+            {
+                comidaDietas.Add(new ComidaDieta
+                {
+                    Id = item.Food.FoodId,
+                    Nombre = item.Food.Label,
+                    Descripcion = item.Food.KnownAs,
+                    Proteinas = item.Food.Nutrients.Protein,
+                    Carbohidratos = item.Food.Nutrients.Carbohydrates,
+                    Grasas = item.Food.Nutrients.Fat,
+                    Caloias = item.Food.Nutrients.Calories,
+                });
+            }
+
+            return comidaDietas;
+        }
+
+        private async Task<List<string>> GetHealthLabels(RequestGenerarDieta model, OpenAI_API.OpenAIAPI api)
+        {
+            List<string> result = new();
+
+            List<string> healthParameters = new List<string>
+            {
+                "alcohol-free",
+                "celery-free",
+                "crustacean-free",
+                "dairy-free",
+                "egg-free",
+                "fish-free",
+                "fodmap-free",
+                "gluten-free",
+                "immuno-supportive",
+                "keto-friendly",
+                "kidney-friendly",
+                "kosher",
+                "low-fat-abs",
+                "low-potassium",
+                "low-sugar",
+                "lupine-free",
+                "mustard-free",
+                "no-oil-added",
+                "paleo",
+                "peanut-free",
+                "pescatarian",
+                "pork-free",
+                "red-meat-free",
+                "sesame-free",
+                "shellfish-free",
+                "soy-free",
+                "sugar-conscious",
+                "tree-nut-free",
+                "vegan",
+                "vegetarian",
+                "wheat-free"
+            };
+
+            var schema = JsonSchema.FromType<List<string>>();
+            var schemaJson = schema.ToJson();
+            var prompt = $"Para una persona que quiere seguir una dieta con las siguientes características:\n{JsonConvert.SerializeObject(model, Formatting.Indented)}\n" +
+                $"\nCual de las siguinetes categorías de comida recomiendas:\n{String.Join(",", healthParameters)}\n" +
+                $"Necesito una respuesta en JSON que se adhiera al siguiente esquema JSON. Por favor, proporciona solo la respuesta" +
+                $" en JSON y asegúrate de que cumpla con el formato proporcionado.\n Formato JSON:\n [\"string\", \"string\", ...]";
+            var requestAttempts = 10;
+            var responseSuccess = false;
+
+            while (requestAttempts > 0 && !responseSuccess)
+            {
+                try
+                {
+                    var assistantResponse = await api.Chat.CreateChatCompletionAsync(prompt);
+
+                    var assistantResponseStr = assistantResponse.ToString();
+
+                    var a = assistantResponseStr.IndexOf('[');
+                    var b = assistantResponseStr.LastIndexOf(']');
+
+                    var assistantResponseStrSubStr = assistantResponseStr.Substring(
+                        assistantResponseStr.IndexOf('['), assistantResponseStr.LastIndexOf(']') + 1);
+                    result = JsonConvert.DeserializeObject<List<string>>(assistantResponseStrSubStr.Trim()) ?? [];
+                    responseSuccess = true;
+
+                }
+                catch 
+                {
+                    --requestAttempts;
+                }
+            }
+
+
+            return result;
         }
 
         private AIResponseSchemaJson? GetAssistantObjectResponseFromStr(string assistantResponseStr)
@@ -177,7 +345,15 @@ namespace FTAI.Services
         private string BuildDietaQuery(RequestGenerarDieta details)
         {
             var result = string.Empty;
-            var schema = _mapper.Map<AIRequestDietaSchemaJson>(details);
+            AIRequestDietaSchemaJson schema = new()
+            {
+                Edad = DateTime.Now.Year - details.FechaNacimiento.Year,
+                FechaInicio = details.FechaInicio,
+                FechaFin = details.FechaFin,
+                ComidasSugeridas = details.PreferenciasAlimenticias,
+            };
+
+
             var json = JsonConvert.SerializeObject(schema, Formatting.Indented);
 
             result += json;

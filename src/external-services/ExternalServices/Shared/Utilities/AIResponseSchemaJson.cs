@@ -9,52 +9,40 @@ namespace Shared.Utilities
         /// <summary>
         /// 
         /// </summary>
-        [JsonProperty("plan_dieta")]
         public PlanDieta PlanDieta { get; set; } = new();
     }
 
     public class PlanDieta
     {
-        [JsonProperty("calorias_objetivo_diario")]
-        public double CaloriasObjetivoDiario { get; set; }
+        public double CaloriasObjetivoDiario { get; set; } = 0.0;
         
-        [JsonProperty("fecha_inicio")]
-        public DateTime FechaInicio { get; set; }
+        public DateTime FechaInicio { get; set; } = DateTime.Now;
 
-        [JsonProperty("fecha_fin")]
-        public DateTime FechaFin { get; set; }
+        public DateTime FechaFin { get; set; } = DateTime.Now.AddDays(7);
 
-        [JsonProperty("menu_diario")]
         public List<MenuDiario> MenuDiario { get; set; } = [];
-        
-        [JsonProperty("consumo_diario_agua_litros")]
-        public double ConsumoDiarioAguaLitros { get; set; }
+
+        public double ConsumoDiarioAguaLitros { get; set; } = 0.0f;
     }
 
     public class MenuDiario
     {
-        [JsonProperty("comida_id")]
         public string ComidaId { get; set; } = string.Empty;
 
-        [JsonProperty("nombre_comida")]
         public string NombreComida { get; set; } = string.Empty;    
 
-        [JsonProperty("hora_consumo")]
-        public DateTime HoraConsumo { get; set; }
+        public DateTime HoraConsumo { get; set; } = DateTime.Now;
 
-        [JsonProperty("calorias_consumidas")]
-        public double CaloriasConsumidas { get; set; }
+        public double CaloriasConsumidas { get; set; } = 0.0;
 
         /// <summary>
         /// primer plato, etc
         /// </summary>
-        [JsonProperty("orden_comida")]
-        public string? OrdenComida { get; set; } = string.Empty;
+        public string OrdenComida { get; set; } = string.Empty;
 
         /// <summary>
         /// almuerzo, merienda
         /// </summary>
-        [JsonProperty("tipo_comida")]
-        public string? TipoComida { get; set; } = string.Empty;
+        public string TipoComida { get; set; } = string.Empty;
     }
 }

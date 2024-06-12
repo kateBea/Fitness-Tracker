@@ -11,7 +11,7 @@ namespace FTAI.Models
         /// <summary>
         /// 
         /// </summary>
-        public DateTime FechaNacimiento { get; set; } = DateTime.Now;
+        public DateOnly FechaNacimiento { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddYears(-18));
 
         /// <summary>
         /// 
@@ -34,20 +34,10 @@ namespace FTAI.Models
         public string? ObjetivoPrincipal { get; set; } = string.Empty;
 
         /// <summary>
-        /// 
-        /// </summary>
-        public double TargetCalories { get; set; } = 0.0f;
-
-        /// <summary>
         /// Probablemente se cambiará a una lista de strings, conteniendo las restricciones alimenticias:
         /// Vegetariano / Vegano / Sin Gluten / Sin Lácteos / Sin Frutos Secos
         /// </summary>
         public string? RestricionesAlimenticias { get; set; } = string.Empty;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public string? HabilidadCulinaria { get; set; } = string.Empty;
 
         /// <summary>
         /// 
@@ -57,21 +47,17 @@ namespace FTAI.Models
         /// <summary>
         /// Fecha de inicio de la dieta.
         /// </summary>
-        public DateTime FechaInicio { get; set; } = DateTime.Now;
+        public DateOnly FechaInicio { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         /// <summary>
         /// Fecha de finalización de la dieta.
         /// </summary>
-        public DateTime FechaFin { get; set; } = DateTime.Now;
-
-        /// <summary>
-        /// Consuma de agua diario en litros.
-        /// </summary>
-        public double ConsumoAgua = 0.0f;
+        public DateOnly FechaFin { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddDays(7));
 
         /// <summary>
         /// Comidas preferidas para esta dieta.
         /// </summary>
-        //public List<ComidaDieta> PreferenciasAlimenticias { get; set; } = [];
+        [JsonIgnore]
+        public List<ComidaDieta> PreferenciasAlimenticias { get; set; } = [];
     }
 }

@@ -38,7 +38,7 @@ function DietGeneratorPage() {
   // const [fechaFin, setFechaFin] = useState("");
   const [notas, setNotas] = useState("");
 
-  const [state, setState] = React.useState({
+  const [restricciones, setRestricciones] = React.useState({
     vegetariano: false,
     vegano: false,
     gluten: false,
@@ -48,13 +48,13 @@ function DietGeneratorPage() {
   });
 
   const handleChange = (event) => {
-    setState({
-      ...state,
+    setRestricciones({
+      ...restricciones,
       [event.target.name]: event.target.checked,
     });
   };
 
-  const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = state;
+  const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = restricciones;
  
    // Axios setup
    const token = localStorage.getItem("token");
@@ -66,16 +66,25 @@ function DietGeneratorPage() {
       const responseUserData = await axios.get(API_ROUTES.GetDatosUsuario);
       const datosUsuario = responseUserData?.data;
 
+      // Restricciones
+      const rest = [];
+
+      if (restricciones.vegetariano) { rest.push("vegetariano"); }
+      if (restricciones.vegano) { rest.push("vegano"); }
+      if (restricciones.gluten) { rest.push("gluten"); }
+      if (restricciones.lacteos) { rest.push("lacteos"); }
+      if (restricciones.frutoSeco) { rest.push("frutoSeco"); }
+
       const requestData = {
-        fechaNacimiento: "2024-05-28T13:46:50.406Z",
+        fechaNacimiento: datosUsuario?.fechaDeNacimiento,
         sexo: genero,
         altura: datosUsuario?.altura,
         nivelActividadFisica: actividad,
         objetivoPrincipal: objetivo,
-        habilidadCulinaria: habilidad,
+        restricionesAlimenticias: rest.length == 0 ? "sin restricciones" : rest.join(", "),
         comentariosAdicionales: notas,
-        fechaInicio: "2024-05-28T13:46:50.406Z",
-        fechaFin: "2024-05-28T13:46:50.407Z",
+        fechaInicio: "2024-06-10",
+        fechaFin: "2024-09-10",
       };
       
        const response = await axios.post(API_ROUTES.GenerarDieta, requestData);

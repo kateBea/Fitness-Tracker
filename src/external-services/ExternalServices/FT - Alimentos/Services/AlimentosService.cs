@@ -60,8 +60,10 @@ namespace FTAlimentos.Services
         /// 
         /// </summary>
         /// <param name="prompt"></param>
+        /// <param name="health"></param>
+        /// <param name="category"></param>
         /// <returns></returns>
-        public async Task<ResponseFoodParseVM> Parse(string? prompt)
+        public async Task<ResponseFoodParseVM> Parse(string? prompt, List<string>? health = null, string? category = null)
         {
             var uriBuilder = _SetBaseParams(_foodRequestParse.Key ?? string.Empty);
 
@@ -69,7 +71,7 @@ namespace FTAlimentos.Services
 
             query["ingr"] = prompt;
             query["nutrition-type"] = "cooking";
-            query["category"] = "generic-foods";
+            query["category"] = category ?? "generic-foods";
 
             uriBuilder.Query = query.ToString();
 
@@ -96,7 +98,7 @@ namespace FTAlimentos.Services
             string finalUrl = _SetBaseParams(_foodRequestNutrients.Key ?? string.Empty).ToString();
 
             var obj = new RequestNutrients();
-            obj.Ingredients.Add(new IngredientInfo() { FoodId = foodId });
+            obj.Ingredients.Add(new IngredientInfo() { FoodId = foodId ?? string.Empty, MeasureURI = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram", Quantity = 1 });
 
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);

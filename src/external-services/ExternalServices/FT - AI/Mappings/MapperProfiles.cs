@@ -16,6 +16,7 @@ namespace FTAI.Mappings
         public MapperProfiles()
         {
             CreateMap<RequestGenerarDieta, AIRequestDietaSchemaJson>().ReverseMap();
+
             CreateMap<AIResponseSchemaJson, ResponseGenerarDietaVM>()
                 .ForMember(dest => dest.Dieta, opt => opt.MapFrom<CustomResolverAIResponseSchemaJson>());
         }

@@ -4,7 +4,7 @@ export const API_ROUTES = {
     // API Fitness Tracker AI ==================================================
     Greeting: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/assistance/Greeting",
     MessageDebug: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/assistance/MessageDebug",
-    GenerarDieta: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/assistance/GenerarDieta",
+    GenerarDieta: "http://localhost:8081/api/assistance/GenerarDieta",
     ChatAssistance: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/assistance/ChatAssistance",
     MessageDebugLimit: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/assistance/MessageDebugLimitTokens",
     
