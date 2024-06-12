@@ -67,7 +67,7 @@ function LoginPage() {
         display: 'flex',
         flexDirection: 'column',
         background: '#293B50',
-        minHeight: '1000px',
+        height: '100vh',
         justifyContent: 'start',
         alignItems: 'center'
       }}

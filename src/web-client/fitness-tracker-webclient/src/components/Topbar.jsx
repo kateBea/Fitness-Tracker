@@ -92,7 +92,7 @@ export const TopBar = () => {
                         width: '50%',
                     }}
                 >
-                    <Grid item lg={1} md={1.3} sm={2} xs={12} sx={{height:'100%'}}>
+                    <Grid item xl={1} lg={1.2} md={1.5} sm={1.8} xs={12} sx={{height:'100%'}}>
                         <MenuItem onClick={() => handleClick('/')} sx={{
                             [theme.breakpoints.up('600')]: {
                                 height:'100%',
@@ -105,21 +105,21 @@ export const TopBar = () => {
                             },
                         }}>Home</MenuItem>
                     </Grid>
-                    <Grid item lg={1} md={1.3} sm={1} xs={0} >
+                    <Grid item xl={1} lg={1} md={1.5} sm={1.2} xs={0} >
                         <MenuItem onClick={() => handleClick('/')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'
                             }
                         }}>App</MenuItem>
                     </Grid>
-                    <Grid item lg={3}md={3.5} sm={4} xs={0}>
+                    <Grid item xl={2} lg={2.5}md={3.5} sm={4} xs={0}>
                         <MenuItem onClick={() => handleClick('/')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'
                             }
                         }}>Sobre Nosotros</MenuItem>
                     </Grid>
-                    <Grid item lg={3}md={4} sm={5} xs={0}>
+                    <Grid item xl={2} lg={2.5}md={4} sm={5} xs={0}>
                         <MenuItem onClick={() => handleClick('/')} sx={{
                             [theme.breakpoints.down('600')]: {
                                 fontSize: '0pt'

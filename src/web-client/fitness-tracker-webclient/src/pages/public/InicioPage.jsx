@@ -118,7 +118,6 @@ function MainPage() {
             sx={{
               display: 'flex',
               color: '#436489',
-              display: 'flex',
               marginRight:'30px',
               [theme.breakpoints.up('1200')]: {
                 justifyContent: 'flex-end',
