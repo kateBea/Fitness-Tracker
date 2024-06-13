@@ -39,27 +39,29 @@ const theme = createTheme({
 
 function LoginPage() {
   // Pre setup
-  const navigate = useNavigate();
-  const { loginUser } = useAuthContext();
+  const navigate = useNavigate(); // Hook para la navegación.
+  const { loginUser } = useAuthContext(); // Obtiene la función `loginUser` del contexto de autenticación.
 
   // State setup
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const token = localStorage.getItem("token");
+  const [email, setEmail] = useState(''); // Estado para el email del usuario.
+  const [password, setPassword] = useState(''); // Estado para la contraseña del usuario.
+  const token = localStorage.getItem("token"); // Obtiene el token del localStorage.
 
-
+  // Función para manejar el inicio de sesión.
   const handleLogin = async () => {
-    await loginUser(email, password);
+    await loginUser(email, password); // Llama a la función `loginUser` con el email y la contraseña.
   };
 
+  // Efecto para verificar el token y redirigir si el usuario ya está autenticado.
   useEffect(() => {
-    console.log("tokenls " + token)
+    console.log("tokenls " + token); // Imprime el token en la consola.
 
+    // Verifica si el token no es nulo ni indefinido.
     if (token != null || token != undefined) {
-      console.log("User is already logged")
-      navigate(PAGE_ROUTES.Today);
+      console.log("User is already logged"); 
+      navigate(PAGE_ROUTES.Today); // Redirige al usuario a la página de hoy.
     }
-  }, [token]);
+  }, [token]); // El efecto se ejecuta cada vez que el valor del token cambia.
 
   return (
     <Box 

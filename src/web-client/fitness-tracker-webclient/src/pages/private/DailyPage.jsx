@@ -35,50 +35,49 @@ function DailyPage() {
     const [datosUsuario, setDatosUsuario] = useState({});
     const [edad, setEdad] = useState(0)
 
+    // Obtener el token del localStorage
     const tokenLS = localStorage.getItem("token");
+    // Establecer el token como parte de la cabecera de autorización por defecto de Axios
     axios.defaults.headers.common["Authorization"] = `Bearer ${tokenLS}`;
 
+    // Función asincrónica para cargar las rutinas y dietas del usuario
     const loadRutineAndDiet = async () => {
-
         try {
-            const responseDietas = await axios
-                .get(API_ROUTES.GetListDietasUsuario);
-
-            const responseRutinas = await axios
-                .get(API_ROUTES.GetListRutinasUsuario, { params: { fetchAll: true } });
-
-            setUltimaDietas(responseDietas.data.data[responseDietas.data.data.length - 1])
-            setUltimaRutinas(responseRutinas.data.data[responseDietas.data.data.length - 1])
-
-            setFetchDataSuccesfull(true)
-            console.log("Ultima Rutina", ultimaRutinas)
-            console.log("Comidas sugeridas ", ultimaDietas.comidasSugeridas.length);
+            // Realizar petición para obtener la lista de dietas del usuario
+            const responseDietas = await axios.get(API_ROUTES.GetListDietasUsuario);
+            // Realizar petición para obtener la lista de rutinas del usuario con parámetros de fetchAll=true
+            const responseRutinas = await axios.get(API_ROUTES.GetListRutinasUsuario, { params: { fetchAll: true } });
+            // Establecer la última dieta y rutina recibida en el estado local
+            setUltimaDietas(responseDietas.data.data[responseDietas.data.data.length - 1]);
+            setUltimaRutinas(responseRutinas.data.data[responseDietas.data.data.length - 1]);
+            // Marcar que la carga de datos fue exitosa
+            setFetchDataSuccesfull(true);
+            
             setComidasSugeridas(ultimaDietas.comidasSugeridas.length > 0 ? ultimaDietas.comidasSugeridas.map(comida => comida.nombre).join(', ') : 'No hay comidas sugeridas');
             setComidasConsumidas(ultimaRutinas.comidasConsumidas.length > 0 ? ultimaRutinas.comidasConsumidas.map(comida => comida.nombre).join(', ') : 'No hay comidas consumidas');
-            console.log(responseDietas);
-            console.log(responseRutinas);
-            console.log("Listado dietas", ultimaDietas)
-            console.log("Listado rutinas", ultimaRutinas)
         } catch (error) {
+            // Manejar errores mostrándolos en la consola
             console.log(error);
         }
     };
-
+    // Función asincrónica para cargar los datos del perfil del usuario
     const loadPerfilData = async () => {
         try {
+            // Realizar petición para obtener los datos del usuario
             const response = await axios.get(API_ROUTES.GetDatosUsuario);
+            // Marcar que la carga de datos fue exitosa
             setDataLoadSucces(true);
+            // Establecer los datos del usuario en el estado local
             setDatosUsuario(response.data.data);
-            setEdad(new Date(Date.now()).getFullYear() - parseInt(response.data.data.fechaDeNacimiento.split('-')[0]))
-            console.log(dataLoadSucces)
-            console.log(datosUsuario)
-            console.log(edad)
-            console.log("suenio", ultimaRutinas.tiempoDeSuenio)
+            // Calcular la edad del usuario basada en la fecha de nacimiento recibida
+            setEdad(new Date(Date.now()).getFullYear() - parseInt(response.data.data.fechaDeNacimiento.split('-')[0]));
         } catch (error) {
+            // Manejar errores mostrándolos en la consola
             console.log(error);
         }
     };
 
+    // Efecto de React para cargar rutinas y dietas del usuario, así como los datos de perfil, cuando fetchDataSuccesfull cambia
     useEffect(() => {
         loadRutineAndDiet();
         loadPerfilData();

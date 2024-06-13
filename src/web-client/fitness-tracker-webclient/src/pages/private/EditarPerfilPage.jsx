@@ -74,8 +74,10 @@ function DietGeneratorPage() {
     }
   };
 
+  // Función para cargar los datos del usuario en los campos del formulario
   const cargarDatos = () => {
     console.log("Cargando datos del usuario", datosUsuario);
+    // Establecer los valores de los estados con los datos del usuario
     setNombre(datosUsuario.nombre || "");
     setNombreUsuario(datosUsuario.nombreUsuario || "");
     setPrimerApellido(datosUsuario.primerApellido || "");
@@ -87,24 +89,28 @@ function DietGeneratorPage() {
     setImage(datosUsuario.imagen || "");
   };
 
+  // Efecto para cargar los datos del perfil al montar el componente
   useEffect(() => {
-    loadPerfilData();
+    loadPerfilData(); // Llamar a la función para cargar los datos del perfil
   }, []);
 
+  // Efecto para cargar los datos del usuario cuando la carga de datos es exitosa o cuando los datos del usuario cambian
   useEffect(() => {
     if (dataLoadSuccess) {
-      cargarDatos();
+      cargarDatos(); // Llamar a la función para cargar los datos del usuario en los campos del formulario
     }
-  }, [dataLoadSuccess, datosUsuario]);
+  }, [dataLoadSuccess, datosUsuario]); // Dependencias: dataLoadSuccess y datosUsuario
 
+  // Función para manejar la carga de la imagen del usuario
   const handleImageUpload = (file) => {
-    setImage(file);
+    setImage(file); // Establecer la imagen seleccionada en el estado 'image'
   };
 
+  // Función para manejar el envío del formulario de edición de perfil
   const handleSubmit = async (event) => {
     event.preventDefault();
-    editarPerfil();
-  }
+    editarPerfil(); // Llamar a la función para editar el perfil del usuario
+  };
 
   const theme = createTheme();
 
@@ -257,7 +263,7 @@ function DietGeneratorPage() {
             <Grid sx={{ marginTop: '20px' }}>
               <ImageUploader onImageUpload={handleImageUpload} />
             </Grid>
-            <Grid sx={{[theme.breakpoints.down('800')]:{display:'flex',justifyContent:'center',marginTop:'40px'}}}>
+            <Grid sx={{ [theme.breakpoints.down('800')]: { display: 'flex', justifyContent: 'center', marginTop: '40px' } }}>
               <Button variant="outlined" color="primary" type="submit" sx={{
                 backgroundColor: '#293B50',
                 fontWeight: 'bold',

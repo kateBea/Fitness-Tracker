@@ -37,23 +37,36 @@ const theme = createTheme({
 });
 
 function RegisterPage() {
+  // Hook de navegación para redirigir a otras páginas.
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  
+  // Estados para almacenar los datos del formulario de registro.
+  const [email, setEmail] = useState(''); 
+  const [username, setUsername] = useState(''); 
+  const [password, setPassword] = useState(''); 
 
+  /**
+   * Función para manejar el registro del usuario.
+   * Envía una petición para registrar un nuevo usuario con los datos proporcionados.
+   */
   const handleRegister = async () => {
     try {
-      const requestData = { email, username, password };
-      const response = await axios.post(API_ROUTES.RegistrarUsuario, requestData);
+      // Datos de la petición de registro.
+      const requestData = { email, username, password }; 
+      
+      // Realiza la petición POST para registrar el usuario.
+      const response = await axios.post(API_ROUTES.RegistrarUsuario, requestData); 
 
       if (response.data.success) {
-        navigate(PAGE_ROUTES.Login);
+        // Navega a la página de inicio de sesión si el registro es exitoso.
+        navigate(PAGE_ROUTES.Login); 
       } else {
-        console.log(response.data.errors);
+        // Imprime los errores en la consola si hubo algún problema.
+        console.log(response.data.errors); 
       }
     } catch (error) {
-      console.error('Error al registrar el usuario: ', error);
+      // Imprime cualquier error en la consola si la petición falla.
+      console.error('Error al registrar el usuario: ', error); 
     }
   };
 

@@ -34,10 +34,9 @@ function DietGeneratorPage() {
   const [objetivo, setObjetivo] = useState("");
   const [habilidad, setHabilidad] = useState("");
   const [tiempoCocina, setTiempoCocina] = useState("");
-  // const [fechaInicio, setFechaInicio] = useState("");
-  // const [fechaFin, setFechaFin] = useState("");
   const [notas, setNotas] = useState("");
 
+  //Estado de los diferentes checkbox 
   const [state, setState] = React.useState({
     vegetariano: false,
     vegano: false,
@@ -47,6 +46,7 @@ function DietGeneratorPage() {
     otros: false
   });
 
+  // Función para manejar cambios en las opciones de los checkbox
   const handleChange = (event) => {
     setState({
       ...state,
@@ -54,43 +54,46 @@ function DietGeneratorPage() {
     });
   };
 
+  // Desestructurar opciones de dieta
   const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = state;
 
-  // Axios setup
+  // Axios setup: Obtener y establecer el token de autorización
   const token = localStorage.getItem("token");
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
+  // Función asincrónica para generar la dieta
   const generarDieta = async () => {
     try {
-      // Recoger datos del usuario
+      // Obtener datos del usuario
       const responseUserData = await axios.get(API_ROUTES.GetDatosUsuario);
       const datosUsuario = responseUserData?.data;
 
+      // Construir objeto de datos para enviar en la solicitud POST
       const requestData = {
         fechaNacimiento: "2024-05-28T13:46:50.406Z",
-        sexo: genero,
+        sexo: genero, // Asumiendo que 'genero' está definido en otro lugar del código
         altura: datosUsuario?.altura,
         nivelActividadFisica: actividad,
-        objetivoPrincipal: objetivo,
-        habilidadCulinaria: habilidad,
-        comentariosAdicionales: notas,
+        objetivoPrincipal: objetivo, 
+        habilidadCulinaria: habilidad, 
+        comentariosAdicionales: notas, 
         fechaInicio: "2024-05-28T13:46:50.406Z",
         fechaFin: "2024-05-28T13:46:50.407Z",
       };
-
+      // Realizar solicitud POST para generar la dieta
       const response = await axios.post(API_ROUTES.GenerarDieta, requestData);
-
+      // Marcar que la solicitud de datos fue exitosa
       setDataFecthSuccess(true);
-      console.log(response);
     } catch (error) {
+      // Manejar errores mostrándolos en la consola
       console.log(error);
     }
   };
-
+  // Función para manejar la presentación del formulario
   const handleSubmit = async (event) => {
     event.preventDefault();
-    generarDieta();
-  }
+    generarDieta(); // Llamar a la función asincrónica para generar la dieta
+  };
 
   return (
     <Box

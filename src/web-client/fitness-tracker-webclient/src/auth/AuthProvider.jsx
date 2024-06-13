@@ -13,36 +13,40 @@ export const useAuthContext = () => {
   return context;
 };
 
-function AuthProvider({ children }) {
-  const [userUsername, setUsername] = useState("Emtpy");
-  const [errors, setErrors] = useState([]);
+/**
+ * Función para iniciar sesión del usuario.
+ * @param {string} email - El email del usuario.
+ * @param {string} password - La contraseña del usuario.
+ */
+const loginUser = async (email, password) => {
+  try {
+    const requestData = { email: email, password: password }; // Datos de la petición.
+    const response = await axios.post(API_ROUTES.Login, requestData); // Realiza la petición POST para iniciar sesión.
 
-  const loginUser = async (email, password) => {
+    if (response.data.success) {
+      setUsername(response.data.data.email); // Establece el nombre de usuario.
 
-    try {
-        const requestData = { email: email, password: password };
-        const response = await axios.post(API_ROUTES.Login, requestData);
-  
-        if (response.data.success) {
-          setUsername(response.data.data.email);
-  
-          axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.token}`;
-          
-          const tokenExpirationDate = new Date(Date.now());
-          tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(response.data.data.tokenDuration));
+      // Configura el token de autorización en los encabezados por defecto.
+      axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.token}`; 
 
-          localStorage.setItem("token", response.data.data.token);
-          localStorage.setItem("tokenExpirationDate", tokenExpirationDate);
-          localStorage.setItem("tokenDuration", response.data.data.tokenDuration);
-        } else {
-          console.log(response.data.errors);
-          setErrors(response.data.errors);
-        }
-      } catch (error) {
-        // Si hay alguno que otro error en la petición
-        console.error("Error en el login: ", error);
-      }
-  };
+      const tokenExpirationDate = new Date(Date.now());
+      
+      // Calcula la fecha de expiración del token.
+      tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(response.data.data.tokenDuration)); 
+
+      // Almacena el token, la fecha de expiración y la duración en el localStorage.
+      localStorage.setItem("token", response.data.data.token);
+      localStorage.setItem("tokenExpirationDate", tokenExpirationDate);
+      localStorage.setItem("tokenDuration", response.data.data.tokenDuration);
+    } else {
+      console.log(response.data.errors); // Imprime los errores en la consola.
+      setErrors(response.data.errors); // Establece los errores en el estado.
+    }
+  } catch (error) {
+    // Si hay algún error en la petición
+    console.error("Error en el login: ", error); // Imprime el error en la consola.
+  }
+
 
   const logoutUser = async () => {
     try {

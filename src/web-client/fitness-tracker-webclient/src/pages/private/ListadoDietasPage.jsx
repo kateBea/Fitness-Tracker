@@ -99,11 +99,8 @@ function ListadoDietasPage() {
             Listado de dietas
           </Typography>
           <Grid container spacing={2}>
-            
             {
-              
             dietas.map(diet => (
-              
               <Grid item xs={12} sm={6} md={4} key={diet.id}>
                 <ImageCard
                   fechaFin={diet?.fechaFin}

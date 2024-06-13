@@ -31,6 +31,7 @@ import BackgroundPuntosBlancos from "../../img/background-puntos-blancos.png"
 
 function MainPage() {
 
+  // Definimos un botón personalizado usando el componente `Button` de Material-UI con el estilizado `styled`.
   const ColorButton = styled(Button)(({ theme }) => ({
     color: '#436489',
     borderWidth: '2px',
@@ -51,13 +52,13 @@ function MainPage() {
   }));
 
   const theme = createTheme();
-
+  
+  // Función para manejar el desplazamiento a una sección específica de la página.
   const handleScroll = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    console.log("Se ha encontrado la seccion ", section)
-    if (section) {
-
-      section.scrollIntoView({ behavior: 'smooth' });
+    const section = document.getElementById(sectionId); // Obtiene el elemento del DOM con el id proporcionado.
+    console.log("Se ha encontrado la seccion ", section) // Imprime en la consola el elemento encontrado.
+    if (section) { // Si el elemento existe,
+      section.scrollIntoView({ behavior: 'smooth' }); // Desplázate suavemente a la sección.
     }
   };
 

@@ -16,47 +16,52 @@ import { useNavigate } from "react-router-dom";
 import { PAGE_ROUTES } from "../PageConstants";
 import RamenDiningIcon from '@mui/icons-material/RamenDining';
 
-const Sidebar = ({ isOpen, onClose }) => {
-  const navigate = useNavigate();
-  const tokenValue = localStorage.getItem("token");
+const Sidebar = ({ isOpen, onClose }) => { // Definimos el componente funcional Sidebar con props isOpen y onClose
+  const navigate = useNavigate(); // Usamos el hook useNavigate para obtener la función navigate
+  const tokenValue = localStorage.getItem("token"); // Obtenemos el valor del token del localStorage
 
+  // Función para cerrar sesión
   const cerrarSesion = () => {
-    if (tokenValue != null || tokenValue != undefined) {
+    if (tokenValue != null || tokenValue != undefined) { // Verificamos si hay un token
       console.log('cerrando sesión');
 
-      localStorage.removeItem("token");
-      localStorage.removeItem("tokenExpirationDate");
-      localStorage.removeItem("tokenDuration");
+      localStorage.removeItem("token"); // Eliminamos el token del localStorage
+      localStorage.removeItem("tokenExpirationDate"); // Eliminamos la fecha de expiración del token del localStorage
+      localStorage.removeItem("tokenDuration"); // Eliminamos la duración del token del localStorage
 
-      navigate("/Login");
+      navigate("/Login"); // Navegamos a la página de login
     }
   };
 
+  // Función para navegar al listado de dietas
   const listadoDietas = () => {
     console.log(`Navegando a dietas`);
     navigate("/ListadoDietas");
   };
 
+  // Función para navegar al listado de rutinas
   const listadoRutinas = () => {
     console.log(`Navegando a rutinas`);
     navigate("/ListadoRutinas");
   };
 
+  // Función para navegar al perfil
   const perfil = () => {
     console.log(`Navegando a perfil`);
     navigate("/Perfil");
   };
 
+  // Función para navegar a la vista de overview
   const inicio = () => {
     console.log(`Navegando a Overview`);
     navigate("/Today");
   };
 
+  // Función para navegar a generar dieta
   const generarDieta = () => {
     console.log(`Navegando a generar dieta`);
     navigate("/GenerarDieta");
   };
-  
 
   return (
     <Drawer anchor="left" open={isOpen} onClose={onClose}>
