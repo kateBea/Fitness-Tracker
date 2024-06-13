@@ -8,7 +8,6 @@ import '../styles/styles.css';
 import AuthProvider from './auth/AuthProvider.jsx';
 
 import DietGeneratorPage from './pages/private/DietGeneratorPage.jsx'
-import ChatAssistancePage from './pages/private/work-in-progress/ChatAssistancePage.jsx'
 import LoginPage from './pages/public/LoginPage.jsx'
 import RegisterPage from './pages/public/RegisterPage.jsx'
 import InicioPage from './pages/public/InicioPage.jsx'
@@ -47,7 +46,6 @@ export default function App() { // Definimos el componente App
 
             {/* Pendiente de borrar o work in progress */}
             <Route path="/DailyCalorie" element={<DailyCalorie />}></Route> {/* Ruta para el cálculo diario de calorías */}
-            <Route path="/ChatAssistance" element={<ChatAssistancePage />}></Route> {/* Ruta para la asistencia por chat */}
           </Route>
         </Routes>
       </BrowserRouter>
