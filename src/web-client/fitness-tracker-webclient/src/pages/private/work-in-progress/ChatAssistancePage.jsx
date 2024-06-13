@@ -28,24 +28,24 @@ function ChatAssistancePage() {
             console.log(response)
         });
 
-  return (
-    <Box
-        sx={{
-            display:'flex',
-            flexDirection:'column',
-            background: '#293B50',
-            minHeight: '100vh',
-            justifyContent:'start',
-            alignItems:'center'
-        }}
-    >
-        <TopBar/>
-        <PrivateBar/>
-        <Container>
-            <h1>Feature Work in progress</h1>
-        </Container>
-    </Box>
-  );
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                background: '#293B50',
+                minHeight: '100vh',
+                justifyContent: 'start',
+                alignItems: 'center'
+            }}
+        >
+            <TopBar />
+            <PrivateBar />
+            <Container>
+                <h1>Feature Work in progress</h1>
+            </Container>
+        </Box>
+    );
 }
 
 export default ChatAssistancePage;

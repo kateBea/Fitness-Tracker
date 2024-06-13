@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // styles
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +16,7 @@ import PerfilPage from './pages/private/PerfilPage.jsx'
 import DailyPage from './pages/private/DailyPage.jsx'
 import DailyCalorie from './pages/private/DailyCalorie.jsx'
 import ListadoDietas from './pages/private/ListadoDietasPage.jsx'
+import EditarPerfilPage from './pages/private/EditarPerfilPage.jsx'
 
 import ListadoRutinasPage from './pages/private/ListadoRutinasPage.jsx'
 import ProtectedRoutes from './auth/ProtectedRoutes.jsx';
@@ -26,33 +27,32 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           {/* Public */}
-          <Route path='/' element={<InicioPage/>} />
+          <Route path='/' element={<InicioPage />} />
           <Route path="/Inicio" element={<Navigate replace to="/" />}></Route>
           <Route path="/Login" element={<LoginPage />}></Route>
           <Route path="/Register" element={<RegisterPage />}></Route>
 
-          {/* Meter todo dentro de protectedRoutes desde aqui para abajo */}
-          { /* Usuario */}
-          <Route path="/Perfil" element={<PerfilPage />}></Route>
-
-
-          { /* Dietas */}
-          <Route path="/GenerarDieta" element={<DietGeneratorPage />}></Route>
-          <Route path="/ListadoDietas" element={<ListadoDietas />}></Route>
-
-
-          { /* Rutinas */}
-          <Route path="/Today" element={<DailyPage />}></Route>
-          <Route path="/ListadoRutinas" element={<ListadoRutinasPage />}></Route>
-
-
-          { /* Pendiente de borrar o work in progress */}
-          <Route path="/DailyCalorie" element={<DailyCalorie />}></Route>
-          <Route path="/ChatAssistance" element={<ChatAssistancePage />}></Route>
-          {/* Private */}
-
           <Route element={<ProtectedRoutes />}>
+            {/* Meter todo dentro de protectedRoutes desde aqui para abajo */}
+            { /* Usuario */}
+            <Route path="/Perfil" element={<PerfilPage />}></Route>
+            <Route path="/Editar" element={<EditarPerfilPage />}></Route>
 
+
+            { /* Dietas */}
+            <Route path="/GenerarDieta" element={<DietGeneratorPage />}></Route>
+            <Route path="/ListadoDietas" element={<ListadoDietas />}></Route>
+
+
+            { /* Rutinas */}
+            <Route path="/Today" element={<DailyPage />}></Route>
+            <Route path="/ListadoRutinas" element={<ListadoRutinasPage />}></Route>
+
+
+            { /* Pendiente de borrar o work in progress */}
+            <Route path="/DailyCalorie" element={<DailyCalorie />}></Route>
+            <Route path="/ChatAssistance" element={<ChatAssistancePage />}></Route>
+            {/* Private */}
           </Route>
         </Routes>
       </BrowserRouter>

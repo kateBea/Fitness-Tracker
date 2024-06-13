@@ -25,7 +25,7 @@ import ConsultaPersonalizada from "../../img/consulta-personalizada.png"
 import TrackingIco from "../../img/tracking-ico.png"
 import CuentaIco from "../../img/cuenta-icono.png"
 import InfoDetallada from "../../img/info-detallada.png"
-import LideresSalud from "../../img/salud.jpg"
+import LideresSalud from "../../img/lideres-salud.png"
 import SmartTraclerApp from "../../img/smart-tracker-app.png"
 import BackgroundPuntosBlancos from "../../img/background-puntos-blancos.png"
 
@@ -56,7 +56,7 @@ function MainPage() {
     const section = document.getElementById(sectionId);
     console.log("Se ha encontrado la seccion ", section)
     if (section) {
-      
+
       section.scrollIntoView({ behavior: 'smooth' });
     }
   };
@@ -181,7 +181,7 @@ function MainPage() {
         </Container>
       </AppBar>
       <Grid id='home' component='section' container columnSpacing={2}>
-        <Grid item lg={6} xs={12}>
+        <Grid item lg={6} xs={12} >
           <Box sx={{ position: 'relative', marginTop: '40px' }}>
             <img src={BackgroundPuntos} style={{ position: 'absolute', width: '120px', left: '-40px' }}></img>
           </Box>
@@ -191,14 +191,19 @@ function MainPage() {
             href="/"
             sx={{
               marginTop: '150px',
-              marginLeft: '200px',
+
               fontWeight: 'bold',
               [theme.breakpoints.up('1600')]: {
                 fontSize: '55pt',
               },
-              [theme.breakpoints.down('1600')]: {
+              [theme.breakpoints.up('500')]: {
+                marginLeft: '200px',
                 fontSize: '40pt',
-              }
+              },
+              [theme.breakpoints.down('500')]: {
+                marginLeft: '20px',
+                fontSize: '30pt',
+              },
             }}
           >Virtualiza tu cuidado personal
           </Typography>
@@ -206,7 +211,20 @@ function MainPage() {
             variant="p"
             component="p"
             href="/"
-            sx={{ marginTop: '20px', color: '#7D7987', fontSize: '15pt', marginLeft: '200px', maxWidth: '45%' }}>Fitness-Tracker provee de un seguimiento personal
+            sx={{
+              marginTop: '20px',
+              color: '#7D7987',
+              fontSize: '15pt',
+              maxWidth: '45%',
+              [theme.breakpoints.up('500')]: {
+                marginLeft: '200px',
+                maxWidth: '45%',
+              },
+              [theme.breakpoints.down('500')]: {
+                marginLeft: '20px',
+                maxWidth: '80%',
+              },
+            }}>Fitness-Tracker provee de un seguimiento personal
             y de salud para tu beneficio personal en base a tus
             objetivos y metas</Typography>
           <Container sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
@@ -227,7 +245,13 @@ function MainPage() {
                 variant="h3"
                 component="h2"
                 href="/"
-                sx={{ fontWeight: 'bold' }}
+                sx={{
+                  fontWeight: 'bold',
+                  [theme.breakpoints.down('500')]:{
+                    textAlign:'center',
+                    fontSize:'30pt'
+                  }
+                }}
               >Nuestros servicios
               </Typography>
             </Box>
@@ -379,12 +403,12 @@ function MainPage() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item component='section' id='sobreNosotros'  xs={12}>
+          <Grid item component='section' id='sobreNosotros' xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
               <img src={BarraSeparacion} style={{ width: '30%', height: '3px' }}></img>
             </Box>
           </Grid>
-          <Grid item xs={12}fullWidth sx={{ marginTop: '100px' }}>
+          <Grid item xs={12} fullWidth sx={{ marginTop: '100px' }}>
             <Grid container fullWidth>
               <Grid item md={6} xs={12}>
                 <img src={LideresSalud} style={{ width: '95%' }}></img>
@@ -440,6 +464,10 @@ function MainPage() {
                       },
                       [theme.breakpoints.down('1300')]: {
                         fontSize: '35pt'
+                      },
+                      [theme.breakpoints.down('500')]:{
+                        textAlign:'center',
+                        fontSize:'30pt'
                       }
                     }}
                   >Descarga nuestra app para dispositivos moviles
