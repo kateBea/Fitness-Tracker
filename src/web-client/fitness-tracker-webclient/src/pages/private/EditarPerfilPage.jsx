@@ -10,6 +10,7 @@ import {
   InputLabel,
   Grid,
   Typography,
+  createTheme
 } from "@mui/material";
 
 import ImageUploader from '../../components/ImageUploader';
@@ -50,9 +51,9 @@ function DietGeneratorPage() {
         objetivoPeso: objetivoPeso,
         peso: peso,
         algura: altura,
-        image:image
+        image: image
       };
-
+      console.log("requestData", requestData)
       const response = await axios.post(API_ROUTES.ModificarDatos, requestData);
 
       setDataFecthSuccess(true);
@@ -74,16 +75,17 @@ function DietGeneratorPage() {
   };
 
   const cargarDatos = () => {
-    console.log("dentro",datosUsuario)
-    setNombre(datosUsuario.nombre)
-    setNombreUsuario(datosUsuario.nombreUsuario)
-    setPrimerApellido(datosUsuario.primerApellido)
-    setSegundoApellido(datosUsuario.segundoApellido)
-    setFechaDeNacimiento(datosUsuario.fechaDeNacimiento)
-    setObjetivoPeso(datosUsuario.objetivoPeso)
-    setPeso(datosUsuario.peso)
-    setAltura(datosUsuario.algura)
-  }
+    console.log("Cargando datos del usuario", datosUsuario);
+    setNombre(datosUsuario.nombre || "");
+    setNombreUsuario(datosUsuario.nombreUsuario || "");
+    setPrimerApellido(datosUsuario.primerApellido || "");
+    setSegundoApellido(datosUsuario.segundoApellido || "");
+    setFechaDeNacimiento(datosUsuario.fechaDeNacimiento || "");
+    setObjetivoPeso(datosUsuario.objetivoPeso || "");
+    setPeso(datosUsuario.peso || "");
+    setAltura(datosUsuario.altura || "");
+    setImage(datosUsuario.imagen || "");
+  };
 
   useEffect(() => {
     loadPerfilData();
@@ -103,6 +105,8 @@ function DietGeneratorPage() {
     event.preventDefault();
     editarPerfil();
   }
+
+  const theme = createTheme();
 
   return (
     <Box
@@ -138,7 +142,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="text"
-                  labelId="nombre-input"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setNombre(e.target.value)}
@@ -150,7 +153,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="text"
-                  labelId="nombreUsuario-input"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setNombreUsuario(e.target.value)}
@@ -171,7 +173,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="text"
-                  labelId="primerApellido-input"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setPrimerApellido(e.target.value)}
@@ -183,7 +184,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="text"
-                  labelId="edad-input"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setSegundoApellido(e.target.value)}
@@ -203,7 +203,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="calendar"
-                  labelId="fechaNacimiento-input"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setFechaDeNacimiento(e.target.value)}
@@ -215,7 +214,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="text"
-                  labelId="objetivo-altura"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setObjetivoPeso(e.target.value)}
@@ -235,7 +233,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="text"
-                  labelId="peso-input"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setPeso(e.target.value)}
@@ -247,7 +244,6 @@ function DietGeneratorPage() {
               <Grid item xs={6}>
                 <TextField
                   type="text"
-                  labelId="altura-input"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setAltura(e.target.value)}
@@ -261,20 +257,22 @@ function DietGeneratorPage() {
             <Grid sx={{ marginTop: '20px' }}>
               <ImageUploader onImageUpload={handleImageUpload} />
             </Grid>
-            <Button variant="outlined" color="primary" type="submit" sx={{
-              backgroundColor: '#293B50',
-              fontWeight: 'bold',
-              color: 'white',
-              borderRadius: '20px',
-              paddingLeft: '10px',
-              paddingRight: '10px',
-              fontSize: '18pt',
-              '&:hover': {
-                background: '#436489',
-              },
-            }}>
-              Editar
-            </Button>
+            <Grid sx={{[theme.breakpoints.down('800')]:{display:'flex',justifyContent:'center',marginTop:'40px'}}}>
+              <Button variant="outlined" color="primary" type="submit" sx={{
+                backgroundColor: '#293B50',
+                fontWeight: 'bold',
+                color: 'white',
+                borderRadius: '20px',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                fontSize: '18pt',
+                '&:hover': {
+                  background: '#436489',
+                },
+              }}>
+                Editar
+              </Button>
+            </Grid>
           </form>
         </React.Fragment>
       </Container>

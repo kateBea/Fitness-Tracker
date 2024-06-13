@@ -11,11 +11,12 @@ const ImageUploader = ({ onImageUpload }) => {
             setImage(file);
             const reader = new FileReader();
             reader.onloadend = () => {
-
-                setImagePreviewUrl(reader.result);
+                const base64String = reader.result;
+                setImagePreviewUrl(base64String);
+                onImageUpload(base64String);
             };
             reader.readAsDataURL(file);
-            onImageUpload(file);
+            // onImageUpload(file);
         } else {
             alert('Por favor, seleccione un archivo de imagen.');
         }
