@@ -12,6 +12,7 @@ import com.example.fitnesstrackerapp.objetos.request.UsuarioRequest
 import com.example.fitnesstrackerapp.objetos.response.AlimentosResponse
 import com.example.fitnesstrackerapp.objetos.response.ResponseInsertar
 import com.example.fitnesstrackerapp.objetos.response.ResponseLogin
+import com.example.fitnesstrackerapp.objetos.response.ResponseRegister
 import com.example.fitnesstrackerapp.objetos.response.RutinasResponse
 import com.example.fitnesstrackerapp.objetos.response.responseAlimentos.ResponseAlimentos
 import com.example.fitnesstrackerapp.objetos.usuario.DatosUsuario
@@ -106,7 +107,7 @@ class RepositorioRetrofit(
      *
      * @param user El objeto de solicitud para registrar un nuevo usuario.
      */
-    suspend fun register(user: RegisterRequest) {
+    suspend fun register(user: RegisterRequest):ResponseRegister {
         return apiServicio.create(ApiServicio::class.java).register(user)
     }
 }

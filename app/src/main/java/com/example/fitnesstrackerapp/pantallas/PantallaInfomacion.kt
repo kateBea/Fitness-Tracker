@@ -33,6 +33,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fitnesstrackerapp.uiViewModel.InformacionVistaViewModel
 
+/**
+ * Función que muestra una pantalla con información detallada sobre requerimientos calóricos, distribución de macronutrientes,
+ * objetivos nutricionales y distribución de comidas.
+ *
+ * @param informacionVistaViewModel ViewModel que contiene los datos necesarios para mostrar la información en la pantalla.
+ * Se inicializa automáticamente usando Hilt si no se proporciona ningún ViewModel.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun pantallaInformacion(informacionVistaViewModel: InformacionVistaViewModel = hiltViewModel()) {
@@ -118,6 +125,11 @@ fun pantallaInformacion(informacionVistaViewModel: InformacionVistaViewModel = h
     }
 }
 
+/**
+ * Composable que muestra una fila con un texto y un icono de flecha hacia adelante.
+ *
+ * @param texto Texto que se mostrará en la fila. Por defecto, se muestra "Metabolismo basal".
+ */
 @Composable
 @Preview
 fun filaNutrientres(texto:String = "Metabolismo basal"){

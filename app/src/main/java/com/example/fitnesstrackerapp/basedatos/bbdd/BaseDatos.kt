@@ -12,7 +12,7 @@ import com.example.fitnesstrackerapp.basedatos.entidades.Rutina
 import com.example.fitnesstrackerapp.basedatos.entidades.UsuarioInfo
 
 /**
- * Clase de base de datos que define la estructura y la versión de la base de datos.
+ * Clase de base de datos que define la estructura de la aplicacion de Fitness-Tracker.
  *
  * @param entities Arreglo de clases de entidad que representan las tablas de la base de datos.
  * @param version Número de versión de la base de datos. Debe incrementarse si se modifican las entidades.

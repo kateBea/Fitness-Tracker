@@ -58,7 +58,11 @@ import com.example.fitnesstrackerapp.ui.theme.colorPerfil
 import com.example.fitnesstrackerapp.uiViewModel.Acciones
 import com.example.fitnesstrackerapp.uiViewModel.PantallaPrincipalViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Composable que representa la pantalla principal de la aplicación.
+ *
+ * @param pantallaPrincipalViewModel ViewModel utilizado para gestionar la pantalla principal y las acciones relacionadas.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview
@@ -100,6 +104,15 @@ fun pantallaPrincipal(pantallaPrincipalViewModel: PantallaPrincipalViewModel = h
     }
 }
 
+/**
+ * Composable que muestra un modal bottom sheet con opciones para modificar datos según la acción especificada.
+ *
+ * @param showBottomSheet Estado mutable que controla la visibilidad del modal bottom sheet.
+ * @param sheetState Estado del modal bottom sheet que gestiona su apertura, cierre y posición.
+ * @param texto Texto que describe el tipo de dato que se va a modificar en el modal.
+ * @param accion Acción que determina qué tipo de modificación se realizará en el ViewModel.
+ * @param pantallaPrincipalViewModel ViewModel utilizado para gestionar la pantalla principal y las acciones relacionadas.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -190,6 +203,13 @@ fun bottomSheet(
     }
 }
 
+/**
+ * Realiza una acción específica basada en el tipo de acción proporcionada.
+ *
+ * @param valor Valor asociado a la acción que se va a realizar.
+ * @param accion Tipo de acción que se debe realizar.
+ * @param pantallaPrincipalViewModel ViewModel utilizado para gestionar la pantalla principal y las acciones relacionadas.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 fun realizarAccion(
     valor: String,
@@ -204,7 +224,11 @@ fun realizarAccion(
     }
 }
 
-
+/**
+ * Composable que muestra una fila de información con un texto centrado verticalmente y con un fondo de color perfil.
+ *
+ * @param texto Texto que se mostrará en la fila. Por defecto, se muestra "Mis datos".
+ */
 @Composable
 fun filaInformacion(texto:String = "Mis datos"){
     Row (modifier = Modifier
@@ -217,6 +241,15 @@ fun filaInformacion(texto:String = "Mis datos"){
     }
 }
 
+/**
+ * Composable que muestra una fila en el perfil con dos textos y permite abrir un modal bottom sheet
+ * al hacer clic en la fila, dependiendo de la acción especificada.
+ *
+ * @param texto Texto principal que se mostrará en la primera columna de la fila.
+ * @param texto2 Texto secundario que se mostrará en la segunda columna de la fila.
+ * @param accion Acción que determina el tipo de modal bottom sheet que se abrirá al hacer clic en la fila.
+ * @param pantallaPrincipalViewModel ViewModel utilizado para gestionar la pantalla principal y las acciones relacionadas.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -246,6 +279,14 @@ fun filaPerfil(
 
 }
 
+/**
+ * Composable que muestra una fila con una imagen, texto principal y texto secundario opcional,
+ * seguidos de un icono de flecha hacia adelante.
+ *
+ * @param imagen Recurso de imagen a mostrar en la fila.
+ * @param texto Texto principal que se mostrará en la fila. Por defecto, se muestra "Metabolismo basal".
+ * @param texto2 Texto secundario opcional que se mostrará debajo del texto principal.
+ */
 @Composable
 fun FilaResultado(imagen:Int,
                   texto:String = "Metabolismo basal",

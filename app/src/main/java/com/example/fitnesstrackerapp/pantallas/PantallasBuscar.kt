@@ -43,6 +43,15 @@ import com.example.fitnesstrackerapp.objetos.response.responseAlimentos.Informac
 import com.example.fitnesstrackerapp.ui.theme.colorBoton
 import com.example.fitnesstrackerapp.uiViewModel.BuscarViewModel
 
+/**
+ * Composable que representa la pantalla de búsqueda de alimentos.
+ * Permite al usuario buscar alimentos por su nombre en inglés y muestra los resultados.
+ * También permite navegar al diario una vez se completa la búsqueda.
+ *
+ * @param numero Número asociado a la búsqueda actual.
+ * @param navController Controlador de navegación utilizado para navegar entre pantallas.
+ * @param buscarViewModel ViewModel utilizado para gestionar la lógica de búsqueda de alimentos.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PantallaBuscar(numero: Int = 0, navController: NavHostController, buscarViewModel: BuscarViewModel = hiltViewModel()) {
@@ -99,6 +108,14 @@ fun PantallaBuscar(numero: Int = 0, navController: NavHostController, buscarView
 }
 
 
+/**
+ * Composable que muestra una fila con información detallada sobre una comida.
+ * Al hacer clic en la fila, se actualiza el ViewModel de búsqueda con la comida seleccionada.
+ *
+ * @param comida Objeto de tipo InformacionComida que contiene los detalles específicos de la comida a mostrar.
+ * @param buscarViewModel ViewModel utilizado para actualizar la información de la comida seleccionada.
+ * @param numero Número asociado a la comida seleccionada.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun filaAlimento(comida: InformacionComida,buscarViewModel: BuscarViewModel,numero:Int){

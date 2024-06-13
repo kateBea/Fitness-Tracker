@@ -34,6 +34,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.w3c.dom.Text
 
+/**
+ * Composable que muestra un campo de texto personalizado para un formulario de inicio de sesión.
+ *
+ * @param campo Estado mutable que contiene el valor del campo de texto.
+ * @param firstTimeButton Indicador booleano que determina si es la primera vez que se muestra el botón (para validaciones).
+ * @param labelTexto Texto de la etiqueta que se muestra encima del campo de texto.
+ * @param textoError Mensaje de error a mostrar si la validación del campo falla.
+ * @param transformacion Transformación visual del texto en el campo (por ejemplo, ocultar contraseña).
+ * @param teclado Tipo de teclado que se mostrará en el campo de texto.
+ * @param accountCircle Icono vectorial que se muestra a la izquierda del campo de texto (por ejemplo, un círculo de cuenta).
+ * @param focusRequester Objeto que maneja el enfoque del campo de texto.
+ */
 @Composable
 fun BotonLogin(
     campo: MutableState<String>,
@@ -124,6 +136,13 @@ fun BotonLogin(
     )
 }
 
+/**
+ * Función de validación para comprobar si el texto está vacío y es la primera vez que se muestra el botón.
+ *
+ * @param texto Texto a validar.
+ * @param firstTimeButton Indicador booleano que indica si es la primera vez que se muestra el botón.
+ * @return true si el texto está vacío y es la primera vez que se muestra el botón, false de lo contrario.
+ */
 fun validacion(texto: String, firstTimeButton:Boolean):Boolean{
     return return texto.isEmpty() && firstTimeButton
 }

@@ -52,6 +52,12 @@ import com.example.fitnesstrackerapp.ui.theme.colorBoton
 import com.example.fitnesstrackerapp.uiViewModel.RegisterViewModel
 import com.example.fitnesstrackerapp.utilidades.BotonLogin
 
+/**
+ * Composable que representa la pantalla de inicio de sesión.
+ *
+ * @param navController Controlador de navegación para gestionar la navegación entre pantallas.
+ * @param registerViewModel ViewModel para gestionar el estado y la lógica de la pantalla de register
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable

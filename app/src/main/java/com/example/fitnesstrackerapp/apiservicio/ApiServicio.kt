@@ -9,6 +9,7 @@ import com.example.fitnesstrackerapp.objetos.request.UsuarioRequest
 import com.example.fitnesstrackerapp.objetos.response.AlimentosResponse
 import com.example.fitnesstrackerapp.objetos.response.ResponseInsertar
 import com.example.fitnesstrackerapp.objetos.response.ResponseLogin
+import com.example.fitnesstrackerapp.objetos.response.ResponseRegister
 import com.example.fitnesstrackerapp.objetos.response.RutinasResponse
 import com.example.fitnesstrackerapp.objetos.response.responseAlimentos.ResponseAlimentos
 import com.example.fitnesstrackerapp.objetos.usuario.DatosUsuario
@@ -57,7 +58,7 @@ interface ApiServicio {
     suspend fun modificarDieta(@Header("Authorization") token: String, @Body rutinasResponse: RutinasResponse)
 
     @POST("client/RegistrarUsuario")
-    suspend fun register(@Body user: RegisterRequest)
+    suspend fun register(@Body user: RegisterRequest):ResponseRegister
 }
 
 /**

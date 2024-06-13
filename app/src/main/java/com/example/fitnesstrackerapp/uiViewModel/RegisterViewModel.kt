@@ -37,9 +37,14 @@ class RegisterViewModel @Inject constructor(
                 user.password = contra
                 user.username = user2
 
-                repositorio.register(user)
+                val hecho = repositorio.register(user)
 
-                _done.value = true
+                if(hecho.valido){
+                    _done.value = true
+                    eventosViewModel.setState(EventosUIState.Done)
+                }else{
+                    eventosViewModel.setState(EventosUIState.Error("No se ha insertado bien el usuario"))
+                }
                 eventosViewModel.setState(EventosUIState.Done)
             }catch(e:Exception){
                 eventosViewModel.setState(EventosUIState.Error("No se ha insertado bien el usuario"))
