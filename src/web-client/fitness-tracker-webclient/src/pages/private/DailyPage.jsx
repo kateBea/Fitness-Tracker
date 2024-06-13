@@ -115,7 +115,7 @@ function DailyPage() {
                         }}
                     ><Grid container>
                             <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != null ? datosUsuario.imagen : Prueba} style={{ width: '70%', height: '100%', marginTop: '20px' }} />
+                                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.image != null ? datosUsuario.image : Prueba} style={{ width: '70%', height: '100%', marginTop: '20px' }} />
                             </Grid>
                             <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
                                 <Typography
@@ -135,33 +135,6 @@ function DailyPage() {
                                 >
                                     ElGuilleDEV
                                 </Typography>
-                            </Grid>
-                            <Grid item lg={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                                <Button
-                                    variant="contained"
-                                    sx={{
-                                        background: '#D92668',
-                                        margin: '20px',
-                                        borderTopLeftRadius: '30px',
-                                        borderBottomLeftRadius: '0px',
-                                        borderTopRightRadius: '0px',
-                                        borderBottomRightRadius: '30px',
-                                        textTransform: 'none',
-                                        [theme.breakpoints.up('1200')]: {
-                                            fontSize: '30pt'
-                                        },
-                                        [theme.breakpoints.down('1200')]: {
-                                            fontSize: '30pt'
-                                        },
-                                        [theme.breakpoints.down('900')]: {
-
-                                            fontSize: '20pt',
-                                        }
-                                    }}
-                                    type='submit'
-                                >
-                                    Editar
-                                </Button>
                             </Grid>
                         </Grid>
                     </Box>

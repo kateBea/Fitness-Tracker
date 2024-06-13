@@ -64,7 +64,7 @@ function PerfilPage() {
       <PrivateBar />
       <Grid container columnSpacing={7} rowSpacing={4} sx={{
         padding: '50px',
-        [theme.breakpoints.down('600')]:{
+        [theme.breakpoints.down('600')]: {
           padding: '20px',
         }
       }}>
@@ -78,7 +78,7 @@ function PerfilPage() {
             }}
           ><Grid container>
               <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != null ? datosUsuario.imagen : Prueba} style={{ width: '70%', height: '100%', marginTop: '20px' }} />
+                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.image != null ? datosUsuario.image : Prueba} style={{ width: '70%', height: '100%', marginTop: '20px' }} />
               </Grid>
               <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
                 <Typography
@@ -96,35 +96,26 @@ function PerfilPage() {
                     }
                   }}
                 >
-                  ElGuilleDEV
+                  {datosUsuario.nombreUsuario}
                 </Typography>
               </Grid>
               <Grid item lg={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
                 <Button
-                  variant="contained"
+                  href="/editar"
                   sx={{
-                    background: '#D92668',
-                    margin: '20px',
-                    borderTopLeftRadius: '30px',
-                    borderBottomLeftRadius: '0px',
-                    borderTopRightRadius: '0px',
-                    borderBottomRightRadius: '30px',
-                    textTransform: 'none',
-                    [theme.breakpoints.up('1200')]: {
-                      fontSize: '30pt'
+                    backgroundColor: '#293B50',
+                    fontWeight: 'bold',
+                    color: 'white',
+                    borderRadius: '20px',
+                    paddingLeft: '10px',
+                    paddingRight: '10px',
+                    fontSize: '18pt',
+                    '&:hover': {
+                      background: '#436489',
+                      
                     },
-                    [theme.breakpoints.down('1200')]: {
-                      fontSize: '30pt'
-                    },
-                    [theme.breakpoints.down('900')]: {
-
-                      fontSize: '20pt',
-                    }
-                  }}
-                  type='submit'
-                >
-                  Editar
-                </Button>
+                    margin:'30px'
+                  }}>Editar</Button>
               </Grid>
             </Grid>
           </Box>
@@ -178,26 +169,6 @@ function PerfilPage() {
                   width: "100%",
                 }}
               >
-                <ListItemText>Correo Electronico</ListItemText>
-                <ListItemText
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignContent: "right",
-                    alignItems: "center",
-                  }}
-                >
-                  {datosUsuario.nombreUsuario}
-                </ListItemText>
-              </ListItem>
-              <ListItem
-                dense={true}
-                sx={{
-                  display: "flex",
-                  alignContent: "space-between",
-                  width: "100%",
-                }}
-              >
                 <ListItemText>Nombre</ListItemText>
                 <ListItemText
                   sx={{
@@ -208,6 +179,46 @@ function PerfilPage() {
                   }}
                 >
                   {datosUsuario.nombre}
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                dense={true}
+                sx={{
+                  display: "flex",
+                  alignContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <ListItemText>Apellidos</ListItemText>
+                <ListItemText
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignContent: "right",
+                    alignItems: "center",
+                  }}
+                >
+                  {datosUsuario.primerApellido} {datosUsuario.segundoApellido}
+                </ListItemText>
+              </ListItem>
+              <ListItem
+                dense={true}
+                sx={{
+                  display: "flex",
+                  alignContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <ListItemText>Sexo</ListItemText>
+                <ListItemText
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignContent: "right",
+                    alignItems: "center",
+                  }}
+                >
+                  {datosUsuario.sexo}
                 </ListItemText>
               </ListItem>
               <ListItem
@@ -230,6 +241,26 @@ function PerfilPage() {
                   {edad}
                 </ListItemText>
               </ListItem>
+              <ListItem
+                dense={true}
+                sx={{
+                  display: "flex",
+                  alignContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                <ListItemText>Fecha Nacimiento</ListItemText>
+                <ListItemText
+                  sx={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignContent: "right",
+                    alignItems: "center",
+                  }}
+                >
+                  {datosUsuario.fechaDeNacimiento}
+                </ListItemText>
+              </ListItem>
             </List>
             <Typography
               component="h3"
@@ -239,7 +270,7 @@ function PerfilPage() {
                 marginLeft: "40px",
               }}
             >
-              Resultados
+              Actual
             </Typography>
             <Box
               sx={{
@@ -260,7 +291,7 @@ function PerfilPage() {
                   width: "100%",
                 }}
               >
-                <ListItemText>Dato1</ListItemText>
+                <ListItemText>Peso</ListItemText>
                 <ListItemText
                   sx={{
                     display: "flex",
@@ -269,7 +300,7 @@ function PerfilPage() {
                     alignItems: "center",
                   }}
                 >
-                  Valor_1
+                  {datosUsuario.peso != null? datosUsuario.peso: "No se ha encontrado peso"}
                 </ListItemText>
               </ListItem>
               <ListItem
@@ -280,7 +311,7 @@ function PerfilPage() {
                   width: "100%",
                 }}
               >
-                <ListItemText>Dato2</ListItemText>
+                <ListItemText>Altura</ListItemText>
                 <ListItemText
                   sx={{
                     display: "flex",
@@ -289,27 +320,7 @@ function PerfilPage() {
                     alignItems: "center",
                   }}
                 >
-                  Valor_2
-                </ListItemText>
-              </ListItem>
-              <ListItem
-                dense={true}
-                sx={{
-                  display: "flex",
-                  alignContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                <ListItemText>Dato3</ListItemText>
-                <ListItemText
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignContent: "right",
-                    alignItems: "center",
-                  }}
-                >
-                  Valor_3
+                  {datosUsuario.altura != null? datosUsuario.altura: "No se ha encontrado altura"}
                 </ListItemText>
               </ListItem>
             </List>
@@ -342,7 +353,7 @@ function PerfilPage() {
                   width: "100%",
                 }}
               >
-                <ListItemText>Dato1</ListItemText>
+                <ListItemText>Peso Objetivo</ListItemText>
                 <ListItemText
                   sx={{
                     display: "flex",
@@ -351,47 +362,7 @@ function PerfilPage() {
                     alignItems: "center",
                   }}
                 >
-                  Valor_1
-                </ListItemText>
-              </ListItem>
-              <ListItem
-                dense={true}
-                sx={{
-                  display: "flex",
-                  alignContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                <ListItemText>Dato2</ListItemText>
-                <ListItemText
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignContent: "right",
-                    alignItems: "center",
-                  }}
-                >
-                  valor_2
-                </ListItemText>
-              </ListItem>
-              <ListItem
-                dense={true}
-                sx={{
-                  display: "flex",
-                  alignContent: "space-between",
-                  width: "100%",
-                }}
-              >
-                <ListItemText>Dato3</ListItemText>
-                <ListItemText
-                  sx={{
-                    display: "flex",
-                    justifyContent: "flex-end",
-                    alignContent: "right",
-                    alignItems: "center",
-                  }}
-                >
-                  Valor_3
+                  {datosUsuario.objetivoPeso != null? datosUsuario.objetivoPeso : "No se ha encontrado peso objetivo"}
                 </ListItemText>
               </ListItem>
             </List>
