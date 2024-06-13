@@ -277,8 +277,8 @@ function MainPage() {
               <img src={DecoracionServicios} style={{ position: 'absolute', width: "900px", left: '-150px', zIndex: '0' }}></img>
               <img src={BackgroundPuntos} style={{ position: 'absolute', width: "120px", right: '80px', top: '320px', zIndex: '0' }}></img>
             </Box>
-            <Grid container columnSpacing={2} rowSpacing={3} sx={{ display: 'flex', justifyContent: 'center', paddingTop: '30px', paddingRight: '100px', paddingLeft: '100px' }}>
-              <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
+            <Grid container columnSpacing={2} rowSpacing={3} sx={{ display: 'flex', justifyContent: 'center', paddingTop: '30px',[theme.breakpoints.up('500')]:{ paddingRight: '100px', paddingLeft: '100px' },[theme.breakpoints.down('500')]:{ paddingRight: '20px', paddingLeft: '20px' }}}>
+              <Grid item xl={4} lg={4} md={6} xs={12} sx={{ display: 'flex', justifyContent: 'center', }}>
                 <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={BusquedaInteligente} style={{ width: "70px" }}></img>
                   <Typography
@@ -298,7 +298,7 @@ function MainPage() {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
+              <Grid item xl={4} lg={4} md={6} xs={12} sx={{ display: 'flex', justifyContent: 'center', }}>
                 <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={SmartwatchIco} style={{ width: "60px" }}></img>
                   <Typography
@@ -318,7 +318,7 @@ function MainPage() {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
+              <Grid item xl={4} lg={4} md={6} xs={12}  sx={{ display: 'flex', justifyContent: 'center', }}>
                 <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={ConsultaPersonalizada} style={{ width: "55px" }}></img>
                   <Typography
@@ -359,7 +359,7 @@ function MainPage() {
                   </Typography>
                 </Box>
               </Grid>
-              <Grid item xl={4} lg={4} md={6} sx={{ display: 'flex', justifyContent: 'center', }}>
+              <Grid item xl={4} lg={4} md={6} xs={12}  sx={{ display: 'flex', justifyContent: 'center', }}>
                 <Box sx={{ width: '100%', height: 'auto', boxShadow: '3px 10px 50px rgba(0, 0, 0, 0.2)', background: 'white', borderRadius: '20px', zIndex: '1', padding: '30px' }}>
                   <img src={CuentaIco} style={{ width: "110px" }}></img>
                   <Typography
@@ -529,7 +529,6 @@ function MainPage() {
                         [theme.breakpoints.down('600')]: {
                           fontSize: '20pt'
                         },
-
                       }}
                     >
                       Fitness-Tracker
