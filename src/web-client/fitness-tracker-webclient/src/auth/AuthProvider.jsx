@@ -13,16 +13,11 @@ export const useAuthContext = () => {
   return context;
 };
 
-/**
- * Función para iniciar sesión del usuario.
- * @param {string} email - El email del usuario.
- * @param {string} password - La contraseña del usuario.
- */
-const AuthProvider = async (email, password) => {
+function AuthProvider({children}) {
   const [userUsername, setUsername] = useState("Emtpy");
   const [errors, setErrors] = useState([]);
 
-  const loginUser = async () => {
+  const loginUser = async (email,password) => {
     try {
       const requestData = { email: email, password: password }; // Datos de la petición.
       const response = await axios.post(API_ROUTES.Login, requestData); // Realiza la petición POST para iniciar sesión.
@@ -32,9 +27,7 @@ const AuthProvider = async (email, password) => {
   
         // Configura el token de autorización en los encabezados por defecto.
         axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.data.token}`; 
-  
         const tokenExpirationDate = new Date(Date.now());
-        
         // Calcula la fecha de expiración del token.
         tokenExpirationDate.setSeconds(tokenExpirationDate.getSeconds() + parseInt(response.data.data.tokenDuration)); 
   

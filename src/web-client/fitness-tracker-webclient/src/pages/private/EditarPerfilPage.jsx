@@ -260,7 +260,7 @@ function DietGeneratorPage() {
               </Grid>
             </Grid>
             {/* Comentarios Adicionales */}
-            <Grid sx={{ marginTop: '20px' }}>
+            <Grid sx={{ marginTop: '20px',width:'100%',display:'flex',justifyContent:'center' }}>
               <ImageUploader onImageUpload={handleImageUpload} />
             </Grid>
             <Grid sx={{ [theme.breakpoints.down('800')]: { display: 'flex', justifyContent: 'center', marginTop: '40px' } }}>

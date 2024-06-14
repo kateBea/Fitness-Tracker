@@ -58,7 +58,7 @@ const ImageUploader = ({ onImageUpload }) => {
             {imagePreviewUrl && (
                 <div>
                     {/* Imagen con la vista previa */}
-                    <img src={imagePreviewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                    <img src={imagePreviewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px',marginTop:'30px' }} />
                 </div>
             )}
         </div>
