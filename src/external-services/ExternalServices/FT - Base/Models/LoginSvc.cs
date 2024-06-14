@@ -6,7 +6,7 @@ namespace FTAlimentos.Models
     /// <summary>
     /// Login request external service model
     /// </summary>
-    public class RequestLoginSvcIn
+    public class RequestLoginSvc
     {
         /// <summary>
         /// User's email
@@ -24,7 +24,7 @@ namespace FTAlimentos.Models
     /// <summary>
     /// Login response external service model
     /// </summary>
-    public class RequestLoginSvcOut: BaseResponseSvc
+    public class ResponseLoginSvc: BaseResponseSvc
     {
         /// <summary>
         /// User's email

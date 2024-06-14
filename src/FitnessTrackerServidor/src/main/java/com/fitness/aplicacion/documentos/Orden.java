@@ -1,5 +1,11 @@
 package com.fitness.aplicacion.documentos;
 
+/**
+ * Modelo que representa un orden de plato
+ *
+ * @version 1.0
+ * */
+
 public enum Orden {
     PRIMER_PLATO,
     SEGUNDO_PLATO,

@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "FitnessTrackerApp"
 include(":app")
-include(":wearosft")
+ 

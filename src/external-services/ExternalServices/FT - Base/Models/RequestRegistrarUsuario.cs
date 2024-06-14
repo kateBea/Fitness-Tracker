@@ -1,6 +1,6 @@
 ﻿using Shared.Utilities;
 
-namespace FT___Base.Models
+namespace FTBase.Models
 {
     /// <summary>
     /// Register user request model

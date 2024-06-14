@@ -10,19 +10,53 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
+/**
+ * ViewModel para gestionar el estado de la interfaz de usuario relacionado con los eventos.
+ * Esta clase está anotada con @HiltViewModel para habilitar la inyección de dependencias usando Hilt.
+ */
 @HiltViewModel
-class EventosViewModel @Inject constructor(): ViewModel(){
+class EventosViewModel @Inject constructor() : ViewModel() {
+
+    /**
+     * Estado mutable de la interfaz de usuario, inicializado con el estado Done.
+     */
     private var _uiState = MutableStateFlow<EventosUIState>(EventosUIState.Done)
+
+    /**
+     * Estado inmutable de la interfaz de usuario expuesto para la observación.
+     */
     val uiState: StateFlow<EventosUIState> get() = _uiState.asStateFlow()
 
-    fun setState(eventosUIState: EventosUIState) = viewModelScope.launch{
+    /**
+     * Función para actualizar el estado de la interfaz de usuario.
+     * Utiliza viewModelScope para lanzar una coroutine que actualiza el valor del estado.
+     *
+     * @param eventosUIState El nuevo estado a establecer.
+     */
+    fun setState(eventosUIState: EventosUIState) = viewModelScope.launch {
         _uiState.value = eventosUIState
     }
 }
 
+/**
+ * Clase sellada que representa los posibles estados de la interfaz de usuario relacionados con los eventos.
+ */
+sealed class EventosUIState {
 
-sealed class EventosUIState(){
-    data class Error(val texto:String): EventosUIState()
-    data object Cargando: EventosUIState()
-    data object Done: EventosUIState()
+    /**
+     * Estado de error, contiene un mensaje de texto que describe el error.
+     *
+     * @property texto El mensaje de error.
+     */
+    data class Error(val texto: String) : EventosUIState()
+
+    /**
+     * Estado de carga, indica que se está cargando información.
+     */
+    data object Cargando : EventosUIState()
+
+    /**
+     * Estado finalizado, indica que no hay ninguna operación en curso.
+     */
+    data object Done : EventosUIState()
 }

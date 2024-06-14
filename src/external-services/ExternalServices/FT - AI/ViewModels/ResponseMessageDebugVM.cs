@@ -9,9 +9,14 @@ using System.Threading.Tasks;
 
 namespace FTAI.ViewModels
 {
+    /// <summary>
+    /// Respuesta mensaje de depuración
+    /// </summary>
     public class ResponseMessageDebugVM : BaseResponse
     {
-        [JsonProperty("result")]
+        /// <summary>
+        /// Contenido de la respuesta
+        /// </summary>
         public string? Result { get; set; } = string.Empty;
     }
 }

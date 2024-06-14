@@ -6,14 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.fitness.aplicacion.documentos.*;
 import com.fitness.aplicacion.dto.*;
-import com.fitness.aplicacion.repositorio.IComidaRepositorio;
-import com.fitness.aplicacion.repositorio.IDietaRepositorio;
-import com.fitness.aplicacion.repositorio.IRutinaRepositorio;
 import com.fitness.aplicacion.utilidades.UtilidadesFechas;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,22 +24,17 @@ import static com.fitness.aplicacion.dto.RequestRegistrarDieta.ComidaSugeridaDat
 import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
 
 
+/**
+ * Implementación de la interfaz del servicio de usuarios
+ *
+ * @version 1.0
+ * */
 @Service
 public class UsuarioServicioImpl implements IUsuarioServicio {
 
     // Inyección del repositorio de usuarios
     @Autowired
     IUsuarioRepositorio DAOS;
-
-    @Autowired
-    IComidaRepositorio comidaRepositorio;
-
-    @Autowired
-    IDietaRepositorio dietaRepositorio;
-
-    @Autowired
-    IRutinaRepositorio rutinaRepositorio;
-
 
     // Instancia el encoder para cifrar contraseñas
     BCryptPasswordEncoder cifrar = new BCryptPasswordEncoder();
@@ -223,6 +214,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         usuario.get().setAltura(model.getAltura());
         usuario.get().setPeso(model.getPeso());
         usuario.get().setSexo(Sexo.fromStr(model.getSexo()));
+        usuario.get().setImagen(model.getImagen());
+        usuario.get().setObjetivoPeso(model.getObjetivoPeso());
 
         usuario.get().setFechaUltimaModificacion(LocalDateTime.now());
 

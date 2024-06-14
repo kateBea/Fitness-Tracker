@@ -1,5 +1,10 @@
 package com.fitness.aplicacion.documentos;
 
+/**
+ * Modelo que representa una tipo de plato
+ *
+ * @version 1.0
+ * */
 public enum Tipo {
     DESAYUNO,
     MERIENDA_MATUTINA,

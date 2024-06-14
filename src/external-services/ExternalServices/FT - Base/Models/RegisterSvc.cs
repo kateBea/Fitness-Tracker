@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Shared.Utilities;
 
-namespace FT___Base.Models
+namespace FTBase.Models
 {
     /// <summary>
     /// Request login external service model
     /// </summary>
-    public class RequestRegisterSvcIn
+    public class RequestRegisterSvc
     {
         /// <summary>
         /// User's email
@@ -72,7 +72,7 @@ namespace FT___Base.Models
     /// <summary>
     /// Response register external service model
     /// </summary>
-    public class ResponseRegisterSvcOut : BaseResponseSvc
+    public class ResponseRegisterSvc : BaseResponseSvc
     {
     }
 }

@@ -6,6 +6,14 @@ import java.util.Optional;
 
 import com.fitness.aplicacion.dto.*;
 import com.fitness.aplicacion.servicio.IUsuarioServicio;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.models.Response;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -20,16 +28,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
 
+/**
+ * API REST Usuario
+ *
+ * @version 1.0
+ * */
 @RestController
 @RequestMapping("api/fitnesstracker")
+@Api(tags = "Usuario REST API")
 public class UsuarioControlador {
 
-	@Autowired // Inyección de dependencia del servicio de usuario
+	@Autowired
 	@Qualifier("usuarioServicioImpl")
 	IUsuarioServicio usuarioServicio;
 	
 	// Peticion para insertar un nuevo usuario
 	@PostMapping("insertar")
+	@Operation(summary = "Registra un nuevo usuario",
+			description = "Registra un nuevo usuario utilizando los datos del modelo pasado, retorna cierto si la operación fue exitosa.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = Boolean.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	public ResponseEntity<Boolean> insertar(@RequestBody UsuarioInsertar user){
 		ResponseEntity<Boolean> response;
 
@@ -46,6 +67,13 @@ public class UsuarioControlador {
 	
 	// Peticion para verificar las credenciales de inicio de sesión
 	@PostMapping("verificar")
+	@Operation(summary = "Verifica un usuario",
+			description = "Verifica un usuario utilizando los datos del modelo pasado, retorna la información del usuario si la verificación es exitosa.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = UsuarioInfo.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	public ResponseEntity<UsuarioInfo> verificar(@RequestBody UsuarioVerificar user){
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -61,6 +89,13 @@ public class UsuarioControlador {
 	
 	// Peticion para obtener información de un usuario por su correo electrónico
 	@GetMapping("info/{email}")
+	@Operation(summary = "Obtiene información del usuario",
+			description = "Obtiene la información del usuario basado en el correo electrónico proporcionado.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = UsuarioInfo.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	public ResponseEntity<UsuarioInfo> info(@PathVariable String email){
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -75,6 +110,13 @@ public class UsuarioControlador {
 	}
 	
 	@PutMapping("actualizar")
+	@Operation(summary = "Actualiza un usuario",
+			description = "Actualiza un usuario utilizando los datos del modelo pasado, retorna cierto si la operación fue exitosa.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = Boolean.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	public ResponseEntity<Boolean> actualizar(@RequestBody UsuarioInsertar user){
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
@@ -89,6 +131,13 @@ public class UsuarioControlador {
 	}
 	
 	@DeleteMapping("borrar")
+	@Operation(summary = "Borra un usuario",
+			description = "Borra un usuario utilizando los datos del modelo pasado, retorna cierto si la operación fue exitosa.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = Boolean.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	public ResponseEntity<Boolean> borrar(@RequestBody UsuarioVerificar user){
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
@@ -103,6 +152,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("login")
+	@Operation(summary = "Inicia sesión",
+			description = "Inicia sesión utilizando los datos del modelo pasado, retorna un objeto de respuesta de inicio de sesión.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseLogin.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseLogin> login(@RequestBody RequestLogin model) {
 		ResponseLogin responseData = ResponseLogin.builder().build();
 		ResponseEntity<ResponseLogin> response;
@@ -120,6 +176,13 @@ public class UsuarioControlador {
 	}
 
 	@PutMapping("cambiarpassword")
+	@Operation(summary = "Cambia la contraseña",
+			description = "Cambia la contraseña utilizando los datos del modelo pasado, retorna un objeto de respuesta de cambio de contraseña.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseCambiarPassword.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseCambiarPassword> cambiarPassword(@RequestBody RequestCambiarPassword model) {
 		ResponseCambiarPassword data = ResponseCambiarPassword.builder().build();
 		ResponseEntity<ResponseCambiarPassword> response;
@@ -150,6 +213,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("getdatosusuario")
+	@Operation(summary = "Obtiene datos del usuario",
+			description = "Obtiene los datos del usuario utilizando los datos del modelo pasado, retorna un objeto de respuesta con los datos del usuario.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseGetDatosUsuario.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseGetDatosUsuario> getDatos(@RequestBody RequestGetDatosUsuario model) {
 		ResponseGetDatosUsuario responseData = ResponseGetDatosUsuario.builder().data(null).build();
 		ResponseEntity<ResponseGetDatosUsuario> response;
@@ -178,6 +248,13 @@ public class UsuarioControlador {
 	}
 
 	@PutMapping("modificardatosusuario")
+	@Operation(summary = "Modifica datos del usuario",
+			description = "Modifica los datos del usuario utilizando los datos del modelo pasado, retorna un objeto de respuesta con los datos modificados del usuario.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseModificarDatosUsuario.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseModificarDatosUsuario> modificarUsuario(@RequestBody RequestModificarDatosUsuario model) {
 		ResponseModificarDatosUsuario responseData = ResponseModificarDatosUsuario.builder().build();
 		ResponseEntity<ResponseModificarDatosUsuario> response;
@@ -211,6 +288,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("registrardieta")
+	@Operation(summary = "Registra una nueva dieta",
+			description = "Registra una nueva dieta utilizando los datos del modelo pasado, retorna un objeto de respuesta con los detalles de la dieta registrada.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseRegistrarDieta.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseRegistrarDieta> registrarDieta(@RequestBody RequestRegistrarDieta model) {
 		ResponseRegistrarDieta responseData = ResponseRegistrarDieta.builder().build();
 		ResponseEntity<ResponseRegistrarDieta> response;
@@ -232,6 +316,13 @@ public class UsuarioControlador {
 	}
 
 	@PutMapping("modificardieta")
+	@Operation(summary = "Modifica una dieta",
+			description = "Modifica una dieta utilizando los datos del modelo pasado, retorna un objeto de respuesta con los detalles de la dieta modificada.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseModificarDieta.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseModificarDieta> modificarDieta(@RequestBody RequestModificarDieta model) {
 		ResponseModificarDieta responseData = ResponseModificarDieta.builder().build();
 		ResponseEntity<ResponseModificarDieta> response;
@@ -264,6 +355,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("getdietausuario")
+	@Operation(summary = "Obtiene una dieta del usuario",
+			description = "Obtiene los detalles de una dieta del usuario utilizando los datos del modelo pasado, retorna un objeto de respuesta con los detalles de la dieta.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseGetDietaUsuario.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseGetDietaUsuario> getDieta(@RequestBody RequestGetDietaUsuario model) {
 		ResponseGetDietaUsuario responseData = ResponseGetDietaUsuario.builder().data(null).build();
 		ResponseEntity<ResponseGetDietaUsuario> response;
@@ -292,6 +390,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("getlistdietasusuario")
+	@Operation(summary = "Obtiene la lista de dietas del usuario",
+			description = "Obtiene la lista de dietas del usuario utilizando los datos del modelo pasado, retorna un objeto de respuesta con la lista de dietas.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseGetListDietas.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseGetListDietas> getListDietas(@RequestBody RequestGetListDietas model) {
 		ResponseGetListDietas responseData = ResponseGetListDietas.builder().dietas(null).build();
 		ResponseEntity<ResponseGetListDietas> response;
@@ -318,6 +423,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("registrarrutina")
+	@Operation(summary = "Registra una nueva rutina",
+			description = "Registra una nueva rutina utilizando los datos del modelo pasado, retorna un objeto de respuesta con los detalles de la rutina registrada.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseRegistrarRutina.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseRegistrarRutina> registrarRutina(@RequestBody RequestRegistrarRutina model) {
 		ResponseRegistrarRutina responseData = ResponseRegistrarRutina.builder().build();
 		ResponseEntity<ResponseRegistrarRutina> response;
@@ -335,6 +447,13 @@ public class UsuarioControlador {
 	}
 
 	@PutMapping("modificarrutina")
+	@Operation(summary = "Modifica una rutina",
+			description = "Modifica una rutina utilizando los datos del modelo pasado, retorna un objeto de respuesta con los detalles de la rutina modificada.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseModificarRutina.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseModificarRutina> modificarRutina(@RequestBody RequestModificarRutina model) {
 		ResponseModificarRutina responseData = ResponseModificarRutina.builder().build();
 		ResponseEntity<ResponseModificarRutina> response;
@@ -363,6 +482,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("getrutina")
+	@Operation(summary = "Obtiene una rutina",
+			description = "Obtiene los detalles de una rutina utilizando los datos del modelo pasado, retorna un objeto de respuesta con los detalles de la rutina.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseGetRutina.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseGetRutina> getRutina(@RequestBody RequestGetRutina model) {
 		ResponseGetRutina responseData = ResponseGetRutina.builder().data(null).build();
 		ResponseEntity<ResponseGetRutina> response;
@@ -391,6 +517,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("getlistrutinas")
+	@Operation(summary = "Obtiene la lista de rutinas",
+			description = "Obtiene la lista de rutinas utilizando los datos del modelo pasado, retorna un objeto de respuesta con la lista de rutinas.",
+			responses = {
+			@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseGetListRutinas.class))),
+			@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+			@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+	})
 	ResponseEntity<ResponseGetListRutinas> getListRutinas(@RequestBody RequestGetListRutinas model) {
 		ResponseGetListRutinas responseData = ResponseGetListRutinas.builder().data(null).build();
 		ResponseEntity<ResponseGetListRutinas> response;
@@ -417,6 +550,13 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("getalimentos")
+	@Operation(summary = "Obtiene la lista de alimentos",
+			description = "Obtiene la lista de alimentos utilizando los datos del modelo pasado, retorna un objeto de respuesta con la lista de alimentos.",
+			responses = {
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = UsuarioInfo.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+			})
 	ResponseEntity<ResponseGetAlimentos> getAlimentos(@RequestBody RequestGetAlimentos model) {
 		ResponseGetAlimentos responseData = ResponseGetAlimentos.builder().data(null).build();
 		ResponseEntity<ResponseGetAlimentos> response;

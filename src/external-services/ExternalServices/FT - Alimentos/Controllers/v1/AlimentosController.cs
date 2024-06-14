@@ -1,6 +1,4 @@
 ﻿using FTAlimentos.Interfaces;
-using FTAlimentos.ModelsSvc.Parse;
-using FTAlimentos.Services;
 using FTAlimentos.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FTAlimentos.Controllers.v1
 {
     /// <summary>
-    /// 
+    /// Controlador de alimentos
     /// </summary>
     /// <param name="alimentosService"></param>
     [ApiController]
@@ -17,6 +15,9 @@ namespace FTAlimentos.Controllers.v1
     {
         #region Properties
 
+        /// <summary>
+        /// Alimentos service
+        /// </summary>
         private readonly IAlimentosService _alimentosService = alimentosService;
 
         #endregion

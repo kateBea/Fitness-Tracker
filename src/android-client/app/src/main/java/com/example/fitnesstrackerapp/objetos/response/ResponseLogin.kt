@@ -5,41 +5,47 @@ import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDateTime
 
+/**
+ * Clase de datos que representa la respuesta de inicio de sesión.
+ * Contiene datos de sesión del usuario, descripción de la respuesta y estado de éxito.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 data class ResponseLogin(
+    /**
+     * Datos de sesión del usuario.
+     */
+    @SerializedName("data")
+    var data: Data = Data(),
 
+    /**
+     * Descripción de la respuesta.
+     */
     @SerializedName("response_description")
-    var responseDescription:String = "",
+    var responseDescription: String = "",
 
+    /**
+     * Estado de éxito de la respuesta.
+     */
     @SerializedName("success")
-    var success:Boolean = false,
-
-    @SerializedName("email")
-    val email: String? = "",
-
-    @SerializedName("name")
-    val nombre: String? = "",
-
-    @SerializedName("first_name")
-    val apellido: String? = "",
-
-    @SerializedName("second_name")
-    val segundoApellido: String? = "",
-
-    @SerializedName("token")
-    val token: String? = "",
-
-    @SerializedName("token_expiration_date")
-    val tokenExpiration: LocalDateTime? = LocalDateTime.now(),
-
-    @SerializedName("token_duration")
-    val tokenDuration: Int = 0,
-
-    @SerializedName("logged_at")
-    val loggedAt: LocalDateTime? = LocalDateTime.now()
+    var success: Boolean = false
 )
 
+/**
+ * Enumeración que define los posibles valores de sexo.
+ */
 enum class Sexo {
+    /**
+     * Representa el sexo masculino.
+     */
     Hombre,
-    Mujer
+
+    /**
+     * Representa el sexo femenino.
+     */
+    Mujer,
+
+    /**
+     * Representa otro género o sexo.
+     */
+    Otro
 }

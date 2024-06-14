@@ -15,6 +15,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Model que representa un usuario
+ *
+ * @version 1.0
+ * */
 @Data
 @Builder
 @AllArgsConstructor
@@ -65,6 +70,15 @@ public class Usuario {
 	@Field(value = "altura")
 	@JsonProperty(value = "altura")
 	private float altura;
+
+	// Codificada en base 64
+	@Field(value = "imagen")
+	@JsonProperty(value = "imagen")
+	private String imagen;
+
+	@Field(value = "objetivo_peso")
+	@JsonProperty(value = "objetivo_peso")
+	private float objetivoPeso;
 
 	// En kilogramos
 	@Field(value = "peso")

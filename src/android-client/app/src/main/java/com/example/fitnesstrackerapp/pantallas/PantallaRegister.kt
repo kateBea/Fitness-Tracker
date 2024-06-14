@@ -1,5 +1,7 @@
 package com.example.fitnesstrackerapp.pantallas
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +24,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,29 +40,45 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fitnesstrackerapp.R
 import com.example.fitnesstrackerapp.ui.theme.azul1
 import com.example.fitnesstrackerapp.ui.theme.azul2
 import com.example.fitnesstrackerapp.ui.theme.colorBoton
+import com.example.fitnesstrackerapp.uiViewModel.RegisterViewModel
 import com.example.fitnesstrackerapp.utilidades.BotonLogin
 
+/**
+ * Composable que representa la pantalla de inicio de sesión.
+ *
+ * @param navController Controlador de navegación para gestionar la navegación entre pantallas.
+ * @param registerViewModel ViewModel para gestionar el estado y la lógica de la pantalla de register
+ */
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun VentanaRegister(navController: NavHostController) {
+fun VentanaRegister(navController: NavHostController, registerViewModel: RegisterViewModel = hiltViewModel()) {
     val brush = Brush.linearGradient(listOf(azul2, azul1))
     val image: Painter = painterResource(id = R.drawable.grupo)
     val fuente = FontFamily(Font(R.font.extralight))
 
     var textoEmail =  remember { mutableStateOf("") }
     var textoPass = remember { mutableStateOf("") }
+    var textoUser = remember { mutableStateOf("") }
 
     var firstTimeButon by remember { mutableStateOf(false) }
     val (focusRequester) = FocusRequester.createRefs()
 
+    val done = registerViewModel.done.collectAsState().value
+
+    if(done)
+        navController.navigate("login")
 
     Column (modifier = Modifier
         .background(brush)
@@ -70,7 +89,7 @@ fun VentanaRegister(navController: NavHostController) {
             .fillMaxWidth()
             , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
             Image(painter = image, contentDescription = "Logo",modifier = Modifier.size(120.dp))
-            Text(text = "Nombre", color = Color.White, fontSize = 45.sp, fontFamily = fuente)
+            Text(text = "Fitness Tracker", color = Color.White, fontSize = 40.sp, fontFamily = fuente)
         }
 
 
@@ -80,7 +99,7 @@ fun VentanaRegister(navController: NavHostController) {
             ,horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Top){
 
             BotonLogin(
-                campo = textoEmail,
+                campo = textoUser,
                 firstTimeButton = firstTimeButon,
                 labelTexto = "Usuario",
                 textoError = "Escriba el usuario",
@@ -106,6 +125,8 @@ fun VentanaRegister(navController: NavHostController) {
                 firstTimeButton = firstTimeButon,
                 labelTexto = "Contraseña",
                 textoError = "Escriba la contraseña",
+                PasswordVisualTransformation(),
+                KeyboardType.Password,
                 accountCircle = Icons.Rounded.Lock,
                 focusRequester = focusRequester
             )
@@ -117,7 +138,7 @@ fun VentanaRegister(navController: NavHostController) {
                 ElevatedButton(
                     onClick = {
                         firstTimeButon = true
-                        navController.navigate("menu")
+                        registerViewModel.hacerRegister(textoUser.value, textoEmail.value, textoPass.value)
                     }, modifier = Modifier
                         .height(60.dp)
                         .fillMaxWidth(0.8f)
@@ -138,7 +159,9 @@ fun VentanaRegister(navController: NavHostController) {
                     horizontalArrangement = Arrangement.Center){
                     Text(text = "¿Ya tienes cuenta?", modifier = Modifier.padding(0.dp,10.dp)
                         , fontSize = 17.sp, color = Color.White)
-                    Text(text = " Entra aquí", modifier = Modifier.padding(0.dp,10.dp).clickable { navController.navigate("login") }
+                    Text(text = " Entra aquí", modifier = Modifier
+                        .padding(0.dp, 10.dp)
+                        .clickable { navController.navigate("login") }
                         , fontSize = 17.sp, color = Color.White, fontWeight = FontWeight.Black)
                 }
             }

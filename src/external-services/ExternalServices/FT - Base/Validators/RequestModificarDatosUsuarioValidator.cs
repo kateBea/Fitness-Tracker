@@ -1,11 +1,17 @@
 ﻿using FluentValidation;
-using FT___Base.Models;
+using FTBase.Models;
 using FTAI.Validator;
 
-namespace FT___Base.Validators
+namespace FTBase.Validators
 {
+    /// <summary>
+    /// Validador para RequestModificarDatosUsuario
+    /// </summary>
     public class RequestModificarDatosUsuarioValidator : BaseValidator<RequestModificarDatosUsuario>
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public RequestModificarDatosUsuarioValidator()
         {
             RuleFor(x => x.NombreUsuario).NotEmpty().Length(3, 50);

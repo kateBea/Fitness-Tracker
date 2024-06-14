@@ -7,24 +7,12 @@ using System.Threading.Tasks;
 namespace FTAI.Exceptions
 {
     /// <summary>
-    /// 
+    /// Representa una excepción personalizada utilizada para el manejo de errores específicos de asistencia.
     /// </summary>
-    public class AssistanceException : Exception
-    {
-        #region Properties
-        /// <summary>
-        /// 
-        /// </summary>
-        public string Message { get; set; } = string.Empty;
-        #endregion
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="message"></param>
-        public AssistanceException(string message)
-        {
-            Message = message;
-        }
-    }
+    /// <remarks>
+    /// Inicializa una nueva instancia de la clase <see cref="AssistanceException"/> con el mensaje de error especificado.
+    /// </remarks>
+    /// <param name="message">El mensaje que describe el error.</param>
+    public class AssistanceException(string message) : Exception(message) {}
 }
+

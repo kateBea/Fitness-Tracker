@@ -1,58 +1,123 @@
 ﻿using AutoMapper;
-using FT___Base.Interfaces;
-using FT___Base.Models;
-using FT___Base.ViewModels;
+using FTBase.Interfaces;
+using FTBase.Models;
+using FTBase.ViewModels;
 using FTAlimentos.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Security.Authentication;
 using Shared.Constants;
 using Shared.Contexts;
 using Shared.Utilities;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using static FT___Base.ViewModels.ResponseGetDatosUsuarioVM;
-using static FT___Base.ViewModels.ResponseLoginVM;
+using static FTBase.ViewModels.ResponseGetDatosUsuarioVM;
+using static FTBase.ViewModels.ResponseLoginVM;
 
-namespace FT___Base.Services
+namespace FTBase.Services
 {
     /// <summary>
-    /// 
+    /// Base service
     /// </summary>
     public class BaseServices : IBaseServices
     {
         #region Properties
 
+        /// <summary>
+        /// Punto final para la operación de inicio de sesión.
+        /// </summary>
         private readonly string _loginEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de registro de usuario.
+        /// </summary>
         private readonly string _registerEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de cambio de contraseña.
+        /// </summary>
         private readonly string _cambiarPasswordEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de registro de dieta.
+        /// </summary>
         private readonly string _registrarDietaEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de modificación de dieta.
+        /// </summary>
         private readonly string _modificarDietaEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de modificación de rutina.
+        /// </summary>
         private readonly string _modificarRutinaEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de obtención de datos de usuario.
+        /// </summary>
         private readonly string _getDatosUsuarioEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de modificación de datos de usuario.
+        /// </summary>
         private readonly string _modificarDatosUsuarioEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de obtención de la lista de dietas de usuario.
+        /// </summary>
         private readonly string _getListDietasUsuarioEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de obtención de dieta de usuario.
+        /// </summary>
         private readonly string _getDietaUsuarioEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de obtención de rutina por ID.
+        /// </summary>
         private readonly string _getRutinaEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de obtención de la lista de rutinas de usuario.
+        /// </summary>
         private readonly string _getListRutinasEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de registro de rutina.
+        /// </summary>
         private readonly string _registrarRutinaEndpoint;
+
+        /// <summary>
+        /// Punto final para la operación de obtención de alimentos.
+        /// </summary>
         private readonly string _getAlimentosEndpoint;
 
+        /// <summary>
+        /// Cliente HTTP para realizar solicitudes HTTP.
+        /// </summary>
         private readonly HttpClient _httpClient;
+
+        /// <summary>
+        /// Objeto para mapear entre diferentes tipos de objetos.
+        /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Contexto de datos HTTP para acceder a la información de la solicitud HTTP actual.
+        /// </summary>
         private readonly IDataHttpContext _dataHttpContext;
 
         #endregion
 
+
         /// <summary>
-        /// 
+        /// Constructor de la clase BaseServices.
         /// </summary>
-        /// <param name="configuration"></param>
-        /// <param name="mapper"></param>
+        /// <param name="configuration">Configuración de la aplicación proporcionada por el entorno.</param>
+        /// <param name="mapper">Objeto utilizado para mapear entre diferentes tipos de objetos.</param>
+        /// <param name="dataHttpContext">Contexto de datos HTTP para acceder a la información de la solicitud HTTP actual.</param>
         public BaseServices(IConfiguration configuration, IMapper mapper, IDataHttpContext dataHttpContext)
         {
             _mapper = mapper;
@@ -73,16 +138,17 @@ namespace FT___Base.Services
             _registrarRutinaEndpoint = configuration.GetSection("ExternalServices:RegistrarRutinaEndpoint").Value!;
             _getAlimentosEndpoint = configuration.GetSection("ExternalServices:GetAlimentosEndpoint").Value!;
 
-                _httpClient = new HttpClient();
+            _httpClient = new();
             _httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         /// <summary>
-        /// 
+        /// Cambia la contraseña del usuario según el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para cambiar la contraseña.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. Devuelve un objeto 
+        /// <see cref="ResponseCambiarPasswordVM"/> como resultado de la operación.</returns>
         public async Task<ResponseCambiarPasswordVM> CambiarPassword(RequestCambiarPassword model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -91,7 +157,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseCambiarPasswordVM();
             string finalUrl = SetBaseParams(_cambiarPasswordEndpoint).ToString();
 
-            var obj = _mapper.Map<CambiarPasswordSvcIn>(model);
+            var obj = _mapper.Map<RequestCambiarPasswordSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -100,7 +166,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<CambiarPasswordSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseCambiarPasswordSvc>(json);
 
                 resultVm = _mapper.Map<ResponseCambiarPasswordVM>(parsed);
             }
@@ -109,10 +175,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtiene los datos del usuario según el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para obtener los datos del usuario.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseGetDatosUsuarioVM"/> con los datos del usuario.</returns>
         public async Task<ResponseGetDatosUsuarioVM> GetDatosUsuario(RequestGetDatosUsuario model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -121,7 +188,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseGetDatosUsuarioVM();
             string finalUrl = SetBaseParams(_getDatosUsuarioEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestGetDatosUsuarioSvcIn>(model);
+            var obj = _mapper.Map<RequestGetDatosUsuarioSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -130,7 +197,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<ResponseGetDatosUsuarioSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseGetDatosUsuarioSvc>(json);
 
                 resultVm.Data = _mapper.Map<ResponseGetDatosUsuarioVMData>(parsed?.Data);
                 resultVm.ResponseDescription = parsed?.ResponseDescription;
@@ -144,10 +211,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtiene la dieta del usuario según el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para obtener la dieta del usuario.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseGetDietaDeUsuarioVM"/> con los detalles de la dieta del usuario.</returns>
         public async Task<ResponseGetDietaDeUsuarioVM> GetDietaUsuario(RequestGetDietaDeUsuario model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -156,7 +224,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseGetDietaDeUsuarioVM();
             string finalUrl = SetBaseParams(_getDietaUsuarioEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestGetDietaUsuarioInSvc>(model);
+            var obj = _mapper.Map<RequestGetDietaUsuarioSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -165,7 +233,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<ResponseGetDietaUsuarioSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseGetDietaUsuarioSvc>(json);
 
                 resultVm = _mapper.Map<ResponseGetDietaDeUsuarioVM>(parsed);
             }
@@ -174,10 +242,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtiene la lista de dietas de usuario según el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para obtener la lista de dietas de usuario.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseRequestGetListDietasDeUsuarioVM"/> con la lista de dietas de usuario.</returns>
         public async Task<ResponseRequestGetListDietasDeUsuarioVM> GetListDietasDeUsuario(RequestGetListDietasDeUsuario model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -186,7 +255,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseRequestGetListDietasDeUsuarioVM();
             string finalUrl = SetBaseParams(_getListDietasUsuarioEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestGetListDietasDeUsuarioSvcIn>(model);
+            var obj = _mapper.Map<RequestGetListDietasDeUsuarioSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -205,10 +274,11 @@ namespace FT___Base.Services
 
 
         /// <summary>
-        /// 
+        /// Obtiene la lista de rutinas de usuario según el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para obtener la lista de rutinas de usuario.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseGetListRutinasUsuarioVM"/> con la lista de rutinas de usuario.</returns>
         public async Task<ResponseGetListRutinasUsuarioVM> GetListRutinasUsuario(RequestGetListRutinasUsuario model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -217,7 +287,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseGetListRutinasUsuarioVM();
             string finalUrl = SetBaseParams(_getListRutinasEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestGetListRutinasUsuarioSvcIn>(model);
+            var obj = _mapper.Map<RequestGetListRutinasUsuarioSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -226,7 +296,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<ResponseGetListRutinasUsuarioSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseGetListRutinasUsuarioSvc>(json);
 
                 resultVm = _mapper.Map<ResponseGetListRutinasUsuarioVM>(parsed);
 
@@ -241,10 +311,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtiene la lista de alimentos según el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para obtener la lista de alimentos.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseGetAlimentosVM"/> con la lista de alimentos.</returns>
         public async Task<ResponseGetAlimentosVM> GetAlimentos(RequestGetAlimentos model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -271,10 +342,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Obtiene los detalles de una rutina según el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para obtener los detalles de la rutina.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseGetRutinaPorIdVM"/> con los detalles de la rutina.</returns>
         public async Task<ResponseGetRutinaPorIdVM> GetRutinaPorId(RequestGetRutinaPorId model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -283,7 +355,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseGetRutinaPorIdVM();
             string finalUrl = SetBaseParams(_getRutinaEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestGetRutinaPorIdSvcIn>(model);
+            var obj = _mapper.Map<RequestGetRutinaPorIdSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -292,7 +364,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<ResponseGetRutinaPorIdSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseGetRutinaPorIdSvc>(json);
 
                 resultVm = _mapper.Map<ResponseGetRutinaPorIdVM>(parsed);
 
@@ -307,16 +379,17 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Realiza una solicitud de inicio de sesión utilizando el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para iniciar sesión.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseLoginVM"/> con los resultados del inicio de sesión.</returns>
         public async Task<ResponseLoginVM> Login(RequestLogin model)
         {
             var resultVm = new ResponseLoginVM();
             string finalUrl = SetBaseParams(_loginEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestLoginSvcIn>(model);
+            var obj = _mapper.Map<RequestLoginSvc>(model);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -324,7 +397,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<RequestLoginSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseLoginSvc>(json);
 
                 resultVm.ResponseDescription = parsed?.ResponseDescription ?? string.Empty;
                 resultVm.Success = parsed!.Success;
@@ -361,19 +434,20 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Modifica una dieta utilizando el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        public async Task<ResponseModifcarDietaVM> ModificarDieta(RequestModificarDieta model)
+        /// <param name="model">Modelo de solicitud para modificar la dieta.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseModificarDietaVM"/> con los resultados de la modificación de la dieta.</returns>
+        public async Task<ResponseModificarDietaVM> ModificarDieta(RequestModificarDieta model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
             string emailFromToken = JwtTokenHandler.GetClaimFromJwt(token, "email");
 
-            var resultVm = new ResponseModifcarDietaVM();
+            var resultVm = new ResponseModificarDietaVM();
             string finalUrl = SetBaseParams(_modificarDietaEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestModifcarDietaSvcIn>(model);
+            var obj = _mapper.Map<RequestModifcarDietaSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -384,17 +458,18 @@ namespace FT___Base.Services
                 var json = await result.Content.ReadAsStringAsync();
                 var parsed = JsonConvert.DeserializeObject<ResponseModifcarDietaSvcOut>(json);
 
-                resultVm = _mapper.Map<ResponseModifcarDietaVM>(parsed);
+                resultVm = _mapper.Map<ResponseModificarDietaVM>(parsed);
             }
 
             return resultVm;
         }
 
         /// <summary>
-        /// 
+        /// Modifica los datos de un usuario utilizando el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para modificar los datos del usuario.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseModificarDatosUsuarioVM"/> con los resultados de la modificación de los datos del usuario.</returns>
         public async Task<ResponseModificarDatosUsuarioVM> ModificarDatosUsuario(RequestModificarDatosUsuario model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -403,7 +478,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseModificarDatosUsuarioVM();
             string finalUrl = SetBaseParams(_modificarDatosUsuarioEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestModificarDatosUsuarioSvcIn>(model);
+            var obj = _mapper.Map<RequestModificarDatosUsuarioSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -412,7 +487,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<ResponseModificarDatosUsuarioSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseModificarDatosUsuarioSvc>(json);
 
                 resultVm = _mapper.Map<ResponseModificarDatosUsuarioVM>(parsed);
             }
@@ -421,10 +496,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Modifica una rutina utilizando el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para modificar la rutina.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseModificarRutinaVM"/> con los resultados de la modificación de la rutina.</returns>
         public async Task<ResponseModificarRutinaVM> ModificarRutina(RequestModificarRutina model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -433,7 +509,7 @@ namespace FT___Base.Services
             var resultVm = new ResponseModificarRutinaVM();
             string finalUrl = SetBaseParams(_modificarRutinaEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestModificarRutinaSvcIn>(model);
+            var obj = _mapper.Map<RequestModificarRutinaSvc>(model);
             obj.Email = DecodeUserEmail(emailFromToken);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
@@ -442,7 +518,7 @@ namespace FT___Base.Services
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<ResponseModificarRutinaSvcOut>(json);
+                var parsed = JsonConvert.DeserializeObject<ResponseModificarRutinaSvc>(json);
 
                 resultVm = _mapper.Map<ResponseModificarRutinaVM>(parsed);
             }
@@ -450,6 +526,12 @@ namespace FT___Base.Services
             return resultVm;
         }
 
+        /// <summary>
+        /// Registra una nueva rutina utilizando el modelo proporcionado.
+        /// </summary>
+        /// <param name="model">Modelo de solicitud para registrar la rutina.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseRegistrarRutinaVM"/> con los resultados del registro de la rutina.</returns>
         public async Task<ResponseRegistrarRutinaVM> RegistrarRutina(RequestRegistrarRutina model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -476,16 +558,17 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Registra un nuevo usuario utilizando el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para registrar el usuario.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseRegistrarUsuarioVM"/> con los resultados del registro del usuario.</returns>
         public async Task<ResponseRegistrarUsuarioVM> RegistrarUsuario(RequestRegistrarUsuario model)
         {
             var resultVm = new ResponseRegistrarUsuarioVM();
             string finalUrl = SetBaseParams(_registerEndpoint).ToString();
 
-            var obj = _mapper.Map<RequestRegisterSvcIn>(model);
+            var obj = _mapper.Map<RequestRegisterSvc>(model);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
             var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
@@ -503,10 +586,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Registra una nueva dieta utilizando el modelo proporcionado.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <param name="model">Modelo de solicitud para registrar la dieta.</param>
+        /// <returns>Una tarea que representa la operación asincrónica. 
+        /// Devuelve un objeto <see cref="ResponseRegistrarDietaVM"/> con los resultados del registro de la dieta.</returns>
         public async Task<ResponseRegistrarDietaVM> RegistrarDieta(RequestRegistrarDieta model)
         {
             string token = _dataHttpContext.GetHeaderByName(HttpConstants.AuthorizationHeader).Split(" ").Last();
@@ -535,12 +619,11 @@ namespace FT___Base.Services
         #region Private Methods
 
         /// <summary>
-        /// Returns encripted email in 64 base
+        /// Devuelve el correo electrónico encriptado en base 64.
         /// </summary>
-        /// <param name="email"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        private string EncodeUserEmail(string email)
+        /// <param name="email">Correo electrónico a encriptar.</param>
+        /// <returns>El correo electrónico encriptado en formato base 64.</returns>
+        private static string EncodeUserEmail(string email)
         {
             byte[] encrypted;
 
@@ -556,11 +639,10 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// returns decripted email
+        /// Email desencriptado
         /// </summary>
         /// <param name="email">64 base encripted email</param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         private static string DecodeUserEmail(string email)
         {
             string roundtrip;
@@ -576,11 +658,11 @@ namespace FT___Base.Services
         }
 
         /// <summary>
-        /// 
+        /// Configura los parámetros base para construir una URI.
         /// </summary>
-        /// <param name="baseUrl"></param>
-        /// <param name="port"></param>
-        /// <returns></returns>
+        /// <param name="baseUrl">URL base.</param>
+        /// <param name="port">Puerto opcional (por defecto es 8080).</param>
+        /// <returns>Objeto UriBuilder configurado con los parámetros base especificados.</returns>
         private static UriBuilder SetBaseParams(string baseUrl, int port = 8080)
         {
             UriBuilder result = new(baseUrl)

@@ -1,11 +1,17 @@
 ﻿using FluentValidation;
-using FT___Base.Models;
+using FTBase.Models;
 using FTAI.Validator;
 
-namespace FT___Base.Validators
+namespace FTBase.Validators
 {
+    /// <summary>
+    /// Validador para RequestModificarRutina
+    /// </summary>
     public class RequestModificarRutinaValidator : BaseValidator<RequestModificarRutina>
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public RequestModificarRutinaValidator()
         {
             RuleFor(data => data.Id).NotEmpty();

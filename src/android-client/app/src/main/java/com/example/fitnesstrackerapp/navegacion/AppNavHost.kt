@@ -39,89 +39,152 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.example.fitnesstrackerapp.pantallas.PantallaBuscar
 import com.example.fitnesstrackerapp.pantallas.PantallaInfoDiaria
 import com.example.fitnesstrackerapp.pantallas.PantallaLogin
 import com.example.fitnesstrackerapp.pantallas.VentanaRegister
+import com.example.fitnesstrackerapp.pantallas.decidirEjercicio
+import com.example.fitnesstrackerapp.pantallas.mostrarTodosAlimentos
 import com.example.fitnesstrackerapp.pantallas.pantallaInformacion
 import com.example.fitnesstrackerapp.pantallas.pantallaPrincipal
+import com.example.fitnesstrackerapp.pantallas.todosEjercicios
 import com.example.fitnesstrackerapp.ui.theme.azul1
 import com.example.fitnesstrackerapp.uiViewModel.InformacionViewModel
 
-sealed class Pantallas(var route:String){
+/**
+ * Clase sellada que representa las diferentes pantallas de la aplicación.
+ *
+ * @property route La ruta asociada a la pantalla.
+ */
+sealed class Pantallas(var route: String) {
+    /** Pantalla de inicio de sesión */
     data object Login : Pantallas("login")
-    data object Register: Pantallas("register")
+    /** Pantalla de registro */
+    data object Register : Pantallas("register")
+    /** Pantalla de menú */
     data object Menu : Pantallas("menu")
+    /** Pantalla de información */
     data object Info : Pantallas("info")
-    data object Diario: Pantallas("diario")
+    /** Pantalla del diario */
+    data object Diario : Pantallas("diario")
+    /** Pantalla de búsqueda */
+    data object Buscar : Pantallas("buscar")
+    /** Pantalla de alimentos */
+    data object Alimentos: Pantallas("alimentos")
+    /** Pantalla de ejercicios */
+    data object Ejercicios: Pantallas("ejercicios")
+    data object DecidirEjercicio:Pantallas("decidir")
 }
 
-
+/**
+ * Función de navegación que configura las pantallas y la visibilidad de la barra de herramientas.
+ *
+ * @param navController Controlador de navegación de Jetpack Compose.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun navegacion(navController: NavHostController) {
-    val showToolbar = remember {mutableStateOf(false)}
+    val showToolbar = remember { mutableStateOf(false) }
     hideOrShowToolbar(navController = navController, showToolbar = showToolbar)
 
-    if(showToolbar.value){
+    if (showToolbar.value) {
         scaffoldPantallas(navHostController = navController)
-    }else{
+    } else {
         navegacionPantallas(navController = navController)
     }
-
-
 }
 
+/**
+ * Función para mostrar u ocultar la barra de herramientas según la pantalla actual.
+ *
+ * @param navController Controlador de navegación de Jetpack Compose.
+ * @param showToolbar Estado mutable que indica si la barra de herramientas debe mostrarse.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun hideOrShowToolbar(
     navController: NavHostController,
     showToolbar: MutableState<Boolean>
-){
-    // Funcion que devuelve el destino actual cada vez que cambia
+) {
+    // Función que se llama cada vez que cambia el destino de la navegación
     navController.addOnDestinationChangedListener(NavController.OnDestinationChangedListener { controller, destination, arguments ->
-        // Si estamos en el login, no mostrar el menú, en todas las demas pantallas sí
-        when(controller.currentDestination?.route){
-            Pantallas.Login.route ->{
+        // Si estamos en la pantalla de login o registro, no mostrar la barra de herramientas; en todas las demás pantallas, sí.
+        when (controller.currentDestination?.route) {
+            Pantallas.Login.route -> {
                 showToolbar.value = false
             }
-            Pantallas.Register.route ->{
+            Pantallas.Register.route -> {
                 showToolbar.value = false
             }
-            else ->{
+            else -> {
                 showToolbar.value = true
             }
         }
     })
 }
 
+/**
+ * Función que configura la navegación entre las diferentes pantallas de la aplicación.
+ *
+ * @param navController Controlador de navegación de Jetpack Compose.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun navegacionPantallas(navController: NavHostController){
-    NavHost(navController = navController, startDestination = Pantallas.Login.route){
-        composable(Pantallas.Login.route){
+fun navegacionPantallas(navController: NavHostController) {
+    NavHost(navController = navController, startDestination = Pantallas.Login.route) {
+        // Configura las diferentes pantallas y sus rutas
+        composable(Pantallas.Login.route) {
             PantallaLogin(navController)
         }
-        composable(Pantallas.Register.route){
+        composable(Pantallas.Register.route) {
             VentanaRegister(navController)
         }
-        composable(Pantallas.Menu.route){
-            pantallaPrincipal()
+        composable(Pantallas.Menu.route) {
+            pantallaPrincipal(navHostController = navController)
         }
-        composable(Pantallas.Info.route){
+        composable(Pantallas.Info.route) {
             pantallaInformacion()
         }
-        composable(Pantallas.Diario.route){
-            PantallaInfoDiaria()
+        composable(Pantallas.Diario.route) {
+            PantallaInfoDiaria(navHostController = navController)
+        }
+        composable(
+            route = "${Pantallas.Buscar.route}/{number}",
+            arguments = listOf(navArgument("number") { type = NavType.IntType })
+        ) {
+            // Obtiene el argumento "number" de la ruta y muestra la pantalla de búsqueda
+            val number = it.arguments?.getInt("number")
+            PantallaBuscar(number ?: 0, navController)
+        }
+        composable(Pantallas.Alimentos.route) {
+            mostrarTodosAlimentos()
+        }
+        composable(Pantallas.Ejercicios.route){
+            todosEjercicios()
+        }
+        composable(Pantallas.DecidirEjercicio.route){
+            decidirEjercicio(navHostController = navController)
         }
     }
 }
 
+/**
+ * Función para configurar el scaffold de las pantallas.
+ *
+ * @param navHostController Controlador de navegación de Jetpack Compose.
+ * @param informacionViewModel ViewModel para gestionar la información del usuario.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun scaffoldPantallas(navHostController: NavHostController, informacionViewModel: InformacionViewModel = hiltViewModel()){
+fun scaffoldPantallas(
+    navHostController: NavHostController,
+    informacionViewModel: InformacionViewModel = hiltViewModel()
+) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val nombre = informacionViewModel.username.collectAsState().value
 
@@ -146,17 +209,19 @@ fun scaffoldPantallas(navHostController: NavHostController, informacionViewModel
                         Icon(
                             imageVector = Icons.Filled.Settings,
                             tint = Color.White,
-                            contentDescription = "Localized description"
+                            contentDescription = "Descripción localizada"
                         )
                     }
                 },
                 scrollBehavior = scrollBehavior,
             )
         },
-    ) { it ->
-        Column (modifier = Modifier
-            .padding(it)
-            .fillMaxSize()){
+    ) { contentPadding ->
+        Column (
+            modifier = Modifier
+                .padding(contentPadding)
+                .fillMaxSize()
+        ){
             Row(
                 modifier = Modifier
                     .height(40.dp)
@@ -198,6 +263,7 @@ fun scaffoldPantallas(navHostController: NavHostController, informacionViewModel
                     Icon(Icons.Rounded.DateRange, contentDescription = "", tint = Color.White)
                 }
             }
+            // Configura la navegación entre las pantallas
             navegacionPantallas(navController = navHostController)
         }
     }

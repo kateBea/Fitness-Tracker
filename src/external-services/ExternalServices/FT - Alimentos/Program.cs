@@ -40,12 +40,9 @@ builder.Services.AddSwaggerGen(c =>
 
 // Add services
 builder.Services.AddScoped<IAlimentosService, AlimentosService>();
-builder.Services.AddScoped<IRecetasService, RecetasService>();
 builder.Services.AddScoped<IDataHttpContext, DataHttpContext>();
 
 builder.Services.AddAutoMapper(typeof(AlimentosMapperProfiles));
-builder.Services.AddAutoMapper(typeof(RecetasMapperProfiles));
-
 
 var app = builder.Build();
 
