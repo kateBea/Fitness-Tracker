@@ -23,7 +23,7 @@ const ImageUploader = ({ onImageUpload }) => {
             };
             reader.readAsDataURL(file); // Leer el archivo como una URL de datos
             // Llamar a la función 'onImageUpload' con el archivo completo (opcional)
-            // onImageUpload(file); 
+            onImageUpload(file); 
     
         } else {
             // Si el archivo no cumple con las condiciones de tipo imagen o tamaño menor a 10 MB

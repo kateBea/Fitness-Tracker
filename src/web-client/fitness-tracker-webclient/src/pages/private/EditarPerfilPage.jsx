@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { TopBar } from "../../components/Topbar";
@@ -9,8 +10,9 @@ import {
   TextField,
   InputLabel,
   Grid,
-  Typography,
-  createTheme
+  createTheme,
+  Select,
+  MenuItem
 } from "@mui/material";
 
 import ImageUploader from '../../components/ImageUploader';
@@ -20,6 +22,8 @@ import { Button } from "@mui/material";
 import { API_ROUTES } from "../../ApiRoutes";
 
 function DietGeneratorPage() {
+
+  const navigate = useNavigate();
   // State setup
   const [dataLoadSuccess, setDataLoadSuccess] = useState(false);
   const [datosUsuario, setDatosUsuario] = useState({});
@@ -35,6 +39,7 @@ function DietGeneratorPage() {
   const [objetivoPeso, setObjetivoPeso] = useState("");
   const [peso, setPeso] = useState("");
   const [altura, setAltura] = useState("");
+  const [sexo, setSexo] = useState("");
 
   // Axios setup
   const token = localStorage.getItem("token");
@@ -50,14 +55,15 @@ function DietGeneratorPage() {
         fechaDeNacimiento: fechaDeNacimiento,
         objetivoPeso: objetivoPeso,
         peso: peso,
-        algura: altura,
-        image: image
+        altura: altura,
+        imagen: image,
+        sexo: sexo
       };
       console.log("requestData", requestData)
-      const response = await axios.post(API_ROUTES.ModificarDatos, requestData);
+      const response = await axios.put(API_ROUTES.ModificarDatos, requestData);
 
       setDataFecthSuccess(true);
-      console.log(response);
+      navigate("/perfil")
     } catch (error) {
       console.log(error);
     }
@@ -87,6 +93,7 @@ function DietGeneratorPage() {
     setPeso(datosUsuario.peso || "");
     setAltura(datosUsuario.altura || "");
     setImage(datosUsuario.imagen || "");
+    setSexo(datosUsuario.sexo != null? datosUsuario.sexo:"hombre");
   };
 
   // Efecto para cargar los datos del perfil al montar el componente
@@ -139,13 +146,16 @@ function DietGeneratorPage() {
           <form onSubmit={handleSubmit}>
             {/* EDAD Y GENERO */}
             <Grid container columnSpacing={2} sx={{ marginBottom: 0 }}>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <InputLabel id="nombre-input">Nombre</InputLabel>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <InputLabel id="nombreUsuario-input">Username</InputLabel>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
+                <InputLabel id="genero-input">Género</InputLabel>
+              </Grid>
+              <Grid item xs={4}>
                 <TextField
                   type="text"
                   variant="outlined"
@@ -156,7 +166,7 @@ function DietGeneratorPage() {
                   required
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={4}>
                 <TextField
                   type="text"
                   variant="outlined"
@@ -166,6 +176,22 @@ function DietGeneratorPage() {
                   fullWidth
                   required
                 />
+              </Grid>
+              <Grid item xs={4}>
+                <Select
+                  labelId="genero-input"
+                  id="genero"
+                  label="genero"
+                  fullWidth
+                  sx={{ mb: 4 }}
+                  value={sexo}
+                  onChange={(e) => setSexo(e.target.value)}
+                  required
+                >
+                  <MenuItem value={"Hombre"}>Hombre</MenuItem>
+                  <MenuItem value={"Mujer"}>Mujer</MenuItem>
+                  <MenuItem value={"Otro"}>Otro</MenuItem>
+                </Select>
               </Grid>
             </Grid>
             {/* Nick Edad */}
@@ -201,7 +227,7 @@ function DietGeneratorPage() {
             {/* Objetivos */}
             <Grid container columnSpacing={2} sx={{ marginTop: '20px' }}>
               <Grid item xs={6}>
-                <InputLabel id="fechaNacimiento-input">Fecha de Nacimiento</InputLabel>
+                <InputLabel id="fechaNacimiento-input">Fecha de Nacimiento(yyyy-mm-dd)</InputLabel>
               </Grid>
               <Grid item xs={6}>
                 <InputLabel id="pesoObjetivo-input">Objetivo de Peso</InputLabel>
@@ -219,7 +245,7 @@ function DietGeneratorPage() {
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  type="text"
+                  type="number"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setObjetivoPeso(e.target.value)}
@@ -238,7 +264,7 @@ function DietGeneratorPage() {
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  type="text"
+                  type="number"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setPeso(e.target.value)}
@@ -249,7 +275,7 @@ function DietGeneratorPage() {
               </Grid>
               <Grid item xs={6}>
                 <TextField
-                  type="text"
+                  type="number"
                   variant="outlined"
                   color="secondary"
                   onChange={(e) => setAltura(e.target.value)}

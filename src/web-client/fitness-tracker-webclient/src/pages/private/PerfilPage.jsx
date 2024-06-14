@@ -37,7 +37,8 @@ function PerfilPage() {
       setDataLoadSucces(true);
       setDatosUsuario(response.data.data);
       setEdad(new Date(Date.now()).getFullYear() - parseInt(response.data.data.fechaDeNacimiento.split('-')[0]))
-      console.log(response.data.data)
+      console.log("Response",response.data.data)
+      console.log("Datos image",datosUsuario.imagen)
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +79,7 @@ function PerfilPage() {
             }}
           ><Grid container>
               <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.image != null ? datosUsuario.image : Prueba} style={{ width: '70%', height: '100%', marginTop: '20px' }} />
+                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != "" ? datosUsuario.imagen : Prueba} style={{ width: '400px', height: '400px', marginTop: '20px' }} />
               </Grid>
               <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
                 <Typography

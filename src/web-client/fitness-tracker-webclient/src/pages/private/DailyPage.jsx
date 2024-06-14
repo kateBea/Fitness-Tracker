@@ -52,7 +52,7 @@ function DailyPage() {
             setUltimaRutinas(responseRutinas.data.data[responseDietas.data.data.length - 1]);
             // Marcar que la carga de datos fue exitosa
             setFetchDataSuccesfull(true);
-            
+
             setComidasSugeridas(ultimaDietas.comidasSugeridas.length > 0 ? ultimaDietas.comidasSugeridas.map(comida => comida.nombre).join(', ') : 'No hay comidas sugeridas');
             setComidasConsumidas(ultimaRutinas.comidasConsumidas.length > 0 ? ultimaRutinas.comidasConsumidas.map(comida => comida.nombre).join(', ') : 'No hay comidas consumidas');
         } catch (error) {
@@ -114,7 +114,7 @@ function DailyPage() {
                         }}
                     ><Grid container>
                             <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.image != null ? datosUsuario.image : Prueba} style={{ width: '70%', height: '100%', marginTop: '20px' }} />
+                                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != "" ? datosUsuario.imagen : Prueba} style={{ width: '400px', height: '400px', marginTop: '20px' }} />
                             </Grid>
                             <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
                                 <Typography
@@ -132,7 +132,7 @@ function DailyPage() {
                                         }
                                     }}
                                 >
-                                    ElGuilleDEV
+                                    {datosUsuario.nombreUsuario}
                                 </Typography>
                             </Grid>
                         </Grid>
