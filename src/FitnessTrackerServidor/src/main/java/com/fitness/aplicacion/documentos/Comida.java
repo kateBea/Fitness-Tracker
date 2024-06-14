@@ -10,6 +10,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Modelo que representa una Comida
+ *
+ * @version 1.0
+ * */
 @Data
 @Builder
 @AllArgsConstructor

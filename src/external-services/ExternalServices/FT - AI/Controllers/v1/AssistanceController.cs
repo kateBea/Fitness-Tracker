@@ -102,7 +102,7 @@ namespace FTAI.Controllers.v1
         /// <param name="model">Requisitos de la dieta</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseGenerarDietaVM"/>.</returns>
         [HttpPost("GenerarDieta")]
-        [Authorize] // authorize
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseGenerarDietaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

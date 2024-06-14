@@ -4,12 +4,26 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Clase que representa los datos de un usuario obtenidos de al API.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 data class DatosUsuario(
-    @SerializedName("response_description")
-    val responseDescription:String = "",
-    @SerializedName("success")
-    val success:Boolean = false,
+    /**
+     * Objeto que contiene la información del usuario.
+     */
     @SerializedName("data")
-    val usuario: Usuario = Usuario()
+    val usuario: Usuario = Usuario(),
+
+    /**
+     * Descripción de la respuesta obtenida.
+     */
+    @SerializedName("responseDescription")
+    val responseDescription: String = "",
+
+    /**
+     * Indicador de éxito de la respuesta.
+     */
+    @SerializedName("success")
+    val success: Boolean = false
 )

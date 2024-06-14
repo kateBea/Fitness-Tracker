@@ -1,11 +1,17 @@
 ﻿using FluentValidation;
-using FT___Base.Models;
+using FTBase.Models;
 using FTAI.Validator;
 
-namespace FT___Base.Validators
+namespace FTBase.Validators
 {
+    /// <summary>
+    /// Validador para RequestRegistrarDieta
+    /// </summary>
     public class RequestRegistrarDietaValidator : BaseValidator<RequestRegistrarDieta>
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public RequestRegistrarDietaValidator()
         {
             RuleFor(x => x.CaloriasTarget).GreaterThan(0);

@@ -45,6 +45,12 @@ public class ResponseGetDatosUsuario extends BaseResponse {
         @JsonProperty(value = "fecha_alta")
         private LocalDateTime fechaRegistro;
 
+        @JsonProperty(value = "imagen")
+        private String imagen;
+
+        @JsonProperty(value = "objetivo_peso")
+        private float objetivoPeso;
+
         // En centímetros
         @JsonProperty(value = "altura")
         private float altura;

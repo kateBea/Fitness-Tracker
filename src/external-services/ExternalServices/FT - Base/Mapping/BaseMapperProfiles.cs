@@ -1,65 +1,68 @@
 ﻿using AutoMapper;
-using FT___Base.Models;
-using FT___Base.ViewModels;
+using FTBase.Models;
+using FTBase.ViewModels;
 using FTAlimentos.Models;
 using Shared.Utilities;
-using static FT___Base.ViewModels.ResponseGetDatosUsuarioVM;
-using static FT___Base.ViewModels.ResponseLoginVM;
+using static FTBase.ViewModels.ResponseGetDatosUsuarioVM;
+using static FTBase.ViewModels.ResponseLoginVM;
+using static FTBase.Models.ResponseGetAlimentosSvc;
 
-namespace FT___Base.Mapping
+namespace FTBase.Mapping
 {
     /// <summary>
-    /// 
+    /// Base mapping profiles
     /// </summary>
     public class BaseMapperProfiles : Profile
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public BaseMapperProfiles()
         {
-            CreateMap<RequestCambiarPassword, CambiarPasswordSvcIn>();
-            CreateMap<CambiarPasswordSvcOut, ResponseCambiarPasswordVM>();
+            CreateMap<RequestCambiarPassword, RequestCambiarPasswordSvc>();
+            CreateMap<ResponseCambiarPasswordSvc, ResponseCambiarPasswordVM>();
 
             CreateMap<RequestGetAlimentos, RequestGetAlimentosSvc>();
             CreateMap<ResponseGetAlimentosSvc, ResponseGetAlimentosVM>();
 
-            CreateMap<RequestGetDatosUsuario, RequestGetDatosUsuarioSvcIn>();
+            CreateMap<RequestGetDatosUsuario, RequestGetDatosUsuarioSvc>();
             CreateMap<ResponseGetDatosUsuarioSvcOutData, ResponseGetDatosUsuarioVMData>();
 
-            CreateMap<RequestGetDietaDeUsuario, RequestGetDietaUsuarioInSvc>();
-            CreateMap<ResponseGetDietaUsuarioSvcOut, ResponseGetDietaDeUsuarioVM>();
+            CreateMap<RequestGetDietaDeUsuario, RequestGetDietaUsuarioSvc>();
+            CreateMap<ResponseGetDietaUsuarioSvc, ResponseGetDietaDeUsuarioVM>();
 
             CreateMap<RequestRegistrarRutina, RequestRegistrarRutinaIn>();
             CreateMap<RequestRegistrarRutinaOut, ResponseRegistrarRutinaVM>();
 
-            CreateMap<RequestGetListDietasDeUsuario, RequestGetListDietasDeUsuarioSvcIn>();
+            CreateMap<RequestGetListDietasDeUsuario, RequestGetListDietasDeUsuarioSvc>();
             CreateMap<ResponseGetListDietasDeUsuarioSvcOut, ResponseRequestGetListDietasDeUsuarioVM>();
 
-            CreateMap<RequestGetListRutinasUsuario, RequestGetListRutinasUsuarioSvcIn>();
-            CreateMap<ResponseGetListRutinasUsuarioSvcOut, ResponseGetListRutinasUsuarioVM>();
+            CreateMap<RequestGetListRutinasUsuario, RequestGetListRutinasUsuarioSvc>();
+            CreateMap<ResponseGetListRutinasUsuarioSvc, ResponseGetListRutinasUsuarioVM>();
 
-            CreateMap<RequestGetRutinaPorId, RequestGetRutinaPorIdSvcIn>();
-            CreateMap<ResponseGetRutinaPorIdSvcOut, ResponseGetRutinaPorIdVM>();
+            CreateMap<RequestGetRutinaPorId, RequestGetRutinaPorIdSvc>();
+            CreateMap<ResponseGetRutinaPorIdSvc, ResponseGetRutinaPorIdVM>();
 
-            CreateMap<RequestLogin, RequestLoginSvcIn>();
-            CreateMap<RequestLoginSvcOut, ResponseLoginVMData>();
+            CreateMap<RequestLogin, RequestLoginSvc>();
+            CreateMap<ResponseLoginSvc, ResponseLoginVMData>();
 
 
-            CreateMap<RequestModificarDieta, RequestModifcarDietaSvcIn>();
-            CreateMap<ResponseModifcarDietaSvcOut, ResponseModifcarDietaVM>();
+            CreateMap<RequestModificarDieta, RequestModifcarDietaSvc>();
+            CreateMap<ResponseModifcarDietaSvcOut, ResponseModificarDietaVM>();
 
-            CreateMap<RequestModificarDatosUsuario, RequestModificarDatosUsuarioSvcIn>();
-            CreateMap<ResponseModificarDatosUsuarioSvcOut, ResponseModificarDatosUsuarioVM>();
+            CreateMap<RequestModificarDatosUsuario, RequestModificarDatosUsuarioSvc>();
+            CreateMap<ResponseModificarDatosUsuarioSvc, ResponseModificarDatosUsuarioVM>();
 
-            CreateMap<RequestModificarRutina, RequestModificarRutinaSvcIn>();
-            CreateMap<ResponseModificarRutinaSvcOut, ResponseModificarRutinaVM>();
+            CreateMap<RequestModificarRutina, RequestModificarRutinaSvc>();
+            CreateMap<ResponseModificarRutinaSvc, ResponseModificarRutinaVM>();
 
-            CreateMap<RequestRegistrarUsuario, RequestRegisterSvcIn>();
-            CreateMap<ResponseRegisterSvcOut, ResponseRegistrarUsuarioVM>();
+            CreateMap<RequestRegistrarUsuario, RequestRegisterSvc>();
+            CreateMap<ResponseRegisterSvc, ResponseRegistrarUsuarioVM>();
 
             CreateMap<RequestRegistrarDieta, RequestRegistrarDietaSvcIn>();
             CreateMap<ResponseRegistrarDietaOut, ResponseRegistrarDietaVM>();
+
+            CreateMap<GetAlimentosListItem, GetAlimentosListItemVM>();
         }
     }
 

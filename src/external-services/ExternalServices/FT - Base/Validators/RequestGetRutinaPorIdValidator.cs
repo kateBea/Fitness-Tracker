@@ -1,14 +1,20 @@
 ﻿using FluentValidation;
-using FT___Base.Models;
+using FTBase.Models;
 using FTAI.Validator;
 
-namespace FT___Base.Validators
+namespace FTBase.Validators
 {
+    /// <summary>
+    /// Validador para RequestGetRutinaPorId
+    /// </summary>
     public class RequestGetRutinaPorIdValidator : BaseValidator<RequestGetRutinaPorId>
     {
+        /// <summary>
+        /// Constrcutor
+        /// </summary>
         public RequestGetRutinaPorIdValidator()
         {
-            RuleFor(x => x.Id).NotEmpty();
+            RuleFor(x => x.Id).NotEmpty().WithMessage("El campo ID es obligatorio.");
         }
     }
 }

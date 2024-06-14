@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Shared.Utilities;
 
-namespace FT___Base.Models
+namespace FTBase.Models
 {
     /// <summary>
     /// Password change external service request model
     /// </summary>
-    public class CambiarPasswordSvcIn
+    public class RequestCambiarPasswordSvc
     {
         /// <summary>
         /// User's email
@@ -30,7 +30,7 @@ namespace FT___Base.Models
     /// <summary>
     /// Password change external service response model
     /// </summary>
-    public class CambiarPasswordSvcOut : BaseResponseSvc
+    public class ResponseCambiarPasswordSvc : BaseResponseSvc
     {
         /// <summary>
         /// Change date and time

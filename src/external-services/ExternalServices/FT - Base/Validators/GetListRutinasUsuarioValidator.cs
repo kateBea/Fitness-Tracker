@@ -1,10 +1,16 @@
-﻿using FT___Base.Models;
+﻿using FTBase.Models;
 using FTAI.Validator;
 
-namespace FT___Base.Validators
+namespace FTBase.Validators
 {
+    /// <summary>
+    /// Validador para RequestGetListRutinasUsuario
+    /// </summary>
     public class GetListRutinasUsuarioValidator : BaseValidator<RequestGetListRutinasUsuario>
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public GetListRutinasUsuarioValidator()
         {
             

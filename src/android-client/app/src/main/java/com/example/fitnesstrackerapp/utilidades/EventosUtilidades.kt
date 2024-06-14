@@ -38,6 +38,11 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.fitnesstrackerapp.R
 import kotlinx.coroutines.Job
 
+/**
+ * Composable utilizado para mostrar un indicador de carga en pantalla completa.
+ * Este composable cubre toda la pantalla con un fondo semi-transparente y muestra
+ * un indicador de carga animado en el centro.
+ */
 @Composable
 fun cargando(){
     Box(
@@ -58,7 +63,12 @@ fun cargando(){
     }
 }
 
-
+/**
+ * Composable para mostrar un mensaje de error en un modal bottom sheet.
+ *
+ * @param texto Texto a mostrar como mensaje de error.
+ * @param onDismiss Función lambda para manejar el evento de cierre del modal.
+ */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun MensajeError(texto:String = "",onDismiss: () -> Job){

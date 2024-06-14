@@ -8,10 +8,9 @@ using FTAI.Validator;
 using System.Reflection;
 using Security.Authentication;
 using Microsoft.OpenApi.Models;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.Filters;
 using Shared.Contexts;
-using Microsoft.Extensions.DependencyInjection;
+using FTAlimentos.Interfaces;
+using FTAlimentos.Services;
 
 // Create builder
 var builder = WebApplication.CreateBuilder(args);
@@ -43,11 +42,15 @@ builder.Services.AddSwaggerGen(c =>
 
 });
 
+// Servicios
 builder.Services.AddScoped<IAssistanceService, AssistanceService>();
-builder.Services.AddAutoMapper(typeof(MapperProfiles));
-
+builder.Services.AddScoped<IAlimentosService, AlimentosService>();
 builder.Services.AddScoped<IDataHttpContext, DataHttpContext>();
 
+// Mappers
+builder.Services.AddAutoMapper(typeof(MapperProfiles));
+
+// Validadores
 builder.Services.AddScoped<IValidator<RequestMessageDebugLimitTokens>, RequestMessageDebugLimitTokensValidator>();
 builder.Services.AddScoped<IValidator<RequestGenerarDieta>, RequestGenerarDietaValidator>();
 builder.Services.AddScoped<IValidator<RequestStartNewChatAssistance>, RequestChatAssistantInValidator>();
@@ -70,5 +73,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Run app
 app.Run();

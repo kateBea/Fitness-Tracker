@@ -7,35 +7,63 @@ import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 import java.time.LocalDateTime
 
+/**
+ * Clase que representa un usuario con sus atributos básicos.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 data class Usuario(
-    @SerializedName("correo_electronico")
-    val email: String = "",
-
-    @SerializedName("nombre_usuario")
+    /**
+     * Nombre de usuario.
+     */
+    @SerializedName("nombreUsuario")
     val nombreUsuario: String = "",
 
+    /**
+     * Nombre del usuario.
+     */
     @SerializedName("nombre")
     val nombre: String = "",
 
-    @SerializedName("primer_apellido")
+    /**
+     * Primer apellido del usuario.
+     */
+    @SerializedName("primerApellido")
     val apellido: String = "",
 
-    @SerializedName("segundo_apellido")
+    /**
+     * Segundo apellido del usuario.
+     */
+    @SerializedName("segundoApellido")
     val segundoApellido: String = "",
 
-    @SerializedName("fecha_nacimiento")
+    /**
+     * Fecha de nacimiento del usuario en formato String.
+     */
+    @SerializedName("fechaDeNacimiento")
     val fechaNacimiento: String = "",
 
-    @SerializedName("fecha_alta")
+    /**
+     * Fecha de registro del usuario en formato String.
+     */
+    @SerializedName("fechaRegistro")
     val fechaRegistro: String = "",
 
+    /**
+     * Altura del usuario en metros.
+     */
     @SerializedName("altura")
     val altura: Float = 0f,
 
+    /**
+     * Peso del usuario en kilogramos.
+     */
     @SerializedName("peso")
     val peso: Float = 0f,
 
+    /**
+     * Sexo del usuario.
+     * Puede ser Sexo.Hombre o Sexo.Mujer.
+     */
     @SerializedName("sexo")
     val sexo: Sexo = Sexo.Hombre
 )

@@ -1,25 +1,27 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Shared.Contexts
 {
-    public class DataHttpContext : IDataHttpContext
+    /// <summary>
+    /// Primary constructor
+    /// </summary>
+    /// <param name="httpContextAccessor"></param>
+    public class DataHttpContext(IHttpContextAccessor httpContextAccessor) : IDataHttpContext
     {
         #region Properties
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        /// <summary>
+        /// HTTP Data accessor
+        /// </summary>
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
         #endregion
 
-        public DataHttpContext(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-
+        /// <summary>
+        /// Obtiene el valor de un encabezado HTTP especificado por su nombre.
+        /// </summary>
+        /// <param name="name">El nombre del encabezado HTTP a obtener.</param>
+        /// <returns>El valor del encabezado HTTP especificado.</returns>
         public string GetHeaderByName(string name)
         {
             return _httpContextAccessor.HttpContext.Request.Headers[name];

@@ -8,74 +8,85 @@ using System.Threading.Tasks;
 namespace Shared.Utilities
 {
     /// <summary>
-    /// 
+    /// Representa el esquema de una solicitud de dieta para la IA.
     /// </summary>
     public class AIRequestDietaSchemaJson
     {
-        [JsonProperty("edad")]
+        /// <summary>
+        /// Edad de la persona que solicita la dieta.
+        /// </summary>
         public int Edad { get; set; }
 
-        [JsonProperty("calorias_objetivo")]
-        public float TargetCalories { get; set; } = 0.0f;
+        /// <summary>
+        /// Calorías objetivo diarias para la dieta.
+        /// </summary>
+        public double TargetCalories { get; set; } = 0.0f;
 
         /// <summary>
         /// Fecha de inicio de la dieta.
         /// </summary>
-        [JsonProperty("fecha_inicio")]
-        public DateTime FechaInicio { get; set; } = DateTime.Now;
+        public DateOnly FechaInicio { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
         /// <summary>
         /// Fecha de finalización de la dieta.
         /// </summary>
-        [JsonProperty("fecha_fin")]
-        public DateTime FechaFin { get; set; } = DateTime.Now;
+        public DateOnly FechaFin { get; set; } = DateOnly.FromDateTime(DateTime.Now.AddDays(7));
 
         /// <summary>
-        /// Consuma de agua diario en litros.
+        /// Consumo de agua diario en litros.
         /// </summary>
-        [JsonProperty("consumo_diario_agua")]
-        public float ConsumoAgua = 0.0f;
+        public double ConsumoAgua { get; set; } = 0.0f;
 
         /// <summary>
         /// Comidas preferidas para esta dieta.
         /// </summary>
-        [JsonProperty("listado_comidas")]
-        public List<ComidaDieta> ComidasSugeridas { get; set; } = [];
+        public List<ComidaDieta> ComidasSugeridas { get; set; } = new();
     }
 
     /// <summary>
-    /// 
+    /// Representa una comida sugerida en la dieta.
     /// </summary>
     public class ComidaDieta
     {
-        [JsonProperty("comida_id")]
+        /// <summary>
+        /// Identificador de la comida.
+        /// </summary>
         public string Id { get; set; } = string.Empty;
 
-        [JsonProperty("nombre_comida")]
+        /// <summary>
+        /// Nombre de la comida.
+        /// </summary>
         public string? Nombre { get; set; } = string.Empty;
 
-        [JsonProperty("descripcion")]
+        /// <summary>
+        /// Descripción de la comida.
+        /// </summary>
         public string? Descripcion { get; set; } = string.Empty;
 
-        [JsonProperty("orden_comida")]
-        public string? OrdenComida { get; set; } = string.Empty; // primer plato, etc
+        /// <summary>
+        /// Cantidad de proteínas en la comida.
+        /// </summary>
+        public double Proteinas { get; set; } = 0;
 
-        [JsonProperty("tipo_comida")]
-        public string? TipoComida { get; set; } = string.Empty; // almuerzo, merienda
+        /// <summary>
+        /// Calorías de la comida.
+        /// </summary>
+        public double Caloias { get; set; } = 0.0f;
 
-        [JsonProperty("unidades")]
-        public int Unidades { get; set; } = 0;
+        /// <summary>
+        /// Cantidad de carbohidratos en la comida.
+        /// </summary>
+        public double Carbohidratos { get; set; } = 0.0f;
 
-        [JsonProperty("calorias_consumidas")]
-        public float CaloiasGeneradas { get; set; } = 0.0f;
+        /// <summary>
+        /// Cantidad de grasas en la comida.
+        /// </summary>
+        public double Grasas { get; set; } = 0.0f;
 
-        [JsonProperty("carbohidratos")]
-        public float Carbohidratos { get; set; } = 0.0f;
-
-        [JsonProperty("grasas")]
-        public float Grasas { get; set; } = 0.0f;
-
-        [JsonProperty("vitaminas")]
-        public List<string> Vitaminas { get; set; } = [];
+        /// <summary>
+        /// Lista de vitaminas incluidas en la comida.
+        /// </summary>
+        public List<string> Vitaminas { get; set; } = new();
     }
 }
+

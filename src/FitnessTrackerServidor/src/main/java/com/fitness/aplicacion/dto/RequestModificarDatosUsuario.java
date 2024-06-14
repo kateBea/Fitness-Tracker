@@ -1,15 +1,13 @@
 package com.fitness.aplicacion.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fitness.aplicacion.documentos.Sexo;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
+
 
 @Data
 @SuperBuilder
@@ -37,6 +35,12 @@ public class RequestModificarDatosUsuario {
     // En centímetros
     @JsonProperty(value = "altura")
     private float altura;
+
+    @JsonProperty(value = "imagen")
+    private String imagen;
+
+    @JsonProperty(value = "objetivo_peso")
+    private float objetivoPeso;
 
     // En kilogramos
     @JsonProperty(value = "peso")

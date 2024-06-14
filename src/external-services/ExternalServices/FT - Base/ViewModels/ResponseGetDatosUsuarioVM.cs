@@ -1,8 +1,8 @@
-﻿using FT___Base.Models;
+﻿using FTBase.Models;
 using Newtonsoft.Json;
 using Shared.Utilities;
 
-namespace FT___Base.ViewModels
+namespace FTBase.ViewModels
 {
     /// <summary>
     /// Get datos usuario response model
@@ -29,6 +29,16 @@ namespace FT___Base.ViewModels
             /// Nombre del usuario
             /// </summary>
             public string Nombre { get; set; } = string.Empty;
+
+            /// <summary>
+            /// Imagen de perfil del usuario
+            /// </summary>
+            public string Imagen { get; set; } = string.Empty;
+
+            /// <summary>
+            /// Peso objetivo
+            /// </summary>
+            public double ObjetivoPeso { get; set; } = 0.0;
 
             /// <summary>
             /// Primer apellido del usuario

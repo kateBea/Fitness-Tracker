@@ -1,13 +1,11 @@
 using FluentValidation;
-using FT___Base.Interfaces;
-using FT___Base.Models;
-using FT___Base.Services;
-using FT___Base.Validators;
+using FTBase.Interfaces;
+using FTBase.Models;
+using FTBase.Services;
+using FTBase.Validators;
 using Security.Authentication;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
-using Microsoft.Extensions.Options;
 using Shared.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +15,6 @@ builder.Services.AddControllers();
 builder.Services.AddCustomJwtAuthentication();
 builder.Services.AddHttpContextAccessor();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

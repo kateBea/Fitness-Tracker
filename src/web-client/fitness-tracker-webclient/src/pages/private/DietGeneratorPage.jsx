@@ -48,8 +48,8 @@ function DietGeneratorPage() {
 
   // Función para manejar cambios en las opciones de los checkbox
   const handleChange = (event) => {
-    setState({
-      ...state,
+    setRestricciones({
+      ...restricciones,
       [event.target.name]: event.target.checked,
     });
   };

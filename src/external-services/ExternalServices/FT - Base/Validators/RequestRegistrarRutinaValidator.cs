@@ -1,16 +1,16 @@
 ﻿using FluentValidation;
-using FT___Base.Models;
+using FTBase.Models;
 using FTAI.Validator;
 
-namespace FT___Base.Validators
+namespace FTBase.Validators
 {
     /// <summary>
-    /// 
+    /// Validador para RequestRegistrarRutina
     /// </summary>
     public class RequestRegistrarRutinaValidator : BaseValidator<RequestRegistrarRutina>
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         public RequestRegistrarRutinaValidator()
         {

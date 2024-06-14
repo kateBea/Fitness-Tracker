@@ -1,7 +1,7 @@
-﻿namespace FT___Base.Models
+﻿namespace FTBase.Models
 {
     /// <summary>
-    /// Get datos usuario request model
+    /// Modelo de solicitud para obtener los datos de un usuario.
     /// </summary>
     public class RequestGetDatosUsuario
     {

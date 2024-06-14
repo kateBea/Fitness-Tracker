@@ -8,6 +8,12 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDateTime;
 
+/**
+ * Modelo que representa un alimento.
+ *
+ * @version 1.0
+ */
+
 @Data
 @Builder
 @AllArgsConstructor

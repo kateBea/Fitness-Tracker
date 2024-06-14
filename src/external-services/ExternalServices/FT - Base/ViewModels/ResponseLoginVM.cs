@@ -1,6 +1,6 @@
 ﻿using Shared.Utilities;
 
-namespace FT___Base.ViewModels
+namespace FTBase.ViewModels
 {
     /// <summary>
     /// Login response view model

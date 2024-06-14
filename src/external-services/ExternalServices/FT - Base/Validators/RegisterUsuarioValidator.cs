@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
-using FT___Base.Models;
+using FTBase.Models;
 using FTAI.Validator;
 
-namespace FT___Base.Validators
+namespace FTBase.Validators
 {
     /// <summary>
     /// Register user model validator

@@ -54,6 +54,13 @@ import com.example.fitnesstrackerapp.ui.theme.colorBoton
 import com.example.fitnesstrackerapp.uiViewModel.LoginViewModel
 import com.example.fitnesstrackerapp.utilidades.BotonLogin
 
+
+/**
+ * Composable que representa la pantalla de inicio de sesión.
+ *
+ * @param navController Controlador de navegación para gestionar la navegación entre pantallas.
+ * @param loginViewModel ViewModel para gestionar el estado y la lógica de la pantalla de inicio de sesión.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -83,7 +90,7 @@ fun PantallaLogin(navController: NavHostController,loginViewModel: LoginViewMode
             .fillMaxWidth()
         , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
             Image(painter = image, contentDescription = "Logo",modifier = Modifier.size(120.dp))
-            Text(text = "Nombre", color = Color.White, fontSize = 45.sp, fontFamily = fuente)
+            Text(text = "Fitness Tracker", color = Color.White, fontSize = 40.sp, fontFamily = fuente)
         }
 
 
@@ -157,8 +164,15 @@ fun PantallaLogin(navController: NavHostController,loginViewModel: LoginViewMode
 
 }
 
+/**
+ * Realiza una llamada para iniciar sesión utilizando los datos proporcionados.
+ *
+ * @param textoEmail El correo electrónico del usuario.
+ * @param textoPass La contraseña del usuario.
+ * @param viewModelFitness El ViewModel para gestionar el estado y la lógica del inicio de sesión.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
-fun hacerLlamada(textoEmail:String, textoPass:String, viewModelFitness: LoginViewModel){
-    if(textoEmail.isNotEmpty() && textoPass.isNotEmpty())
-        viewModelFitness.login(textoEmail,textoPass)
+fun hacerLlamada(textoEmail: String, textoPass: String, viewModelFitness: LoginViewModel) {
+    if (textoEmail.isNotEmpty() && textoPass.isNotEmpty())
+        viewModelFitness.login(textoEmail, textoPass)
 }

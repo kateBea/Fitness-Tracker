@@ -1,6 +1,11 @@
 package com.fitness.aplicacion.documentos;
 
 
+/**
+ * Modelo que representa un sexo
+ *
+ * @version 1.0
+ * */
 public enum Sexo {
     HOMBRE {
         @Override

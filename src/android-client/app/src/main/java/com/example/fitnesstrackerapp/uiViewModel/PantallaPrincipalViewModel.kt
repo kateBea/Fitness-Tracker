@@ -51,17 +51,28 @@ class PantallaPrincipalViewModel @Inject constructor(
             _usuario.value = dao.getUsuario()
 
             try{
-                val datosUser = repositorio.getDatosUsuario(_usuario.value.email)
+                val token = dao.getToken()?:""
+                val email = dao.getEmail()?:""
+                val datosUser = repositorio.getDatosUsuario(token)
+                Log.i("datosUser","${datosUser}")
+
 
                 val modelMapper = ModelMapperConfig.modelMapper
                 _usuario.value = modelMapper.map(datosUser.usuario, UsuarioInfo::class.java)
+                _usuario.value.nombreUsuario = datosUser.usuario.nombreUsuario
+                _usuario.value.fechaNacimiento = datosUser.usuario.fechaNacimiento
+                _usuario.value.fechaRegistro = datosUser.usuario.fechaRegistro
+                _usuario.value.fechaUltimaModificacion = LocalDate.now().toString()
+                _usuario.value.email = email
+                _usuario.value.token = token
+
                 dao.actualizarUsuario(_usuario.value)
 
                 actualizarDatos()
                 setInfo()
-
                 eventosViewModel.setState(EventosUIState.Done)
             }catch (e:Exception){
+                Log.i("Error","${e.message}")
                 eventosViewModel.setState(EventosUIState.Error(e.message.toString()))
             }
         }
@@ -102,7 +113,8 @@ class PantallaPrincipalViewModel @Inject constructor(
             actualizarDatos()
 
             val usuario = ModelMapperConfig.modelMapper.map(_usuario.value, UsuarioRequest::class.java)
-            repositorio.actualizarUsuario(usuario)
+            Log.i("usuario","${usuario}")
+            repositorio.actualizarUsuario(_usuario.value.token,usuario)
 
             eventosViewModel.setState(EventosUIState.Done)
         }
@@ -118,7 +130,7 @@ class PantallaPrincipalViewModel @Inject constructor(
             actualizarDatos()
 
             val usuario = ModelMapperConfig.modelMapper.map(_usuario.value, UsuarioRequest::class.java)
-            repositorio.actualizarUsuario(usuario)
+            repositorio.actualizarUsuario(_usuario.value.token,usuario)
 
             eventosViewModel.setState(EventosUIState.Done)
         }
@@ -134,7 +146,7 @@ class PantallaPrincipalViewModel @Inject constructor(
             actualizarDatos()
 
             val usuario = ModelMapperConfig.modelMapper.map(_usuario.value, UsuarioRequest::class.java)
-            repositorio.actualizarUsuario(usuario)
+            repositorio.actualizarUsuario(_usuario.value.token,usuario)
 
             eventosViewModel.setState(EventosUIState.Done)
         }

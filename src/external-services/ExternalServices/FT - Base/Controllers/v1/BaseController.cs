@@ -1,18 +1,31 @@
 ﻿using FluentValidation;
-using FT___Base.Interfaces;
-using FT___Base.Models;
-using FT___Base.ViewModels;
+using FTBase.Interfaces;
+using FTBase.Models;
+using FTBase.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace FT___Base.Controllers.v1
+namespace FTBase.Controllers.v1
 {
     /// <summary>
-    /// 
+    /// Controlador base que maneja las operaciones comunes para las solicitudes de la aplicación.
     /// </summary>
-    /// <param name="baseServices"></param>
-    /// <param name="validatorRegistrarUsuario"></param>
+    /// <param name="baseServices">Servicios base utilizados en este controlador.</param>
+    /// <param name="validatorRegistrarUsuario">Validador para las solicitudes de registro de usuario.</param>
+    /// <param name="validatorCambiarPassword">Validador para las solicitudes de cambio de contraseña.</param>
+    /// <param name="validatorRegistrarDieta">Validador para las solicitudes de registro de dieta.</param>
+    /// <param name="validatorModificarDieta">Validador para las solicitudes de modificación de dieta.</param>
+    /// <param name="validatorGetDatosUsuario">Validador para las solicitudes de obtención de datos de usuario.</param>
+    /// <param name="validatorModificarDatosUsuario">Validador para las solicitudes de modificación de datos de usuario.</param>
+    /// <param name="validatorGetListDietasDeUsuario">Validador para las solicitudes de obtención de la lista de dietas del usuario.</param>
+    /// <param name="validatorGetDietaDeUsuario">Validador para las solicitudes de obtención de una dieta específica del usuario.</param>
+    /// <param name="validatorGetRutinaPorId">Validador para las solicitudes de obtención de una rutina por su ID.</param>
+    /// <param name="validatorModificarRutina">Validador para las solicitudes de modificación de una rutina.</param>
+    /// <param name="validatorGetListRutinasUsuario">Validador para las solicitudes de obtención de la lista de rutinas del usuario.</param>
+    /// <param name="validatorRegistrarRutina">Validador para las solicitudes de registro de una rutina.</param>
+    /// <param name="validatorGetAlimentos">Validador para las solicitudes de obtención de alimentos.</param>
+    /// <param name="validatorLogin">Validador para las solicitudes de inicio de sesión.</param>
     [ApiController]
     [Route("[controller]")]
     public class BaseController(IBaseServices baseServices,
@@ -32,27 +45,84 @@ namespace FT___Base.Controllers.v1
         IValidator<RequestLogin> validatorLogin) : ControllerBase
     {
         #region Properties
+
+        /// <summary>
+        /// Validador para la solicitud de registrar usuario.
+        /// </summary>
         private readonly IValidator<RequestRegistrarUsuario> _validatorRegistrarUsuario = validatorRegistrarUsuario;
+
+        /// <summary>
+        /// Validador para la solicitud de cambiar contraseña.
+        /// </summary>
         private readonly IValidator<RequestCambiarPassword> _validatorCambiarPassword = validatorCambiarPassword;
+
+        /// <summary>
+        /// Validador para la solicitud de obtener alimentos.
+        /// </summary>
         private readonly IValidator<RequestGetAlimentos> _validatorGetAlimentos = validatorGetAlimentos;
 
+        /// <summary>
+        /// Validador para la solicitud de registrar dieta.
+        /// </summary>
         private readonly IValidator<RequestRegistrarDieta> _validatorRegistrarDieta = validatorRegistrarDieta;
+
+        /// <summary>
+        /// Validador para la solicitud de modificar dieta.
+        /// </summary>
         private readonly IValidator<RequestModificarDieta> _validatorModificarDieta = validatorModificarDieta;
+
+        /// <summary>
+        /// Validador para la solicitud de obtener datos de usuario.
+        /// </summary>
         private readonly IValidator<RequestGetDatosUsuario> _validatorGetDatosUsuario = validatorGetDatosUsuario;
+
+        /// <summary>
+        /// Validador para la solicitud de modificar datos de usuario.
+        /// </summary>
         private readonly IValidator<RequestModificarDatosUsuario> _validatorModificarDatosUsuario = validatorModificarDatosUsuario;
+
+        /// <summary>
+        /// Validador para la solicitud de obtener la lista de dietas de un usuario.
+        /// </summary>
         private readonly IValidator<RequestGetListDietasDeUsuario> _validatorGetListDietasDeUsuario = validatorGetListDietasDeUsuario;
+
+        /// <summary>
+        /// Validador para la solicitud de obtener una dieta de un usuario.
+        /// </summary>
         private readonly IValidator<RequestGetDietaDeUsuario> _validatorGetDietaDeUsuario = validatorGetDietaDeUsuario;
+
+        /// <summary>
+        /// Validador para la solicitud de obtener una rutina por ID.
+        /// </summary>
         private readonly IValidator<RequestGetRutinaPorId> _validatorGetRutinaPorId = validatorGetRutinaPorId;
+
+        /// <summary>
+        /// Validador para la solicitud de modificar una rutina.
+        /// </summary>
         private readonly IValidator<RequestModificarRutina> _validatorModificarRutina = validatorModificarRutina;
+
+        /// <summary>
+        /// Validador para la solicitud de obtener la lista de rutinas de un usuario.
+        /// </summary>
         private readonly IValidator<RequestGetListRutinasUsuario> _validatorGetListRutinasUsuario = validatorGetListRutinasUsuario;
+
+        /// <summary>
+        /// Validador para la solicitud de inicio de sesión.
+        /// </summary>
         private readonly IValidator<RequestLogin> _validatorLogin = validatorLogin;
+
+        /// <summary>
+        /// Validador para la solicitud de registrar una rutina.
+        /// </summary>
         private readonly IValidator<RequestRegistrarRutina> _validatorRegistrarRutina = validatorRegistrarRutina;
 
-
-
+        /// <summary>
+        /// Servicios base utilizados en esta clase.
+        /// </summary>
         private readonly IBaseServices _baseServices = baseServices;
 
         #endregion
+
 
         /// <summary>
         /// Endpoint para solicitar iniciar sesión.
@@ -332,13 +402,13 @@ namespace FT___Base.Controllers.v1
         /// Modifica una nueva dieta.
         /// </summary>
         /// <param name="model">Los detalles de la dieta a modificar.</param>
-        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModifcarDietaVM"/></returns>
+        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseModificarDietaVM"/></returns>
         [HttpPut("ModificarDieta")]
         [Authorize]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModifcarDietaVM))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseModificarDietaVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<ResponseModifcarDietaVM>> ModificarDieta([FromBody] RequestModificarDieta model)
+        public async Task<ActionResult<ResponseModificarDietaVM>> ModificarDieta([FromBody] RequestModificarDieta model)
         {
             var result = _validatorModificarDieta.Validate(model);
             if (result == null || !result.IsValid)
