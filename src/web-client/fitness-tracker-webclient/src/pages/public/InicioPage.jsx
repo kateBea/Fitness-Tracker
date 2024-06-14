@@ -229,7 +229,7 @@ function MainPage() {
             y de salud para tu beneficio personal en base a tus
             objetivos y metas</Typography>
           <Container sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <ColorButton>Consigue nuestra app</ColorButton>
+            <ColorButton onClick={() => handleScroll("app")} >Consigue nuestra app</ColorButton>
           </Container>
         </Grid>
         <Grid item lg={6} xs={12}>
