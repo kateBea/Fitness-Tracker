@@ -10,10 +10,8 @@ import org.springframework.stereotype.Component;
  * Para depuración. Para MongoDB en Spring Boot, no hay un equivalente directo
  * a: spring.jpa.properties.hibernate.hbm2ddl.auto=create-drop.
  * */
-@Component
 public class ApplicationShutdownListener implements ApplicationListener<ContextClosedEvent> {
 
-    @Autowired
     private MongoTemplate mongoTemplate;
 
     @Override
