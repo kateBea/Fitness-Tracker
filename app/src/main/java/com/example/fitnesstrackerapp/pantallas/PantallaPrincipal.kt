@@ -52,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.fitnesstrackerapp.R
 import com.example.fitnesstrackerapp.clases.InfoMenu.InfoResultado
 import com.example.fitnesstrackerapp.ui.theme.colorPerfil
@@ -65,17 +66,15 @@ import com.example.fitnesstrackerapp.uiViewModel.PantallaPrincipalViewModel
  */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-@Preview
-fun pantallaPrincipal(pantallaPrincipalViewModel: PantallaPrincipalViewModel = hiltViewModel()) {
+fun pantallaPrincipal(pantallaPrincipalViewModel: PantallaPrincipalViewModel = hiltViewModel(),navHostController: NavHostController) {
 
     val informacion = pantallaPrincipalViewModel.menuDatosUsuario.collectAsState().value
     val datos = pantallaPrincipalViewModel.datos.collectAsState().value
 
     val resul2 = remember{
         mutableListOf(
-            InfoResultado(imagen = R.drawable.alimentos, titulo = "Mis alimentos"),
-            InfoResultado(imagen = R.drawable.batidor,titulo = "Mis recetas"),
-            InfoResultado(imagen = R.drawable.rutina,titulo = "Mis ejercicios")
+            InfoResultado(imagen = R.drawable.alimentos, titulo = "Mis alimentos",ruta = "alimentos"),
+            InfoResultado(imagen = R.drawable.rutina,titulo = "Mis ejercicios",ruta = "ejercicios")
         )
     }
 
@@ -92,13 +91,13 @@ fun pantallaPrincipal(pantallaPrincipalViewModel: PantallaPrincipalViewModel = h
             filaInformacion("Resultado")
 
             datos.forEach {
-                FilaResultado(it.imagen,it.titulo,it.info)
+                FilaResultado(it.imagen,it.titulo,it.info, navHostController = navHostController)
             }
 
             filaInformacion("Mi contenido")
 
             resul2.forEach {
-                FilaResultado(it.imagen,it.titulo,it.info)
+                FilaResultado(it.imagen,it.titulo,it.info,it.ruta,navHostController)
             }
         }
     }
@@ -290,9 +289,15 @@ fun filaPerfil(
 @Composable
 fun FilaResultado(imagen:Int,
                   texto:String = "Metabolismo basal",
-                  texto2:String = ""){
+                  texto2:String = "",
+                  ruta:String = "",
+                  navHostController: NavHostController){
     Row (modifier = Modifier
         .fillMaxWidth()
+        .clickable {
+            if(ruta.isNotEmpty())
+                navHostController.navigate(ruta)
+        }
         .height(50.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween){

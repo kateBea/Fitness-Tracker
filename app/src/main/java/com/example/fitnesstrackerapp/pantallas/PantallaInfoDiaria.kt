@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.fitnesstrackerapp.basedatos.entidades.Comida
+import com.example.fitnesstrackerapp.basedatos.entidades.Ejercicio
 import com.example.fitnesstrackerapp.basedatos.entidades.TipoComida
 import com.example.fitnesstrackerapp.ui.theme.colorPerfil
 import com.example.fitnesstrackerapp.uiViewModel.AlimentosViewModel
@@ -57,6 +58,7 @@ fun PantallaInfoDiaria(alimentosViewModel: AlimentosViewModel = hiltViewModel(),
     val agua = alimentosViewModel.agua.collectAsState().value
     val aguaReq = alimentosViewModel.aguaReq.collectAsState().value
 
+    val ejericios = alimentosViewModel.ejerciciosDia.collectAsState().value
 
     Column (modifier = Modifier
         .fillMaxSize()
@@ -130,6 +132,7 @@ fun PantallaInfoDiaria(alimentosViewModel: AlimentosViewModel = hiltViewModel(),
             grasas
         )
 
+        filaEjercicio(navHostController = navHostController,ejericios)
         filaInformacion("Agua")
 
         Row (modifier = Modifier
@@ -141,6 +144,24 @@ fun PantallaInfoDiaria(alimentosViewModel: AlimentosViewModel = hiltViewModel(),
             Text(text = "$agua/$aguaReq", fontSize = 30.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(25.dp,0.dp))
             Icon(Icons.Rounded.ArrowForwardIos, contentDescription = "", modifier = Modifier.clickable {alimentosViewModel.actualizarAgua(true)})
         }
+    }
+}
+
+@Composable
+fun filaEjercicio(navHostController: NavHostController, ejericios: MutableList<Ejercicio>){
+    filaInformacion("Ejercicio")
+
+    ejericios.forEach {
+        infoEjercicio(it)
+    }
+
+    Row (modifier = Modifier
+        .fillMaxWidth()
+        .clickable { navHostController.navigate("decidir") }
+        .height(40.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically){
+        Icon(Icons.Rounded.AddCircle, contentDescription = "", tint = Color.Cyan)
     }
 }
 

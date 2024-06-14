@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.fitnesstrackerapp.basedatos.bbdd.BaseDatos
 import com.example.fitnesstrackerapp.basedatos.dao.ComidaDao
+import com.example.fitnesstrackerapp.basedatos.dao.EjercicioDao
 import com.example.fitnesstrackerapp.basedatos.dao.FechaDao
 import com.example.fitnesstrackerapp.basedatos.dao.RutinaDao
 import com.example.fitnesstrackerapp.basedatos.dao.UsuarioDao
@@ -80,4 +81,14 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun providesRutinaDao(db: BaseDatos): RutinaDao = db.rutinaDao()
+
+    /**
+     * Provee el DAO de ejercicios.
+     *
+     * @param db La instancia de la base de datos.
+     * @return El DAO de ejercicios.
+     */
+    @Provides
+    @Singleton
+    fun providesEjercicioDao(db: BaseDatos): EjercicioDao = db.EjercicioDao()
 }

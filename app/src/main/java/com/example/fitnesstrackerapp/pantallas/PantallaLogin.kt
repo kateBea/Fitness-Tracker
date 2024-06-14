@@ -90,7 +90,7 @@ fun PantallaLogin(navController: NavHostController,loginViewModel: LoginViewMode
             .fillMaxWidth()
         , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
             Image(painter = image, contentDescription = "Logo",modifier = Modifier.size(120.dp))
-            Text(text = "Nombre", color = Color.White, fontSize = 45.sp, fontFamily = fuente)
+            Text(text = "Fitness Tracker", color = Color.White, fontSize = 40.sp, fontFamily = fuente)
         }
 
 

@@ -23,5 +23,10 @@ data class InfoResultado (
     /**
      * Información detallada del resultado.
      */
-    var info: String = ""
+    var info: String = "",
+
+    /**
+     * Ruta de navegacion de la info.
+     */
+    var ruta: String = ""
 )

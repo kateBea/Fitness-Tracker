@@ -40,6 +40,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -87,7 +89,7 @@ fun VentanaRegister(navController: NavHostController, registerViewModel: Registe
             .fillMaxWidth()
             , horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center){
             Image(painter = image, contentDescription = "Logo",modifier = Modifier.size(120.dp))
-            Text(text = "Nombre", color = Color.White, fontSize = 45.sp, fontFamily = fuente)
+            Text(text = "Fitness Tracker", color = Color.White, fontSize = 40.sp, fontFamily = fuente)
         }
 
 
@@ -123,6 +125,8 @@ fun VentanaRegister(navController: NavHostController, registerViewModel: Registe
                 firstTimeButton = firstTimeButon,
                 labelTexto = "Contraseña",
                 textoError = "Escriba la contraseña",
+                PasswordVisualTransformation(),
+                KeyboardType.Password,
                 accountCircle = Icons.Rounded.Lock,
                 focusRequester = focusRequester
             )

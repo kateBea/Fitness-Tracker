@@ -7,10 +7,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnesstrackerapp.basedatos.entidades.Comida
+import com.example.fitnesstrackerapp.basedatos.entidades.Ejercicio
 import com.example.fitnesstrackerapp.basedatos.entidades.FechaDia
 import com.example.fitnesstrackerapp.basedatos.entidades.Rutina
 import com.example.fitnesstrackerapp.basedatos.entidades.UsuarioInfo
 import com.example.fitnesstrackerapp.basedatos.repositorio.ComidaRepositorio
+import com.example.fitnesstrackerapp.basedatos.repositorio.EjercicioRepositorio
 import com.example.fitnesstrackerapp.basedatos.repositorio.FechaRepositorio
 import com.example.fitnesstrackerapp.basedatos.repositorio.RutinaRepositorio
 import com.example.fitnesstrackerapp.basedatos.repositorio.UsuarioRepositorio
@@ -26,6 +28,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.Period
+import java.util.stream.Collectors
 import javax.inject.Inject
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -33,6 +36,7 @@ import javax.inject.Inject
 class AlimentosViewModel @Inject constructor(
     private val dao: UsuarioRepositorio,
     private val fDao: FechaRepositorio,
+    private val eDao:EjercicioRepositorio,
     private val cDao: ComidaRepositorio,
     private val rDao: RutinaRepositorio,
     private val eventosViewModel: EventosViewModel = EventosViewModel()
@@ -67,6 +71,9 @@ class AlimentosViewModel @Inject constructor(
     private val _aguaReq = MutableStateFlow(0f)
     val aguaReq :StateFlow<Float> get() = _aguaReq.asStateFlow()
 
+    private val _ejerciciosDia = MutableStateFlow<MutableList<Ejercicio>>(mutableListOf())
+    val ejerciciosDia:StateFlow<MutableList<Ejercicio>> get() = _ejerciciosDia.asStateFlow()
+
     init {
         try {
             calcularKCal()
@@ -83,6 +90,9 @@ class AlimentosViewModel @Inject constructor(
             val fecha = LocalDate.parse(fDao.getFecha())
             _fecha.value = fecha
             val  token = dao.getToken()?:""
+
+            val ejercicios = eDao.ejerciciosFecha(fDao.getFecha())
+            _ejerciciosDia.value = ejercicios.toMutableList()
 
             val entrega = repositorio.getRutinasUsuario(token,fecha.minusDays(1).toString(),fecha.plusDays(1).toString())
             if(entrega.rutinas.isNotEmpty()){
@@ -160,6 +170,7 @@ class AlimentosViewModel @Inject constructor(
             _proteinas.value = _kcal.value * 0.4f / 4
             _grasas.value = _kcal.value * 0.3f / 9
             _carbohidratos.value = _kcal.value * 0.3f / 4
+
         }
     }
 

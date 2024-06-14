@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,16 +29,17 @@ class RegisterViewModel @Inject constructor(
     val done:StateFlow<Boolean> get() = _done.asStateFlow()
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun hacerRegister(user2:String, email:String, contra:String){
+    fun hacerRegister(user1:String, email:String, contra:String){
         viewModelScope.launch(Dispatchers.IO) {
             try{
                 eventosViewModel.setState(EventosUIState.Cargando)
-                var user = RegisterRequest()
-                user.email = email
-                user.password = contra
-                user.username = user2
+                var user2 = RegisterRequest()
+                user2.email = email
+                user2.password = contra
+                user2.username = user1
+                user2.birthday = LocalDate.now().toString()
 
-                val hecho = repositorio.register(user)
+                val hecho = repositorio.register(user2)
 
                 if(hecho.valido){
                     _done.value = true

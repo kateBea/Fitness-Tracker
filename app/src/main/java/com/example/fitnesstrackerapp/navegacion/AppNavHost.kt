@@ -47,8 +47,11 @@ import com.example.fitnesstrackerapp.pantallas.PantallaBuscar
 import com.example.fitnesstrackerapp.pantallas.PantallaInfoDiaria
 import com.example.fitnesstrackerapp.pantallas.PantallaLogin
 import com.example.fitnesstrackerapp.pantallas.VentanaRegister
+import com.example.fitnesstrackerapp.pantallas.decidirEjercicio
+import com.example.fitnesstrackerapp.pantallas.mostrarTodosAlimentos
 import com.example.fitnesstrackerapp.pantallas.pantallaInformacion
 import com.example.fitnesstrackerapp.pantallas.pantallaPrincipal
+import com.example.fitnesstrackerapp.pantallas.todosEjercicios
 import com.example.fitnesstrackerapp.ui.theme.azul1
 import com.example.fitnesstrackerapp.uiViewModel.InformacionViewModel
 
@@ -70,6 +73,11 @@ sealed class Pantallas(var route: String) {
     data object Diario : Pantallas("diario")
     /** Pantalla de búsqueda */
     data object Buscar : Pantallas("buscar")
+    /** Pantalla de alimentos */
+    data object Alimentos: Pantallas("alimentos")
+    /** Pantalla de ejercicios */
+    data object Ejercicios: Pantallas("ejercicios")
+    data object DecidirEjercicio:Pantallas("decidir")
 }
 
 /**
@@ -136,7 +144,7 @@ fun navegacionPantallas(navController: NavHostController) {
             VentanaRegister(navController)
         }
         composable(Pantallas.Menu.route) {
-            pantallaPrincipal()
+            pantallaPrincipal(navHostController = navController)
         }
         composable(Pantallas.Info.route) {
             pantallaInformacion()
@@ -151,6 +159,15 @@ fun navegacionPantallas(navController: NavHostController) {
             // Obtiene el argumento "number" de la ruta y muestra la pantalla de búsqueda
             val number = it.arguments?.getInt("number")
             PantallaBuscar(number ?: 0, navController)
+        }
+        composable(Pantallas.Alimentos.route) {
+            mostrarTodosAlimentos()
+        }
+        composable(Pantallas.Ejercicios.route){
+            todosEjercicios()
+        }
+        composable(Pantallas.DecidirEjercicio.route){
+            decidirEjercicio(navHostController = navController)
         }
     }
 }

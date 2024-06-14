@@ -49,7 +49,7 @@ data class RegisterRequest(
      * Fecha de nacimiento del usuario en formato de cadena (ej. "YYYY-MM-DD").
      */
     @SerializedName("birthday")
-    val birthday: String = "",
+    var birthday: String = "",
 
     /**
      * Altura del usuario en centímetros.

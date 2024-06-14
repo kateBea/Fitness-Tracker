@@ -12,6 +12,7 @@ import com.example.fitnesstrackerapp.objetos.response.ResponseLogin
 import com.example.fitnesstrackerapp.objetos.response.ResponseRegister
 import com.example.fitnesstrackerapp.objetos.response.RutinasResponse
 import com.example.fitnesstrackerapp.objetos.response.responseAlimentos.ResponseAlimentos
+import com.example.fitnesstrackerapp.objetos.response.responseTodosAlimentos.ResponseAlimentosTodos
 import com.example.fitnesstrackerapp.objetos.usuario.DatosUsuario
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializer
@@ -59,6 +60,9 @@ interface ApiServicio {
 
     @POST("client/RegistrarUsuario")
     suspend fun register(@Body user: RegisterRequest):ResponseRegister
+
+    @GET("client/GetAlimentos")
+    suspend fun getAlimentos(@Header("Authorization") token: String): ResponseAlimentosTodos
 }
 
 /**

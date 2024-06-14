@@ -15,6 +15,7 @@ import com.example.fitnesstrackerapp.objetos.response.ResponseLogin
 import com.example.fitnesstrackerapp.objetos.response.ResponseRegister
 import com.example.fitnesstrackerapp.objetos.response.RutinasResponse
 import com.example.fitnesstrackerapp.objetos.response.responseAlimentos.ResponseAlimentos
+import com.example.fitnesstrackerapp.objetos.response.responseTodosAlimentos.ResponseAlimentosTodos
 import com.example.fitnesstrackerapp.objetos.usuario.DatosUsuario
 import retrofit2.Retrofit
 import retrofit2.create
@@ -109,5 +110,9 @@ class RepositorioRetrofit(
      */
     suspend fun register(user: RegisterRequest):ResponseRegister {
         return apiServicio.create(ApiServicio::class.java).register(user)
+    }
+
+    suspend fun getAlimentosTodos(token: String): ResponseAlimentosTodos {
+        return apiServicio.create(ApiServicio::class.java).getAlimentos("Bearer $token")
     }
 }
