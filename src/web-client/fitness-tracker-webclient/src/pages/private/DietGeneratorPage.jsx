@@ -351,59 +351,20 @@ function DietGeneratorPage() {
                 sx={{ mb: 4 }}
               />
             </Grid>
-            {/* <InputLabel id="start-date">Fecha de inicio</InputLabel>
-            <TextField
-              type="date"
-              labelId="start-date"
-              variant="outlined"
-              color="secondary"
-              onChange={(e) => setFechaInicio(e.target.value)}
-              value={fechaInicio}
-              fullWidth
-              required
-              sx={{ mb: 4 }}
-            />
-            <InputLabel id="end-date">Fecha de finalización</InputLabel>
-            <TextField
-              type="date"
-              labelId="end-date"
-              variant="outlined"
-              color="info"
-              onChange={(e) => setFechaFin(e.target.value)}
-              value={fechaInicio}
-              fullWidth
-              required
-              sx={{ mb: 4 }}
-            />
-            <InputLabel id="nivel-actividad-fisica">
-              Actividad física
-            </InputLabel>
-            <Select
-              labelId="nivel-actividad-fisica"
-              id="nivel-actividad"
-              label="Actividad física"
-              fullWidth
-              sx={{ mb: 4 }}
-              value={1}
-            >
-              <MenuItem value={1}>Moderado</MenuItem>
-              <MenuItem value={2}>Activo</MenuItem>
-              <MenuItem value={3}>Muy activo</MenuItem>
-            </Select> */}
             <Button variant="outlined" color="primary" type="submit" sx={{
-              background: '#D92668',
-              margin: '10px',
-              width: '230px',
-              borderTopLeftRadius: '30px',
-              borderBottomLeftRadius: '0px',
-              borderTopRightRadius: '0px',
-              borderBottomRightRadius: '30px',
-              textTransform: 'none',
-              fontSize: '20pt',
-
-            }}>
-              GENERATE
-            </Button>
+                backgroundColor: '#293B50',
+                fontWeight: 'bold',
+                color: 'white',
+                borderRadius: '20px',
+                paddingLeft: '10px',
+                paddingRight: '10px',
+                fontSize: '18pt',
+                '&:hover': {
+                  background: '#436489',
+                },
+              }}>
+                Generar
+              </Button>
           </form>
         </React.Fragment>
       </Container>
