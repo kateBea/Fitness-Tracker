@@ -38,30 +38,25 @@ const ImageUploader = ({ onImageUpload }) => {
     };
     // Renderización del componente
     return (
-        <div>
-            {/* Input oculto para seleccionar un archivo */}
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
             <input
-                accept="image/*" // Aceptar solo archivos de tipo imagen
-                style={{ display: 'none' }} // Ocultar el input
-                id="raised-button-file" // ID del input
-                type="file" // Tipo de input
-                onChange={handleImageChange} // Manejar el cambio de la imagen seleccionada
+                accept="image/*"
+                style={{ display: 'none' }}
+                id="raised-button-file"
+                type="file"
+                onChange={handleImageChange}
             />
-            {/* Etiqueta para el input de archivo */}
             <label htmlFor="raised-button-file">
-                {/* Botón para cargar la imagen */}
                 <Button variant="contained" component="span">
                     Cargar Imagen
                 </Button>
             </label>
-            {/* Mostrar la vista previa de la imagen si existe */}
             {imagePreviewUrl && (
-                <div>
-                    {/* Imagen con la vista previa */}
-                    <img src={imagePreviewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px',marginTop:'30px' }} />
-                </div>
+                <Box mt={2}>
+                    <img src={imagePreviewUrl} alt="Preview" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                </Box>
             )}
-        </div>
+        </Box>
     );
 };
 
