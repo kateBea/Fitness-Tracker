@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import moment from 'moment';
 
-import Logo from "../img/logo-fitness-tracker.png";
+import Logo from "../img/comida-prueba.webp";
 import { CardActionArea } from '@mui/material';
 
 export default function ImageCard({ fechaInicio, fechaFin, caloriasTarget }) {

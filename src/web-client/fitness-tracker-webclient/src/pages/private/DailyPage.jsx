@@ -22,8 +22,6 @@ import { createTheme } from '@mui/material/styles';
 import { PrivateBar } from '../../components/Privatebar';
 import { API_ROUTES } from '../../ApiRoutes';
 
-
-
 function DailyPage() {
     const [fetchDataSuccesfull, setFetchDataSuccesfull] = useState(false);
     const [ultimaDietas, setUltimaDietas] = useState({});
@@ -52,9 +50,10 @@ function DailyPage() {
             setUltimaRutinas(responseRutinas.data.data[responseDietas.data.data.length - 1]);
             // Marcar que la carga de datos fue exitosa
             setFetchDataSuccesfull(true);
-
-            setComidasSugeridas(ultimaDietas.comidasSugeridas.length > 0 ? ultimaDietas.comidasSugeridas.map(comida => comida.nombre).join(', ') : 'No hay comidas sugeridas');
-            setComidasConsumidas(ultimaRutinas.comidasConsumidas.length > 0 ? ultimaRutinas.comidasConsumidas.map(comida => comida.nombre).join(', ') : 'No hay comidas consumidas');
+            setComidasSugeridas(ultimaDietas.comidasSugeridas.length > 0 ?
+                ultimaDietas.comidasSugeridas.map(comida => comida.nombre).join(', ') : 'No hay comidas sugeridas');
+            setComidasConsumidas(ultimaRutinas.comidasConsumidas.length > 0 ?
+                ultimaRutinas.comidasConsumidas.map(comida => comida.nombre).join(', ') : 'No hay comidas consumidas');
         } catch (error) {
             // Manejar errores mostrándolos en la consola
             console.log(error);
