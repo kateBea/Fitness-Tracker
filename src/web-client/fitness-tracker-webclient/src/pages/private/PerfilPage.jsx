@@ -33,7 +33,7 @@ function PerfilPage() {
 
   const loadPerfilData = async () => {
     try {
-      const response = await axios.get(API_ROUTES.GetDatosUsuario);
+      const response = await axios.get(API_ROUTES.GetComida);
       setDataLoadSucces(true);
       setDatosUsuario(response.data.data);
       setEdad(new Date(Date.now()).getFullYear() - parseInt(response.data.data.fechaDeNacimiento.split('-')[0]))
