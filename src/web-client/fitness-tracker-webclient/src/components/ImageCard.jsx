@@ -15,14 +15,22 @@ import { CardActionArea } from '@mui/material';
 
 export default function ImageCard({ fechaInicio, fechaFin, caloriasTarget, datos}) {
   const [dataFecthSuccess, setDataFecthSuccess] = useState(false);
-  const [comida,setComida] = useState({});
+  const [comida,setComida] = useState("");
+  const [existeImagen, setExisteImagen] = useState(false);
 
   const loadComida = async () => {
     try {
-      const response = await axios.get(API_ROUTES.GetComida, {params: {nombre: datos[0].nombre}});
-      setDataFecthSuccess(true);
-      setComida(response.data.data);
-      console.log("Response",response.data.data)
+      for (let i = 0; i < datos.length; ++i) {
+        const response = await axios.get(API_ROUTES.GetComida, {params: {prompt: datos[i].nombre}});
+        setDataFecthSuccess(true);
+        
+        if (response.data.result.parsed.length != 0) {
+          setComida(response.data.result.parsed[0].wrapper.image)
+          setExisteImagen(true)
+          break;
+        }
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -39,7 +47,7 @@ export default function ImageCard({ fechaInicio, fechaFin, caloriasTarget, datos
           component="img"
           alt="Dieta Image"
           height="140"
-          image={Logo}
+          image={!existeImagen ? Logo : comida }
         />
         <CardContent>
           <Typography gutterBottom variant="h5" style={{ fontWeight: "bold" }} component="div">

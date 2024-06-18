@@ -1,5 +1,5 @@
 import React from "react";
-import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { TopBar } from "../../components/Topbar";
 import { PrivateBar } from '../../components/Privatebar';
@@ -23,27 +23,25 @@ import { Link } from "react-router-dom";
 import { API_ROUTES } from "../../ApiRoutes";
 
 function DietGeneratorPage() {
+  const navigate = useNavigate();
+
   // State setup
   const [dataFecthSuccess, setDataFecthSuccess] = useState(false);
   // Preparar datos del formulario
-  const [edad, setEdad] = useState("");
   const [genero, setGenero] = useState("")
-  const [altura, setAltura] = useState("");
-  const [peso, setPeso] = useState("");
   const [actividad, setActividad] = useState("");
   const [objetivo, setObjetivo] = useState("");
-  const [habilidad, setHabilidad] = useState("");
-  const [tiempoCocina, setTiempoCocina] = useState("");
   const [notas, setNotas] = useState("");
+  const [fechaInicio, setFechaInicio] = useState("");
+  const [fechaFin, setFechaFin] = useState("");
 
   //Estado de los diferentes checkbox 
-  const [state, setState] = React.useState({
+  const [restricciones, setRestricciones] = React.useState({
     vegetariano: false,
     vegano: false,
     gluten: false,
     lacteos: false,
     frutoSeco: false,
-    otros: false
   });
 
   // Función para manejar cambios en las opciones de los checkbox
@@ -55,7 +53,7 @@ function DietGeneratorPage() {
   };
 
   // Desestructurar opciones de dieta
-  const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = state;
+  const { vegetariano, vegano, gluten, lacteos, frutoSeco, otros } = restricciones;
 
   // Axios setup: Obtener y establecer el token de autorización
   const token = localStorage.getItem("token");
@@ -63,27 +61,74 @@ function DietGeneratorPage() {
 
   // Función asincrónica para generar la dieta
   const generarDieta = async () => {
+    console.log("se llama generar dieta")
+
     try {
       // Obtener datos del usuario
       const responseUserData = await axios.get(API_ROUTES.GetDatosUsuario);
       const datosUsuario = responseUserData?.data;
 
+      const items = []
+
+      if (restricciones.frutoSeco) { items.push("fruto seco") }
+      if (restricciones.vegetariano) { items.push("vegetariano") }
+      if (restricciones.vegano) { items.push("vegano") }
+      if (restricciones.gluten) { items.push("gluten") }
+      if (restricciones.lacteos) { items.push("lacteos") }
+
+      const restriccionesList = items.join(", ")
+
       // Construir objeto de datos para enviar en la solicitud POST
       const requestData = {
-        fechaNacimiento: "2024-05-28T13:46:50.406Z",
-        sexo: genero, // Asumiendo que 'genero' está definido en otro lugar del código
-        altura: datosUsuario?.altura,
+        sexo: datosUsuario?.sexo, // Asumiendo que 'genero' está definido en otro lugar del código
+        fechaNacimiento: datosUsuario?.fechaDeNacimiento,
         nivelActividadFisica: actividad,
+        altura: datosUsuario?.altura,
         objetivoPrincipal: objetivo, 
-        habilidadCulinaria: habilidad, 
+        restriccionesAlimenticias: restriccionesList,
         comentariosAdicionales: notas, 
-        fechaInicio: "2024-05-28T13:46:50.406Z",
-        fechaFin: "2024-05-28T13:46:50.407Z",
+        fechaInicio: fechaInicio,
+        fechaFin: fechaFin,
       };
       // Realizar solicitud POST para generar la dieta
       const response = await axios.post(API_ROUTES.GenerarDieta, requestData);
       // Marcar que la solicitud de datos fue exitosa
       setDataFecthSuccess(true);
+
+      console.log(response)
+      
+      const comidas = []
+      const dieta = response.data.dieta;
+
+      if (response.data.success) {
+
+        for (let i = 0; i < dieta.comidas.length; ++i) {
+          comidas.push({
+              idComida: dieta.comidas[i].id,
+              orden: dieta.comidas[i].ordenComida,
+              tipo: dieta.comidas[i].tipoComida,
+              nombre: dieta.comidas[i].nombre,
+              descripcion: dieta.comidas[i].descripcion,
+              calorias:dieta.comidas[i].caloriasConsumidas,
+              proteinas: dieta.comidas[i].proteinas,
+              grasas: dieta.comidas[i].grasas,
+              carbohidratos: dieta.comidas[i].carbohidratos,
+              vitaminas: dieta.comidas[i].vitaminas
+          });
+        }
+        
+        const registrarDietaData = {
+          caloriasTarget: dieta?.gastoCalorias,
+          fechaInicio: dieta?.fechaInicio,
+          fechaFin: dieta?.fechaFin,
+          consumoDeAgua: dieta?.consumoAgua,
+          comidasSugeridas: comidas
+        };
+
+        const response = await axios.post(API_ROUTES.RegistrarDieta, registrarDietaData);
+
+        navigate("/ListadoDietas");
+      }
     } catch (error) {
       // Manejar errores mostrándolos en la consola
       console.log(error);
@@ -118,76 +163,8 @@ function DietGeneratorPage() {
         <React.Fragment>
           <h2>Modelar dieta</h2>
           <form onSubmit={handleSubmit}>
-            {/* EDAD Y GENERO */}
-            <Grid container columnSpacing={2} sx={{ marginBottom: 0 }}>
-              <Grid item xs={6}>
-                <InputLabel id="edad-input">Edad</InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel id="genero-input">Género</InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  type="number"
-                  labelId="edad-input"
-                  variant="outlined"
-                  color="secondary"
-                  onChange={(e) => setEdad(e.target.value)}
-                  value={edad}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <Select
-                  labelId="genero-input"
-                  id="genero"
-                  label="genero"
-                  fullWidth
-                  sx={{ mb: 4 }}
-                  value={genero}
-                  onChange={(e) => setGenero(e.target.value)}
-                  required
-                >
-                  <MenuItem value={"hombre"}>Hombre</MenuItem>
-                  <MenuItem value={"mujer"}>Mujer</MenuItem>
-                  <MenuItem value={"otro"}>Otro</MenuItem>
-                </Select>
-              </Grid>
-            </Grid>
-            {/* PESO Y ALTURA */}
-            <Grid container columnSpacing={2} sx={{ marginBottom: 0 }}>
-              <Grid item xs={6}>
-                <InputLabel id="peso-input">Peso (kg)</InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel id="altura-input">Altura (en centimetros)</InputLabel>
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  type="number"
-                  labelId="peso-input"
-                  variant="outlined"
-                  color="secondary"
-                  onChange={(e) => setPeso(e.target.value)}
-                  value={peso}
-                  fullWidth
-                  required
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <TextField
-                  type="number"
-                  labelId="altura-input"
-                  variant="outlined"
-                  color="secondary"
-                  onChange={(e) => setAltura(e.target.value)}
-                  value={altura}
-                  fullWidth
-                  required
-                />
-              </Grid>
-            </Grid>
+            
+            
             {/* NIVEL DE ACTIVIDAD FISICA Y OBJETIVO PRINCIPAL*/}
             <Grid container columnSpacing={2} sx={{ marginTop: '27px' }}>
               <Grid item xs={6}>
@@ -229,6 +206,43 @@ function DietGeneratorPage() {
                   <MenuItem value={"ganar"}>Ganar Masa Muscular</MenuItem>
                   <MenuItem value={"mejorar"}>Mejorar Salud</MenuItem>
                 </Select>
+              </Grid>
+            </Grid>
+            {/* FECHA INICIO Y FECHA FIN*/}
+            <Grid container columnSpacing={2} sx={{ marginTop: '27px' }}>
+              <Grid item xs={6}>
+                <InputLabel id="fecha-fin">Fecha de inicio</InputLabel>
+              </Grid>
+              <Grid item xs={6}>
+                <InputLabel id="fecha-inicio">Fecha de inicio</InputLabel>
+              </Grid>
+              <Grid item xs={6}>
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                labelId="fecha-inicio"
+                placeholder="YYYY-MM-DD"
+                onChange={(e) => setFechaInicio(e.target.value)}
+                value={fechaInicio}
+                fullWidth
+                required
+                sx={{ mb: 4 }}
+              />
+              </Grid>
+              <Grid item xs={6}>
+              <TextField
+                type="text"
+                variant="outlined"
+                color="secondary"
+                labelId="fecha-fin"
+                placeholder="YYYY-MM-DD"
+                onChange={(e) => setFechaFin(e.target.value)}
+                value={fechaFin}
+                fullWidth
+                required
+                sx={{ mb: 4 }}
+              />
               </Grid>
             </Grid>
             {/* RESTRICCIONES ALIMENTICIAS CHECKS*/}
@@ -281,61 +295,12 @@ function DietGeneratorPage() {
                           sx={{ width: '139px' }}
                         />
                       </Grid>
-                      <Grid item lg={2} md={2} sm={6} xs={4}>
-                        <FormControlLabel
-                          control={
-                            <Checkbox checked={otros} onChange={handleChange} name="otros" />
-                          }
-                          label="Otros"
-                          sx={{ width: '139px' }}
-                        />
-                      </Grid>
                     </Grid>
                   </FormGroup>
                 </FormControl>
               </Grid>
             </Grid>
-            {/* HABILIDAD EN LA COCINA Y TIEMPO DE COCINA */}
-            <Grid container columnSpacing={2} sx={{ marginTop: '20px' }}>
-              <Grid item xs={6}>
-                <InputLabel id="nivel-habilidad-cocina">
-                  Habilidad en la Cocina
-                </InputLabel>
-                <Select
-                  labelId="nivel-habilidad-cocina"
-                  id="habilidad-cocina"
-                  label="cocina"
-                  fullWidth
-                  sx={{ mb: 4 }}
-                  value={habilidad}
-                  onChange={(e) => setHabilidad(e.target.value)}
-                  required
-                >
-                  <MenuItem value={"principiante"}>Principiante</MenuItem>
-                  <MenuItem value={"intermedio"}>Intermedio</MenuItem>
-                  <MenuItem value={"avanzado"}>Avanzado</MenuItem>
-                </Select>
-              </Grid>
-              <Grid item xs={6}>
-                <InputLabel id="tiempo-disponible-cocina">
-                  Tiempo disponible para Cocinar
-                </InputLabel>
-                <Select
-                  labelId="ntiempo-disponible-cocina"
-                  id="tiempo-cocina"
-                  label="tiempo"
-                  fullWidth
-                  sx={{ mb: 4 }}
-                  value={tiempoCocina}
-                  onChange={(e) => setTiempoCocina(e.target.value)}
-                  required
-                >
-                  <MenuItem value={"menos30"}>Menos de 30 minutos</MenuItem>
-                  <MenuItem value={"30/60"}>30-60 minutos</MenuItem>
-                  <MenuItem value={"mas60"}>Más de 60 minutos</MenuItem>
-                </Select>
-              </Grid>
-            </Grid>
+            
             {/* Comentarios Adicionales */}
             <Grid>
               <InputLabel id="tiempo-cocina">Notas y comentarios adicionales</InputLabel>
