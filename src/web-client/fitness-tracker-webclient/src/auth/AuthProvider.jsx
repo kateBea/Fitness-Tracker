@@ -38,9 +38,12 @@ function AuthProvider({children}) {
       } else {
         console.log(response.data.errors); // Imprime los errores en la consola.
         setErrors(response.data.errors); // Establece los errores en el estado.
+        throw new Error(response.data.errors.join(', '));
+        
       }
     } catch (error) {
       // Si hay algún error en la petición
+      throw new Error("Error en el login: " + error.message);
       console.error("Error en el login: ", error); // Imprime el error en la consola.
     }
   }

@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 
 import ImageUploader from '../../components/ImageUploader';
-
+import { toast, ToastContainer } from 'react-toastify';
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { API_ROUTES } from "../../ApiRoutes";
@@ -62,9 +62,19 @@ function DietGeneratorPage() {
       console.log("requestData", requestData)
       const response = await axios.put(API_ROUTES.ModificarDatos, requestData);
 
+      if (response.data.success) {
+        // Navega a la página de inicio de sesión si el registro es exitoso.
+        toast.success("Login successful!"); // Mostrar notificación de éxito
+      } else {
+        // Imprime los errores en la consola si hubo algún problema.
+        console.log(response.data.errors);
+        throw new Error("Error en el login: " + error.message);
+      }
+
       setDataFecthSuccess(true);
       navigate("/perfil")
     } catch (error) {
+      toast.error("Login failed: " + error.message); // Mostrar notificación de error
       console.log(error);
     }
   };
@@ -93,7 +103,7 @@ function DietGeneratorPage() {
     setPeso(datosUsuario.peso || "");
     setAltura(datosUsuario.altura || "");
     setImage(datosUsuario.imagen || "");
-    setSexo(datosUsuario.sexo != null? datosUsuario.sexo:"hombre");
+    setSexo(datosUsuario.sexo != null ? datosUsuario.sexo : "hombre");
   };
 
   // Efecto para cargar los datos del perfil al montar el componente
@@ -132,6 +142,7 @@ function DietGeneratorPage() {
         alignItems: "center",
       }}
     >
+      <ToastContainer /> {/* Contenedor de notificaciones */}
       <TopBar />
       <PrivateBar />
 
@@ -286,7 +297,7 @@ function DietGeneratorPage() {
               </Grid>
             </Grid>
             {/* Comentarios Adicionales */}
-            <Grid sx={{ marginTop: '20px',width:'100%',display:'flex',justifyContent:'center' }}>
+            <Grid sx={{ marginTop: '20px', width: '100%', display: 'flex', justifyContent: 'center' }}>
               <ImageUploader onImageUpload={handleImageUpload} />
             </Grid>
             <Grid sx={{ [theme.breakpoints.down('800')]: { display: 'flex', justifyContent: 'center', marginTop: '40px' } }}>

@@ -21,6 +21,7 @@ import Prueba from "../../img/profile2.jpg"
 import { createTheme } from '@mui/material/styles';
 import { PrivateBar } from '../../components/Privatebar';
 import { API_ROUTES } from '../../ApiRoutes';
+import { height, width } from '@mui/system';
 
 function DailyPage() {
     const [fetchDataSuccesfull, setFetchDataSuccesfull] = useState(false);
@@ -112,10 +113,36 @@ function DailyPage() {
                             borderRadius: "40px",
                         }}
                     ><Grid container>
-                            <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != "" ? datosUsuario.imagen : Prueba} style={{ width: '400px', height: '400px', marginTop: '20px' }} />
+                            <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center',height:"70%",width:'100%' }}>
+                                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != "" ? datosUsuario.imagen : Prueba} 
+                                    sx={{
+                                        
+                                        justifyContent:'center',
+                                        [theme.breakpoints.up('1400')]: {
+                                        height:'350px',
+                                        width:'350px'
+                                        },
+                                        [theme.breakpoints.down('1400')]: {
+                                            height:'200px',
+                                            width:'200px'
+                                        },
+                                        [theme.breakpoints.down('900')]: {
+                                            height:'150px',
+                                            width:'150px'
+                                        },
+                                        [theme.breakpoints.down('700')]: {
+                                            height:'100px',
+                                            width:'100px'
+                                        },
+                                        [theme.breakpoints.down('600')]: {
+                                            height:'250px',
+                                            width:'250px'
+                                        },
+                                        marginTop: '20px' 
+                                    }}
+                                />
                             </Grid>
-                            <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
+                            <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%'}}>
                                 <Typography
                                     variant='h2'
                                     component='h2'

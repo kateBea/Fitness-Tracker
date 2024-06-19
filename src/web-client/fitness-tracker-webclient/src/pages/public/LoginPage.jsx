@@ -1,24 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useForm } from 'react-hook-form';
-import {
-  Box,
-  Typography,
-  Container,
-  InputAdornment,
-  Input,
-  FormControl,
-  Button
-} from '@mui/material';
-import { createTheme } from '@mui/material/styles';
+
+import { Box, Container, Typography, FormControl, Input, InputAdornment, Button } from '@mui/material';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import LogoFitness from '../../img/logo-fitness-tracker.png';
+import { createTheme } from '@mui/material/styles';// Asegúrate de tener el tema correcto
 import { TopBar } from '../../components/Topbar';
 import { API_ROUTES } from '../../ApiRoutes';
 import { PAGE_ROUTES } from '../../PageConstants';
 import { useAuthContext } from '../../auth/AuthProvider';
+
 
 const theme = createTheme({
   palette: {
@@ -38,27 +32,28 @@ const theme = createTheme({
 });
 
 function LoginPage() {
-  // Pre setup
   const navigate = useNavigate(); // Hook para la navegación.
   const { loginUser } = useAuthContext(); // Obtiene la función `loginUser` del contexto de autenticación.
-
-  // State setup
   const [email, setEmail] = useState(''); // Estado para el email del usuario.
   const [password, setPassword] = useState(''); // Estado para la contraseña del usuario.
   const token = localStorage.getItem("token"); // Obtiene el token del localStorage.
 
   // Función para manejar el inicio de sesión.
   const handleLogin = async () => {
-    await loginUser(email, password); // Llama a la función `loginUser` con el email y la contraseña.
+    try {
+      await loginUser(email, password); // Llama a la función `loginUser` con el email y la contraseña.
+      toast.success("Login successful!"); // Mostrar notificación de éxito
+    } catch (error) {
+      toast.error("Login failed: " + error.message); // Mostrar notificación de error
+    }
   };
 
   // Efecto para verificar el token y redirigir si el usuario ya está autenticado.
   useEffect(() => {
     console.log("tokenls " + token); // Imprime el token en la consola.
-
     // Verifica si el token no es nulo ni indefinido.
     if (token != null || token != undefined) {
-      console.log("User is already logged"); 
+      console.log("User is already logged");
       navigate(PAGE_ROUTES.Today); // Redirige al usuario a la página de hoy.
     }
   }, [token]); // El efecto se ejecuta cada vez que el valor del token cambia.
@@ -74,6 +69,7 @@ function LoginPage() {
         alignItems: 'center'
       }}
     >
+      <ToastContainer /> {/* Contenedor de notificaciones */}
       <TopBar />
       <Container
         sx={{

@@ -33,7 +33,7 @@ function PerfilPage() {
 
   const loadPerfilData = async () => {
     try {
-      const response = await axios.get(API_ROUTES.GetComida);
+      const response = await axios.get(API_ROUTES.GetDatosUsuario);
       setDataLoadSucces(true);
       setDatosUsuario(response.data.data);
       setEdad(new Date(Date.now()).getFullYear() - parseInt(response.data.data.fechaDeNacimiento.split('-')[0]))
@@ -78,8 +78,33 @@ function PerfilPage() {
               borderRadius: "40px",
             }}
           ><Grid container>
-              <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != "" ? datosUsuario.imagen : Prueba} style={{ width: '400px', height: '400px', marginTop: '20px' }} />
+              <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center',width:'100%',height:'70%' }}>
+                <Avatar alt={datosUsuario.nombreUsuario} src={datosUsuario.imagen != "" ? datosUsuario.imagen : Prueba} 
+                sx={{
+                                        
+                  justifyContent:'center',
+                  [theme.breakpoints.up('1400')]: {
+                  height:'350px',
+                  width:'350px'
+                  },
+                  [theme.breakpoints.down('1400')]: {
+                      height:'200px',
+                      width:'200px'
+                  },
+                  [theme.breakpoints.down('900')]: {
+                      height:'150px',
+                      width:'150px'
+                  },
+                  [theme.breakpoints.down('700')]: {
+                      height:'100px',
+                      width:'100px'
+                  },
+                  [theme.breakpoints.down('600')]: {
+                      height:'250px',
+                      width:'250px'
+                  },
+                  marginTop: '20px' 
+              }}/>
               </Grid>
               <Grid item lg={12} md={12} sx={{ display: 'flex', justifyContent: 'center', width: '100%', }}>
                 <Typography
