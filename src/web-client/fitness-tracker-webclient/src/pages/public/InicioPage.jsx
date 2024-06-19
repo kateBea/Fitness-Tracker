@@ -483,7 +483,7 @@ function MainPage() {
                     sx={{ color: '#7D7987', maxWidth: '80%', textAlign: 'left', marginTop: '30px', fontSize: '18pt' }}
                   >Nuestra aplicación dedicada a la recolección de datos a través del software del smartwatch y soluciones para salud, nutrición y rutinas fitness para el beneficio personal del usuaio. Comienza a alcanzar tus objetivos.
                   </Typography>
-                  <ColorButton endIcon={<DownloadIcon />}>
+                  <ColorButton onClick={() => {window.location.href = "https://drive.google.com/file/d/1N8y2lPrFhSEeJiYCkUnNRoT9fPcZvEY4/view?usp=sharing";} } endIcon={<DownloadIcon />}>
                     Descargar
                   </ColorButton>
                   {/* sx={{color:'#436489',fontWeight:'bold',borderRadius:'30px',marginTop:'30px',borderWidth:'2px',borderColor:'#436489'}}  */}

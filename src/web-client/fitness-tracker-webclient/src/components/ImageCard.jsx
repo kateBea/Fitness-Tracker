@@ -12,11 +12,21 @@ import moment from 'moment';
 
 import Logo from "../img/comida-prueba.webp";
 import { CardActionArea } from '@mui/material';
+import DietaModal from './DietaModal.jsx';
 
-export default function ImageCard({ fechaInicio, fechaFin, caloriasTarget, datos}) {
+export default function ImageCard({ fechaInicio, fechaFin, caloriasTarget, dieta}) {
   const [dataFecthSuccess, setDataFecthSuccess] = useState(false);
   const [comida,setComida] = useState("");
   const [existeImagen, setExisteImagen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+
+  const datos = dieta.comidasSugeridas;
+
+  const handleClick = () => {
+    console.log("Abriendo dieta")
+
+    setOpenModal(true)
+  };
 
   const loadComida = async () => {
     try {
@@ -42,7 +52,6 @@ export default function ImageCard({ fechaInicio, fechaFin, caloriasTarget, datos
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
         <CardMedia
           component="img"
           alt="Dieta Image"
@@ -63,9 +72,16 @@ export default function ImageCard({ fechaInicio, fechaFin, caloriasTarget, datos
             Objetivo en calorias: {caloriasTarget}
           </Typography>
         </CardContent>
-      </CardActionArea>
       <CardActions>
-        <Button size="small">Visualizar</Button>
+        <Button 
+        size="small"
+        onClick={handleClick}
+        >Visualizar</Button>
+
+            { openModal && 
+              
+              <DietaModal datosDieta={dieta} wantOpen={openModal} setWantOpen={setOpenModal} />
+            }
       </CardActions>
     </Card>
   );

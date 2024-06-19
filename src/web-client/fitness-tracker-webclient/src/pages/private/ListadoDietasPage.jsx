@@ -106,7 +106,7 @@ function ListadoDietasPage() {
                   fechaFin={diet?.fechaFin}
                   fechaInicio={diet?.fechaInicio}
                   caloriasTarget={diet?.caloriasTarget}
-                  datos={diet.comidasSugeridas}
+                  dieta={diet}
                 ></ImageCard>
               </Grid>
             ))}

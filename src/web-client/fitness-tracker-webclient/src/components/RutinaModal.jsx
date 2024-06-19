@@ -18,11 +18,14 @@ const style = {
   p: 4,
 };
 
-export default function RutinaModal({ rutina, wantOpen }) {
+export default function RutinaModal({ rutina, wantOpen, setWantOpen }) {
     console.log("want open: " + wantOpen)
 
     const [open, setOpen] = React.useState(wantOpen);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setWantOpen(false)
+  } 
   
   return (
     <Modal

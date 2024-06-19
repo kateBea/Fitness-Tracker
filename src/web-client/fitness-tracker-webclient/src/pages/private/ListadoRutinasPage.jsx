@@ -63,7 +63,7 @@ const ListadoRutinasPage = () => {
               <RutinaCard rutina={rutina} onModalOpen={handleOpen}/>
               { modalOpen && 
               
-                <RutinaModal rutina={rutina} wantOpen={modalOpen}/>
+                <RutinaModal rutina={rutina} wantOpen={modalOpen} setWantOpen={setModalOpen} />
               }
             </Grid>
           ))}
