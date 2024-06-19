@@ -11,6 +11,7 @@ import {
   Button
 } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
+import { toast, ToastContainer } from 'react-toastify';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import MarkAsUnreadOutlinedIcon from '@mui/icons-material/MarkAsUnreadOutlined';
@@ -39,11 +40,11 @@ const theme = createTheme({
 function RegisterPage() {
   // Hook de navegación para redirigir a otras páginas.
   const navigate = useNavigate();
-  
+
   // Estados para almacenar los datos del formulario de registro.
-  const [email, setEmail] = useState(''); 
-  const [username, setUsername] = useState(''); 
-  const [password, setPassword] = useState(''); 
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   /**
    * Función para manejar el registro del usuario.
@@ -52,26 +53,29 @@ function RegisterPage() {
   const handleRegister = async () => {
     try {
       // Datos de la petición de registro.
-      const requestData = { email, username, password }; 
-      
+      const requestData = { email, username, password };
+
       // Realiza la petición POST para registrar el usuario.
-      const response = await axios.post(API_ROUTES.RegistrarUsuario, requestData); 
+      const response = await axios.post(API_ROUTES.RegistrarUsuario, requestData);
 
       if (response.data.success) {
         // Navega a la página de inicio de sesión si el registro es exitoso.
-        navigate(PAGE_ROUTES.Login); 
+        toast.success("Login successful!"); // Mostrar notificación de éxito
+        navigate(PAGE_ROUTES.Login);
       } else {
         // Imprime los errores en la consola si hubo algún problema.
-        console.log(response.data.errors); 
+        console.log(response.data.errors);
+        throw new Error("Error en el login: " + error.message);
       }
     } catch (error) {
       // Imprime cualquier error en la consola si la petición falla.
-      console.error('Error al registrar el usuario: ', error); 
+      toast.error("Login failed: " + error.message); // Mostrar notificación de error
+      console.error('Error al registrar el usuario: ', error);
     }
   };
 
   return (
-    <Box 
+    <Box
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -81,6 +85,7 @@ function RegisterPage() {
         alignItems: 'center'
       }}
     >
+      <ToastContainer /> {/* Contenedor de notificaciones */}
       <TopBar />
       <Container
         sx={{
@@ -91,13 +96,13 @@ function RegisterPage() {
           borderRadius: '60px',
           padding: '40px',
           margin: '50px',
-          [theme.breakpoints.up('1200')]:{
+          [theme.breakpoints.up('1200')]: {
             width: '40%',
           },
-          [theme.breakpoints.down('1200')]:{
+          [theme.breakpoints.down('1200')]: {
             width: '60%',
           },
-          [theme.breakpoints.down('700')]:{
+          [theme.breakpoints.down('700')]: {
             width: '100%',
           }
         }}
@@ -110,9 +115,9 @@ function RegisterPage() {
               width: '100%'
             }}
           >
-            <img src={LogoFitness} 
-              title="Logo Fitness-Tracker" 
-              alt="Logo Fitness-Tracker App" 
+            <img src={LogoFitness}
+              title="Logo Fitness-Tracker"
+              alt="Logo Fitness-Tracker App"
               style={{
                 width: '100px',
                 height: '100px',
@@ -128,19 +133,19 @@ function RegisterPage() {
             }}
           >
             <Typography
-                variant="h3"
-                component="h1"
-                href="/"
-                sx={{
-                    color: 'white',
-                    textDecoration: 'none',
-                    margin: '15px',
-                    [theme.breakpoints.down('450')]:{
-                      fontSize:'27pt'
-                    }
-                }}
-              >
-                Fitness-Tracker
+              variant="h3"
+              component="h1"
+              href="/"
+              sx={{
+                color: 'white',
+                textDecoration: 'none',
+                margin: '15px',
+                [theme.breakpoints.down('450')]: {
+                  fontSize: '27pt'
+                }
+              }}
+            >
+              Fitness-Tracker
             </Typography>
           </Box>
         </Box>
@@ -150,7 +155,7 @@ function RegisterPage() {
               id="user"
               startAdornment={
                 <InputAdornment position="start">
-                  <PersonOutlineOutlinedIcon 
+                  <PersonOutlineOutlinedIcon
                     fontSize='large'
                     sx={{
                       marginLeft: '10px',
@@ -242,13 +247,13 @@ function RegisterPage() {
             />
           </FormControl>
         </Box>
-        <Box 
+        <Box
           sx={{
             display: 'flex',
             justifyContent: 'center',
           }}
         >
-          <Button 
+          <Button
             variant="contained"
             sx={{
               background: '#D92668',

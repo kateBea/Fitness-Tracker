@@ -17,6 +17,7 @@ import {
   FormControl,
 } from "@mui/material";
 
+import { toast, ToastContainer } from 'react-toastify';
 import { useState } from "react";
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -67,7 +68,7 @@ function DietGeneratorPage() {
       // Obtener datos del usuario
       const responseUserData = await axios.get(API_ROUTES.GetDatosUsuario);
       const datosUsuario = responseUserData?.data;
-
+      
       const items = []
 
       if (restricciones.frutoSeco) { items.push("fruto seco") }
@@ -93,6 +94,16 @@ function DietGeneratorPage() {
       // Realizar solicitud POST para generar la dieta
       const response = await axios.post(API_ROUTES.GenerarDieta, requestData);
       // Marcar que la solicitud de datos fue exitosa
+
+      if (response.data.success) {
+        // Navega a la página de inicio de sesión si el registro es exitoso.
+        toast.success("Dieta Generada Correctamente!"); // Mostrar notificación de éxito
+      } else {
+        // Imprime los errores en la consola si hubo algún problema.
+        console.log(response.data.errors);
+        throw new Error("Error en el Generar Dieta: " + error.message);
+      }
+
       setDataFecthSuccess(true);
 
       console.log(response)
@@ -125,12 +136,22 @@ function DietGeneratorPage() {
           comidasSugeridas: comidas
         };
 
-        const response = await axios.post(API_ROUTES.RegistrarDieta, registrarDietaData);
+        const response2 = await axios.post(API_ROUTES.RegistrarDieta, registrarDietaData);
+
+        if (response2.data.success) {
+          // Navega a la página de inicio de sesión si el registro es exitoso.
+          toast.success("Dieta Registrada Correctamente!"); // Mostrar notificación de éxito
+        } else {
+          // Imprime los errores en la consola si hubo algún problema.
+          console.log(response2.data.errors);
+          throw new Error("Error en el Registrar Dieta: " + error.message);
+        }
 
         navigate("/ListadoDietas");
       }
     } catch (error) {
       // Manejar errores mostrándolos en la consola
+      toast.error("Registrar Dieta Failed: " + error.message); // Mostrar notificación de error
       console.log(error);
     }
   };
@@ -151,6 +172,7 @@ function DietGeneratorPage() {
         alignItems: "center",
       }}
     >
+      <ToastContainer /> {/* Contenedor de notificaciones */}
       <TopBar />
       <PrivateBar />
 
@@ -211,10 +233,10 @@ function DietGeneratorPage() {
             {/* FECHA INICIO Y FECHA FIN*/}
             <Grid container columnSpacing={2} sx={{ marginTop: '27px' }}>
               <Grid item xs={6}>
-                <InputLabel id="fecha-fin">Fecha de inicio</InputLabel>
+                <InputLabel id="fecha-fin">Fecha de Inicio</InputLabel>
               </Grid>
               <Grid item xs={6}>
-                <InputLabel id="fecha-inicio">Fecha de inicio</InputLabel>
+                <InputLabel id="fecha-inicio">Fecha de Fin</InputLabel>
               </Grid>
               <Grid item xs={6}>
               <TextField

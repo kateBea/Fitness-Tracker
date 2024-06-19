@@ -30,5 +30,6 @@ export const API_ROUTES = {
     ModificarDieta: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/client/ModificarDieta",
     ModificarRutina: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/client/ModificarRutina",
     RegistrarUsuario: "http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/client/RegistrarUsuario",
-    GetComida:"http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/alimentos/BuscarPorDescripcion"
+    GetComida:"http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/alimentos/BuscarPorDescripcion",
+    RegistrarDieta:"http://ec2-3-220-31-228.compute-1.amazonaws.com:8081/api/client/RegistrarDieta",
 };
