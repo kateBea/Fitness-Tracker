@@ -127,9 +127,9 @@ La API se puede ejecutar tanto con Eclipse como con IntelliJ IDEA (Ultimate, Edu
 
 Abrir la carpeta del proyecto con IDE y ejecutar.
 
-Para acceder a la documentación de la API simplemente hay que iniciarla y acceder al enlace ``http://localhost:8080/swagger-ui/``
+Para acceder a la documentación de la API simplemente hay que iniciarla y acceder al enlace ``http://localhost:8080/swagger-ui/``<br>
 Para desplegar la documentación se ha degradado la versión de Spring Boot a 2.6x, ya que versiones iguales o superiores a la 3
-no son, en el redacción de este artículo, compatibles con SpringFox. Detalles en [este post](https://stackoverflow.com/questions/71549614/springfox-type-javax-servlet-http-httpservletrequest-not-present).
+no son, en el tiempo de redacción de este artículo, compatibles con SpringFox. Detalles en [este post](https://stackoverflow.com/questions/71549614/springfox-type-javax-servlet-http-httpservletrequest-not-present).
 
 ## REST External Services
 
