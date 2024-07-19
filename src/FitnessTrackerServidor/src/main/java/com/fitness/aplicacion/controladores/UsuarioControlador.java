@@ -7,13 +7,10 @@ import java.util.Optional;
 import com.fitness.aplicacion.dto.*;
 import com.fitness.aplicacion.servicio.IUsuarioServicio;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.models.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.models.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -42,7 +39,6 @@ public class UsuarioControlador {
 	@Qualifier("usuarioServicioImpl")
 	IUsuarioServicio usuarioServicio;
 	
-	// Peticion para insertar un nuevo usuario
 	@PostMapping("insertar")
 	@Operation(summary = "Registra un nuevo usuario",
 			description = "Registra un nuevo usuario utilizando los datos del modelo pasado, retorna cierto si la operación fue exitosa.",
@@ -51,21 +47,24 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
-	public ResponseEntity<Boolean> insertar(@RequestBody UsuarioInsertar user){
-		ResponseEntity<Boolean> response;
+	public ResponseEntity<ResponseRegistraUsuario> insertar(@RequestBody RequestRegistrarUsuario model) {
+		ResponseRegistraUsuario data = ResponseRegistraUsuario.builder().success(false).build();
+		ResponseEntity<ResponseRegistraUsuario> response;
 
 		try {
-			// Llamada al método del servicio para insertar un usuario
-			Boolean resultado = usuarioServicio.insertarUsuario(user);
-			response = new ResponseEntity<>(resultado, HttpStatus.OK);
+			var resultado = usuarioServicio.insertarUsuario(model);
+
+			data.setSuccess(resultado);
+			data.setResponseDescription("Usuario registrado con éxito");
+			response = new ResponseEntity<>(data, HttpStatus.OK);
 		} catch (Exception e) {
-			response = new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+			data.setResponseDescription(e.getMessage());
+			response = new ResponseEntity<>(data, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return response;
 	}
 	
-	// Peticion para verificar las credenciales de inicio de sesión
 	@PostMapping("verificar")
 	@Operation(summary = "Verifica un usuario",
 			description = "Verifica un usuario utilizando los datos del modelo pasado, retorna la información del usuario si la verificación es exitosa.",
@@ -117,7 +116,7 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
-	public ResponseEntity<Boolean> actualizar(@RequestBody UsuarioInsertar user){
+	public ResponseEntity<Boolean> actualizar(@RequestBody RequestRegistrarUsuario user){
 		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
 		// Llamada al método del servicio para actualizar el usuario

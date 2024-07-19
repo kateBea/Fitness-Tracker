@@ -131,7 +131,6 @@ namespace FTBase.Controllers.v1
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseLoginVM"/></returns>
         [HttpPost("Login")]
         [AllowAnonymous]
-        [SwaggerOperation(Tags = ["Usuario"])]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseLoginVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -154,7 +153,6 @@ namespace FTBase.Controllers.v1
         /// <returns>Respuesta del modelo de vista de registro. Ver: <see cref="ResponseRegistrarUsuarioVM"/></returns>
         [HttpPost("RegistrarUsuario")]
         [AllowAnonymous]
-        [SwaggerOperation(Tags = ["Usuario"])]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseRegistrarUsuarioVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -177,7 +175,6 @@ namespace FTBase.Controllers.v1
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseCambiarPasswordVM"/></returns>
         [HttpPut("CambiarPassword")]
         [Authorize]
-        [SwaggerOperation(Tags = ["Usuario"])]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseCambiarPasswordVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
