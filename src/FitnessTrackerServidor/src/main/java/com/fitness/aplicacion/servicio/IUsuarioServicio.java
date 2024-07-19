@@ -16,7 +16,7 @@ public interface IUsuarioServicio {
 	 * @param user El modelo que contiene la información necesaria para insertar un nuevo usuario.
 	 * @return true si la inserción fue exitosa, false en caso contrario.
 	 */
-	Boolean insertarUsuario(UsuarioInsertar user);
+	Boolean insertarUsuario(RequestRegistrarUsuario user);
 
 	/**
 	 * Servicio para depuración. Inserta usuarios directamente en la base de datos.
@@ -50,7 +50,7 @@ public interface IUsuarioServicio {
 	 * @param user El modelo que contiene la información necesaria para actualizar al usuario.
 	 * @return true si la actualización fue exitosa, false en caso contrario.
 	 */
-	Boolean actualizarUsuario(UsuarioInsertar user);
+	Boolean actualizarUsuario(RequestRegistrarUsuario user);
 
 	/**
 	 * Borra un usuario de la base de datos.

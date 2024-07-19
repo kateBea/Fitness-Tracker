@@ -9,7 +9,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-ai",
-          "Port": 8080
+          "Port": 7031
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -24,26 +24,11 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-alimentos",
-          "Port": 8080
+          "Port": 7181
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
       "SwaggerKey": "alimentos"
-    },
-
-    // Recetas ========================================
-    {
-      "UpstreamPathTemplate": "/api/recetas/{everything}",
-      "DownstreamPathTemplate": "/Recetas/{everything}",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "ft-alimentos",
-          "Port": 8080
-        }
-      ],
-      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "SwaggerKey": "recetas"
     },
 
     // Base ========================================
@@ -54,7 +39,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-base",
-          "Port": 8080
+          "Port": 7070
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -70,7 +55,7 @@
         {
           "Name": "FT - AI",
           "Version": "v1",
-          "Url": "http://localhost:8084/swagger/v1/swagger.json"
+          "Url": "http://localhost:5149/swagger/v1/swagger.json"
         }
       ]
     },
@@ -83,20 +68,7 @@
         {
           "Name": "FT - Alimentos",
           "Version": "v1",
-          "Url": "http://localhost:8083/swagger/v1/swagger.json"
-        }
-      ]
-    },
-
-    // Recetas ========================================
-    {
-      "Key": "recetas",
-      "TakeServersFromDownstreamService": true,
-      "Config": [
-        {
-          "Name": "FT - Recetas",
-          "Version": "v1",
-          "Url": "http://localhost:8083/swagger/v1/swagger.json"
+          "Url": "http://localhost:5041/swagger/v1/swagger.json"
         }
       ]
     },
@@ -109,7 +81,7 @@
         {
           "Name": "FT - Base",
           "Version": "v1",
-          "Url": "http://localhost:8082/swagger/v1/swagger.json"
+          "Url": "http://localhost:5078/swagger/v1/swagger.json"
         }
       ]
     }

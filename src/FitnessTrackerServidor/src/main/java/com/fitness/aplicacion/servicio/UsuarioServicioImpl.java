@@ -41,7 +41,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     
     // Método para insertar un nuevo usuario en la base de datos
     @Override
-    public Boolean insertarUsuario(UsuarioInsertar user) {
+    public Boolean insertarUsuario(RequestRegistrarUsuario user) {
         // Buscar si ya existe un usuario con el mismo correo electrónico
         Optional<Usuario> userDB = DAOS.findById(user.getEmail());
         boolean introducido = false;
@@ -112,7 +112,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     }
 
     @Override
-    public Boolean actualizarUsuario(UsuarioInsertar user) {
+    public Boolean actualizarUsuario(RequestRegistrarUsuario user) {
         // Buscar el usuario en la base de datos por su correo electrónico
         Optional<Usuario> userDB = DAOS.findById(user.getEmail());
         Boolean exito = false;
