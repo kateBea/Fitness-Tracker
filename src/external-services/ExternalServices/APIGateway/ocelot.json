@@ -9,7 +9,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-ai",
-          "Port": 7031
+          "Port": 8084
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -24,7 +24,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-alimentos",
-          "Port": 7181
+          "Port": 8083
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
@@ -39,7 +39,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "ft-base",
-          "Port": 7070
+          "Port": 8082
         }
       ],
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],

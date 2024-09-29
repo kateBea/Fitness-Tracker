@@ -7,6 +7,7 @@ import com.fitness.aplicacion.documentos.Usuario;
 import com.fitness.aplicacion.dto.*;
 import org.springframework.stereotype.Service;
 import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
+import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
 
 @Service
 public interface IUsuarioServicio {
@@ -156,7 +157,7 @@ public interface IUsuarioServicio {
 	 * @param model La solicitud de inicio de sesión que contiene las credenciales del usuario.
 	 * @return Una respuesta que contiene la información de inicio de sesión del usuario.
 	 */
-	ResponseLogin login(RequestLogin model);
+	ResponseLoginData login(RequestLogin model);
 
 	/**
 	 * Devuelve el listado de alimentos registrado para el usuario.

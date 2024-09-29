@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import com.fitness.aplicacion.documentos.*;
 import com.fitness.aplicacion.dto.*;
 import com.fitness.aplicacion.utilidades.UtilidadesFechas;
+import com.fitness.aplicacion.utilidades.UtilidadesUsuario;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.fitness.aplicacion.dto.RequestRegistrarDieta.ComidaSugeridaData;
 
 import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
+import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
 
 
 /**
@@ -34,33 +36,32 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     // Inyección del repositorio de usuarios
     @Autowired
-    IUsuarioRepositorio DAOS;
+    IUsuarioRepositorio usuarioRepositorio;
 
     // Instancia el encoder para cifrar contraseñas
     BCryptPasswordEncoder cifrar = new BCryptPasswordEncoder();
     
-    // Método para insertar un nuevo usuario en la base de datos
     @Override
     public Boolean insertarUsuario(RequestRegistrarUsuario user) {
-        // Buscar si ya existe un usuario con el mismo correo electrónico
-        Optional<Usuario> userDB = DAOS.findById(user.getEmail());
         boolean introducido = false;
-        
-        // Si no existe un usuario con el mismo correo electrónico, se procede a insertar
+        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
+        boolean contrasenaEsValida = UtilidadesUsuario.passwordCheck(user.getContrasena());
+
+        if (!contrasenaEsValida) {
+            throw new RuntimeException("La contraseña es débil. Debe tener al menos 8 caracteres, un dígito y uno no alfanumérico.");
+        }
+
         if(userDB.isEmpty()) {
-            // Mapear los datos del usuario
             Usuario userInsertar = ObjectMapperUtils.map(user, Usuario.class);
 
             userInsertar.setSexo(Sexo.fromStr(user.getSexo()));
             userInsertar.setFechaRegistro(LocalDateTime.now());
             userInsertar.setFechaUltimaModificacion(LocalDateTime.now());
 
-            // Cifrar la contraseña antes de almacenarla en la base de datos
             String contrasenaCifrada = cifrar.encode(userInsertar.getContrasena());
             userInsertar.setContrasena(contrasenaCifrada);
-            
-            // Guardar el nuevo usuario en la base de datos
-            DAOS.save(userInsertar);
+
+            usuarioRepositorio.save(userInsertar);
             introducido = true;
         }
         
@@ -69,14 +70,13 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Optional<Usuario> insertarDebug(Usuario user) {
-        return Optional.of(DAOS.insert(user));
+        return Optional.of(usuarioRepositorio.insert(user));
     }
 
-    // Método para verificar las credenciales de un usuario durante el inicio de sesión
     @Override
     public Optional<UsuarioInfo> verificarUsuario(UsuarioVerificar user) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = DAOS.findById(user.getEmail());
+        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
         boolean verificado = false;
         
         // Si se encuentra el usuario en la base de datos, verificar la contraseña
@@ -100,7 +100,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public Optional<UsuarioInfo> informacionUsuario(String email) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = DAOS.findById(email);
+        Optional<Usuario> userDB = usuarioRepositorio.findById(email);
         Optional<UsuarioInfo> retornar = Optional.empty();
         
         // Si se encuentra el usuario en la base de datos, mapear sus datos a UsuarioInfo y devolverlo
@@ -114,7 +114,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public Boolean actualizarUsuario(RequestRegistrarUsuario user) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = DAOS.findById(user.getEmail());
+        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
         Boolean exito = false;
         
         // Verificar si el usuario existe en la base de datos
@@ -129,7 +129,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                 userAct.setContrasena(cifrado);
                 
                 // Guardar los cambios en la base de datos
-                DAOS.save(userAct);
+                usuarioRepositorio.save(userAct);
                 exito = true;
             }
         }
@@ -140,7 +140,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public Boolean borrarUsuario(UsuarioVerificar user) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = DAOS.findById(user.getEmail());
+        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
         Boolean exito = false;
         
         // Verificar si el usuario existe en la base de datos
@@ -148,7 +148,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             // Verificar si la contraseña proporcionada coincide con la contraseña almacenada
             if(cifrar.matches(user.getContrasena(), userDB.get().getContrasena())) {
                 // Eliminar el usuario de la base de datos
-                DAOS.deleteById(userDB.get().getEmail());
+                usuarioRepositorio.deleteById(userDB.get().getEmail());
                 exito = true;
             }
         }
@@ -160,7 +160,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     public boolean cambiarPassword(RequestCambiarPassword model) {
         boolean result = true;
 
-        Optional<Usuario> info = DAOS.findById(model.getEmail());
+        Optional<Usuario> info = usuarioRepositorio.findById(model.getEmail());
 
         if (info.isPresent()) {
             boolean match = cifrar.matches(model.getOldPassword(), info.get().getContrasena());
@@ -172,7 +172,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
             if (match) {
                 info.get().setContrasena(cifrar.encode(model.getNewPassword()));
-                DAOS.save(info.get());
+                usuarioRepositorio.save(info.get());
             } else {
                 result = false;
             }
@@ -185,7 +185,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Optional<ResponseGetDatosUsuarioData> consultar(RequestGetDatosUsuario model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
         Optional<ResponseGetDatosUsuarioData> respuesta = Optional.empty();
 
         if (usuario.isPresent()) {
@@ -200,7 +200,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Boolean modificar(RequestModificarDatosUsuario model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return false;
@@ -219,14 +219,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         usuario.get().setFechaUltimaModificacion(LocalDateTime.now());
 
-        DAOS.save(usuario.get());
+        usuarioRepositorio.save(usuario.get());
 
         return true;
     }
 
     @Override
     public ResponseRegistrarDieta registrarDieta(RequestRegistrarDieta model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return ResponseRegistrarDieta.builder()
@@ -284,7 +284,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         usuario.get().setDietas(dietasDelUsuario);
         usuario.get().setComidasRegistradas(comidasRegistradasDelUsuario);
 
-        DAOS.save(usuario.get());
+        usuarioRepositorio.save(usuario.get());
 
         return ResponseRegistrarDieta.builder()
                 .id(nueva.getId())
@@ -317,7 +317,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Boolean modificar(RequestModificarDieta model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return false;
@@ -338,14 +338,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         aModificar.get().setFechaInicio(model.getFechaInicio());
         aModificar.get().setFechaUltimaModificacion(LocalDateTime.now());
 
-        DAOS.save(usuario.get());
+        usuarioRepositorio.save(usuario.get());
 
         return true;
     }
 
     @Override
     public Optional<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> getDieta(RequestGetDietaUsuario model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return Optional.empty();
@@ -386,7 +386,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> getListDietas(RequestGetListDietas model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             throw new RuntimeException("El usuario no existe");
@@ -433,7 +433,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public ResponseRegistrarRutina registrarRutina(RequestRegistrarRutina model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return ResponseRegistrarRutina.builder()
@@ -468,7 +468,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         // Porque estos se van registrando a lo largo del día
         usuario.get().setRutinas(rutinas);
 
-        DAOS.save(usuario.get());
+        usuarioRepositorio.save(usuario.get());
 
         return ResponseRegistrarRutina.builder()
                 .id(nueva.getId())
@@ -481,7 +481,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     @Transactional
     public Boolean modificarRutina(RequestModificarRutina model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return false;
@@ -570,14 +570,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         rutina.get().setComidasConsumidas(alimentos);
 
         usuario.get().setComidasRegistradas(comidasRegistradasUsuario);
-        DAOS.save(usuario.get());
+        usuarioRepositorio.save(usuario.get());
 
         return true;
     }
 
     @Override
     public Optional<ResponseGetRutina.ResponseGetRutinaData> getRutina(RequestGetRutina model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return Optional.empty();
@@ -616,7 +616,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public List<ResponseGetRutina.ResponseGetRutinaData> getListRutinas(RequestGetListRutinas model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             throw new RuntimeException("El usuario con el email especificado no existe.");
@@ -721,33 +721,21 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     }
 
     @Override
-    public ResponseLogin login(RequestLogin model) {
-        ResponseLogin response = ResponseLogin.builder()
-                .build();
-
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+    public ResponseLoginData login(RequestLogin model) {
+        ResponseLoginData response;
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
-            response.setSuccess(false);
-            response.setResponseDescription("El usuario no existe.");
-
-            return response;
+            throw new RuntimeException("El usuario no existe.");
         }
 
         boolean verificado = cifrar.matches(model.getPassword(), usuario.get().getContrasena());
 
         if(verificado) {
-            response.setUsername(usuario.get().getNombreUsuario());
-            response.setEmail(usuario.get().getEmail());
-            response.setName(usuario.get().getNombre());
-            response.setFirstSurname(usuario.get().getPrimerApellido());
-            response.setSecondSurname(usuario.get().getSegundoApellido());
-            response.setResponseDescription("Credenciales válidos.");
-            response.setSuccess(true);
+            response = ObjectMapperUtils.map(usuario, ResponseLoginData.class);
             response.setLoggedAt(LocalDateTime.now());
         } else {
-            response.setResponseDescription("Credenciales no válidos.");
-            response.setSuccess(false);
+            throw new RuntimeException("Credenciales inválidos.");
         }
 
         return response;
@@ -755,7 +743,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public ResponseGetAlimentos getListAlimentos(RequestGetAlimentos model) {
-        Optional<Usuario> usuario = DAOS.findById(model.getEmail());
+        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return ResponseGetAlimentos.builder()

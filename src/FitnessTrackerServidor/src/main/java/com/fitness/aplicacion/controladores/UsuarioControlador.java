@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
+import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
 
 /**
  * API REST Usuario
@@ -47,7 +48,7 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
-	public ResponseEntity<ResponseRegistraUsuario> insertar(@RequestBody RequestRegistrarUsuario model) {
+	public ResponseEntity<ResponseRegistraUsuario> registraUsuario(@RequestBody RequestRegistrarUsuario model) {
 		ResponseRegistraUsuario data = ResponseRegistraUsuario.builder().success(false).build();
 		ResponseEntity<ResponseRegistraUsuario> response;
 
@@ -57,6 +58,10 @@ public class UsuarioControlador {
 			data.setSuccess(resultado);
 			data.setResponseDescription("Usuario registrado con éxito");
 			response = new ResponseEntity<>(data, HttpStatus.OK);
+		} catch (RuntimeException re) {
+			data.setSuccess(false);
+			data.setResponseDescription(re.getMessage());
+			response = new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			data.setResponseDescription(e.getMessage());
 			response = new ResponseEntity<>(data, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -74,19 +79,17 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
 	public ResponseEntity<UsuarioInfo> verificar(@RequestBody UsuarioVerificar user){
-		// Respuesta por defecto: error de solicitud
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		// Llamada al método del servicio para verificar las credenciales del usuario
 		Optional<UsuarioInfo> resultado = usuarioServicio.verificarUsuario(user);
 		
-		// Si la verificación fue exitosa, cambia la respuesta a OK
-		if(resultado.isPresent())
+		if(resultado.isPresent()) {
 			respuesta = ResponseEntity.ok(resultado.get());
+		}
 
 		return respuesta;
 	}
 	
-	// Peticion para obtener información de un usuario por su correo electrónico
+	// Petición para obtener información de un usuario por su correo electrónico
 	@GetMapping("info/{email}")
 	@Operation(summary = "Obtiene información del usuario",
 			description = "Obtiene la información del usuario basado en el correo electrónico proporcionado.",
@@ -96,14 +99,12 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
 	public ResponseEntity<UsuarioInfo> info(@PathVariable String email){
-		// Respuesta por defecto: error de solicitud
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		// Llamada al método del servicio para obtener información del usuario
 		Optional<UsuarioInfo> resultado = usuarioServicio.informacionUsuario(email);
 
-		// Si se encuentra la información del usuario, cambia la respuesta a Accepted
-		if(resultado.isPresent())
+		if(resultado.isPresent()) {
 			respuesta = new ResponseEntity<>(resultado.get(), HttpStatus.ACCEPTED);
+		}
 		
 		return respuesta;
 	}
@@ -117,14 +118,12 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
 	public ResponseEntity<Boolean> actualizar(@RequestBody RequestRegistrarUsuario user){
-		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-		// Llamada al método del servicio para actualizar el usuario
 		Boolean resultado = usuarioServicio.actualizarUsuario(user);
 		
-		// Si la verificación fue exitosa, cambia la respuesta a OK
-		if(resultado)
+		if(resultado) {
 			respuesta = ResponseEntity.ok(true);
+		}
 
 		return respuesta;
 	}
@@ -138,14 +137,12 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
 	public ResponseEntity<Boolean> borrar(@RequestBody UsuarioVerificar user){
-		// Respuesta por defecto: error de solicitud
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-		// Llamada al método del servicio para borrar el usuario
 		Boolean resultado = usuarioServicio.borrarUsuario(user);
 		
-		// Si la verificación fue exitosa, cambia la respuesta a OK
-		if(resultado)
+		if(resultado) {
 			respuesta = ResponseEntity.ok(true);
+		}
 
 		return respuesta;
 	}
@@ -159,16 +156,32 @@ public class UsuarioControlador {
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
 	ResponseEntity<ResponseLogin> login(@RequestBody RequestLogin model) {
-		ResponseLogin responseData = ResponseLogin.builder().build();
+		ResponseLogin responseWrapper = ResponseLogin.builder()
+				.data(null)
+				.build();
+
+		ResponseLoginData responseData;
 		ResponseEntity<ResponseLogin> response;
 
 		try {
 			responseData = usuarioServicio.login(model);
-			response = new ResponseEntity<>(responseData, HttpStatus.OK);
-		} catch (Exception e) {
-			responseData.setSuccess(false);
-			responseData.setResponseDescription(e.getMessage());
-			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+
+			responseWrapper.setData(responseData);
+			responseWrapper.setSuccess(true);
+			responseWrapper.setResponseDescription("Credenciales válidos.");
+
+			response = new ResponseEntity<>(responseWrapper, HttpStatus.OK);
+		} catch (RuntimeException re) {
+			responseWrapper.setSuccess(false);
+			responseWrapper.setResponseDescription(re.getMessage());
+
+			response = new ResponseEntity<>(responseWrapper, HttpStatus.BAD_REQUEST);
+		}
+		catch (Exception e) {
+			responseWrapper.setSuccess(false);
+			responseWrapper.setResponseDescription(e.getMessage());
+
+			response = new ResponseEntity<>(responseWrapper, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
 		return response;

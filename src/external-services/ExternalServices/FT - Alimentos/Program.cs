@@ -11,19 +11,18 @@ using Shared.Contexts;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddCustomJwtAuthentication();
 builder.Services.AddHttpContextAccessor();
-
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
-        Name = "Authorization",
+        Description = "Por favor, introduce un Token válido",
+        Name = "Autorización",
         Type = SecuritySchemeType.Http,
         BearerFormat = "JWT",
         Scheme = "Bearer"
@@ -35,13 +34,11 @@ builder.Services.AddSwaggerGen(c =>
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     c.IncludeXmlComments(xmlPath);
-
 });
 
 // Add services
 builder.Services.AddScoped<IAlimentosService, AlimentosService>();
 builder.Services.AddScoped<IDataHttpContext, DataHttpContext>();
-
 builder.Services.AddAutoMapper(typeof(AlimentosMapperProfiles));
 
 var app = builder.Build();
@@ -54,10 +51,8 @@ if (app.Environment.IsDevelopment())
 }
 
 //app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
