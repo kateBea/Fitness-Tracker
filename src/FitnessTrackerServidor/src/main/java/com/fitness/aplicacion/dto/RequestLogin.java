@@ -6,6 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Login request model.
+ * @version 1.0
+ * */
+
 @Data
 @Builder
 @NoArgsConstructor

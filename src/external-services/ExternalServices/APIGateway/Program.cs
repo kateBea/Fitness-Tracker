@@ -20,7 +20,6 @@ builder.Configuration
 
 builder.Services.AddSwaggerForOcelot(builder.Configuration);
 builder.Services.AddOcelot(builder.Configuration);
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -37,10 +36,8 @@ app.UseSwaggerForOcelotUI(opt =>
 });
 
 //app.UseHttpsRedirection();
-
 app.UseOcelot().Wait();
 app.UseAuthorization();
 app.MapControllers();
-
 
 app.Run();

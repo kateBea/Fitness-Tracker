@@ -122,7 +122,8 @@ namespace FTBase.Services
         {
             _mapper = mapper;
             _dataHttpContext = dataHttpContext;
-
+            
+#if !DEBUG
             _loginEndpoint = configuration.GetSection("ExternalServices:Login").Value!;
             _registerEndpoint = configuration.GetSection("ExternalServices:RegisterEndpoint").Value!;
             _cambiarPasswordEndpoint = configuration.GetSection("ExternalServices:CambiarPasswordEndpoint").Value!;
@@ -137,6 +138,22 @@ namespace FTBase.Services
             _getListRutinasEndpoint = configuration.GetSection("ExternalServices:GetRutinasEndpoint").Value!;
             _registrarRutinaEndpoint = configuration.GetSection("ExternalServices:RegistrarRutinaEndpoint").Value!;
             _getAlimentosEndpoint = configuration.GetSection("ExternalServices:GetAlimentosEndpoint").Value!;
+#else
+            _loginEndpoint = configuration.GetSection("ExternalServicesDebug:Login").Value!;
+            _registerEndpoint = configuration.GetSection("ExternalServicesDebug:RegisterEndpoint").Value!;
+            _cambiarPasswordEndpoint = configuration.GetSection("ExternalServicesDebug:CambiarPasswordEndpoint").Value!;
+            _registrarDietaEndpoint = configuration.GetSection("ExternalServicesDebug:RegistrarDietaEndpoint").Value!;
+            _modificarDietaEndpoint = configuration.GetSection("ExternalServicesDebug:ModificarDietaEndpoint").Value!;
+            _modificarRutinaEndpoint = configuration.GetSection("ExternalServicesDebug:ModificarRutinaEndpoint").Value!;
+            _getDatosUsuarioEndpoint = configuration.GetSection("ExternalServicesDebug:GetDatosUsuarioEndpoint").Value!;
+            _modificarDatosUsuarioEndpoint = configuration.GetSection("ExternalServicesDebug:ModificarDatosUsuarioEndpoint").Value!;
+            _getDietaUsuarioEndpoint = configuration.GetSection("ExternalServicesDebug:GetDietaUsuarioEndpoint").Value!;
+            _getListDietasUsuarioEndpoint = configuration.GetSection("ExternalServicesDebug:GetDietasUsuarioEndpoint").Value!;
+            _getRutinaEndpoint = configuration.GetSection("ExternalServicesDebug:GetRutinaEndpoint").Value!;
+            _getListRutinasEndpoint = configuration.GetSection("ExternalServicesDebug:GetRutinasEndpoint").Value!;
+            _registrarRutinaEndpoint = configuration.GetSection("ExternalServicesDebug:RegistrarRutinaEndpoint").Value!;
+            _getAlimentosEndpoint = configuration.GetSection("ExternalServicesDebug:GetAlimentosEndpoint").Value!;
+#endif
 
             _httpClient = new();
             _httpClient.DefaultRequestHeaders.Accept.Add(

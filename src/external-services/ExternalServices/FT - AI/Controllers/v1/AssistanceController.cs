@@ -22,9 +22,25 @@ namespace FTAI.Controllers.v1
         IValidator<RequestStartNewChatAssistance> validatorRequestAssistantIn) : ControllerBase
     {
         #region Properties
+
+        /// <summary>
+        /// Validator assitance model
+        /// </summary>
         private readonly IAssistanceService _assistanceService = assistanceService;
+
+        /// <summary>
+        /// Validator model debug model
+        /// </summary>
         private readonly IValidator<RequestMessageDebugLimitTokens> _validatorModelDebug = validatorModelDebug;
+
+        /// <summary>
+        /// Validator request dieta model
+        /// </summary>
         private readonly IValidator<RequestGenerarDieta> _validatorRequestDieta = validatorRequestDieta;
+
+        /// <summary>
+        /// Validator request assistance model
+        /// </summary>
         private readonly IValidator<RequestStartNewChatAssistance> _validatorRequestAssistantIn = validatorRequestAssistantIn;
 
         #endregion
@@ -35,7 +51,7 @@ namespace FTAI.Controllers.v1
         /// </summary>
         /// <returns><see cref="string"/></returns>
         [HttpGet("Greeting")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -54,7 +70,7 @@ namespace FTAI.Controllers.v1
         /// <param name="message">El mensaje a ser enviado</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseMessageDebugVM"/></returns>
         [HttpGet("MessageDebug")]
-        [Authorize] // Autorize with role admin
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessageDebugVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -78,7 +94,7 @@ namespace FTAI.Controllers.v1
         /// <param name="model">Mensaje a serv enviado.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseMessageDebugVM"/>.</returns>
         [HttpGet("MessageDebugLimitTokens")]
-        [Authorize] // authorize with role admin
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseMessageDebugVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -125,7 +141,7 @@ namespace FTAI.Controllers.v1
         /// <param name="model">Datos de la nueva conversación.</param>
         /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseStartNewChatAssistanceVM"/>.</returns>
         [HttpPost("ChatAssistance")]
-        [Authorize] // authorize
+        [Authorize] 
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseStartNewChatAssistanceVM))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
