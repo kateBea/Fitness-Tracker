@@ -30,12 +30,12 @@ El proyecto consta de tres bloques principales. Un cliente Android, un cliente w
 #### Funcionalidades Principales:
 
 1. Registrar usuarios a la base de datos
-2. Registrar rutinas y información recibida de Wear OS.
+2. Registrar rutinas e información recibida de Wear OS.
 
 #### Ejecución (depurar):
 
-1. Seleccionamos y abrimos la carpeta de android-client medienta el editor Android Studio.
-2. El editor debería ser capaza de actualizar los paquetes de Gradle si es necesario, si no probar con el proyecto en la rama master.
+1. Seleccionamos y abrimos la carpeta de android-client mediente el editor Android Studio.
+2. El editor debería ser capaz de actualizar los paquetes de Gradle si es necesario.
 3. Hacer clic sobre Debug para ejecutar la aplicación.
 
 - Detalles editor Android Studio usado:
@@ -129,15 +129,13 @@ no son, en el tiempo de redacción de este artículo, compatibles con SpringFox.
 
 ## REST External Services
 
-Esta API REST proporciona, entre otros servicios, una interfaz para integrar la funcionalidad de generación de texto de ChatGPT en aplicaciones externas. Utiliza endpoints específicos para enviar solicitudes a ChatGPT y recibir respuestas generadas por el modelo de lenguaje. La integración de esta API permite a los aprovechar el potencial de ChatGPT para integrar el asistente virtual que ofrece nuestro sistema.
+Esta API REST proporciona, entre otros servicios, una interfaz para integrar la funcionalidad de generación de texto de ChatGPT en aplicaciones externas. Utiliza endpoints específicos para enviar solicitudes a ChatGPT y recibir respuestas generadas por el modelo de lenguaje. La integración de esta API permite aprovechar el potencial de ChatGPT para integrar el asistente virtual que ofrece nuestro sistema.
 
 - Funcionalidades Principales:
 
-1. Lanzamiento de Prompts: Permite enviar prompts o estímulos de entrada a ChatGPT para generar respuestas de texto coherentes y contextualmente relevantes.
+1. Lanzamiento de Prompts: Permite enviar prompts a ChatGPT para generar respuestas de texto coherentes y contextualmente relevantes.
 2. Control de Parámetros: Proporciona opciones para ajustar parámetros como la longitud máxima de la respuesta.
 3. Integración Sencilla: Ofrece una interfaz intuitiva y documentada para facilitar la integración con sistemas externos, incluyendo ejemplos de solicitud y respuesta.
-
-Este modulo forma parte del external services donde podemos enconrtrar otros servicios como el de información nutricional.
 
 ## Ejecución
 
