@@ -38,7 +38,7 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ft-base",
+          "Host": "localhost",
           "Port": 8082
         }
       ],

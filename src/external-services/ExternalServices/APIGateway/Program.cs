@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddProblemDetails();
 
 // Setup Ocelot Api Gateway
 builder.Configuration
@@ -34,6 +35,9 @@ app.UseSwaggerForOcelotUI(opt =>
 {
     opt.PathToSwaggerGenerator = "/swagger/docs";
 });
+
+app.UseStatusCodePages();
+app.UseExceptionHandler();
 
 //app.UseHttpsRedirection();
 app.UseOcelot().Wait();

@@ -165,11 +165,19 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         if (info.isPresent()) {
             boolean match = cifrar.matches(model.getOldPassword(), info.get().getContrasena());
             boolean oldMatchesNew = cifrar.matches(model.getNewPassword(), info.get().getContrasena());
+            boolean validPass = UtilidadesUsuario.passwordCheck(model.getNewPassword());
 
+            // La contraseña es débil
+            if (!validPass) {
+                throw new RuntimeException("La contraseña es débil. Debe tener al menos 8 caracteres, un dígito y uno no alfanumérico.");
+            }
+
+            // La contraseña antigua coincide con la nueva
             if (match && oldMatchesNew) {
                 throw new RuntimeException("La contraseña nueva debe ser diferente a la antigua");
             }
 
+            // El usuario sabe y ha introducido su contraseña antigua
             if (match) {
                 info.get().setContrasena(cifrar.encode(model.getNewPassword()));
                 usuarioRepositorio.save(info.get());
@@ -177,6 +185,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                 result = false;
             }
         } else {
+            // El usuario no existe
             result = false;
         }
 

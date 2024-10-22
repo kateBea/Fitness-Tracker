@@ -7,6 +7,7 @@ using Security.Authentication;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Shared.Contexts;
+using FT___Base.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,16 @@ builder.Services.AddControllers();
 builder.Services.AddCustomJwtAuthentication();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services
+    .AddProblemDetails(options =>
+        options.CustomizeProblemDetails = ctx =>
+        {
+            ctx.ProblemDetails.Extensions.Add("trace-id", ctx.HttpContext.TraceIdentifier);
+            ctx.ProblemDetails.Extensions.Add("instance", $"{ctx.HttpContext.Request.Method} {ctx.HttpContext.Request.Path}");
+        });
+
+builder.Services.AddExceptionHandler<ExceptionToProblemDetailsHandler>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -68,6 +79,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStatusCodePages();
 
 //app.UseHttpsRedirection();
 app.UseAuthentication();

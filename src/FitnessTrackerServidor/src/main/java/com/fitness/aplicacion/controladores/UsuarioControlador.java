@@ -210,10 +210,10 @@ public class UsuarioControlador {
 
 			response = new ResponseEntity<>(data, HttpStatus.OK);
 
-		}catch (RuntimeException excep) {
+		}catch (RuntimeException re) {
 			data.setSuccess(false);
-			data.setResponseDescription(excep.getMessage());
-			response = new ResponseEntity<>(data, HttpStatus.OK);
+			data.setResponseDescription(re.getMessage());
+			response = new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
 
 		} catch (Exception e) {
 			data.setSuccess(false);
