@@ -10,6 +10,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResponseBorrarUser extends BaseResponse {
+public class ResponseBorrarUser extends BaseResponse<String> {
     private boolean success;
 }

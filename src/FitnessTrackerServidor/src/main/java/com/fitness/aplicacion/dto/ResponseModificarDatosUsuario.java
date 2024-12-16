@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseModificarDatosUsuario extends BaseResponse {
+public class ResponseModificarDatosUsuario extends BaseResponse<String> {
 
     @JsonProperty(value = "modified_at")
     private LocalDateTime modifiedAt;

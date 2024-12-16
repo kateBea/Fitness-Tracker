@@ -10,10 +10,10 @@ import java.util.stream.Stream;
 
 import com.fitness.aplicacion.documentos.*;
 import com.fitness.aplicacion.dto.*;
+import com.fitness.aplicacion.dto.data.*;
 import com.fitness.aplicacion.utilidades.UtilidadesFechas;
 import com.fitness.aplicacion.utilidades.UtilidadesUsuario;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,6 @@ import com.fitness.aplicacion.repositorio.IUsuarioRepositorio;
 import org.springframework.transaction.annotation.Transactional;
 import static com.fitness.aplicacion.dto.RequestRegistrarDieta.ComidaSugeridaData;
 
-import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
-import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
 
 
 /**
@@ -35,16 +33,21 @@ import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
 public class UsuarioServicioImpl implements IUsuarioServicio {
 
     // Inyección del repositorio de usuarios
-    @Autowired
-    IUsuarioRepositorio usuarioRepositorio;
+    final
+    IUsuarioRepositorio _usuarioRepositorio;
 
     // Instancia el encoder para cifrar contraseñas
-    BCryptPasswordEncoder cifrar = new BCryptPasswordEncoder();
-    
+    BCryptPasswordEncoder _passwordEncoder;
+
+    public UsuarioServicioImpl(IUsuarioRepositorio usuarioRepositorio) {
+        _usuarioRepositorio = usuarioRepositorio;
+        _passwordEncoder = new BCryptPasswordEncoder();
+    }
+
     @Override
     public Boolean insertarUsuario(RequestRegistrarUsuario user) {
         boolean introducido = false;
-        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
+        Optional<Usuario> userDB = _usuarioRepositorio.findById(user.getEmail());
         boolean contrasenaEsValida = UtilidadesUsuario.passwordCheck(user.getContrasena());
 
         if (!contrasenaEsValida) {
@@ -58,10 +61,10 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             userInsertar.setFechaRegistro(LocalDateTime.now());
             userInsertar.setFechaUltimaModificacion(LocalDateTime.now());
 
-            String contrasenaCifrada = cifrar.encode(userInsertar.getContrasena());
+            String contrasenaCifrada = _passwordEncoder.encode(userInsertar.getContrasena());
             userInsertar.setContrasena(contrasenaCifrada);
 
-            usuarioRepositorio.save(userInsertar);
+            _usuarioRepositorio.save(userInsertar);
             introducido = true;
         }
         
@@ -70,19 +73,19 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Optional<Usuario> insertarDebug(Usuario user) {
-        return Optional.of(usuarioRepositorio.insert(user));
+        return Optional.of(_usuarioRepositorio.insert(user));
     }
 
     @Override
     public Optional<UsuarioInfo> verificarUsuario(UsuarioVerificar user) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
+        Optional<Usuario> userDB = _usuarioRepositorio.findById(user.getEmail());
         boolean verificado = false;
         
         // Si se encuentra el usuario en la base de datos, verificar la contraseña
         if(userDB.isPresent()) {
             // Verificar si la contraseña proporcionada coincide con la contraseña cifrada almacenada
-            verificado = cifrar.matches(user.getContrasena(), userDB.get().getContrasena());
+            verificado = _passwordEncoder.matches(user.getContrasena(), userDB.get().getContrasena());
             
             if(!verificado) {
             	userDB = Optional.empty();
@@ -100,7 +103,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public Optional<UsuarioInfo> informacionUsuario(String email) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = usuarioRepositorio.findById(email);
+        Optional<Usuario> userDB = _usuarioRepositorio.findById(email);
         Optional<UsuarioInfo> retornar = Optional.empty();
         
         // Si se encuentra el usuario en la base de datos, mapear sus datos a UsuarioInfo y devolverlo
@@ -114,22 +117,22 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public Boolean actualizarUsuario(RequestRegistrarUsuario user) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
+        Optional<Usuario> userDB = _usuarioRepositorio.findById(user.getEmail());
         Boolean exito = false;
         
         // Verificar si el usuario existe en la base de datos
         if(userDB.isPresent()) {
             // Verificar si la contraseña proporcionada coincide con la contraseña almacenada
-            if(cifrar.matches(user.getContrasena(), userDB.get().getContrasena())) {
+            if(_passwordEncoder.matches(user.getContrasena(), userDB.get().getContrasena())) {
                 // Mapear los datos del usuario recibido al objeto Usuario
                 Usuario userAct = ObjectMapperUtils.map(user, Usuario.class);
                 
                 //Volvemos a encriptar la contraseña
-                String cifrado = cifrar.encode(userAct.getContrasena());
+                String cifrado = _passwordEncoder.encode(userAct.getContrasena());
                 userAct.setContrasena(cifrado);
                 
                 // Guardar los cambios en la base de datos
-                usuarioRepositorio.save(userAct);
+                _usuarioRepositorio.save(userAct);
                 exito = true;
             }
         }
@@ -140,15 +143,15 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     public Boolean borrarUsuario(UsuarioVerificar user) {
         // Buscar el usuario en la base de datos por su correo electrónico
-        Optional<Usuario> userDB = usuarioRepositorio.findById(user.getEmail());
+        Optional<Usuario> userDB = _usuarioRepositorio.findById(user.getEmail());
         Boolean exito = false;
         
         // Verificar si el usuario existe en la base de datos
         if(userDB.isPresent()) {
             // Verificar si la contraseña proporcionada coincide con la contraseña almacenada
-            if(cifrar.matches(user.getContrasena(), userDB.get().getContrasena())) {
+            if(_passwordEncoder.matches(user.getContrasena(), userDB.get().getContrasena())) {
                 // Eliminar el usuario de la base de datos
-                usuarioRepositorio.deleteById(userDB.get().getEmail());
+                _usuarioRepositorio.deleteById(userDB.get().getEmail());
                 exito = true;
             }
         }
@@ -160,11 +163,11 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     public boolean cambiarPassword(RequestCambiarPassword model) {
         boolean result = true;
 
-        Optional<Usuario> info = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> info = _usuarioRepositorio.findById(model.getEmail());
 
         if (info.isPresent()) {
-            boolean match = cifrar.matches(model.getOldPassword(), info.get().getContrasena());
-            boolean oldMatchesNew = cifrar.matches(model.getNewPassword(), info.get().getContrasena());
+            boolean match = _passwordEncoder.matches(model.getOldPassword(), info.get().getContrasena());
+            boolean oldMatchesNew = _passwordEncoder.matches(model.getNewPassword(), info.get().getContrasena());
             boolean validPass = UtilidadesUsuario.passwordCheck(model.getNewPassword());
 
             // La contraseña es débil
@@ -179,8 +182,8 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
             // El usuario sabe y ha introducido su contraseña antigua
             if (match) {
-                info.get().setContrasena(cifrar.encode(model.getNewPassword()));
-                usuarioRepositorio.save(info.get());
+                info.get().setContrasena(_passwordEncoder.encode(model.getNewPassword()));
+                _usuarioRepositorio.save(info.get());
             } else {
                 result = false;
             }
@@ -194,7 +197,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Optional<ResponseGetDatosUsuarioData> consultar(RequestGetDatosUsuario model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
         Optional<ResponseGetDatosUsuarioData> respuesta = Optional.empty();
 
         if (usuario.isPresent()) {
@@ -209,7 +212,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Boolean modificar(RequestModificarDatosUsuario model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return false;
@@ -228,14 +231,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
         usuario.get().setFechaUltimaModificacion(LocalDateTime.now());
 
-        usuarioRepositorio.save(usuario.get());
+        _usuarioRepositorio.save(usuario.get());
 
         return true;
     }
 
     @Override
     public ResponseRegistrarDieta registrarDieta(RequestRegistrarDieta model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return ResponseRegistrarDieta.builder()
@@ -293,7 +296,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         usuario.get().setDietas(dietasDelUsuario);
         usuario.get().setComidasRegistradas(comidasRegistradasDelUsuario);
 
-        usuarioRepositorio.save(usuario.get());
+        _usuarioRepositorio.save(usuario.get());
 
         return ResponseRegistrarDieta.builder()
                 .id(nueva.getId())
@@ -326,7 +329,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public Boolean modificar(RequestModificarDieta model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return false;
@@ -347,14 +350,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         aModificar.get().setFechaInicio(model.getFechaInicio());
         aModificar.get().setFechaUltimaModificacion(LocalDateTime.now());
 
-        usuarioRepositorio.save(usuario.get());
+        _usuarioRepositorio.save(usuario.get());
 
         return true;
     }
 
     @Override
-    public Optional<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> getDieta(RequestGetDietaUsuario model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+    public Optional<ResponseGetDietaUsuarioData> getDieta(RequestGetDietaUsuario model) {
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return Optional.empty();
@@ -368,10 +371,10 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             return Optional.empty();
         }
 
-        ResponseGetDietaUsuario.ResponseGetDietaUsuarioData result =
-                ObjectMapperUtils.map(dietaEncontrada.get(), ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
+        ResponseGetDietaUsuarioData result =
+                ObjectMapperUtils.map(dietaEncontrada.get(), ResponseGetDietaUsuarioData.class);
 
-        List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
+        List<ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
 
         for (ComidaSugerida comidaSugerida : dietaEncontrada.get().getComidasSugeridas()) {
             Optional<Comida> comidaResult = usuario.get().getComidasRegistradas().stream()
@@ -379,7 +382,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                     .findFirst();
 
             comidaResult.ifPresent(comida -> {
-                var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida.class);
+                var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuarioDataComida.class);
 
                 toAdd.setTipo(comidaSugerida.getTipo().name());
                 toAdd.setOrden(comidaSugerida.getOrden().name());
@@ -394,22 +397,22 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     }
 
     @Override
-    public List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> getListDietas(RequestGetListDietas model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+    public List<ResponseGetDietaUsuarioData> getListDietas(RequestGetListDietas model) {
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             throw new RuntimeException("El usuario no existe");
         }
-        List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = new ArrayList<>();
+        List<ResponseGetDietaUsuarioData> result = new ArrayList<>();
 
         if (usuario.get().getDietas() != null) {
              result =
                     usuario.get().getDietas().stream()
                             .map(dietaRegistradaUsuario -> {
-                                ResponseGetDietaUsuario.ResponseGetDietaUsuarioData singleDietaData =
-                                        ObjectMapperUtils.map(dietaRegistradaUsuario, ResponseGetDietaUsuario.ResponseGetDietaUsuarioData.class);
+                                ResponseGetDietaUsuarioData singleDietaData =
+                                        ObjectMapperUtils.map(dietaRegistradaUsuario, ResponseGetDietaUsuarioData.class);
 
-                                List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
+                                List<ResponseGetDietaUsuarioDataComida> comidasSugeridasResult = new ArrayList<>();
 
                                 for (ComidaSugerida comidaSugerida : dietaRegistradaUsuario.getComidasSugeridas()) {
                                     Optional<Comida> comidaResult = Optional.empty();
@@ -421,7 +424,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                                     }
 
                                     comidaResult.ifPresent(comida -> {
-                                        var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuario.ResponseGetDietaUsuarioDataComida.class);
+                                        var toAdd = ObjectMapperUtils.map(comida, ResponseGetDietaUsuarioDataComida.class);
 
                                         toAdd.setTipo(comidaSugerida.getTipo().name());
                                         toAdd.setOrden(comidaSugerida.getOrden().name());
@@ -442,7 +445,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public ResponseRegistrarRutina registrarRutina(RequestRegistrarRutina model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return ResponseRegistrarRutina.builder()
@@ -477,7 +480,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         // Porque estos se van registrando a lo largo del día
         usuario.get().setRutinas(rutinas);
 
-        usuarioRepositorio.save(usuario.get());
+        _usuarioRepositorio.save(usuario.get());
 
         return ResponseRegistrarRutina.builder()
                 .id(nueva.getId())
@@ -490,7 +493,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     @Override
     @Transactional
     public Boolean modificarRutina(RequestModificarRutina model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return false;
@@ -579,14 +582,14 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         rutina.get().setComidasConsumidas(alimentos);
 
         usuario.get().setComidasRegistradas(comidasRegistradasUsuario);
-        usuarioRepositorio.save(usuario.get());
+        _usuarioRepositorio.save(usuario.get());
 
         return true;
     }
 
     @Override
-    public Optional<ResponseGetRutina.ResponseGetRutinaData> getRutina(RequestGetRutina model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+    public Optional<ResponseGetRutinaData> getRutina(RequestGetRutina model) {
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return Optional.empty();
@@ -616,22 +619,22 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                         .toList()
                 : new ArrayList<>();
 
-        ResponseGetRutina.ResponseGetRutinaData result =
-                ObjectMapperUtils.map(rutina.get(), ResponseGetRutina.ResponseGetRutinaData.class);
+        ResponseGetRutinaData result =
+                ObjectMapperUtils.map(rutina.get(), ResponseGetRutinaData.class);
         result.setComidasConsumidas(alimentoInfos);
 
         return Optional.of(result);
     }
 
     @Override
-    public List<ResponseGetRutina.ResponseGetRutinaData> getListRutinas(RequestGetListRutinas model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+    public List<ResponseGetRutinaData> getListRutinas(RequestGetListRutinas model) {
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             throw new RuntimeException("El usuario con el email especificado no existe.");
         }
 
-        List<ResponseGetRutina.ResponseGetRutinaData> result;
+        List<ResponseGetRutinaData> result;
 
         if (!model.isFetchAll() && (model.getFechaInicio() == null || model.getFechaFin() == null)) {
             throw new RuntimeException("Si se piden rutinas en un rango de fechas, ambos extremos son obligatorios.");
@@ -643,7 +646,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
                     .filter(rutina -> UtilidadesFechas
                         .isBetween(rutina.getFechaSeguimiento(), model.getFechaInicio(), model.getFechaFin()))
                     .map(rutina -> {
-                        ResponseGetRutina.ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class);
+                        ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutinaData.class);
 
                         List<RequestModificarRutina.AlimentoInfo> alimentoInfos = res.getComidasConsumidas();
 
@@ -681,7 +684,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             // Se piden todas las rutinas
             result = usuario.get().getRutinas().stream()
                     .map(rutina -> {
-                        ResponseGetRutina.ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutina.ResponseGetRutinaData.class);
+                        ResponseGetRutinaData res = ObjectMapperUtils.map(rutina, ResponseGetRutinaData.class);
 
                         List<RequestModificarRutina.AlimentoInfo> alimentoInfos = res.getComidasConsumidas();
 
@@ -730,18 +733,18 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     }
 
     @Override
-    public ResponseLoginData login(RequestLogin model) {
-        ResponseLoginData response;
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+    public ResponseVerifyData login(RequestVerify model) {
+        ResponseVerifyData response;
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             throw new RuntimeException("El usuario no existe.");
         }
 
-        boolean verificado = cifrar.matches(model.getPassword(), usuario.get().getContrasena());
+        boolean verificado = _passwordEncoder.matches(model.getPassword(), usuario.get().getContrasena());
 
         if(verificado) {
-            response = ObjectMapperUtils.map(usuario, ResponseLoginData.class);
+            response = ObjectMapperUtils.map(usuario, ResponseVerifyData.class);
             response.setLoggedAt(LocalDateTime.now());
         } else {
             throw new RuntimeException("Credenciales inválidos.");
@@ -752,13 +755,13 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
 
     @Override
     public ResponseGetAlimentos getListAlimentos(RequestGetAlimentos model) {
-        Optional<Usuario> usuario = usuarioRepositorio.findById(model.getEmail());
+        Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
         if (usuario.isEmpty()) {
             return ResponseGetAlimentos.builder()
                     .success(false)
                     .responseDescription("El usuario no existe")
-                    .data(new ArrayList<>())
+                    .alimentos(new ArrayList<>())
                     .build();
         }
 
@@ -767,12 +770,12 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
             usuario.get().setComidasRegistradas(new ArrayList<>());
         }
 
-        List<ResponseGetAlimentos.GetAlimentoListItem> alimentos =
+        List<GetAlimentoListData> alimentos =
                 usuario.get().getComidasRegistradas().stream()
-                        .map(comida -> ObjectMapperUtils.map(comida, ResponseGetAlimentos.GetAlimentoListItem.class))
+                        .map(comida -> ObjectMapperUtils.map(comida, GetAlimentoListData.class))
                         .toList();
 
-        for (ResponseGetAlimentos.GetAlimentoListItem alimento : alimentos) {
+        for (GetAlimentoListData alimento : alimentos) {
             if (alimento.getVitaminas() == null) {
                 alimento.setVitaminas(new ArrayList<>());
             }
@@ -781,7 +784,7 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
         return ResponseGetAlimentos.builder()
                 .success(true)
                 .responseDescription("Alimentos localizados con éxito")
-                .data(alimentos)
+                .alimentos(alimentos)
                 .build();
     }
 }

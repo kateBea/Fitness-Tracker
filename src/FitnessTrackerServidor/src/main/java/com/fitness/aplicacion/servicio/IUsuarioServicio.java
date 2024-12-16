@@ -5,11 +5,12 @@ import java.util.Optional;
 
 import com.fitness.aplicacion.documentos.Usuario;
 import com.fitness.aplicacion.dto.*;
-import org.springframework.stereotype.Service;
-import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
-import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
+import com.fitness.aplicacion.dto.data.ResponseGetDatosUsuarioData;
+import com.fitness.aplicacion.dto.data.ResponseGetDietaUsuarioData;
+import com.fitness.aplicacion.dto.data.ResponseGetRutinaData;
+import com.fitness.aplicacion.dto.data.ResponseVerifyData;
 
-@Service
+
 public interface IUsuarioServicio {
 	/**
 	 * Inserta un nuevo usuario.
@@ -109,7 +110,7 @@ public interface IUsuarioServicio {
 	 * @param model El modelo que contiene la información necesaria para obtener la dieta del usuario.
 	 * @return Un Optional que contiene los datos de la dieta del usuario si se encuentran, de lo contrario un Optional vacío.
 	 */
-	Optional<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> getDieta(RequestGetDietaUsuario model);
+	Optional<ResponseGetDietaUsuarioData> getDieta(RequestGetDietaUsuario model);
 
 	/**
 	 * Obtiene una lista de las dietas del usuario.
@@ -117,7 +118,7 @@ public interface IUsuarioServicio {
 	 * @param model El modelo que contiene la información necesaria para obtener la lista de dietas del usuario.
 	 * @return Una lista de datos de las dietas del usuario.
 	 */
-	List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> getListDietas(RequestGetListDietas model);
+	List<ResponseGetDietaUsuarioData> getListDietas(RequestGetListDietas model);
 
 	/**
 	 * Registra una nueva rutina.
@@ -141,7 +142,7 @@ public interface IUsuarioServicio {
 	 * @param model El modelo que contiene la información necesaria para obtener la rutina del usuario.
 	 * @return Un Optional que contiene los datos de la rutina del usuario si se encuentran, de lo contrario un Optional vacío.
 	 */
-	Optional<ResponseGetRutina.ResponseGetRutinaData> getRutina(RequestGetRutina model);
+	Optional<ResponseGetRutinaData> getRutina(RequestGetRutina model);
 
 	/**
 	 * Obtiene una lista de las rutinas del usuario.
@@ -149,7 +150,7 @@ public interface IUsuarioServicio {
 	 * @param model El modelo que contiene la información necesaria para obtener la lista de rutinas del usuario.
 	 * @return Una lista de datos de las rutinas del usuario.
 	 */
-	List<ResponseGetRutina.ResponseGetRutinaData> getListRutinas(RequestGetListRutinas model);
+	List<ResponseGetRutinaData> getListRutinas(RequestGetListRutinas model);
 
 	/**
 	 * Maneja la solicitud de inicio de sesión de un usuario.
@@ -157,7 +158,7 @@ public interface IUsuarioServicio {
 	 * @param model La solicitud de inicio de sesión que contiene las credenciales del usuario.
 	 * @return Una respuesta que contiene la información de inicio de sesión del usuario.
 	 */
-	ResponseLoginData login(RequestLogin model);
+	ResponseVerifyData login(RequestVerify model);
 
 	/**
 	 * Devuelve el listado de alimentos registrado para el usuario.

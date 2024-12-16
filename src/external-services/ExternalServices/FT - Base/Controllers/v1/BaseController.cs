@@ -4,7 +4,6 @@ using FTBase.Models;
 using FTBase.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace FTBase.Controllers.v1
 {
@@ -128,7 +127,7 @@ namespace FTBase.Controllers.v1
         /// Endpoint para solicitar iniciar sesión.
         /// </summary>
         /// <param name="model">Información de inicio de sesión solicitada</param>
-        /// <returns>Respuesta del modelo de vista. Ver: <see cref="ResponseLoginVM"/></returns>
+        /// <returns>Respuesta del modelo de vista: <see cref="ResponseLoginVM"/></returns>
         [HttpPost("Login")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ResponseLoginVM))]
@@ -136,8 +135,8 @@ namespace FTBase.Controllers.v1
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<ResponseLoginVM>> Login([FromBody] RequestLogin model)
         {
-            var result = _validatorLogin.Validate(model);
-            if (result == null || !result.IsValid)
+            var result = await _validatorLogin.ValidateAsync(model);
+            if (result is not { IsValid: true })
             {
                 return BadRequest(result?.Errors);
             }

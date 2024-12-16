@@ -2,7 +2,6 @@
 using FTBase.Models;
 using FTBase.ViewModels;
 using FTAlimentos.Models;
-using Shared.Utilities;
 using static FTBase.ViewModels.ResponseGetDatosUsuarioVM;
 using static FTBase.ViewModels.ResponseLoginVM;
 using static FTBase.Models.ResponseGetAlimentosSvc;
@@ -45,7 +44,6 @@ namespace FTBase.Mapping
 
             CreateMap<RequestLogin, RequestLoginSvc>();
             CreateMap<ResponseLoginSvc, ResponseLoginVMData>();
-
 
             CreateMap<RequestModificarDieta, RequestModifcarDietaSvc>();
             CreateMap<ResponseModifcarDietaSvcOut, ResponseModificarDietaVM>();

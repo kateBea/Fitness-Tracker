@@ -1,6 +1,5 @@
 ﻿using FTBase.Models;
 using FTBase.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FTBase.Interfaces
 {

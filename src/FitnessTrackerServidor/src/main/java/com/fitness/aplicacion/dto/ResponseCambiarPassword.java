@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseCambiarPassword extends BaseResponse {
+public class ResponseCambiarPassword extends BaseResponse<String> {
 
     @JsonProperty(value = "change_date")
     private LocalDateTime changeDate;

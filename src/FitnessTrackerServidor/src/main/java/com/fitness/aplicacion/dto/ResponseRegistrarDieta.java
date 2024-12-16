@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseRegistrarDieta extends BaseResponse {
+public class ResponseRegistrarDieta extends BaseResponse<String> {
 
     @JsonProperty(value = "id")
     private String id;

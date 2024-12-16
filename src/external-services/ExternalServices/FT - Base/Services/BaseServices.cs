@@ -404,47 +404,65 @@ namespace FTBase.Services
         public async Task<ResponseLoginVM> Login(RequestLogin model)
         {
             var resultVm = new ResponseLoginVM();
-            string finalUrl = SetBaseParams(_loginEndpoint).ToString();
+            var finalUrl = SetBaseParams(_loginEndpoint).ToString();
 
             var obj = _mapper.Map<RequestLoginSvc>(model);
 
             var requestJson = JsonConvert.SerializeObject(obj, Formatting.Indented);
-            var result = await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-            if (result.StatusCode == HttpStatusCode.OK)
+            try
             {
-                var json = await result.Content.ReadAsStringAsync();
-                var parsed = JsonConvert.DeserializeObject<ResponseLoginSvc>(json);
+                var result = 
+                    await _httpClient.PostAsync(finalUrl, new StringContent(requestJson, Encoding.UTF8, "application/json"));
 
-                resultVm.ResponseDescription = parsed?.ResponseDescription ?? string.Empty;
-                resultVm.Success = parsed!.Success;
-
-                resultVm.Data = parsed!.Success ? _mapper.Map<ResponseLoginVMData>(parsed) : null;
-
-                if (resultVm.Success)
+                if (result.StatusCode is HttpStatusCode.OK)
                 {
-                    // token logic
-                    // el username es el email, es de esta forma que identifcamos a los usuarios
-                    var encriptedEmail = EncodeUserEmail(model.Email);
+                    var json = await result.Content.ReadAsStringAsync();
+                    var parsed = JsonConvert.DeserializeObject<ResponseLoginSvc>(json);
 
-                    var input = new GenerateJwtTokenIn()
+                    resultVm.ResponseDescription = parsed?.ResponseDescription ?? string.Empty;
+                    resultVm.Success = parsed!.Success;
+
+                    resultVm.Data = parsed!.Success ? _mapper.Map<ResponseLoginVMData>(parsed) : null;
+
+                    if (resultVm is { Success: true, Data: not null })
                     {
-                        Username = encriptedEmail,
-                    };
+                        var encodeUserEmail = EncodeUserEmail(model.Email);
 
-                    var output = JwtTokenHandler.GenerateJwt(input);
+                        var input = new GenerateJwtTokenIn()
+                        {
+                            Username = encodeUserEmail,
+                        };
 
-                    resultVm.Data.Token = output.Token;
-                    resultVm.Data.TokenExpirationDate = output.TokenExpireDate;
-                    resultVm.Data.TokenDuration = output.TokenExpireTime;
+                        var output = JwtTokenHandler.GenerateJwt(input);
 
+                        if (output is not null)
+                        {
+                            resultVm.Data.Token = output.Token;
+                            resultVm.Data.TokenExpirationDate = output.TokenExpireDate;
+                            resultVm.Data.TokenDuration = output.TokenExpireTime;
 #if DEBUG
-                    var token = JwtTokenHandler.GetClaimFromJwt(output.Token, "email");
-                    var decrypt = DecodeUserEmail(token);
-                    var e = decrypt;
+                            var token = JwtTokenHandler.GetClaimFromJwt(output.Token, "email");
+                            var decrypt = DecodeUserEmail(token);
 #endif
-                }
+                        }
+                        else
+                        {
+                            throw new Exception("Invalid JWT.");
+                        }
+                    }
 
+                }
+                else
+                {
+                    // Tratamiento 500 Y 400
+                }
+            }
+            catch (Exception e)
+            {
+                resultVm.ResponseDescription = e.Message;
+                resultVm.Success = false;
+                resultVm.Data = null;
             }
 
             return resultVm;

@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseRegistrarRutina extends BaseResponse {
+public class ResponseRegistrarRutina extends BaseResponse<String> {
 
     @JsonProperty(value = "id")
     private String id;

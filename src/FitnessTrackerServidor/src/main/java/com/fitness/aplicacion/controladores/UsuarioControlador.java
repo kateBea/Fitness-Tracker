@@ -5,14 +5,16 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fitness.aplicacion.dto.*;
+import com.fitness.aplicacion.dto.data.ResponseGetDatosUsuarioData;
+import com.fitness.aplicacion.dto.data.ResponseGetDietaUsuarioData;
+import com.fitness.aplicacion.dto.data.ResponseGetRutinaData;
+import com.fitness.aplicacion.dto.data.ResponseVerifyData;
 import com.fitness.aplicacion.servicio.IUsuarioServicio;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,8 +25,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import static com.fitness.aplicacion.dto.ResponseGetDatosUsuario.ResponseGetDatosUsuarioData;
-import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
+
+import javax.validation.Valid;
+
 
 /**
  * API REST Usuario
@@ -36,10 +39,17 @@ import static com.fitness.aplicacion.dto.ResponseLogin.ResponseLoginData;
 @Api(tags = "Usuario REST API")
 public class UsuarioControlador {
 
-	@Autowired
-	@Qualifier("usuarioServicioImpl")
-	IUsuarioServicio usuarioServicio;
-	
+	final
+	IUsuarioServicio _usuarioServicio;
+
+	/**
+	 * Constructor por inyección de dependencias.
+	 * @param usuarioServicio servicio de usuarios
+	 * */
+	public UsuarioControlador(IUsuarioServicio usuarioServicio) {
+		_usuarioServicio = usuarioServicio;
+	}
+
 	@PostMapping("insertar")
 	@Operation(summary = "Registra un nuevo usuario",
 			description = "Registra un nuevo usuario utilizando los datos del modelo pasado, retorna cierto si la operación fue exitosa.",
@@ -53,7 +63,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseRegistraUsuario> response;
 
 		try {
-			var resultado = usuarioServicio.insertarUsuario(model);
+			var resultado = _usuarioServicio.insertarUsuario(model);
 
 			data.setSuccess(resultado);
 			data.setResponseDescription("Usuario registrado con éxito");
@@ -80,7 +90,7 @@ public class UsuarioControlador {
 			})
 	public ResponseEntity<UsuarioInfo> verificar(@RequestBody UsuarioVerificar user){
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		Optional<UsuarioInfo> resultado = usuarioServicio.verificarUsuario(user);
+		Optional<UsuarioInfo> resultado = _usuarioServicio.verificarUsuario(user);
 		
 		if(resultado.isPresent()) {
 			respuesta = ResponseEntity.ok(resultado.get());
@@ -89,7 +99,6 @@ public class UsuarioControlador {
 		return respuesta;
 	}
 	
-	// Petición para obtener información de un usuario por su correo electrónico
 	@GetMapping("info/{email}")
 	@Operation(summary = "Obtiene información del usuario",
 			description = "Obtiene la información del usuario basado en el correo electrónico proporcionado.",
@@ -100,7 +109,7 @@ public class UsuarioControlador {
 			})
 	public ResponseEntity<UsuarioInfo> info(@PathVariable String email){
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		Optional<UsuarioInfo> resultado = usuarioServicio.informacionUsuario(email);
+		Optional<UsuarioInfo> resultado = _usuarioServicio.informacionUsuario(email);
 
 		if(resultado.isPresent()) {
 			respuesta = new ResponseEntity<>(resultado.get(), HttpStatus.ACCEPTED);
@@ -119,7 +128,7 @@ public class UsuarioControlador {
 			})
 	public ResponseEntity<Boolean> actualizar(@RequestBody RequestRegistrarUsuario user){
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-		Boolean resultado = usuarioServicio.actualizarUsuario(user);
+		Boolean resultado = _usuarioServicio.actualizarUsuario(user);
 		
 		if(resultado) {
 			respuesta = ResponseEntity.ok(true);
@@ -138,7 +147,7 @@ public class UsuarioControlador {
 			})
 	public ResponseEntity<Boolean> borrar(@RequestBody UsuarioVerificar user){
 		ResponseEntity<Boolean> respuesta = new ResponseEntity<>(false, HttpStatus.BAD_REQUEST);
-		Boolean resultado = usuarioServicio.borrarUsuario(user);
+		Boolean resultado = _usuarioServicio.borrarUsuario(user);
 		
 		if(resultado) {
 			respuesta = ResponseEntity.ok(true);
@@ -147,24 +156,25 @@ public class UsuarioControlador {
 		return respuesta;
 	}
 
-	@PostMapping("login")
+	@PostMapping("verify")
 	@Operation(summary = "Inicia sesión",
 			description = "Inicia sesión utilizando los datos del modelo pasado, retorna un objeto de respuesta de inicio de sesión.",
 			responses = {
-					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseLogin.class))),
-					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
-					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+					@ApiResponse(responseCode = "200", description = "Operación exitosa.", content = @Content(schema = @Schema(implementation = ResponseVerifyUser.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido."),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor.")
 			})
-	ResponseEntity<ResponseLogin> login(@RequestBody RequestLogin model) {
-		ResponseLogin responseWrapper = ResponseLogin.builder()
+	ResponseEntity<ResponseVerifyUser> verify(@Valid @RequestBody RequestVerify model) {
+		ResponseVerifyUser responseWrapper = ResponseVerifyUser
+				.builder()
 				.data(null)
 				.build();
 
-		ResponseLoginData responseData;
-		ResponseEntity<ResponseLogin> response;
+		ResponseVerifyData responseData;
+		ResponseEntity<ResponseVerifyUser> response;
 
 		try {
-			responseData = usuarioServicio.login(model);
+			responseData = _usuarioServicio.login(model);
 
 			responseWrapper.setData(responseData);
 			responseWrapper.setSuccess(true);
@@ -200,7 +210,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseCambiarPassword> response;
 
 		try {
-			var result = usuarioServicio.cambiarPassword(model);
+			var result = _usuarioServicio.cambiarPassword(model);
 			data = ResponseCambiarPassword
 					.builder()
 					.success(result)
@@ -237,7 +247,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseGetDatosUsuario> response;
 
 		try {
-			Optional<ResponseGetDatosUsuarioData> result = usuarioServicio.consultar(model);
+			Optional<ResponseGetDatosUsuarioData> result = _usuarioServicio.consultar(model);
 			responseData.setSuccess(true);
 
 			if (result.isPresent()) {
@@ -272,7 +282,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseModificarDatosUsuario> response;
 
 		try {
-			Boolean result = usuarioServicio.modificar(model);
+			Boolean result = _usuarioServicio.modificar(model);
 			responseData.setSuccess(true);
 
 			if (result) {
@@ -312,7 +322,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseRegistrarDieta> response;
 
 		try {
-			responseData = usuarioServicio.registrarDieta(model);
+			responseData = _usuarioServicio.registrarDieta(model);
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (RuntimeException except) {
 			responseData.setSuccess(false);
@@ -340,7 +350,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseModificarDieta> response;
 
 		try {
-			Boolean result = usuarioServicio.modificar(model);
+			Boolean result = _usuarioServicio.modificar(model);
 			responseData.setSuccess(true);
 
 			if (result) {
@@ -370,16 +380,16 @@ public class UsuarioControlador {
 	@Operation(summary = "Obtiene una dieta del usuario",
 			description = "Obtiene los detalles de una dieta del usuario utilizando los datos del modelo pasado, retorna un objeto de respuesta con los detalles de la dieta.",
 			responses = {
-					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseGetDietaUsuario.class))),
-					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
-					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+					@ApiResponse(responseCode = "200", description = "Operación exitosa.", content = @Content(schema = @Schema(implementation = ResponseGetDietaUsuario.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido."),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor.")
 			})
 	ResponseEntity<ResponseGetDietaUsuario> getDieta(@RequestBody RequestGetDietaUsuario model) {
 		ResponseGetDietaUsuario responseData = ResponseGetDietaUsuario.builder().data(null).build();
 		ResponseEntity<ResponseGetDietaUsuario> response;
 
 		try {
-			Optional<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = usuarioServicio.getDieta(model);
+			Optional<ResponseGetDietaUsuarioData> result = _usuarioServicio.getDieta(model);
 			responseData.setSuccess(true);
 
 			if (result.isPresent()) {
@@ -414,7 +424,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseGetListDietas> response;
 
 		try {
-			List<ResponseGetDietaUsuario.ResponseGetDietaUsuarioData> result = usuarioServicio.getListDietas(model);
+			List<ResponseGetDietaUsuarioData> result = _usuarioServicio.getListDietas(model);
 			responseData.setSuccess(true);
 			responseData.setDietas(result);
 
@@ -447,7 +457,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseRegistrarRutina> response;
 
 		try {
-			responseData = usuarioServicio.registrarRutina(model);
+			responseData = _usuarioServicio.registrarRutina(model);
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 		} catch (Exception e) {
 			responseData.setSuccess(false);
@@ -471,7 +481,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseModificarRutina> response;
 
 		try {
-			Boolean result = usuarioServicio.modificarRutina(model);
+			Boolean result = _usuarioServicio.modificarRutina(model);
 			responseData.setSuccess(true);
 
 			if (result) {
@@ -506,7 +516,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseGetRutina> response;
 
 		try {
-			Optional<ResponseGetRutina.ResponseGetRutinaData> result = usuarioServicio.getRutina(model);
+			Optional<ResponseGetRutinaData> result = _usuarioServicio.getRutina(model);
 			responseData.setSuccess(true);
 
 			if (result.isPresent()) {
@@ -541,9 +551,9 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseGetListRutinas> response;
 
 		try {
-			List<ResponseGetRutina.ResponseGetRutinaData> result = usuarioServicio.getListRutinas(model);
+			List<ResponseGetRutinaData> result = _usuarioServicio.getListRutinas(model);
 			responseData.setSuccess(true);
-			responseData.setData(result);
+			responseData.setRutinas(result);
 			responseData.setResponseDescription("Rutinas localizadas con éxito");
 
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
@@ -574,7 +584,7 @@ public class UsuarioControlador {
 		ResponseEntity<ResponseGetAlimentos> response;
 
 		try {
-			responseData = usuarioServicio.getListAlimentos(model);
+			responseData = _usuarioServicio.getListAlimentos(model);
 			response = new ResponseEntity<>(responseData, HttpStatus.OK);
 
 		} catch (Exception e) {

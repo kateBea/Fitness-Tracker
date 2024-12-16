@@ -1,8 +1,8 @@
 package com.fitness.aplicacion.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fitness.aplicacion.dto.data.ResponseGetRutinaData;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ResponseGetListRutinas extends BaseResponse {
+public class ResponseGetListRutinas extends BaseResponse<ResponseGetRutinaData> {
 
-    @JsonProperty(value = "data")
-    private List<ResponseGetRutina.ResponseGetRutinaData> data;
+    @JsonProperty(value = "rutinas")
+    private List<ResponseGetRutinaData> rutinas;
 
 }

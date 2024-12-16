@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ResponseModificarRutina extends BaseResponse {
+public class ResponseModificarRutina extends BaseResponse<String> {
 
     @JsonProperty(value = "modified_at")
     private LocalDateTime modifiedAt;
