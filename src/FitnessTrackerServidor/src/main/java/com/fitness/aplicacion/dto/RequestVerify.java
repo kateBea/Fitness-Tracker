@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -23,6 +24,7 @@ public class RequestVerify {
     /**
      * Email
      * */
+    @Email(message = "El email no es válido")
     @NotBlank(message = "El campo 'email' no puede estar vacío.")
     @JsonProperty(value = "email")
     private String email;
