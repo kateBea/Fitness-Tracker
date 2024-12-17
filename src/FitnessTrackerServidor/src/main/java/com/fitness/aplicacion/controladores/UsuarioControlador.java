@@ -1,14 +1,12 @@
 package com.fitness.aplicacion.controladores;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import com.fitness.aplicacion.dto.*;
-import com.fitness.aplicacion.dto.data.ResponseGetDatosUsuarioData;
-import com.fitness.aplicacion.dto.data.ResponseGetDietaUsuarioData;
-import com.fitness.aplicacion.dto.data.ResponseGetRutinaData;
-import com.fitness.aplicacion.dto.data.ResponseVerifyData;
+import com.fitness.aplicacion.dto.data.*;
 import com.fitness.aplicacion.servicio.IUsuarioServicio;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,8 +29,7 @@ import javax.validation.Valid;
 
 /**
  * API REST Usuario
- *
- * @version 1.0
+ * @version 1.1
  * */
 @RestController
 @RequestMapping("api/fitnesstracker")
@@ -79,9 +76,11 @@ public class UsuarioControlador {
 
 		return response;
 	}
-	
-	@PostMapping("verificar")
+
+	@Deprecated(since = "1.1")
+	@PostMapping("verificar-deprecated")
 	@Operation(summary = "Verifica un usuario",
+			deprecated = true,
 			description = "Verifica un usuario utilizando los datos del modelo pasado, retorna la información del usuario si la verificación es exitosa.",
 			responses = {
 					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = UsuarioInfo.class))),
@@ -98,16 +97,18 @@ public class UsuarioControlador {
 
 		return respuesta;
 	}
-	
-	@GetMapping("info/{email}")
+
+	@Deprecated(since = "1.1")
+	@GetMapping("getUserInfo-deprecated/{email}")
 	@Operation(summary = "Obtiene información del usuario",
+			deprecated = true,
 			description = "Obtiene la información del usuario basado en el correo electrónico proporcionado.",
 			responses = {
 					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = UsuarioInfo.class))),
 					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
 					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
 			})
-	public ResponseEntity<UsuarioInfo> info(@PathVariable String email){
+	public ResponseEntity<UsuarioInfo> getUserInfo(@PathVariable String email){
 		ResponseEntity<UsuarioInfo> respuesta = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		Optional<UsuarioInfo> resultado = _usuarioServicio.informacionUsuario(email);
 
@@ -157,12 +158,12 @@ public class UsuarioControlador {
 	}
 
 	@PostMapping("verify")
-	@Operation(summary = "Inicia sesión",
-			description = "Inicia sesión utilizando los datos del modelo pasado, retorna un objeto de respuesta de inicio de sesión.",
+	@Operation(summary = "Verificar",
+			description = "Verifica la existencia del usuario utilizando los datos del modelo pasado, retorna un objeto de respuesta de inicio de sesión.",
 			responses = {
-					@ApiResponse(responseCode = "200", description = "Operación exitosa.", content = @Content(schema = @Schema(implementation = ResponseVerifyUser.class))),
-					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido."),
-					@ApiResponse(responseCode = "500", description = "Error interno del servidor.")
+					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseVerifyUser.class))),
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido", content = @Content(schema = @Schema(implementation = BaseResponseBadRequest.class))),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content(schema = @Schema(implementation = ResponseVerifyUser.class)))
 			})
 	ResponseEntity<ResponseVerifyUser> verify(@Valid @RequestBody RequestVerify model) {
 		ResponseVerifyUser responseWrapper = ResponseVerifyUser
@@ -170,27 +171,24 @@ public class UsuarioControlador {
 				.data(null)
 				.build();
 
-		ResponseVerifyData responseData;
 		ResponseEntity<ResponseVerifyUser> response;
 
 		try {
-			responseData = _usuarioServicio.login(model);
+			Optional<ResponseVerifyData> loginResponse = _usuarioServicio.login(model);
 
-			responseWrapper.setData(responseData);
-			responseWrapper.setSuccess(true);
-			responseWrapper.setResponseDescription("Credenciales válidos.");
+			ResponseVerifyData body = loginResponse.orElse(null);
+			String message = loginResponse.isPresent() ?
+					"Credenciales válidos." :
+					"La combinación de usuario y contraseña no es válida. Verifique que esté registrado.";
 
+			responseWrapper.setupOk(message, body);
 			response = new ResponseEntity<>(responseWrapper, HttpStatus.OK);
 		} catch (RuntimeException re) {
-			responseWrapper.setSuccess(false);
-			responseWrapper.setResponseDescription(re.getMessage());
-
+			responseWrapper.setupBadRequest(re.getMessage(), Collections.emptyList());
 			response = new ResponseEntity<>(responseWrapper, HttpStatus.BAD_REQUEST);
 		}
 		catch (Exception e) {
-			responseWrapper.setSuccess(false);
-			responseWrapper.setResponseDescription(e.getMessage());
-
+			responseWrapper.setupInternalError(e.getMessage(), Collections.emptyList());
 			response = new ResponseEntity<>(responseWrapper, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
@@ -234,15 +232,15 @@ public class UsuarioControlador {
 		return response;
 	}
 
-	@PostMapping("getdatosusuario")
+	@PostMapping("getuserinfo")
 	@Operation(summary = "Obtiene datos del usuario",
 			description = "Obtiene los datos del usuario utilizando los datos del modelo pasado, retorna un objeto de respuesta con los datos del usuario.",
 			responses = {
 					@ApiResponse(responseCode = "200", description = "Operación exitosa", content = @Content(schema = @Schema(implementation = ResponseGetDatosUsuario.class))),
-					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido"),
-					@ApiResponse(responseCode = "500", description = "Error interno del servidor")
+					@ApiResponse(responseCode = "400", description = "El modelo de datos no es válido", content = @Content(schema = @Schema(implementation = BaseResponseBadRequest.class))),
+					@ApiResponse(responseCode = "500", description = "Error interno del servidor", content = @Content(schema = @Schema(implementation = ResponseGetDatosUsuario.class)))
 			})
-	ResponseEntity<ResponseGetDatosUsuario> getDatos(@RequestBody RequestGetDatosUsuario model) {
+	ResponseEntity<ResponseGetDatosUsuario> getDatos(@Valid @RequestBody RequestGetDatosUsuario model) {
 		ResponseGetDatosUsuario responseData = ResponseGetDatosUsuario.builder().data(null).build();
 		ResponseEntity<ResponseGetDatosUsuario> response;
 

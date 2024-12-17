@@ -158,7 +158,7 @@ public interface IUsuarioServicio {
 	 * @param model La solicitud de inicio de sesión que contiene las credenciales del usuario.
 	 * @return Una respuesta que contiene la información de inicio de sesión del usuario.
 	 */
-	ResponseVerifyData login(RequestVerify model);
+	Optional<ResponseVerifyData> login(RequestVerify model);
 
 	/**
 	 * Devuelve el listado de alimentos registrado para el usuario.

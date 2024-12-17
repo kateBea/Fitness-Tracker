@@ -6,6 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
+/**
+ * Modelo de respuesta para Recoger datos de usuario
+ * @version 1.0
+ * */
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,6 +20,10 @@ import lombok.NoArgsConstructor;
 
 public class RequestGetDatosUsuario {
 
+    /**
+     * Email
+     * */
+    @NotBlank(message = "El campo 'email' no puede estar vacío.")
     @JsonProperty(value = "email")
     private String email;
 }

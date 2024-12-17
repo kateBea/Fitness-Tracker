@@ -32,11 +32,11 @@ public class RequestNotValidExceptionHandler extends ResponseEntityExceptionHand
                 .builder()
                 .success(false)
                 .status(status.value())
-                .erros(errors)
+                .errors(errors)
                 .title(status.getReasonPhrase())
-                .responseDescription("El modelo de datos no es válido")
+                .responseDescription("El modelo de datos no es válido.")
                 .build();
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().body(response);
     }
 }

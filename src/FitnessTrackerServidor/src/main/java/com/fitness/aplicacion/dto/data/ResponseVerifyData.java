@@ -28,67 +28,67 @@ public class ResponseVerifyData {
     /**
      * Nombre de la cuenta
      * */
-    @JsonProperty(value = "usuario")
+    @JsonProperty(value = "account_name")
     private String nombreUsuario;
 
     /**
      * Nombre del cliente
      * */
-    @JsonProperty(value = "nombre")
+    @JsonProperty(value = "client_name")
     private String nombre;
 
     /**
      * Primer apellido
      * */
-    @JsonProperty(value = "primer_apellido")
+    @JsonProperty(value = "first_surname")
     private String primerApellido;
 
     /**
      * Segundo apellido
      * */
-    @JsonProperty(value = "segundo_apellido")
+    @JsonProperty(value = "second_surname")
     private String segundoApellido;
 
     /**
      * Fecha de nacimiento
      * */
-    @JsonProperty(value = "fecha_nacimiento")
+    @JsonProperty(value = "birthday")
     private LocalDate fechaDeNacimiento;
 
     /**
      * Fecha de registro del cliente
      * */
-    @JsonProperty(value = "fecha_alta")
+    @JsonProperty(value = "register_date")
     private LocalDateTime fechaRegistro;
 
     /**
      * Foto de perfil
      * */
-    @JsonProperty(value = "imagen")
+    @JsonProperty(value = "image")
     private String imagen;
 
     /**
      * Peso objetivo
      * */
-    @JsonProperty(value = "objetivo_peso")
+    @JsonProperty(value = "target_weight")
     private float objetivoPeso;
 
     /**
      * Altura en centímetros
      * */
-    @JsonProperty(value = "altura")
+    @JsonProperty(value = "height")
     private float altura;
 
     /**
      * Peso en kilogramos
      * */
-    @JsonProperty(value = "peso")
+    @JsonProperty(value = "weight")
     private float peso;
 
     /**
      * Sexo
      * */
-    @JsonProperty(value = "sexo")
+    @JsonProperty(value = "sex")
     private String sexo;
 
     /**

@@ -2,10 +2,7 @@ package com.fitness.aplicacion.servicio;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 import com.fitness.aplicacion.documentos.*;
@@ -733,21 +730,19 @@ public class UsuarioServicioImpl implements IUsuarioServicio {
     }
 
     @Override
-    public ResponseVerifyData login(RequestVerify model) {
-        ResponseVerifyData response;
+    public Optional<ResponseVerifyData> login(RequestVerify model) {
+        Optional<ResponseVerifyData> response = Optional.empty();
         Optional<Usuario> usuario = _usuarioRepositorio.findById(model.getEmail());
 
-        if (usuario.isEmpty()) {
-            throw new RuntimeException("El usuario no existe.");
-        }
+        if (usuario.isPresent()) {
+            boolean verificado = _passwordEncoder.matches(model.getPassword(), usuario.get().getContrasena());
 
-        boolean verificado = _passwordEncoder.matches(model.getPassword(), usuario.get().getContrasena());
+            if(verificado) {
+                ResponseVerifyData mapResult = ObjectMapperUtils.map(usuario, ResponseVerifyData.class);
+                mapResult.setLoggedAt(LocalDateTime.now());
 
-        if(verificado) {
-            response = ObjectMapperUtils.map(usuario, ResponseVerifyData.class);
-            response.setLoggedAt(LocalDateTime.now());
-        } else {
-            throw new RuntimeException("Credenciales inválidos.");
+                response = Optional.of(mapResult);
+            }
         }
 
         return response;

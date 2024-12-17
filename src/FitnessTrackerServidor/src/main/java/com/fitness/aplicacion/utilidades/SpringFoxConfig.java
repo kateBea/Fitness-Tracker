@@ -1,5 +1,7 @@
 package com.fitness.aplicacion.utilidades;
 
+import com.fasterxml.classmate.TypeResolver;
+import com.fitness.aplicacion.dto.BaseResponseBadRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -16,8 +18,11 @@ import java.util.Collections;
 @EnableSwagger2
 public class SpringFoxConfig {
     @Bean
-    public Docket api() {
+    public Docket api(TypeResolver typeResolver) {
         return new Docket(DocumentationType.SWAGGER_2)
+                .additionalModels(
+                        typeResolver.resolve(BaseResponseBadRequest.class)
+                )
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.fitness.aplicacion.controladores"))
                 .paths(PathSelectors.any())
