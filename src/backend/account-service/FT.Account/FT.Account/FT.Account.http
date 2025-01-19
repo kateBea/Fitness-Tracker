@@ -1,0 +1,6 @@
+@FT.Account_HostAddress = http://localhost:5213
+
+GET {{FT.Account_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

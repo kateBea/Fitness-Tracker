@@ -2,7 +2,7 @@
  * Example: User GetUserInfo
  * Endpoint: http://localhost:8080/api/fitnesstracker/getuserinfo
  * */
-async function user_getdata(email) {
+async function user_changepassword(email) {
     let url = `http://localhost:8080/api/fitnesstracker/getuserinfo`;
 
     let headers = {
@@ -21,4 +21,4 @@ async function user_getdata(email) {
     console.log(await response.json())
 };
 
-user_getdata('usuario1@example.com');
+user_changepassword('usuario1@example.com');

@@ -1,0 +1,6 @@
+@FT.ApiGateway_HostAddress = http://localhost:5001
+
+GET {{FT.ApiGateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
